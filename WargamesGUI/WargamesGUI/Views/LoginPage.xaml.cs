@@ -13,6 +13,7 @@ namespace WargamesGUI
         public MainPage()
         {
             InitializeComponent();
+            // Testing testing
         }
     }
 }
