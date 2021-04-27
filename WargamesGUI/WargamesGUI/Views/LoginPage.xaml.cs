@@ -15,5 +15,10 @@ namespace WargamesGUI
             InitializeComponent();
             // Testing testing
         }
+
+        private void SignIn_Button_Clicked(object sender, EventArgs e)
+        {
+
+        }
     }
 }
