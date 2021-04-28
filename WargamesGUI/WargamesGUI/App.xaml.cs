@@ -1,4 +1,5 @@
 ﻿using System;
+using WargamesGUI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +11,7 @@ namespace WargamesGUI
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new FlyoutAdminPage();
         }
 
         protected override void OnStart()
