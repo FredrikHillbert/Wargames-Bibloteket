@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WargamesGUI.MainPage">
-    <Grid>
+ <!--  <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -29,20 +29,66 @@
                     Grid.Row="2"/>
             <Entry Placeholder="Enter your username here"
                    Grid.Row="3"
-                   HorizontalTextAlignment="Center"/>
+                   HorizontalTextAlignment="Start"
+                   />
             <Label x:Name="LoginPassword" 
                    Text="Password"
                    HorizontalTextAlignment="Start"
                    Grid.Row="4"/>
             <Entry Placeholder="Enter your password here"
                    Grid.Row="5"
-                   HorizontalTextAlignment="Center"/>
+                   HorizontalTextAlignment="Start"/>
             <Button Text="Login"
                     Clicked="SignIn_Button_Clicked"
                     Grid.Row="6"/>
         </StackLayout>
     </Grid>
+-->
 
-    
+
+    <Grid RowSpacing="10" HorizontalOptions="CenterAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="Logo" 
+               Grid.Row="0" 
+               Grid.Column="0" 
+               Source="wargames-logo.png" />
+        <Label x:Name="LoginUsername" 
+               Text="Username"
+               Grid.Row="1" 
+               Grid.Column="0" 
+               HorizontalOptions="Start"
+               Margin="92,0,0,0"/>
+        <Entry Placeholder="Enter your username here" 
+               Grid.Row="2" Grid.Column="0" 
+               HorizontalOptions="Center"
+               WidthRequest="200"/>
+        <Label x:Name="LoginPassword" 
+               Text="Password" 
+               Grid.Row="3" 
+               Grid.Column="0" 
+               HorizontalOptions="Start"
+               Margin="92,0,0,0"/>
+        <Entry Placeholder="Enter your password here" 
+               Grid.Row="4" 
+               Grid.Column="0" 
+               HorizontalOptions="Center"
+               WidthRequest="200"/>
+        <Button Text="Login" 
+                Grid.Row="5" 
+                Grid.Column="0" 
+                Clicked="SignIn_Button_Clicked" 
+                HorizontalOptions="Center"
+                WidthRequest="150"/>                            
+    </Grid>
 
 </ContentPage>
