@@ -13,7 +13,8 @@
                FontSize="Large" 
                FontAttributes="Bold" 
                HorizontalTextAlignment="Center" 
-               TextColor="White">
+               TextColor="Black">
+            
         </Label>
         <Label x:Name="LoginUsername" 
                Text="Username"

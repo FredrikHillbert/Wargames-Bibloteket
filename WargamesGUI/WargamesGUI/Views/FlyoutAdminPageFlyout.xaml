@@ -8,14 +8,14 @@
               SeparatorVisibility="None"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
-      <ListView.Header>
-        <Grid BackgroundColor="#03A9F4">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
+            <ListView.Header>
+                <Grid BackgroundColor="#03A9F4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="80"/>
             <RowDefinition Height="Auto"/>
@@ -24,8 +24,9 @@
           <Label
               Grid.Column="1"
               Grid.Row="2"
-              Text="AppName"
+              Text="AppName"             
               Style="{DynamicResource SubtitleStyle}"/>
+           
         </Grid>
       </ListView.Header>
       <ListView.ItemTemplate>
@@ -36,7 +37,8 @@
                     VerticalTextAlignment="Center" 
                     Text="{Binding Title}" 
                     FontSize="24"/>
-            </StackLayout>
+                            
+                        </StackLayout>
           </ViewCell>
         </DataTemplate>
       </ListView.ItemTemplate>
