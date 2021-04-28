@@ -1,13 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WargamesGUI.MainPage">
+             x:Class="WargamesGUI.MainPage"
+             >
 
-    <StackLayout>
-        <Label Text="Wargames Library" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="Black"></Label>
-        <Entry Placeholder="Username" Margin="450,10,450,0"/>
-        <Entry Placeholder="Password" Margin="450,10,450,0"/>
-        <Button Text="Sign In" Margin="450,10,450,0" Clicked="SignIn_Button_Clicked"/>
+    <StackLayout x:Name="MasterLayout">
+        <StackLayout x:Name="WarGamesLogo">
+            <Image x:Name="Logo" Source="wargames-logo.png" Margin="50,50,50,0" />
+        </StackLayout>
+        
+        <Label Text="Library" 
+               FontSize="Large" 
+               FontAttributes="Bold" 
+               HorizontalTextAlignment="Center" 
+               TextColor="White">
+        </Label>
+        <Label x:Name="LoginUsername" 
+               Text="Username"
+               Margin="450,30,0,0"/>
+        <Entry Placeholder="Enter your username" 
+               Margin="450,0,450,0"/>
+        <Label x:Name="LoginPassword" 
+               Text="Password"
+               HorizontalTextAlignment="Center"
+               Margin="50,0,290,0"/>
+        <Entry Placeholder="Enter your password here" 
+               Margin="450,0,450,0"/>
+        <Button Text="Login" 
+                Margin="450,10,450,0" 
+                Clicked="SignIn_Button_Clicked"/>
     </StackLayout>
 
 </ContentPage>
