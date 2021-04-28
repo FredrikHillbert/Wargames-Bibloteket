@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WargamesGUI.Views.FlyoutAdminPageFlyout"
+             IconImageSource="noun_hamburger.png"
              Title="Flyout">
   <StackLayout>
     <ListView x:Name="MenuItemsListView"
@@ -9,7 +10,7 @@
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
             <ListView.Header>
-                <Grid BackgroundColor="#03A9F4">
+                <Grid BackgroundColor="DarkOliveGreen">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="*"/>
@@ -23,25 +24,29 @@
           </Grid.RowDefinitions>
           <Label
               Grid.Column="1"
-              Grid.Row="2"
-              Text="AppName"             
-              Style="{DynamicResource SubtitleStyle}"/>
-           
-        </Grid>
+              Grid.Row="1"
+              Text="Wargames Library"             
+              Style="{DynamicResource SubtitleStyle}"
+              HorizontalTextAlignment="Center"/>
+          <Label 
+              Text="Logged in as: Admin" 
+              Grid.Column="1" 
+              Grid.Row="2"/>
+                    <Ellipse Stroke="White" StrokeThickness="2" Aspect="Fill" HeightRequest="210" WidthRequest="210"> </Ellipse>
+                </Grid>
       </ListView.Header>
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand">
-              <Label VerticalOptions="FillAndExpand" 
-                    VerticalTextAlignment="Center" 
-                    Text="{Binding Title}" 
-                    FontSize="24"/>
-                            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand">
+                            <Label  VerticalOptions="FillAndExpand" 
+                                    VerticalTextAlignment="Center" 
+                                    Text="{Binding Title}" 
+                                    FontSize="24"/>
                         </StackLayout>
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
   </StackLayout>
 </ContentPage>
