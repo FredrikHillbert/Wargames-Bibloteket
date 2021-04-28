@@ -33,8 +33,8 @@ namespace WargamesGUI.Views
             {
                 MenuItems = new ObservableCollection<FlyoutAdminPageFlyoutMenuItem>(new[]
                 {
-                    new FlyoutAdminPageFlyoutMenuItem { Id = 0, Title = "Users", TargetType=typeof(AdminPage) },
-                    new FlyoutAdminPageFlyoutMenuItem { Id = 0, Title = "Reports", TargetType=typeof(AdminPage) },
+                    new FlyoutAdminPageFlyoutMenuItem { Id = 0, Title = "Users", TargetType=typeof(AddUserPage) },
+                    new FlyoutAdminPageFlyoutMenuItem { Id = 0, Title = "Reports", TargetType=typeof(ReportPage) },
                     
                 });
             }

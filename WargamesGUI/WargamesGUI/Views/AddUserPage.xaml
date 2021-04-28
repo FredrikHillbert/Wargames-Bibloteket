@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:models="clr-namespace:WargamesGUI.Models"
+             x:Class="WargamesGUI.AddUserPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image Source="pexels-cottonbro.jpg" Aspect="AspectFill" Opacity="0.5"></Image>
+        <Image Source="overlayreal.png" Aspect="AspectFill"></Image>
+        <StackLayout Grid.Row="1">
+        <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,0">
+                <StackLayout>
+        <Picker x:Name="picker" Title="Type of User" HorizontalOptions="Center">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type models:User}">
+                    <models:User TypeOfUser="Admin"/>
+                    <models:User TypeOfUser="Librarian"/>
+                    <models:User TypeOfUser="Reader"/>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+            <Entry Placeholder="Enter username"></Entry>
+            <Entry Placeholder="Enter password"></Entry>
+                    <Button Text="Register user"></Button>
+        </StackLayout>
+       </Frame>
+           
+    </StackLayout> 
+    </Grid>
+</ContentPage>

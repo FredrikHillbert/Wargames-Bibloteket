@@ -133,6 +133,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Library.png" />
     <Content Include="noun_hamburger.png" />
+    <Content Include="overlayreal.png" />
+    <Content Include="pexels-cottonbro.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="wargames-logo.png" />
   </ItemGroup>

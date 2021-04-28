@@ -13,10 +13,10 @@ using Xamarin.Forms.Xaml;
 namespace WargamesGUI
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AdminPage : ContentPage
+    public partial class AddUserPage : ContentPage
     {
         
-        public AdminPage()
+        public AddUserPage()
         {
             InitializeComponent();
             

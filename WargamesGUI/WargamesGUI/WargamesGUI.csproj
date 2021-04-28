@@ -24,13 +24,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\AddUserPage.xaml.cs">
+      <DependentUpon>AddUserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\AdminPage.xaml">
+    <EmbeddedResource Update="Views\AddUserPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\FlyoutAdminPage.xaml">
@@ -42,10 +45,12 @@
     <EmbeddedResource Update="Views\FlyoutAdminPageFlyout.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\ReportPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
 </Project>
