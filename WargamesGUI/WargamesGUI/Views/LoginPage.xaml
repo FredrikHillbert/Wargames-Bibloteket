@@ -29,14 +29,15 @@
                     Grid.Row="2"/>
             <Entry Placeholder="Enter your username here"
                    Grid.Row="3"
-                   HorizontalTextAlignment="Center"/>
+                   HorizontalTextAlignment="Start"
+                   />
             <Label x:Name="LoginPassword" 
                    Text="Password"
                    HorizontalTextAlignment="Start"
                    Grid.Row="4"/>
             <Entry Placeholder="Enter your password here"
                    Grid.Row="5"
-                   HorizontalTextAlignment="Center"/>
+                   HorizontalTextAlignment="Start"/>
             <Button Text="Login"
                     Clicked="SignIn_Button_Clicked"
                     Grid.Row="6"/>
