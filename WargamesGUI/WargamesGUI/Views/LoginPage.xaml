@@ -1,33 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WargamesGUI.MainPage"
-             >
-
-    <StackLayout x:Name="MasterLayout">
-        <StackLayout x:Name="WarGamesLogo">
-            <Image x:Name="Logo" Source="wargames-logo.png" Margin="50,50,50,0" />
+             x:Class="WargamesGUI.MainPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackLayout Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Spacing="1">
+            <Image x:Name="Logo" Source="wargames-logo.png" Grid.Row="1" Grid.ColumnSpan="3"/>
         </StackLayout>
-        
-        <Label Text="Library" 
-               FontSize="Large" 
-               FontAttributes="Bold" 
-               HorizontalTextAlignment="Center">
-        </Label>
-        <Label x:Name="LoginUsername" 
-               Text="Username"
-               Margin="450,30,0,0"/>
-        <Entry Placeholder="Enter your username" 
-               Margin="450,0,450,0"/>
-        <Label x:Name="LoginPassword" 
-               Text="Password"
-               HorizontalTextAlignment="Center"
-               Margin="50,0,290,0"/>
-        <Entry Placeholder="Enter your password here" 
-               Margin="450,0,450,0"/>
-        <Button Text="Login" 
-                Margin="450,10,450,0" 
-                Clicked="SignIn_Button_Clicked"/>
-    </StackLayout>
+        <StackLayout Grid.Column="2" Grid.Row="2">
+            <Label x:Name="LoginUsername"
+                    Text="Username"
+                    HorizontalTextAlignment="Start"
+                    Grid.Row="2"/>
+            <Entry Placeholder="Enter your username here"
+                   Grid.Row="3"
+                   HorizontalTextAlignment="Center"/>
+            <Label x:Name="LoginPassword" 
+                   Text="Password"
+                   HorizontalTextAlignment="Start"
+                   Grid.Row="4"/>
+            <Entry Placeholder="Enter your password here"
+                   Grid.Row="5"
+                   HorizontalTextAlignment="Center"/>
+            <Button Text="Login"
+                    Clicked="SignIn_Button_Clicked"
+                    Grid.Row="6"/>
+        </StackLayout>
+    </Grid>
+
+    
 
 </ContentPage>
