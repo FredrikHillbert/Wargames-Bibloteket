@@ -12,8 +12,7 @@
         <Label Text="Library" 
                FontSize="Large" 
                FontAttributes="Bold" 
-               HorizontalTextAlignment="Center" 
-               TextColor="White">
+               HorizontalTextAlignment="Center">
         </Label>
         <Label x:Name="LoginUsername" 
                Text="Username"
