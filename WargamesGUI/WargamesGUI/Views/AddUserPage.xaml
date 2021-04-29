@@ -26,9 +26,9 @@
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-            <Entry Placeholder="Enter username"></Entry>
-            <Entry Placeholder="Enter password"></Entry>
-                    <Button Text="Register user"></Button>
+            <Entry x:Name="userbox" Placeholder="Enter username"></Entry>
+            <Entry x:Name="passbox" Placeholder="Enter password"></Entry>
+                    <Button Text="Register user" Clicked="Register_User_Clicked"></Button>
         </StackLayout>
        </Frame>
            

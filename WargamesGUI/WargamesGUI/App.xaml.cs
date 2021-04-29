@@ -12,7 +12,7 @@ namespace WargamesGUI
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new FlyoutAdminPage();
         }
 
         protected override void OnStart()
