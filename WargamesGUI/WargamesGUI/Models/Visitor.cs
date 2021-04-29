@@ -4,17 +4,13 @@ using System.Text;
 
 namespace WargamesGUI.Models
 {
-    public class User
+    class Visitor
     {
-        public string TypeOfUser { get; set; }
+        public int Visitor_ID { get; set; }
+        public int Borrower_ID { get; set; }
         public string First_Name { get; set; }
         public string Last_Name { get; set; }
         public int SSN { get; set; }
         public int fk_PrivilegeLevel { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public int User_ID { get; set; }
-
-        public override string ToString() => $"{TypeOfUser}";
     }
 }
