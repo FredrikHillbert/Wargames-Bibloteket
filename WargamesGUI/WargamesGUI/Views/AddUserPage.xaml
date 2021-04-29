@@ -12,10 +12,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image Source="pexels-cottonbro.jpg" Aspect="AspectFill" Opacity="0.5"></Image>
-        <Image Source="overlayreal.png" Aspect="AspectFill"></Image>
+        <Image Source="pexels-cottonbro.jpg" Aspect="AspectFill" Opacity="0.5" Grid.RowSpan="3"></Image>
+        <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
         <StackLayout Grid.Row="1">
-        <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,0">
+        <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,0" BackgroundColor="WhiteSmoke">
                 <StackLayout>
         <Picker x:Name="picker" Title="Type of User" HorizontalOptions="Center">
             <Picker.ItemsSource>
@@ -32,6 +32,9 @@
         </StackLayout>
        </Frame>
            
-    </StackLayout> 
+    </StackLayout>
+        <StackLayout Grid.Row="2">
+            
+        </StackLayout>
     </Grid>
 </ContentPage>
