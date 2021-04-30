@@ -6,11 +6,12 @@ namespace WargamesGUI.Models
 {
     class Event
     {
+        public int Id { get; set; }
+        public int fk_category_Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Date { get; set; }
-        public int Item_ID { get; set; }
+        public DateTime DateOfEvent { get; set; }
 
-        public override string ToString() => $"{Title},{Description}, {Date}, {Item_ID}";
+        public override string ToString() => $"{Title}, {Description}, {DateOfEvent}, {Id}, {fk_category_Id}";
     }
 }
