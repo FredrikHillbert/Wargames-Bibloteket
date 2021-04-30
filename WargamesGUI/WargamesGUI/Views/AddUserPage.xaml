@@ -17,12 +17,12 @@
         <StackLayout Grid.Row="1">
         <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,0" BackgroundColor="WhiteSmoke">
                 <StackLayout>
-        <Picker x:Name="picker" Title="Type of User" HorizontalOptions="Center">
+        <Picker x:Name="picker" Title="Type of User" HorizontalOptions="Center" SelectedIndexChanged="picker_SelectedIndexChanged">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type models:User}">
-                    <models:User TypeOfUser="Admin"/>
-                    <models:User TypeOfUser="Librarian"/>
-                    <models:User TypeOfUser="Reader"/>
+                    <models:User TypeOfUser="Admin" fk_PrivilegeLevel="1"/>
+                    <models:User TypeOfUser="Librarian" fk_PrivilegeLevel="2"/>
+                    <models:User TypeOfUser="Reader" fk_PrivilegeLevel="3"/>
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>

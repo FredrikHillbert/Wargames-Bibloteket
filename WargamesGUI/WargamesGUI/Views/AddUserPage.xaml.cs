@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using WargamesGUI.Models;
 using WargamesGUI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,6 +21,7 @@ namespace WargamesGUI
         public static AddUserPage addUser = new AddUserPage();
         
         public static DbHandler handler = new DbHandler();
+        private int privilegeLevel;
         public AddUserPage()
         {
             InitializeComponent();
@@ -43,8 +45,8 @@ namespace WargamesGUI
             private string queryForTransactionListPage = "";
             private string queryForUserAndTransactionListPage = "";
             private string queryForProjectCatalogue = "";
-            
 
+           
 
             //-----------------------------------UserListPage Metoder.
 
@@ -73,7 +75,7 @@ namespace WargamesGUI
             /// </summary>
             /// <param name="fullName"></param>
             /// <returns>Retunerar en bool som är true om det gick att lägga till användaren eller false ifall det inte gick att lägga till användaren.</returns>
-            public bool AddNewUser(string username, string password)
+            public bool AddNewUser(string username, string password, int privilegeLevel)
             {
                 //username = addUser.userbox.Text;
                 //password = addUser.passbox.Text;
@@ -82,7 +84,7 @@ namespace WargamesGUI
                 {
                     using (SqlConnection con = new SqlConnection(theConString))
                     {
-                        string sql = $"INSERT INTO tbl{theUserTableName}(Username, Password) VALUES('{username}','{password}')";
+                        string sql = $"INSERT INTO tbl{theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}', '{privilegeLevel}')";
                         con.Open();
                         using (SqlCommand cmd = new SqlCommand(sql, con))
                         {
@@ -108,10 +110,17 @@ namespace WargamesGUI
         {
             var username = userbox.Text;
             var password = passbox.Text;
-            var b = handler.AddNewUser(username, password);
+           
+            var b = handler.AddNewUser(username, password, privilegeLevel);
             if (b == true) await DisplayAlert("Sucess", "You added a user!", "OK");
+            else await DisplayAlert("Error!", "Could not add user", "OK");
         }
 
-        
+        private void picker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedItem = (User)picker.SelectedItem;
+            privilegeLevel =  selectedItem.fk_PrivilegeLevel;
+
+        }
     }
 }
