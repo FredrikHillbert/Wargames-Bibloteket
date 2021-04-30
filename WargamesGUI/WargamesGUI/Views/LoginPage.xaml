@@ -26,7 +26,7 @@
                Grid.Column="0" 
                HorizontalOptions="Start"
                Margin="92,0,0,0"/>
-        <Entry x:Name="xUsername" 
+        <Entry x:Name="Entryusername" 
                Placeholder="Enter your username here" 
                Grid.Row="2" Grid.Column="0" 
                HorizontalOptions="Center"
@@ -36,7 +36,7 @@
                Grid.Column="0" 
                HorizontalOptions="Start"
                Margin="92,0,0,0"/>
-        <Entry x:Name="xPassword" 
+        <Entry x:Name="Entrypassword" 
                Placeholder="Enter your password here" 
                Grid.Row="4" 
                Grid.Column="0" 
