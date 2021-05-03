@@ -6,6 +6,7 @@ namespace WargamesGUI.Models
 {
     public class User
     {
+
         public string TypeOfUser { get; set; }
         public string First_Name { get; set; }
         public string Last_Name { get; set; }
