@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using WargamesGUI.Models;
 using WargamesGUI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,6 +21,7 @@ namespace WargamesGUI
         public static AddUserPage addUser = new AddUserPage();
         
         public static DbHandler handler = new DbHandler();
+        private int privilegeLevel;
         public AddUserPage()
         {
             InitializeComponent();
@@ -32,9 +34,19 @@ namespace WargamesGUI
             // Alla olika connectionstrings som vi behöver.
             private const string theConString = "Server=tcp:wargameslibrary.database.windows.net,1433;Initial Catalog=Wargames Library;Persist Security Info=False;User ID=adminwargames;Password=Admin123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             private const string theUserTableName = "User";
+            private const string theStatusTableName = "";
+            private const string theTransactionTypeTableName = "";
+            private const string theTransactionTableName = "";
+            private const string theProjectTableName = "";
+
 
             //Alla olika SQL-satser som vi behöver.
             private string queryForUserListPage = "";
+            private string queryForTransactionListPage = "";
+            private string queryForUserAndTransactionListPage = "";
+            private string queryForProjectCatalogue = "";
+
+           
 
             //-----------------------------------UserListPage Metoder.
 
@@ -63,7 +75,7 @@ namespace WargamesGUI
             /// </summary>
             /// <param name="fullName"></param>
             /// <returns>Retunerar en bool som är true om det gick att lägga till användaren eller false ifall det inte gick att lägga till användaren.</returns>
-            public bool AddNewUser(string username, string password)
+            public bool AddNewUser(string username, string password, int privilegeLevel)
             {
                 //username = addUser.userbox.Text;
                 //password = addUser.passbox.Text;
@@ -72,7 +84,7 @@ namespace WargamesGUI
                 {
                     using (SqlConnection con = new SqlConnection(theConString))
                     {
-                        string sql = $"INSERT INTO tbl{theUserTableName}(Username, Password) VALUES('{username}','{password}');";
+                        string sql = $"INSERT INTO tbl{theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}', '{privilegeLevel}')";
                         con.Open();
                         using (SqlCommand cmd = new SqlCommand(sql, con))
                         {
@@ -84,7 +96,7 @@ namespace WargamesGUI
                 }
                 catch (Exception)
                 {
-                    
+
                     canAddNewUser = false;
                     return canAddNewUser;
                 }
@@ -98,20 +110,17 @@ namespace WargamesGUI
         {
             var username = userbox.Text;
             var password = passbox.Text;
-            try
-            {
-                var b = handler.AddNewUser(username, password);
-                if (b == true) await DisplayAlert("Sucess", "You added a user!", "OK");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Failure", $"Errormessage: {ex.Message}", "OK");
-            }
-            
-            
-            
+           
+            var b = handler.AddNewUser(username, password, privilegeLevel);
+            if (b == true) await DisplayAlert("Sucess", "You added a user!", "OK");
+            else await DisplayAlert("Error!", "Could not add user", "OK");
         }
 
-        
+        private void picker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedItem = (User)picker.SelectedItem;
+            privilegeLevel =  selectedItem.fk_PrivilegeLevel;
+
+        }
     }
 }
