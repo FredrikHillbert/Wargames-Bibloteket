@@ -34,7 +34,20 @@
            
     </StackLayout>
         <StackLayout Grid.Row="2">
-            
+            <ListView x:Name="listOfUsers" BackgroundColor="Blue">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="{Binding First_Name}"/>
+                                <Label Text="{Binding Last_Name}"/>
+                                <Label Text="{Binding Username}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+            </ListView>
         </StackLayout>
     </Grid>
 </ContentPage>

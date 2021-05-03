@@ -10,7 +10,7 @@ namespace WargamesGUI.Services
     class BookService
     {
         private const string theConString = "Server=tcp:wargameslibrary.database.windows.net,1433;Initial Catalog=Wargames Library;Persist Security Info=False;User ID=adminwargames;Password=Admin123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private const string theBookTableName = "Book";
+        private const string theBookTableName = "tblBook";
         private const string theObjectsRemovedTableName = "";
 
         private string queryForBookListPage = string.Empty;
@@ -37,7 +37,7 @@ namespace WargamesGUI.Services
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
                     string sql = 
-                        $"INSERT INTO tbl{theBookTableName}" +
+                        $"INSERT INTO {theBookTableName}" +
                         $"(fk_category_Id, Title, ISBN, Publisher, Description, Price, Placement) " +
                         $"VALUES('1', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}', '{Placement}')";
 

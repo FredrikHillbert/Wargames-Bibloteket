@@ -9,7 +9,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
+using WargamesGUI.Services;
 using WargamesGUI.Views;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,7 +21,8 @@ namespace WargamesGUI
     public partial class AddUserPage : ContentPage
     {
         public static AddUserPage addUser = new AddUserPage();
-        
+
+        public static UserService userService = new UserService();
         public static DbHandler handler = new DbHandler();
         private int privilegeLevel;
         public AddUserPage()
@@ -27,6 +30,30 @@ namespace WargamesGUI
             InitializeComponent();
 
         }
+
+        protected override void OnAppearing()
+        {
+
+
+            MainThread.InvokeOnMainThreadAsync(async () => { await LoadUserTbl(); });
+
+
+        }
+
+        private async Task LoadUserTbl()
+        {
+
+            listOfUsers.ItemsSource = userService.ReadUserListFromDb();
+
+        }
+
+
+
+
+
+
+
+
 
         public class DbHandler
         {
