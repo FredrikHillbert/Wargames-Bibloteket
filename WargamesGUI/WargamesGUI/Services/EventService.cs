@@ -18,7 +18,7 @@ namespace WargamesGUI.Services
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
-                using (var commad = new SqlCommand(queryForEventListPage, con))
+                using (var commad = new SqlCommand(queryForEvents, con))
                 {
                     using (var reader = commad.ExecuteReader())
                     {
