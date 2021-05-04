@@ -74,12 +74,13 @@ namespace WargamesGUI.Services
         {
             var user = new User();
 
-            SqlConnection Connection = new SqlConnection(DbHandler.theConString);
+            SqlConnection Connection = new SqlConnection(theConString);
             Connection.Open();
             string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password ='{password}' ";
 
             using (SqlCommand command = new SqlCommand(query, Connection))
             {
+                
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -90,6 +91,12 @@ namespace WargamesGUI.Services
             }
 
             return user.fk_PrivilegeLevel;
+        }
+        public  void Searching(string text)
+        {
+            SqlConnection connection = new SqlConnection(theConString);
+            connection.Open();
+            string query = $"SELECT * FROM tbl ";
         }
 
     }

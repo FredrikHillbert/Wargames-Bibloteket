@@ -57,5 +57,18 @@ namespace WargamesGUI
             
         }
 
+        private async void SearchBar_Clicked(object sender, EventArgs e)
+        {
+            Exception exception = null;
+            try
+            {
+                service.Searching(SearchBar.Text);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }
