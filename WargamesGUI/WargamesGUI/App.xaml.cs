@@ -11,8 +11,9 @@ namespace WargamesGUI
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            
+            MainPage = new FlyoutLibrarianPage();
+            //MainPage = new FlyoutAdminPage();
         }
 
         protected override void OnStart()
