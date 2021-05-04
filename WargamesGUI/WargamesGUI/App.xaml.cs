@@ -12,7 +12,7 @@ namespace WargamesGUI
         {         
             InitializeComponent();
             Device.SetFlags(new[] { "MediaElement_Experimental", "Brush_Experimental" });
-            MainPage = new FlyoutAdminPage();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
