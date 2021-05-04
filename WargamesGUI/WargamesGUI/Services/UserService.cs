@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Text;
 using WargamesGUI.Models;
 using System.Linq;
+using WargamesGUI.Views;
+using System.Threading.Tasks;
 
 namespace WargamesGUI.Services
 {
@@ -36,7 +38,7 @@ namespace WargamesGUI.Services
                     }
                 }
                 return listOfUsers;
- 
+
             }
         }
         /// <summary>
@@ -71,20 +73,34 @@ namespace WargamesGUI.Services
             }
 
         }
+        public int SignIn(string username, string password)
+        {
+            var user = new User();
 
+            SqlConnection Connection = new SqlConnection(theConString);
+            Connection.Open();
+            string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password ='{password}' ";
 
+            using (SqlCommand command = new SqlCommand(query, Connection))
+            {
+                
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        user.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                    }
+                }
+            }
 
-
-
-
-
-
-
-
-
-
-
-
+            return user.fk_PrivilegeLevel;
+        }
+        public  void Searching(string text)
+        {
+            SqlConnection connection = new SqlConnection(theConString);
+            connection.Open();
+            string query = $"SELECT * FROM tbl ";
+        }
 
     }
 }

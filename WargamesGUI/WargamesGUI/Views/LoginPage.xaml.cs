@@ -9,20 +9,19 @@ using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Views;
 using Xamarin.Forms;
+using WargamesGUI.Services;
+using static WargamesGUI.AddUserPage;
 
 namespace WargamesGUI
 {
     
     public partial class MainPage : ContentPage
     {
-        User user;
-
-        private const string ConnectionString = "Server=tcp:wargameslibrary.database.windows.net,1433;Initial Catalog=Wargames Library;Persist Security Info=False;User ID=adminwargames;Password=Admin123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        UserService service = new UserService();
+        
         public MainPage()
         {
             InitializeComponent();
-
-            
         }
 
         private async void SignIn_Button_Clicked(object sender, EventArgs e)
@@ -30,30 +29,46 @@ namespace WargamesGUI
             Exception exception = null;
             try
             {
-                SqlConnection Connection = new SqlConnection(ConnectionString);
-                Connection.Open();
-                string query = $"SELECT fk_PrivilegeLevel FROM tbl.User";
-                //string query = $"SELECT * FROM dbo.tblUser WHERE Username = '{Entryusername.Text}' AND Password ='{Entrypassword.Text}'";
-                SqlDataAdapter sda = new SqlDataAdapter(query, Connection);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                if (Entryusername.Text == "Admin" && Entrypassword.Text == "Admin123")
+                switch (service.SignIn(Entryusername.Text, Entrypassword.Text))
                 {
-                    await DisplayAlert("Successful", "You are now logged in as Admin", "OK");
-                    App.Current.MainPage = new FlyoutAdminPage();
+                    case 1:
+                        App.Current.MainPage = new FlyoutAdminPage();
+                        await DisplayAlert("Successful", "You are now logged in as Admin", "OK");
+                        break;
+                    case 2:
+                        await DisplayAlert("Successful", "You are now logged in as Librarian", "OK");
+                        //App.Current.MainPage = new FlyoutLibrarianPage();
+                        break;
+                    case 3:
+                        await DisplayAlert("Successful", "You are now logged in as Visitor", "OK");
+                        //App.Current.MainPage = new FlyoutVisitorPage();
+                        break;
+                    default:
+                        await DisplayAlert("Error", "Please check if username and password are correct", "Ok");
+                        break;
                 }
-                else
-                    await DisplayAlert("Error", "Please check if username and password are correct", "Ok");
-                
             }
             catch (Exception ex)
             {
                 exception = ex;
-                await DisplayAlert("Error", $"{exception}", "Ok");
+                await DisplayAlert("Error", $"{exception.Message}", "Ok");
+                throw;
             }
             
+        }
 
+        private async void SearchBar_Clicked(object sender, EventArgs e)
+        {
+            Exception exception = null;
+            try
+            {
+                service.Searching(SearchBar.Text);
+            }
+            catch (Exception ex)
+            {
 
+                throw;
+            }
         }
     }
 }

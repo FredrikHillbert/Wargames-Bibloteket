@@ -21,10 +21,10 @@ namespace WargamesGUI
     public partial class AddUserPage : ContentPage
     {
         public static AddUserPage addUser = new AddUserPage();
-
         public static UserService userService = new UserService();
         public static DbHandler handler = new DbHandler();
         private int privilegeLevel;
+
         public AddUserPage()
         {
             InitializeComponent();
@@ -54,24 +54,7 @@ namespace WargamesGUI
 
 
 
-        public class DbHandler
-        {
-            
-            // Alla olika connectionstrings som vi behöver.
-            private const string theConString = "Server=tcp:wargameslibrary.database.windows.net,1433;Initial Catalog=Wargames Library;Persist Security Info=False;User ID=adminwargames;Password=Admin123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            private const string theUserTableName = "User";
-            private const string theStatusTableName = "";
-            private const string theTransactionTypeTableName = "";
-            private const string theTransactionTableName = "";
-            private const string theProjectTableName = "";
-
-
-            //Alla olika SQL-satser som vi behöver.
-            private string queryForUserListPage = "";
-            private string queryForTransactionListPage = "";
-            private string queryForUserAndTransactionListPage = "";
-            private string queryForProjectCatalogue = "";
-
+       
            
 
             //-----------------------------------UserListPage Metoder.
@@ -80,22 +63,22 @@ namespace WargamesGUI
             /// Hämtar all data som är lagrad under T0100_USER table i Xenon.
             /// </summary>
             /// <returns> Retunerar all data i form av datatypen DataTable. </returns>
-            public DataTable ReadUserListFromDb()
-            {
+            //public DataTable ReadUserListFromDb()
+            //{
 
-                using (SqlConnection con = new SqlConnection(theConString))
-                {
+            //    using (SqlConnection con = new SqlConnection(DbHandler.theConString))
+            //    {
 
-                    con.Open();
-                    SqlCommand com = new SqlCommand(queryForUserListPage, con);
-                    SqlDataAdapter sda = new SqlDataAdapter(com);
-                    DataTable dt = new DataTable();
-                    sda.Fill(dt);
+            //        con.Open();
+            //        SqlCommand com = new SqlCommand(DbHandler.queryForUserListPage, con);
+            //        SqlDataAdapter sda = new SqlDataAdapter(com);
+            //        DataTable dt = new DataTable();
+            //        sda.Fill(dt);
 
-                    return dt;
+            //        return dt;
 
-                }
-            }
+            //    }
+            //}
             /// <summary>
             /// Adderar en ny användare till table T0100_USER. Måste skickas med en string med namnet på personen som ska läggas till.
             /// </summary>
@@ -108,9 +91,9 @@ namespace WargamesGUI
                 bool canAddNewUser = true;
                 try
                 {
-                    using (SqlConnection con = new SqlConnection(theConString))
+                    using (SqlConnection con = new SqlConnection(DbHandler.theConString))
                     {
-                        string sql = $"INSERT INTO tbl{theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}', '{privilegeLevel}')";
+                        string sql = $"INSERT INTO tbl{DbHandler.theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}', '{privilegeLevel}')";
                         con.Open();
                         using (SqlCommand cmd = new SqlCommand(sql, con))
                         {
@@ -130,14 +113,14 @@ namespace WargamesGUI
             }
 
 
-        }
+        
 
         private async void Register_User_Clicked(object sender, EventArgs e)
         {
             var username = userbox.Text;
             var password = passbox.Text;
            
-            var b = handler.AddNewUser(username, password, privilegeLevel);
+            var b = AddNewUser(username, password, privilegeLevel);
             if (b == true) await DisplayAlert("Sucess", "You added a user!", "OK");
             else await DisplayAlert("Error!", "Could not add user", "OK");
         }
