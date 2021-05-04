@@ -41,8 +41,7 @@ namespace WargamesGUI
         }
 
         private async Task LoadUserTbl()
-        {
-
+        {             
             listOfUsers.ItemsSource = userService.ReadUserListFromDb();
 
         }

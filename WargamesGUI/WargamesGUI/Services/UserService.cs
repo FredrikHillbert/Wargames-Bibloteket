@@ -27,9 +27,12 @@ namespace WargamesGUI.Services
                         {
                             var users = new User();
 
+                            
                             users.First_Name = reader["First_Name"].ToString();
-                            users.Last_Name = reader["Last_Name"].ToString();
+                            users.Last_Name = reader["Last_Name"].ToString();                          
                             users.Username = reader["Username"].ToString();
+                            users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                            
                             listOfUsers.Add(users);
                         }
                     }

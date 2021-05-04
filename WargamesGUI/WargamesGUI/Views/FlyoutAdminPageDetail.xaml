@@ -5,19 +5,20 @@
              x:Class="WargamesGUI.Views.FlyoutAdminPageDetail"
              Title="Welcome">
     
-    <Grid x:Name="theGrid">
+    <StackLayout x:Name="theGrid">
 
-        <xct:MediaElement x:Name="mediaElement" 
+        <xct:MediaElement x:Name="mediaElement"
                           Source="ms-appx:///libraryvid.mp4" 
-                          ShowsPlaybackControls="True"
-                          IsLooping="True" 
-                          Aspect="AspectFill" 
+                          Aspect="AspectFit" 
+                          BackgroundColor="Orange"
+                          VerticalOptions="Fill"
+                          HorizontalOptions="Fill"
                           AutoPlay="True"
-                          HorizontalOptions="FillAndExpand" 
-                          VerticalOptions="FillAndExpand"
-                         />
+                          IsLooping="True"
+                          HeightRequest="300"
+                          WidthRequest="50"/>
 
-    </Grid>
+    </StackLayout>
   
   
   
