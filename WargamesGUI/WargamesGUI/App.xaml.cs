@@ -9,10 +9,10 @@ namespace WargamesGUI
     {
        
         public App()
-        {
+        {         
             InitializeComponent();
-
-            MainPage = new MainPage();
+            Device.SetFlags(new[] { "MediaElement_Experimental", "Brush_Experimental" });
+            MainPage = new FlyoutAdminPage();
         }
 
         protected override void OnStart()

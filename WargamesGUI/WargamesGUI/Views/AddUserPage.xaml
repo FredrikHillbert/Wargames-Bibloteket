@@ -4,6 +4,7 @@
               xmlns:models="clr-namespace:WargamesGUI.Models"
              x:Class="WargamesGUI.AddUserPage">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -22,19 +23,20 @@
                 <x:Array Type="{x:Type models:User}">
                     <models:User TypeOfUser="Admin" fk_PrivilegeLevel="1"/>
                     <models:User TypeOfUser="Librarian" fk_PrivilegeLevel="2"/>
-                    <models:User TypeOfUser="Reader" fk_PrivilegeLevel="3"/>
+                    <models:User TypeOfUser="Visitor" fk_PrivilegeLevel="3"/>
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-            <Entry x:Name="userbox" Placeholder="Enter username"></Entry>
-            <Entry x:Name="passbox" Placeholder="Enter password"></Entry>
+                    <Entry x:Name="userbox" Placeholder="Enter username"></Entry>
+                    <Entry x:Name="passbox" Placeholder="Enter password" IsPassword="True"></Entry>
                     <Button Text="Register user" Clicked="Register_User_Clicked"></Button>
         </StackLayout>
        </Frame>
            
     </StackLayout>
+        
         <StackLayout Grid.Row="2">
-            <ListView x:Name="listOfUsers" BackgroundColor="Blue">
+            <ListView x:Name="listOfUsers">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -49,5 +51,14 @@
                 
             </ListView>
         </StackLayout>
+        <BoxView Grid.RowSpan="3">
+            <BoxView.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="Transparent" Offset="0"/>
+                    <GradientStop Color="#2E4159" Offset="0.9"/>
+                    <GradientStop Color="#2E4159" Offset="1"/>
+                </LinearGradientBrush>
+            </BoxView.Background>
+        </BoxView>
     </Grid>
 </ContentPage>
