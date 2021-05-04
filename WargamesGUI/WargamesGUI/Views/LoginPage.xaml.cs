@@ -32,8 +32,8 @@ namespace WargamesGUI
                 switch (service.SignIn(Entryusername.Text, Entrypassword.Text))
                 {
                     case 1:
-                        App.Current.MainPage = new FlyoutAdminPage();
                         await DisplayAlert("Successful", "You are now logged in as Admin", "OK");
+                        App.Current.MainPage = new FlyoutAdminPage();
                         break;
                     case 2:
                         await DisplayAlert("Successful", "You are now logged in as Librarian", "OK");

@@ -70,13 +70,64 @@ namespace WargamesGUI.Services
             }
 
         }
+        public bool DeleteUserListFromDb(int userId)
+        {
+            bool isWorking;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    con.Open();
+                    SqlCommand deletecmd = new SqlCommand("P0100_DELETE_USER", con);
+                    deletecmd.CommandType = CommandType.StoredProcedure;
+                    deletecmd.CommandText = "P0100_DELETE_USER";
+                    deletecmd.Parameters.Add("@T0100_USER_ID", SqlDbType.Int).Value = userId;
+                    deletecmd.ExecuteNonQuery();
+                    isWorking = true;
+                }
+
+                return isWorking;
+            }
+            catch (Exception)
+            {
+
+                isWorking = false;
+                return isWorking;
+            }
+        }
+
+        public bool ChangeExistingUser(int userId, string firstName, string lastName, string SSN, string newUserName)
+        {
+            bool canChangeUser = true;
+            string query = $"Update dbo.{theUserTableName} SET First_Name = '{firstName}', Last_Name = '{lastName}', SSN = '{SSN}', Username = '{newUserName}' WHERE T0100_USER_ID = {userId}";
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+                canChangeUser = true;
+                return canChangeUser;
+            }
+            catch (Exception)
+            {
+                canChangeUser = false;
+                return canChangeUser;
+            }
+
+        }
         public int SignIn(string username, string password)
         {
             var user = new User();
 
             SqlConnection Connection = new SqlConnection(theConString);
             Connection.Open();
-            string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password ='{password}' ";
+            string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
 
             using (SqlCommand command = new SqlCommand(query, Connection))
             {
@@ -101,3 +152,16 @@ namespace WargamesGUI.Services
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
