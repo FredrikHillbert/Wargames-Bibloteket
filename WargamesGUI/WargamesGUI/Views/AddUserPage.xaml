@@ -15,7 +15,7 @@
         </Grid.ColumnDefinitions>
         <Image Source="pexels-cottonbro.jpg" Aspect="AspectFill" Opacity="0.5" Grid.RowSpan="3"></Image>
         <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
-        <StackLayout Grid.Row="1">
+        <StackLayout Grid.Row="0">
         <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,0" BackgroundColor="WhiteSmoke">
                 <StackLayout>
         <Picker x:Name="picker" Title="Type of User" HorizontalOptions="Center" SelectedIndexChanged="picker_SelectedIndexChanged">
@@ -40,25 +40,18 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout>
-                                <Label Text="{Binding First_Name}"/>
-                                <Label Text="{Binding Last_Name}"/>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding fk_PrivilegeLevel}"/>
                                 <Label Text="{Binding Username}"/>
+
                             </StackLayout>
+                            
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 
             </ListView>
         </StackLayout>
-        <BoxView Grid.RowSpan="3">
-            <BoxView.Background>
-                <LinearGradientBrush>
-                    <GradientStop Color="Transparent" Offset="0"/>
-                    <GradientStop Color="#2E4159" Offset="0.9"/>
-                    <GradientStop Color="#2E4159" Offset="1"/>
-                </LinearGradientBrush>
-            </BoxView.Background>
-        </BoxView>
+        
     </Grid>
 </ContentPage>
