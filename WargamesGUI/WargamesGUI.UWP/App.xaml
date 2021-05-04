@@ -2,6 +2,7 @@
     x:Class="WargamesGUI.UWP.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:local="using:WargamesGUI.UWP">
 
 </Application>

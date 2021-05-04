@@ -4,6 +4,7 @@
              x:Class="WargamesGUI.MainPage">
  
     <Grid RowSpacing="10" HorizontalOptions="CenterAndExpand">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="20"/>
@@ -51,7 +52,8 @@
                 WidthRequest="150"/>
         <SearchBar x:Name="SearchBar" 
                    Placeholder="Search for books, ebooks or seminars"  
-                   Grid.Row="8"/>
+                   Grid.Row="8"
+                   SearchButtonPressed="SearchBar_Clicked"/>
     </Grid>
 
 </ContentPage>

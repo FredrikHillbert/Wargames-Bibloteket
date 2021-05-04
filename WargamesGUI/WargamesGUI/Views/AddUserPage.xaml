@@ -4,6 +4,7 @@
               xmlns:models="clr-namespace:WargamesGUI.Models"
              x:Class="WargamesGUI.AddUserPage">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -14,7 +15,7 @@
         </Grid.ColumnDefinitions>
         <Image Source="pexels-cottonbro.jpg" Aspect="AspectFill" Opacity="0.5" Grid.RowSpan="3"></Image>
         <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
-        <StackLayout Grid.Row="1">
+        <StackLayout Grid.Row="0">
         <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,0" BackgroundColor="WhiteSmoke">
                 <StackLayout>
         <Picker x:Name="picker" Title="Type of User" HorizontalOptions="Center" SelectedIndexChanged="picker_SelectedIndexChanged">
@@ -22,19 +23,35 @@
                 <x:Array Type="{x:Type models:User}">
                     <models:User TypeOfUser="Admin" fk_PrivilegeLevel="1"/>
                     <models:User TypeOfUser="Librarian" fk_PrivilegeLevel="2"/>
-                    <models:User TypeOfUser="Reader" fk_PrivilegeLevel="3"/>
+                    <models:User TypeOfUser="Visitor" fk_PrivilegeLevel="3"/>
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-            <Entry x:Name="userbox" Placeholder="Enter username"></Entry>
-            <Entry x:Name="passbox" Placeholder="Enter password"></Entry>
+                    <Entry x:Name="userbox" Placeholder="Enter username"></Entry>
+                    <Entry x:Name="passbox" Placeholder="Enter password" IsPassword="True"></Entry>
                     <Button Text="Register user" Clicked="Register_User_Clicked"></Button>
         </StackLayout>
        </Frame>
            
     </StackLayout>
+        
         <StackLayout Grid.Row="2">
-            
+            <ListView x:Name="listOfUsers">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding fk_PrivilegeLevel}"/>
+                                <Label Text="{Binding Username}"/>
+
+                            </StackLayout>
+                            
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+            </ListView>
         </StackLayout>
+        
     </Grid>
 </ContentPage>
