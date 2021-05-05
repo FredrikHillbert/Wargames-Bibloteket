@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WargamesGUI.Views.AddVisitor"
+             BackgroundImageSource="pexels-cottonbro.jpg">
+
+    <StackLayout>
+        <Grid Margin="20,20,15,15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Entry x:Name="EntryFirstName" Placeholder="Förnamn" Grid.Row="0" Grid.Column="0"/>
+            <Entry x:Name="EntryLastName" Placeholder="Efternamn" Grid.Row="0" Grid.Column="1"/>
+            <Entry x:Name="EntryPersNumber" Placeholder="Personnummer" Grid.Row="0" Grid.Column="2"/>
+            <Button Text="Lägg till besökare"  Grid.Row="0"  Grid.Column="3" 
+                    Clicked="AddVisitor_Button_Clicked" 
+                    HorizontalOptions="Center" WidthRequest="150" 
+                    BackgroundColor="DarkSlateGray"/>
+        </Grid>
+        <Frame CornerRadius="5" Margin="40,0,40,0" BackgroundColor="DarkSlateGray">
+            <ListView x:Name="listOfVisitors" HorizontalOptions="Center">
+                <ListView.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Text="Förnamn" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Efternamn" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Personnummer" TextColor="Black" Grid.Column="2" Grid.Row="0" FontAttributes="Bold"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="{Binding First_Name}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="{Binding SSN}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+            </ListView>
+        </Frame>
+        <Button Text="Ta bort besökare" 
+                Margin="15,0,15,15" 
+                HorizontalOptions="End"
+                WidthRequest="150"
+                BackgroundColor="DarkSlateGray"/>
+        
+    </StackLayout>
+    
+</ContentPage>

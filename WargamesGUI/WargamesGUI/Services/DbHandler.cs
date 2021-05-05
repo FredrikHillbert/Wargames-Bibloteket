@@ -17,6 +17,7 @@ namespace WargamesGUI.Services
         public string queryForUserListPage = $"SELECT * FROM {theUserTableName}";
         public string queryForBooks = $"SELECT * FROM {theBookTableName}";
         public string queryForEvents = $"SELECT * FROM {theEventTableName}";
+        public string queryForVisitors = $"SELECT * FROM {theUserTableName} WHERE fk_PrivilegeLevel = 3";
 
 
     }
