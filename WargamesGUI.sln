@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WargamesGUI.Android", "Warg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WargamesGUI.iOS", "WargamesGUI\WargamesGUI.iOS\WargamesGUI.iOS.csproj", "{A2C40B9F-163A-4DB4-AA39-D788C80F0008}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WargamesGUI", "WargamesGUI\WargamesGUI\WargamesGUI.csproj", "{DDC69B14-7950-483C-A2CC-7A17E806D366}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WargamesGUI", "WargamesGUI\WargamesGUI\WargamesGUI.csproj", "{DDC69B14-7950-483C-A2CC-7A17E806D366}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{2CD25453-D55E-4DFB-B0BE-F84C7648659B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,6 +173,30 @@ Global
 		{DDC69B14-7950-483C-A2CC-7A17E806D366}.Release|x86.ActiveCfg = Release|Any CPU
 		{DDC69B14-7950-483C-A2CC-7A17E806D366}.Release|x86.Build.0 = Release|Any CPU
 		{DDC69B14-7950-483C-A2CC-7A17E806D366}.Release|x86.Deploy.0 = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|x64.Build.0 = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Debug|x86.Build.0 = Debug|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|ARM.Build.0 = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|iPhone.Build.0 = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|x64.ActiveCfg = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|x64.Build.0 = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|x86.ActiveCfg = Release|Any CPU
+		{2CD25453-D55E-4DFB-B0BE-F84C7648659B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
