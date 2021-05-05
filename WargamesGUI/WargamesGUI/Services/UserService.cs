@@ -27,12 +27,12 @@ namespace WargamesGUI.Services
                         {
                             var users = new User();
 
-                            
+
                             users.First_Name = reader["First_Name"].ToString();
-                            users.Last_Name = reader["Last_Name"].ToString();                          
+                            users.Last_Name = reader["Last_Name"].ToString();
                             users.Username = reader["Username"].ToString();
                             users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
-                            
+
                             listOfUsers.Add(users);
                         }
                     }
@@ -56,7 +56,7 @@ namespace WargamesGUI.Services
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
                     string sql = $"INSERT INTO {theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}',HASHBYTES('SHA1','{password}'), '{privilegeLevel}')";
-                   
+
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, con))
                     {
@@ -135,7 +135,7 @@ namespace WargamesGUI.Services
 
             using (SqlCommand command = new SqlCommand(query, Connection))
             {
-                
+
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -147,11 +147,39 @@ namespace WargamesGUI.Services
 
             return user.fk_PrivilegeLevel;
         }
-        public  void Searching(string text)
+        public async Task<List<Book>> Searching(string text)
         {
-            SqlConnection connection = new SqlConnection(theConString);
-            connection.Open();
-            string query = $"SELECT * FROM tbl ";
+            List<Book> searchedValues = new List<Book>();
+            string query = $"SELECT * FROM tblBook WHERE CONCAT_WS('',Title, ISBN, Publisher, fk_Item_Id, Price, Placement) LIKE '%{text}%'";
+
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var values = new Book();
+
+                            values.ISBN = reader["ISBN"].ToString();
+                            values.Title = reader["Title"].ToString();
+                            values.Publisher = reader["Publisher"].ToString();
+                            values.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
+                            values.Price = Convert.ToInt32(reader["Price"]);
+                            values.Placement = reader["Placement"].ToString();
+
+
+                            searchedValues.Add(values);
+                        }
+                        
+                    }
+                }
+                return await Task.FromResult(searchedValues);
+            }
+
         }
 
         public List<User> ReadVisitorListFromDb()

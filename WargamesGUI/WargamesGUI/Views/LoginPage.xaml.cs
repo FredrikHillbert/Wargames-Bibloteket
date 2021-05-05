@@ -17,7 +17,7 @@ namespace WargamesGUI
     
     public partial class MainPage : ContentPage
     {
-        UserService service = new UserService();
+       public static UserService service = new UserService();
         
         public MainPage()
         {
@@ -37,7 +37,7 @@ namespace WargamesGUI
                         break;
                     case 2:
                         await DisplayAlert("Successful", "You are now logged in as Librarian", "OK");
-                        //App.Current.MainPage = new FlyoutLibrarianPage();
+                        App.Current.MainPage = new FlyoutLibrarianPage();
                         break;
                     case 3:
                         await DisplayAlert("Successful", "You are now logged in as Visitor", "OK");
@@ -62,13 +62,18 @@ namespace WargamesGUI
             Exception exception = null;
             try
             {
-                service.Searching(SearchBar.Text);
+                SearchFlyoutPage.GetValues(SearchBar.Text);
+                App.Current.MainPage = new SearchFlyoutPage();
+                
             }
             catch (Exception ex)
             {
-
+                exception = ex;
+                await DisplayAlert("Error", $"{exception.Message}", "Ok");
                 throw;
             }
         }
+
+
     }
 }
