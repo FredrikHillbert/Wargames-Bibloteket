@@ -75,10 +75,11 @@ namespace WargamesGUI
         {
             var username = userbox.Text;
             var password = passbox.Text;
+           
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || privilegeLevel == 0)
             {
-                await DisplayAlert("Error!", "Username or password is incorrect", "OK");
+                await DisplayAlert("Error!", "Username/password/privilege is incorrect", "OK");
             }
             else
             {
