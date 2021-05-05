@@ -3,10 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WargamesGUI.Views.SearchFlyoutPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+             <Label Text="Title" Grid.Row="1" Grid.Column="1"/>
+            <StackLayout Grid.ColumnSpan="5" Grid.RowSpan="5" Grid.Row="2">
+                <ListView x:Name="listOfBook" HorizontalOptions="Center" VerticalOptions="Center">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Title }" FontSize="25" />
+                                    <Label Text="{Binding Publisher}" FontSize="25" />
+                                    <Label Text="{Binding Price }" FontSize="25" />
+                                    <Label Text="{Binding Placement }" FontSize="25" />
+                                </StackLayout>
+                            </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
         </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

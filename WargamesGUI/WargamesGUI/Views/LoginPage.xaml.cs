@@ -37,7 +37,7 @@ namespace WargamesGUI
                         break;
                     case 2:
                         await DisplayAlert("Successful", "You are now logged in as Librarian", "OK");
-                        //App.Current.MainPage = new FlyoutLibrarianPage();
+                        App.Current.MainPage = new FlyoutLibrarianPage();
                         break;
                     case 3:
                         await DisplayAlert("Successful", "You are now logged in as Visitor", "OK");
@@ -62,8 +62,9 @@ namespace WargamesGUI
             Exception exception = null;
             try
             {
-                await service.Searching(SearchBar.Text);
-                await DisplayAlert("Successful", "Info", "Ok");
+                SearchFlyoutPage.GetValues(SearchBar.Text);
+                App.Current.MainPage = new SearchFlyoutPage();
+                
             }
             catch (Exception ex)
             {
@@ -72,5 +73,7 @@ namespace WargamesGUI
                 throw;
             }
         }
+
+
     }
 }

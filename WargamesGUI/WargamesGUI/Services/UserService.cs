@@ -150,7 +150,7 @@ namespace WargamesGUI.Services
         public async Task<List<Book>> Searching(string text)
         {
             List<Book> searchedValues = new List<Book>();
-            string query = $"SELECT * FROM tblBook WHERE CONCAT_WS('',Title, ISBN, Publisher, fk_Item_Id) LIKE '%{text}%'";
+            string query = $"SELECT * FROM tblBook WHERE CONCAT_WS('',Title, ISBN, Publisher, fk_Item_Id, Price, Placement) LIKE '%{text}%'";
 
 
             using (SqlConnection con = new SqlConnection(theConString))
@@ -168,6 +168,9 @@ namespace WargamesGUI.Services
                             values.Title = reader["Title"].ToString();
                             values.Publisher = reader["Publisher"].ToString();
                             values.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
+                            values.Price = Convert.ToInt32(reader["Price"]);
+                            values.Placement = reader["Placement"].ToString();
+
 
                             searchedValues.Add(values);
                         }
