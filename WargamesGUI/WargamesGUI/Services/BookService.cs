@@ -9,7 +9,7 @@ using WargamesGUI.Models;
 
 namespace WargamesGUI.Services
 {
-    class BookService : DbHandler
+    public class BookService : DbHandler
     {
         public async Task<List<Book>> GetBooksFromDb()
         {
@@ -19,9 +19,9 @@ namespace WargamesGUI.Services
             {
                 using (var command = new SqlCommand(queryForBooks, con))
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var book = new Book();
 
@@ -37,7 +37,7 @@ namespace WargamesGUI.Services
                         }
                     }
                 }
-                return bookList;
+                return await Task.FromResult(bookList);
             }
         }
         public async Task<List<Book>> GetEbooksFromDb()
@@ -48,9 +48,9 @@ namespace WargamesGUI.Services
             {
                 using (var command = new SqlCommand(queryForBooks, con))
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var eBbook = new Book();
 
@@ -65,47 +65,72 @@ namespace WargamesGUI.Services
                         }
                     }
                 }
-                return eBookList;
+                return await Task.FromResult(eBookList);
             }
         }
 
         /// <summary>
         /// Adderar en ny bok till table tblBook. 
         /// Måste skickas med: Title, ISBN, Publisher, Description, Price, Placement till boken.
+        /// Item_id berättar om det är Book eller Ebook.
         /// </summary>
         /// <param name=""></param>
         /// <returns>
         /// Retunerar en bool som är true om det gick att lägga till boken eller false 
         /// ifall det inte gick att lägga till boken.
         /// </returns>
-        public async Task<bool> AddNewBook(string Title, string ISBN, string Publisher,
+        public async Task<bool> AddNewBook(int Item_id, string Title, string ISBN, string Publisher,
                                            string Description, int Price, string Placement)
         {
             bool success = true;
 
             try
             {
-                using (SqlConnection con = new SqlConnection(theConString))
+                // Book
+                if (Item_id == 1)
                 {
-                    string sql =
-                        $"INSERT INTO {theBookTableName}" +
-                        $"(fk_category_Id, Title, ISBN, Publisher, Description, Price, Placement) " +
-                        $"VALUES('1', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}', '{Placement}')";
-
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    using (SqlConnection con = new SqlConnection(theConString))
                     {
-                        cmd.ExecuteNonQuery();
+                        string query =
+                            $"INSERT INTO {theBookTableName}" +
+                            $"(fk_Item_Id, Title, ISBN, Publisher, Description, Price, Placement) " +
+                            $"VALUES('1', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}', '{Placement}')";
+
+                        await con.OpenAsync();
+
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            await cmd.ExecuteNonQueryAsync();
+                        }
                     }
                 }
 
-                return success;
+                // E-book
+                else if (Item_id == 2)
+                {
+                    using (SqlConnection con = new SqlConnection(theConString))
+                    {
+                        string query =
+                            $"INSERT INTO {theBookTableName}" +
+                            $"(fk_Item_Id, Title, ISBN, Publisher, Description, Price, Placement) " +
+                            $"VALUES('2', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}', '{Placement}')";
+
+                        await con.OpenAsync();
+
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+
+                return await Task.FromResult(success);
             }
 
             catch (Exception)
             {
                 success = false;
-                return success;
+                return await Task.FromResult(success);
             }
         }
 
@@ -127,25 +152,25 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql =
+                    string query =
                         $"INSERT INTO {theBookTableName}" +
-                        $"(fk_category_Id, Title, ISBN, Publisher, Description, Price, Placement) " +
-                        $"VALUES('1', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}')";
+                        $"(fk_Item_Id, Title, ISBN, Publisher, Description, Price) " +
+                        $"VALUES('2', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}')";
 
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmd.ExecuteNonQuery();
+                        await cmd.ExecuteNonQueryAsync();
                     }
                 }
 
-                return success;
+                return await Task.FromResult(success);
             }
 
             catch (Exception)
             {
                 success = false;
-                return success;
+                return await Task.FromResult(success);
             }
         }
 
@@ -158,7 +183,7 @@ namespace WargamesGUI.Services
         /// Retunerar en bool som är true om det gick att ta bort boken eller false 
         /// ifall det inte gick att ta bort boken.'
         /// </returns>
-        public bool RemoveBook(int id)
+        public async Task<bool> RemoveBook(int id, string reason)
         {
             bool success = true;
 
@@ -166,39 +191,40 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql =
-                        $"DELETE FROM {theBookTableName} WHERE Id = {id}";
+                    string query =
+                        $"DELETE FROM {theBookTableName} WHERE Id = @id";
 
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.AddWithValue("id", id);
+                        await cmd.ExecuteNonQueryAsync();
                     }
 
-                    // Här ska det finnas en till SQL-sträng som lägger till det borttagna objektet i en "ObjectsRemoved"-table.
+                    query = $"UPDATE {theRemovedItemTableName} " +
+                            $"SET Reason = @reason " +
+                            $"WHERE Id = @id";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("reason", reason);
+                        cmd.Parameters.AddWithValue("id", id);
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+
                     // Här ska det finnas en till SQL-sträng som tar bort objektet i alla tables där den är kopplad.
                 }
 
-                return success;
+                return await Task.FromResult(success);
             }
 
             catch (Exception)
             {
                 success = false;
-                return success;
+                return await Task.FromResult(success);
             }
         }
 
-        /// <summary>
-        ///  
-        /// 
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>
-        /// 
-        /// 
-        /// </returns>
-        /// 
         public async Task<bool> UpdateBook(int id, string Title, string ISBN, string Publisher,
                                            string Description, int Price, string Placement)
         {
@@ -209,30 +235,78 @@ namespace WargamesGUI.Services
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
 
-                    string sql =
+                    string query =
                         $"UPDATE {theBookTableName} " +
-                        $"SET Title = {Title}, ISBN = {ISBN}," +
-                        $"Publisher = {Publisher}, Description = {Description}" +
-                        $"Price = {Price}, Placement = {Placement}" +
+                        $"SET Title = {Title}, ISBN = {ISBN}, " +
+                        $"Publisher = {Publisher}, Description = {Description} " +
+                        $"Price = {Price}, Placement = {Placement} " +
                         $"WHERE Id = {id}";
 
                     // Ändra för E-bok?
                     // Här ska det finnas en till SQL-sträng som uppdaterar objektet i alla tables där den finns.
 
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmd.ExecuteNonQuery();
+                        await cmd.ExecuteNonQueryAsync();
                     }
                 }
 
-                return success;
+                return await Task.FromResult(success);
             }
 
             catch (Exception)
             {
                 success = false;
-                return success;
+                return await Task.FromResult(success);
+            }
+        }
+        public async Task<List<Book>> Searching(string text)
+        {
+            List<Book> searchedValues = new List<Book>();
+            string query = $"SELECT * FROM tblBook WHERE CONCAT_WS('',Title, ISBN, Publisher, fk_Item_Id, Price, Placement) LIKE '%{text}%'";
+
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var values = new Book();
+
+                            values.ISBN = reader["ISBN"].ToString();
+                            values.Title = reader["Title"].ToString();
+                            values.Publisher = reader["Publisher"].ToString();
+                            values.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
+                            values.Price = Convert.ToInt32(reader["Price"]);
+                            values.Placement = reader["Placement"].ToString();
+
+                            switch (values.fk_Item_Id)
+                            {
+                                case 1:
+                                    values.Category = "Book";
+                                    break;
+                                case 2:
+                                    values.Category = "Ebook";
+                                    break;
+                                case 3:
+                                    values.Category = "Seminar";
+                                    break;
+                                default:
+                                    break;
+                            }
+
+
+                            searchedValues.Add(values);
+                        }
+
+                    }
+                }
+                return await Task.FromResult(searchedValues);
             }
         }
     }

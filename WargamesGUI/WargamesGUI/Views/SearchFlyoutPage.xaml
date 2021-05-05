@@ -1,41 +1,79 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WargamesGUI.Views.SearchFlyoutPage">
-    <ContentPage.Content>
-        <Grid>
+             x:Class="WargamesGUI.Views.SearchFlyoutPage"
+             BackgroundImageSource="pexels-cottonbro.jpg">
+    <StackLayout>
+        <Grid Margin="20,20,15,15">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-             <Label Text="Title" Grid.Row="1" Grid.Column="1"/>
-            <StackLayout Grid.ColumnSpan="5" Grid.RowSpan="5" Grid.Row="2">
-                <ListView x:Name="listOfBook" HorizontalOptions="Center" VerticalOptions="Center">
+        </Grid>
+        <Frame CornerRadius="5" Margin="40,0,40,0" BackgroundColor="DarkSlateGray">
+            <ListView x:Name="listOfBook" HorizontalOptions="Center">
+                <ListView.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Button Text="Back" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold" Clicked="Back_Button_Clicked"/>
+                        <Label Text="Title" TextColor="Black" Grid.Column="0" Grid.Row="1" FontAttributes="Bold"/>
+                        <Label Text="Publisher" TextColor="Black" Grid.Column="1" Grid.Row="1" FontAttributes="Bold"/>
+                        <Label Text="Price" TextColor="Black" Grid.Column="2" Grid.Row="1" FontAttributes="Bold"/>
+                        <Label Text="Placement" TextColor="Black" Grid.Column="3" Grid.Row="1" FontAttributes="Bold"/>
+                        <Label Text="Category" TextColor="Black" Grid.Column="4" Grid.Row="1" FontAttributes="Bold"/>
+                    </Grid>
+                </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Title }" FontSize="25" />
-                                    <Label Text="{Binding Publisher}" FontSize="25" />
-                                    <Label Text="{Binding Price }" FontSize="25" />
-                                    <Label Text="{Binding Placement }" FontSize="25" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="{Binding Title}" HorizontalOptions="Start"/>
                                 </StackLayout>
-                            </ViewCell>
+                                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="{Binding Price}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
+                                    <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
+                                    <Label Text="{Binding Category}" HorizontalOptions="Start"/>
+                                </StackLayout>
+
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
 
             </ListView>
-        </StackLayout>
-        </Grid>
-    </ContentPage.Content>
+        </Frame>
+    </StackLayout>
 </ContentPage>

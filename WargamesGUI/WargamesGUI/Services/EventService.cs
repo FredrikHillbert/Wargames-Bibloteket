@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WargamesGUI.Services
 {
-    class EventService : DbHandler
+    public class EventService : DbHandler
     {
         public async Task<List<Event>> GetEventsFromDb()
         {
@@ -20,9 +20,9 @@ namespace WargamesGUI.Services
                 con.Open();
                 using (var commad = new SqlCommand(queryForEvents, con))
                 {
-                    using (var reader = commad.ExecuteReader())
+                    using (var reader = await commad.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var eventObject = new Event();
 
@@ -35,7 +35,7 @@ namespace WargamesGUI.Services
                     }
                 }
 
-                return eventList;
+                return await Task.FromResult(eventList);
             }
         }
 
@@ -57,38 +57,38 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql =
+                    string query =
                         $"INSERT INTO {theEventTableName}" +
-                        $"(fk_category_Id, Title, Description, DateOfEvent) " +
+                        $"(fk_Item_Id, Title, Description, DateOfEvent) " +
                         $"VALUES('3', '{Title}', '{Description}', '{DateOfEvent}')";
 
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmd.ExecuteNonQuery();
+                        await cmd.ExecuteNonQueryAsync();
                     }
                 }
 
-                return success;
+                return await Task.FromResult(success);
             }
 
             catch (Exception)
             {
                 success = false;
-                return success;
+                return await Task.FromResult(success);
             }
         }
 
         /// <summary>
         /// Tar bort ett event från table tblEvent. 
-        /// Måste skickas med: Eventets unika ID.
+        /// Måste skickas med: Eventets unika ID
         /// </summary>
         /// <param name=""></param>
         /// <returns>
         /// Retunerar en bool som är true om det gick att ta bort eventet eller false 
         /// ifall det inte gick att ta bort eventet.'
         /// </returns>
-        public async Task<bool> RemoveEvent(int id)
+        public async Task<bool> RemoveEvent(int id, string reason)
         {
             bool success = true;
 
@@ -96,29 +96,38 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql =
-                        $"DELETE FROM {theEventTableName} WHERE Id = {id}";
+                    string query =
+                        $"DELETE FROM {theEventTableName} WHERE Id = @id";
 
-                    // Här ska det finnas en till SQL-sträng som lägger till det borttagna objektet i en "ObjectsRemoved"-table.
-                    // Här ska det finnas en till SQL-sträng som tar bort objektet i alla tables där den är kopplad.
-
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.AddWithValue("id", id);
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+
+                    query = $"UPDATE {theRemovedItemTableName} " +
+                            $"SET Reason = @reason " +
+                            $"WHERE Id = @id";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("reason", reason);
+                        cmd.Parameters.AddWithValue("id", id);
+                        await cmd.ExecuteNonQueryAsync();
                     }
                 }
 
-                return success;
+                return await Task.FromResult(success);
             }
 
             catch (Exception)
             {
                 success = false;
-                return success;
+                return await Task.FromResult(success);
             }
         }
-        public bool UpdateEvent(int id, string Title, string Description, DateTime DateOfEvent)
+        public async Task<bool> UpdateEvent(int id, string Title, string Description, DateTime DateOfEvent)
         {
             bool success = true;
 
@@ -126,28 +135,28 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql =
+                    string query =
                         $"UPDATE {theEventTableName} " +
                         $"SET Title = {Title}, Description = {Description}, DateOfEvent = {DateOfEvent}" +
                         $"WHERE Id = {id}";
 
                     // Här ska det finnas en till SQL-sträng som uppdaterar objektet i alla tables där den finns.
 
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    await con.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmd.ExecuteNonQuery();
+                        await cmd.ExecuteNonQueryAsync();
                     }
 
                 }
 
-                return success;
+                return await Task.FromResult(success);
             }
 
             catch (Exception)
             {
                 success = false;
-                return success;
+                return await Task.FromResult(success);
             }
         }
     }

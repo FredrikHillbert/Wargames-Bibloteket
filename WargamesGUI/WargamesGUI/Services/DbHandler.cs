@@ -11,6 +11,7 @@ namespace WargamesGUI.Services
         public const string theUserTableName = "tblUser";
         public const string theBookTableName = "tblBook";
         public const string theEventTableName = "tblEvent";
+        public const string theRemovedItemTableName = "tblRemovedItem";
 
 
         //Alla olika SQL-satser som vi behöver.

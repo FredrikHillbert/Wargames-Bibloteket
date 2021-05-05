@@ -13,7 +13,7 @@ namespace WargamesGUI.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SearchFlyoutPage : ContentPage
     {
-        public static UserService service = new UserService();
+        public static BookService bookService = new BookService();
         public static string text;
         public SearchFlyoutPage()
         {
@@ -26,15 +26,17 @@ namespace WargamesGUI.Views
         }
         private async Task SearchValues()
         {
-            listOfBook.ItemsSource = await service.Searching(GetValues(text));
+            listOfBook.ItemsSource = await bookService.Searching(GetValues(text));
+        }
+
+        private void Back_Button_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new MainPage();
         }
         public static string GetValues(string value)
         {
             text = value;
             return text;
         }
-
-
-
     }
 }

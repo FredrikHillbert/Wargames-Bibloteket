@@ -43,39 +43,7 @@ namespace WargamesGUI.Services
 
             }
         }
-        /// <summary>
-        /// Adderar en ny användare till table T0100_USER. Måste skickas med en string med namnet på personen som ska läggas till.
-        /// </summary>
-        /// <param name="fullName"></param>
-        /// <returns>Retunerar en bool som är true om det gick att lägga till användaren eller false ifall det inte gick att lägga till användaren.</returns>
-        public bool AddNewUser(string username, string password, int privilegeLevel)
-        {
-            //username = addUser.userbox.Text;
-            //password = addUser.passbox.Text;
-            bool canAddNewUser = true;
-            try
-            {
-                using (SqlConnection con = new SqlConnection(theConString))
-                {
-                    string sql = $"INSERT INTO {theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}',HASHBYTES('SHA1','{password}'), '{privilegeLevel}')";
-
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                canAddNewUser = true;
-                return canAddNewUser;
-            }
-            catch (Exception)
-            {
-
-                canAddNewUser = false;
-                return canAddNewUser;
-            }
-
-        }
+       
         public bool DeleteUserListFromDb(int userId)
         {
             bool isWorking;
@@ -149,40 +117,6 @@ namespace WargamesGUI.Services
 
             return user.fk_PrivilegeLevel;
         }
-        public async Task<List<Book>> Searching(string text)
-        {
-            List<Book> searchedValues = new List<Book>();
-            string query = $"SELECT * FROM tblBook WHERE CONCAT_WS('',Title, ISBN, Publisher, fk_Item_Id, Price, Placement) LIKE '%{text}%'";
-
-
-            using (SqlConnection con = new SqlConnection(theConString))
-            {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var values = new Book();
-
-                            values.ISBN = reader["ISBN"].ToString();
-                            values.Title = reader["Title"].ToString();
-                            values.Publisher = reader["Publisher"].ToString();
-                            values.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
-                            values.Price = Convert.ToInt32(reader["Price"]);
-                            values.Placement = reader["Placement"].ToString();
-
-
-                            searchedValues.Add(values);
-                        }
-                        
-                    }
-                }
-                return await Task.FromResult(searchedValues);
-            }
-
-        }
 
         public List<User> ReadVisitorListFromDb()
         {
@@ -239,9 +173,39 @@ namespace WargamesGUI.Services
             }
 
         }
+        public bool AddNewUser(string username, string password, int privilegeLevel)
+        {
+            
+            bool canAddNewUser = true;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    string sql = $"INSERT INTO {theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}',HASHBYTES('SHA1','{password}'), '{privilegeLevel}')";
+
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                canAddNewUser = true;
+                return canAddNewUser;
+            }
+            catch (Exception)
+            {
+
+                canAddNewUser = false;
+                return canAddNewUser;
+            }
+
+        }
+
+
 
     }
 }
+
 
 
 
