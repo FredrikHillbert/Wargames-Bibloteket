@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WargamesGUI.Models
 {
-    class Book
+    public class Book
     {
         public int Id { get; set; }
         public int fk_Item_Id { get; set; }

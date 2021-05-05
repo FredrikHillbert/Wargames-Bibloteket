@@ -17,7 +17,7 @@ namespace WargamesGUI
     
     public partial class MainPage : ContentPage
     {
-        UserService service = new UserService();
+       public static UserService service = new UserService();
         
         public MainPage()
         {
@@ -62,11 +62,13 @@ namespace WargamesGUI
             Exception exception = null;
             try
             {
-                service.Searching(SearchBar.Text);
+                await service.Searching(SearchBar.Text);
+                await DisplayAlert("Successful", "Info", "Ok");
             }
             catch (Exception ex)
             {
-
+                exception = ex;
+                await DisplayAlert("Error", $"{exception.Message}", "Ok");
                 throw;
             }
         }
