@@ -50,5 +50,10 @@ namespace WargamesGUI.Views
             }
             #endregion
         }
+
+        private void Logout_Button_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new MainPage();
+        }
     }
 }

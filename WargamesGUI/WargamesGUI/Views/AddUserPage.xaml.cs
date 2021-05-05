@@ -38,44 +38,12 @@ namespace WargamesGUI
 
         }
 
-        private async Task LoadUserTbl()
-        {             
-            listOfUsers.ItemsSource = await userService.ReadUserListFromDb();
 
-        }
-  
-            public bool AddNewUser(string username, string password, int privilegeLevel)
-            {
-                //username = addUser.userbox.Text;
-                //password = addUser.passbox.Text;
-                bool canAddNewUser = true;
-                try
-                {
-                    using (SqlConnection con = new SqlConnection(DbHandler.theConString))
-                    {
-                        string sql = $"INSERT INTO {DbHandler.theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}', '{privilegeLevel}')";
-                        con.Open();
-                        using (SqlCommand cmd = new SqlCommand(sql, con))
-                        {
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    canAddNewUser = true;
-                    return canAddNewUser;
-                }
-                catch (Exception)
-                {
-
-                    canAddNewUser = false;
-                    return canAddNewUser;
-                }
-
-            }
         private async void Register_User_Clicked(object sender, EventArgs e)
         {
             var username = userbox.Text;
             var password = passbox.Text;
-           
+
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || privilegeLevel == 0)
             {
@@ -83,7 +51,7 @@ namespace WargamesGUI
             }
             else
             {
-                var b = AddNewUser(username, password, privilegeLevel);
+                var b = userService.AddNewUser(username, password, privilegeLevel);
                 if (b == true)
                 {
                     await DisplayAlert("Sucess", "You added a user!", "OK");
@@ -96,13 +64,7 @@ namespace WargamesGUI
 
         }
 
-        private void picker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var selectedItem = (User)picker.SelectedItem;
-            privilegeLevel =  selectedItem.fk_PrivilegeLevel;
-
-        }
-        private async void Delete_User(object sender, EventArgs e)
+        private async void Delete_User_Clicked(object sender, EventArgs e)
         {
             try
             {
@@ -124,12 +86,21 @@ namespace WargamesGUI
             {
                 await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
             }
-
-
         }
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             selectedItem = (User)listOfUsers.SelectedItem;
+        }
+        private void picker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedItem = (User)picker.SelectedItem;
+            privilegeLevel = selectedItem.fk_PrivilegeLevel;
+
+        }
+        private async Task LoadUserTbl()
+        {
+            listOfUsers.ItemsSource = await userService.ReadUserListFromDb();
+
         }
 
     }
