@@ -9,7 +9,7 @@ using WargamesGUI.Models;
 
 namespace WargamesGUI.Services
 {
-    class BookService : DbHandler
+    public class BookService : DbHandler
     {
         public async Task<List<Book>> GetBooksFromDb()
         {
@@ -192,25 +192,26 @@ namespace WargamesGUI.Services
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
                     string query =
-                        $"DELETE FROM {theBookTableName} WHERE Id = {id}";
+                        $"DELETE FROM {theBookTableName} WHERE Id = @id";
 
                     await con.OpenAsync();
-
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
+                        cmd.Parameters.AddWithValue("id", id);
                         await cmd.ExecuteNonQueryAsync();
                     }
 
-                    query = $"INSERT INTO tblRemovedItem(Reason)" +
-                            $"WHERE Item_Id = {id}" +
-                            $"VALUES('{reason}')";
+                    query = $"UPDATE {theRemovedItemTableName} " +
+                            $"SET Reason = @reason " +
+                            $"WHERE Id = @id";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
+                        cmd.Parameters.AddWithValue("reason", reason);
+                        cmd.Parameters.AddWithValue("id", id);
                         await cmd.ExecuteNonQueryAsync();
                     }
 
-                    // Här ska det finnas en till SQL-sträng som lägger till det borttagna objektet i en "ObjectsRemoved"-table.
                     // Här ska det finnas en till SQL-sträng som tar bort objektet i alla tables där den är kopplad.
                 }
 
@@ -246,9 +247,9 @@ namespace WargamesGUI.Services
 
                     string query =
                         $"UPDATE {theBookTableName} " +
-                        $"SET Title = {Title}, ISBN = {ISBN}," +
-                        $"Publisher = {Publisher}, Description = {Description}" +
-                        $"Price = {Price}, Placement = {Placement}" +
+                        $"SET Title = {Title}, ISBN = {ISBN}, " +
+                        $"Publisher = {Publisher}, Description = {Description} " +
+                        $"Price = {Price}, Placement = {Placement} " +
                         $"WHERE Id = {id}";
 
                     // Ändra för E-bok?

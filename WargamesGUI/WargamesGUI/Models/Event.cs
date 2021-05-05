@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WargamesGUI.Models
 {
-    class Event
+    public class Event
     {
         public int Id { get; set; }
         public int fk_Item_Id { get; set; }
