@@ -29,13 +29,12 @@ namespace WargamesGUI
         public AddUserPage()
         {
             InitializeComponent();
-
+            
         }
 
         protected override void OnAppearing()
         {
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadUserTbl(); });
-
         }
 
         private async Task LoadUserTbl()
@@ -75,7 +74,7 @@ namespace WargamesGUI
         {
             var username = userbox.Text;
             var password = passbox.Text;
-           
+            
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || privilegeLevel == 0)
             {
@@ -104,12 +103,13 @@ namespace WargamesGUI
         }
         private async void Delete_User(object sender, EventArgs e)
         {
+            
             try
             {
                 using (SqlConnection con = new SqlConnection(DbHandler.theConString))
                 {
                     string sql =
-                        $"DELETE FROM {DbHandler.theUserTableName} WHERE Username = '{selectedItem.Username}'";
+                        $"DELETE FROM {DbHandler.theUserTableName} WHERE User_ID = '{selectedItem.User_ID}'";
 
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, con))

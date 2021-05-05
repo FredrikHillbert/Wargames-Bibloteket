@@ -33,6 +33,7 @@ namespace WargamesGUI.Services
                             users.Last_Name = reader["Last_Name"].ToString();
                             users.Username = reader["Username"].ToString();
                             users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                            users.User_ID = Convert.ToInt32(reader["User_ID"]);
 
                             obsList.Add(users);
                         }
