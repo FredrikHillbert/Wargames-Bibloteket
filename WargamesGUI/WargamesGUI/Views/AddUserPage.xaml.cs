@@ -20,6 +20,7 @@ namespace WargamesGUI
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddUserPage : ContentPage
     {
+        public User selectedItem;
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static DbHandler handler = new DbHandler();
@@ -39,48 +40,10 @@ namespace WargamesGUI
 
         private async Task LoadUserTbl()
         {             
-            listOfUsers.ItemsSource = userService.ReadUserListFromDb();
+            listOfUsers.ItemsSource = await userService.ReadUserListFromDb();
 
         }
-
-
-
-
-
-
-
-
-
-       
-           
-
-            //-----------------------------------UserListPage Metoder.
-
-            /// <summary>
-            /// Hämtar all data som är lagrad under T0100_USER table i Xenon.
-            /// </summary>
-            /// <returns> Retunerar all data i form av datatypen DataTable. </returns>
-            //public DataTable ReadUserListFromDb()
-            //{
-
-            //    using (SqlConnection con = new SqlConnection(DbHandler.theConString))
-            //    {
-
-            //        con.Open();
-            //        SqlCommand com = new SqlCommand(DbHandler.queryForUserListPage, con);
-            //        SqlDataAdapter sda = new SqlDataAdapter(com);
-            //        DataTable dt = new DataTable();
-            //        sda.Fill(dt);
-
-            //        return dt;
-
-            //    }
-            //}
-            /// <summary>
-            /// Adderar en ny användare till table T0100_USER. Måste skickas med en string med namnet på personen som ska läggas till.
-            /// </summary>
-            /// <param name="fullName"></param>
-            /// <returns>Retunerar en bool som är true om det gick att lägga till användaren eller false ifall det inte gick att lägga till användaren.</returns>
+  
             public bool AddNewUser(string username, string password, int privilegeLevel)
             {
                 //username = addUser.userbox.Text;
@@ -90,7 +53,7 @@ namespace WargamesGUI
                 {
                     using (SqlConnection con = new SqlConnection(DbHandler.theConString))
                     {
-                        string sql = $"INSERT INTO tbl{DbHandler.theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}', '{privilegeLevel}')";
+                        string sql = $"INSERT INTO {DbHandler.theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}', '{privilegeLevel}')";
                         con.Open();
                         using (SqlCommand cmd = new SqlCommand(sql, con))
                         {
@@ -108,18 +71,28 @@ namespace WargamesGUI
                 }
 
             }
-
-
-        
-
         private async void Register_User_Clicked(object sender, EventArgs e)
         {
             var username = userbox.Text;
             var password = passbox.Text;
-           
-            var b = AddNewUser(username, password, privilegeLevel);
-            if (b == true) await DisplayAlert("Sucess", "You added a user!", "OK");
-            else await DisplayAlert("Error!", "Could not add user", "OK");
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                await DisplayAlert("Error!", "Username or password is incorrect", "OK");
+            }
+            else
+            {
+                var b = AddNewUser(username, password, privilegeLevel);
+                if (b == true)
+                {
+                    await DisplayAlert("Sucess", "You added a user!", "OK");
+                    await LoadUserTbl();
+
+
+                }
+                else await DisplayAlert("Error!", "Could not add user", "OK");
+            }
+
         }
 
         private void picker_SelectedIndexChanged(object sender, EventArgs e)
@@ -128,5 +101,35 @@ namespace WargamesGUI
             privilegeLevel =  selectedItem.fk_PrivilegeLevel;
 
         }
+        private async void Delete_User(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(DbHandler.theConString))
+                {
+                    string sql =
+                        $"DELETE FROM {DbHandler.theUserTableName} WHERE Username = '{selectedItem.Username}'";
+
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                await DisplayAlert("Sucess", "You deleted a user", "OK");
+                await LoadUserTbl();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
+            }
+
+
+        }
+        private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            selectedItem = (User)listOfUsers.SelectedItem;
+        }
+
     }
 }
