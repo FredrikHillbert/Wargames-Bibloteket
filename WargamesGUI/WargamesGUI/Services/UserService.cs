@@ -7,15 +7,17 @@ using WargamesGUI.Models;
 using System.Linq;
 using WargamesGUI.Views;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace WargamesGUI.Services
 {
     public class UserService : DbHandler
     {
 
-        public List<User> ReadUserListFromDb()
+        public async Task<ObservableCollection<User>> ReadUserListFromDb()
         {
-            List<User> listOfUsers = new List<User>();
+            ObservableCollection<User> obsList = new ObservableCollection<User>();
+            
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -32,12 +34,13 @@ namespace WargamesGUI.Services
                             users.Last_Name = reader["Last_Name"].ToString();                          
                             users.Username = reader["Username"].ToString();
                             users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+
+                            obsList.Add(users);
                             
-                            listOfUsers.Add(users);
                         }
                     }
                 }
-                return listOfUsers;
+                return await Task.FromResult(obsList);
 
             }
         }
