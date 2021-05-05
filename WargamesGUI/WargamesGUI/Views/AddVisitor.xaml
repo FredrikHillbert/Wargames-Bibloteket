@@ -23,8 +23,8 @@
                     HorizontalOptions="Center" WidthRequest="150" 
                     BackgroundColor="DarkSlateGray"/>
         </Grid>
-        <Frame CornerRadius="5" Margin="40,0,40,0" BackgroundColor="#554C4C">
-            <ListView HorizontalOptions="Center">
+        <Frame CornerRadius="5" Margin="40,0,40,0" BackgroundColor="DarkSlateGray">
+            <ListView x:Name="listOfVisitors" HorizontalOptions="Center">
                 <ListView.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -43,7 +43,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid HorizontalOptions="Center">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="3*"/>
                                     <ColumnDefinition Width="3*"/>
@@ -53,7 +53,13 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
-                                    <Label Text="Test" VerticalOptions="Center" TextColor="Black"/>
+                                    <Label Text="{Binding First_Name}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="{Binding SSN}" HorizontalOptions="Start"/>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

@@ -154,6 +154,62 @@ namespace WargamesGUI.Services
             string query = $"SELECT * FROM tbl ";
         }
 
+        public List<User> ReadVisitorListFromDb()
+        {
+            List<User> listOfUsers = new List<User>();
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var commad = new SqlCommand(queryForVisitors, con))
+                {
+                    using (var reader = commad.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var users = new User();
+
+
+                            users.First_Name = reader["First_Name"].ToString();
+                            users.Last_Name = reader["Last_Name"].ToString();
+                            users.Username = reader["Username"].ToString();
+                            users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+
+                            listOfUsers.Add(users);
+                        }
+                    }
+                }
+                return listOfUsers;
+
+            }
+        }
+
+        public bool AddNewVisitor(string firstName, string lastName, int Ssn)
+        {
+            bool canAddNewVisitor = true;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    string sql = $"INSERT INTO {theUserTableName}(First_Name, Last_Name, SSN) VALUES('{firstName}', '{lastName}', '{Ssn}')";
+
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                canAddNewVisitor = true;
+                return canAddNewVisitor;
+            }
+            catch (Exception)
+            {
+
+                canAddNewVisitor = false;
+                return canAddNewVisitor;
+            }
+
+        }
+
     }
 }
 

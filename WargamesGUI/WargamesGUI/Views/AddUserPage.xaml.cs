@@ -33,10 +33,7 @@ namespace WargamesGUI
 
         protected override void OnAppearing()
         {
-
-
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadUserTbl(); });
-
 
         }
 
