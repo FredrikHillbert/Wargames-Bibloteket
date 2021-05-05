@@ -57,13 +57,13 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql =
+                    string query =
                         $"INSERT INTO {theEventTableName}" +
-                        $"(fk_category_Id, Title, Description, DateOfEvent) " +
+                        $"(fk_Item_Id, Title, Description, DateOfEvent) " +
                         $"VALUES('3', '{Title}', '{Description}', '{DateOfEvent}')";
 
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -96,14 +96,14 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql =
+                    string query =
                         $"DELETE FROM {theEventTableName} WHERE Id = {id}";
 
                     // Här ska det finnas en till SQL-sträng som lägger till det borttagna objektet i en "ObjectsRemoved"-table.
                     // Här ska det finnas en till SQL-sträng som tar bort objektet i alla tables där den är kopplad.
 
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -126,7 +126,7 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql =
+                    string query =
                         $"UPDATE {theEventTableName} " +
                         $"SET Title = {Title}, Description = {Description}, DateOfEvent = {DateOfEvent}" +
                         $"WHERE Id = {id}";
@@ -134,7 +134,7 @@ namespace WargamesGUI.Services
                     // Här ska det finnas en till SQL-sträng som uppdaterar objektet i alla tables där den finns.
 
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.ExecuteNonQuery();
                     }
