@@ -14,11 +14,11 @@ using static WargamesGUI.AddUserPage;
 
 namespace WargamesGUI
 {
-    
+
     public partial class MainPage : ContentPage
     {
-       public static UserService service = new UserService();
-        
+        public static UserService service = new UserService();
+
         public MainPage()
         {
             InitializeComponent();
@@ -29,6 +29,7 @@ namespace WargamesGUI
             Exception exception = null;
             try
             {
+
                 switch (service.SignIn(Entryusername.Text, Entrypassword.Text))
                 {
                     case 1:
@@ -54,7 +55,7 @@ namespace WargamesGUI
                 await DisplayAlert("Error", $"{exception.Message}", "Ok");
                 throw;
             }
-            
+
         }
 
         private async void SearchBar_Clicked(object sender, EventArgs e)
@@ -64,7 +65,7 @@ namespace WargamesGUI
             {
                 SearchFlyoutPage.GetValues(SearchBar.Text);
                 App.Current.MainPage = new SearchFlyoutPage();
-                
+
             }
             catch (Exception ex)
             {

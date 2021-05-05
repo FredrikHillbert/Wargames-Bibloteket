@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WargamesGUI.MainPage">
+             x:Class="WargamesGUI.MainPage"
+             BackgroundImageSource="pexels-cottonbro.jpg">
  
     <Grid RowSpacing="10" HorizontalOptions="CenterAndExpand">
         
@@ -19,6 +20,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Frame CornerRadius="5" Margin="-40,-45,-40,-40" BackgroundColor="#554C4C" Grid.RowSpan="8" Grid.Row="1">
+            
+        </Frame>
         <Image Grid.Row="0" 
                Grid.Column="0" 
                Source="wargames-logo.png" />
@@ -49,7 +53,9 @@
                 Grid.Column="0" 
                 Clicked="SignIn_Button_Clicked" 
                 HorizontalOptions="Center"
-                WidthRequest="150"/>
+                WidthRequest="150"
+                CornerRadius="25"
+                BackgroundColor="Gray"/>
         <SearchBar x:Name="SearchBar" 
                    Placeholder="Search for books, ebooks or seminars"  
                    Grid.Row="8"

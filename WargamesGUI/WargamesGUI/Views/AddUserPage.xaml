@@ -16,9 +16,9 @@
         <Image Source="pexels-cottonbro.jpg" Aspect="AspectFill" Opacity="0.5" Grid.RowSpan="3"></Image>
         <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
         <StackLayout Grid.Row="0" Margin="0,50,0,0">
-        <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,0" BackgroundColor="WhiteSmoke">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,0" BackgroundColor="DarkSlateGray">
                 <StackLayout>
-        <Picker x:Name="picker" Title="Type of User" HorizontalOptions="Center" SelectedIndexChanged="picker_SelectedIndexChanged">
+                    <Picker x:Name="picker" Title="Type of User" BackgroundColor="#554C4C" HorizontalOptions="Center" SelectedIndexChanged="picker_SelectedIndexChanged">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type models:User}">
                     <models:User TypeOfUser="Admin" fk_PrivilegeLevel="1"/>
@@ -27,8 +27,8 @@
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-                    <Entry x:Name="userbox" Placeholder="Enter username"></Entry>
-                    <Entry x:Name="passbox" Placeholder="Enter password" IsPassword="True"></Entry>
+                    <Entry x:Name="userbox" Placeholder="Enter username" BackgroundColor="#554C4C"></Entry>
+                    <Entry x:Name="passbox" Placeholder="Enter password" IsPassword="True" BackgroundColor="#554C4C"></Entry>
                     <Button Text="Register user" 
                             Clicked="Register_User_Clicked" 
                             CornerRadius="20" 
@@ -51,7 +51,7 @@
         </StackLayout>
         
         <StackLayout Grid.Row="2" VerticalOptions="End">
-            <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,10" BackgroundColor="WhiteSmoke" Grid.RowSpan="2">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,10" BackgroundColor="DarkSlateGray" Grid.RowSpan="2">
             <ListView x:Name="listOfUsers" ItemSelected="listOfUsers_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -69,7 +69,7 @@
             </ListView>
             </Frame>
             <Button Text="Delete user" 
-                            Clicked="Delete_User" 
+                            Clicked="Delete_User_Clicked" 
                             CornerRadius="20" 
                             BackgroundColor="#2E4159"
                             TextColor="White"

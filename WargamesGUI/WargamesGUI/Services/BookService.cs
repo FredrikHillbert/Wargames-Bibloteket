@@ -9,7 +9,7 @@ using WargamesGUI.Models;
 
 namespace WargamesGUI.Services
 {
-    class BookService : DbHandler
+    public class BookService : DbHandler
     {
         public async Task<List<Book>> GetBooksFromDb()
         {
@@ -189,16 +189,6 @@ namespace WargamesGUI.Services
             }
         }
 
-        /// <summary>
-        ///  
-        /// 
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>
-        /// 
-        /// 
-        /// </returns>
-        /// 
         public async Task<bool> UpdateBook(int id, string Title, string ISBN, string Publisher,
                                            string Description, int Price, string Placement)
         {
@@ -233,6 +223,54 @@ namespace WargamesGUI.Services
             {
                 success = false;
                 return success;
+            }
+        }
+        public async Task<List<Book>> Searching(string text)
+        {
+            List<Book> searchedValues = new List<Book>();
+            string query = $"SELECT * FROM tblBook WHERE CONCAT_WS('',Title, ISBN, Publisher, fk_Item_Id, Price, Placement) LIKE '%{text}%'";
+
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var values = new Book();
+
+                            values.ISBN = reader["ISBN"].ToString();
+                            values.Title = reader["Title"].ToString();
+                            values.Publisher = reader["Publisher"].ToString();
+                            values.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
+                            values.Price = Convert.ToInt32(reader["Price"]);
+                            values.Placement = reader["Placement"].ToString();
+
+                            switch (values.fk_Item_Id)
+                            {
+                                case 1:
+                                    values.Category = "Book";
+                                    break;
+                                case 2:
+                                    values.Category = "Ebook";
+                                    break;
+                                case 3:
+                                    values.Category = "Seminar";
+                                    break;
+                                default:
+                                    break;
+                            }
+
+
+                            searchedValues.Add(values);
+                        }
+
+                    }
+                }
+                return await Task.FromResult(searchedValues);
             }
         }
     }
