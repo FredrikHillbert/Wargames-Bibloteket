@@ -10,11 +10,16 @@ using Xamarin.Forms.Xaml;
 namespace WargamesGUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FlyoutVisitorPageDetail : ContentPage
+    public partial class SearchCardNumber : ContentPage
     {
-        public FlyoutVisitorPageDetail()
+        public SearchCardNumber()
         {
             InitializeComponent();
+        }
+
+        private void Back_Button_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new MainPage();
         }
     }
 }

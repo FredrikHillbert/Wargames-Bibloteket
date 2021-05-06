@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WargamesGUI.Views.SearchFlyoutPage"
+             x:Class="WargamesGUI.Views.SearchCardNumber"
              BackgroundImageSource="pexels-cottonbro.jpg">
     <StackLayout>
         <Grid Margin="20,20,15,15">
@@ -30,7 +30,7 @@
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Button Text="Back" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold" Clicked="Back_Button_Clicked" CornerRadius="15"/>
+                        <Button Text="Back" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold" CornerRadius="15" Clicked="Back_Button_Clicked"/>
                         <Label Text="Title" TextColor="Black" Grid.Column="0" Grid.Row="1" FontAttributes="Bold"/>
                         <Label Text="Author" TextColor="Black" Grid.Column="1" Grid.Row="1" FontAttributes="Bold"/>
                         <Label Text="Price" TextColor="Black" Grid.Column="2" Grid.Row="1" FontAttributes="Bold"/>

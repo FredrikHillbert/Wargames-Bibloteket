@@ -11,11 +11,11 @@ using Xamarin.Forms.Xaml;
 namespace WargamesGUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SearchFlyoutPage : ContentPage
+    public partial class SearchValuePage : ContentPage
     {
         public static BookService bookService = new BookService();
         public static string text;
-        public SearchFlyoutPage()
+        public SearchValuePage()
         {
             InitializeComponent();
             
