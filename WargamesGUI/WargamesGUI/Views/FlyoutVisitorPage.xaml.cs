@@ -16,6 +16,10 @@ namespace WargamesGUI.Views
         {
             InitializeComponent();
             FlyoutPage.ListView.ItemSelected += ListView_ItemSelected;
+            if (Device.RuntimePlatform == Device.UWP)
+            {
+                FlyoutLayoutBehavior = FlyoutLayoutBehavior.Popover;
+            }
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
