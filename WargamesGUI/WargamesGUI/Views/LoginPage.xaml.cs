@@ -33,15 +33,15 @@ namespace WargamesGUI
                 switch (service.SignIn(Entryusername.Text, Entrypassword.Text))
                 {
                     case 1:
-                        await DisplayAlert("Successful", "You are now logged in as Admin", "OK");
+                        await DisplayAlert("Successful", "You are now logging in as Admin", "OK");
                         App.Current.MainPage = new FlyoutAdminPage();
                         break;
                     case 2:
-                        await DisplayAlert("Successful", "You are now logged in as Librarian", "OK");
+                        await DisplayAlert("Successful", "You are now logging in as Librarian", "OK");
                         App.Current.MainPage = new FlyoutLibrarianPage();
                         break;
                     case 3:
-                        await DisplayAlert("Successful", "You are now logged in as Visitor", "OK");
+                        await DisplayAlert("Successful", "You are now logging in as Visitor", "OK");
                         //App.Current.MainPage = new FlyoutVisitorPage();
                         break;
                     default:

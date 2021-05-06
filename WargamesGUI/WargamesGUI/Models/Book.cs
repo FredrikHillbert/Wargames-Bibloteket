@@ -15,6 +15,7 @@ namespace WargamesGUI.Models
         public string Description { get; set; }
         public int Price { get; set; }
         public string Placement { get; set; }
+        public string Author { get; set; }
 
         public override string ToString() => $"{Title}, {fk_Item_Id}, {ISBN}, {Publisher}, {Description}, {Price}, {Placement}, {Id}";
 
