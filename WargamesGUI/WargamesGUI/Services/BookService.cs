@@ -79,7 +79,7 @@ namespace WargamesGUI.Services
         /// Retunerar en bool som är true om det gick att lägga till boken eller false 
         /// ifall det inte gick att lägga till boken.
         /// </returns>
-        public async Task<bool> AddNewBook(int Item_id, string Title, string ISBN, string Publisher,
+        public async Task<bool> AddNewBook(int Item_id, string Title, string ISBN, string Publisher, string Author,
                                            string Description, int Price, string Placement)
         {
             bool success = true;
@@ -93,8 +93,8 @@ namespace WargamesGUI.Services
                     {
                         string query =
                             $"INSERT INTO {theBookTableName}" +
-                            $"(fk_Item_Id, Title, ISBN, Publisher, Description, Price, Placement) " +
-                            $"VALUES('1', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}', '{Placement}')";
+                            $"(fk_Item_Id, Title, ISBN, Publisher, Author, Description, Price, Placement) " +
+                            $"VALUES('1', '{Title}', '{ISBN}', '{Publisher}', '{Author}' '{Description}', '{Price}', '{Placement}')";
 
                         await con.OpenAsync();
 
@@ -112,8 +112,8 @@ namespace WargamesGUI.Services
                     {
                         string query =
                             $"INSERT INTO {theBookTableName}" +
-                            $"(fk_Item_Id, Title, ISBN, Publisher, Description, Price, Placement) " +
-                            $"VALUES('2', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}', '{Placement}')";
+                            $"(fk_Item_Id, Title, ISBN, Publisher, Author, Description, Price, Placement) " +
+                            $"VALUES('2', '{Title}', '{ISBN}', '{Publisher}', '{Author}' '{Description}', '{Price}', '{Placement}')";
 
                         await con.OpenAsync();
 
@@ -121,46 +121,6 @@ namespace WargamesGUI.Services
                         {
                             await cmd.ExecuteNonQueryAsync();
                         }
-                    }
-                }
-
-                return await Task.FromResult(success);
-            }
-
-            catch (Exception)
-            {
-                success = false;
-                return await Task.FromResult(success);
-            }
-        }
-
-        /// <summary>
-        /// Adderar en ny E-bok till table tblBook. 
-        /// Måste skickas med: Title, ISBN, Publisher, Description, Price till E-boken. 
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>
-        /// Retunerar en bool som är true om det gick att lägga till E-boken eller false 
-        /// ifall det inte gick att lägga till boken.
-        /// </returns>
-        public async Task<bool> AddNewEbook(string Title, string ISBN, string Publisher,
-                                           string Description, int Price)
-        {
-            bool success = true;
-
-            try
-            {
-                using (SqlConnection con = new SqlConnection(theConString))
-                {
-                    string query =
-                        $"INSERT INTO {theBookTableName}" +
-                        $"(fk_Item_Id, Title, ISBN, Publisher, Description, Price) " +
-                        $"VALUES('2', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}')";
-
-                    await con.OpenAsync();
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        await cmd.ExecuteNonQueryAsync();
                     }
                 }
 
@@ -269,12 +229,12 @@ namespace WargamesGUI.Services
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
-                con.Open();
+                await con.OpenAsync();
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    using (var reader = cmd.ExecuteReader())
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var values = new Book();
 
