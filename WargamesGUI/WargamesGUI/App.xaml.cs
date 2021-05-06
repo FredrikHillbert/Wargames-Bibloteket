@@ -15,6 +15,7 @@ namespace WargamesGUI
             MainPage = new MainPage();
             //MainPage = new FlyoutLibrarianPage();
             //MainPage = new FlyoutAdminPage();
+            //MainPage = new FlyoutVisitorPage();
         }
 
         protected override void OnStart()

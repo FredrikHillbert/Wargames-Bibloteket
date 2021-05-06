@@ -42,7 +42,7 @@ namespace WargamesGUI
                         break;
                     case 3:
                         await DisplayAlert("Successful", "You are now logged in as Visitor", "OK");
-                        //App.Current.MainPage = new FlyoutVisitorPage();
+                        App.Current.MainPage = new FlyoutVisitorPage();
                         break;
                     default:
                         await DisplayAlert("Error", "Please check if username and password are correct", "Ok");

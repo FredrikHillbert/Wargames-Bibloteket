@@ -101,7 +101,7 @@ namespace WargamesGUI.Services
 
             SqlConnection Connection = new SqlConnection(theConString);
             Connection.Open();
-            string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
+            string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password = HASHBYTES('SHA1', '{password}')";
 
             using (SqlCommand command = new SqlCommand(query, Connection))
             {
@@ -181,7 +181,7 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql = $"INSERT INTO {theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}',HASHBYTES('SHA1','{password}'), '{privilegeLevel}')";
+                    string sql = $"INSERT INTO {theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}',HASHBYTES('SHA1', '{password}'), '{privilegeLevel}')";
 
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, con))
