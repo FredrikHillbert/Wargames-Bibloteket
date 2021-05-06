@@ -74,6 +74,6 @@
                             HorizontalOptions="End"/>
             
         </StackLayout>
-        <Label Text="Privilege    TypeOfUser" Grid.Row="2" Margin="95,0,0,0"/>
+        <Label Text="Privilege     Username" Grid.Row="2" Margin="100,0,0,0"/>
     </Grid>
 </ContentPage>
