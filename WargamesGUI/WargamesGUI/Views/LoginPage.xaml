@@ -20,7 +20,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Frame CornerRadius="5" Margin="-40,-45,-40,-40" BackgroundColor="#554C4C" Grid.RowSpan="8" Grid.Row="1">
+        <Frame CornerRadius="15" Margin="-40,-45,-40,-40" BackgroundColor="#554C4C" Grid.RowSpan="8" Grid.Row="1">
             
         </Frame>
         <Image Grid.Row="0" 
@@ -54,10 +54,10 @@
                 Clicked="SignIn_Button_Clicked" 
                 HorizontalOptions="Center"
                 WidthRequest="150"
-                CornerRadius="25"
+                CornerRadius="15"
                 BackgroundColor="Gray"/>
         <SearchBar x:Name="SearchBar" 
-                   Placeholder="Search for books, ebooks or seminars"  
+                   Placeholder="Search for Category, ISBN, Title or Author"  
                    Grid.Row="8"
                    SearchButtonPressed="SearchBar_Clicked"/>
     </Grid>

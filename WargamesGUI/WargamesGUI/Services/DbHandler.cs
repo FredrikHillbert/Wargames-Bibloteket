@@ -15,7 +15,7 @@ namespace WargamesGUI.Services
 
 
         //Alla olika SQL-satser som vi behöver.
-        public string queryForUserListPage = $"SELECT * FROM {theUserTableName}";
+        public string queryForUserListPage = $"SELECT * FROM {theUserTableName} ORDER BY fk_PrivilegeLevel";
         public string queryForBooks = $"SELECT * FROM {theBookTableName}";
         public string queryForEvents = $"SELECT * FROM {theEventTableName}";
         public string queryForVisitors = $"SELECT * FROM {theUserTableName} WHERE fk_PrivilegeLevel = 3";

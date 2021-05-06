@@ -55,7 +55,7 @@ namespace WargamesGUI.Services
                     SqlCommand deletecmd = new SqlCommand("P0100_DELETE_USER", con);
                     deletecmd.CommandType = CommandType.StoredProcedure;
                     deletecmd.CommandText = "P0100_DELETE_USER";
-                    deletecmd.Parameters.Add("@T0100_USER_ID", SqlDbType.Int).Value = userId;
+                    deletecmd.Parameters.Add("@User_Id", SqlDbType.Int).Value = userId;
                     deletecmd.ExecuteNonQuery();
                     isWorking = true;
                 }
@@ -101,7 +101,7 @@ namespace WargamesGUI.Services
 
             SqlConnection Connection = new SqlConnection(theConString);
             Connection.Open();
-            string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password = HASHBYTES('SHA1', '{password}')";
+            string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
 
             using (SqlCommand command = new SqlCommand(query, Connection))
             {
@@ -181,7 +181,7 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql = $"INSERT INTO {theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}',HASHBYTES('SHA1', '{password}'), '{privilegeLevel}')";
+                    string sql = $"INSERT INTO {theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}','{privilegeLevel}')";
 
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, con))
