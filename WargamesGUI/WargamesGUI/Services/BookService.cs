@@ -224,7 +224,12 @@ namespace WargamesGUI.Services
         public async Task<List<Book>> Searching(string text)
         {
             List<Book> searchedValues = new List<Book>();
-            string query = $"SELECT * FROM tblBook WHERE CONCAT_WS('',Title, ISBN, Publisher, fk_Item_Id, Price, Placement, Author) LIKE '%{text}%'";
+            string query =  $"SELECT * FROM tblItem ti" +
+                            $"LEFT JOIN tblBook tb ON tb.fk_Item_Id = ti.Item_Id" +
+                            $"LEFT JOIN tblEvent te ON te.fk_Item_Id = ti.Item_Id" +
+                            $"WHERE CONCAT_WS('',tb.Title, tb.ISBN, tb.Publisher, tb.fk_Item_Id, te.fk_Item_Id, tb.Price, tb.Placement, tb.Author, TypeOfItem, te.Title, te.Description)" +
+                            $"LIKE '%{text}%'";
+
 
 
             using (SqlConnection con = new SqlConnection(theConString))
