@@ -224,11 +224,13 @@ namespace WargamesGUI.Services
         public async Task<List<Book>> Searching(string text)
         {
             List<Book> searchedValues = new List<Book>();
-            string query =  $"SELECT * FROM tblItem ti" +
-                            $"LEFT JOIN tblBook tb ON tb.fk_Item_Id = ti.Item_Id" +
-                            $"LEFT JOIN tblEvent te ON te.fk_Item_Id = ti.Item_Id" +
-                            $"WHERE CONCAT_WS('',tb.Title, tb.ISBN, tb.Publisher, tb.fk_Item_Id, te.fk_Item_Id, tb.Price, tb.Placement, tb.Author, TypeOfItem, te.Title, te.Description)" +
+            string query =  $"SELECT * FROM tblItem ti " +
+                            $"LEFT JOIN tblBook tb ON tb.fk_Item_Id = ti.Item_Id " +
+                            $"LEFT JOIN tblEvent te ON te.fk_Item_Id = ti.Item_Id " +
+                            $"WHERE CONCAT_WS('', tb.Title, tb.ISBN, tb.Publisher, tb.fk_Item_Id, te.fk_Item_Id, tb.Price, tb.Placement, tb.Author, ti.TypeOfItem, te.Title, te.Description) " +
                             $"LIKE '%{text}%'";
+
+            string query2 = $"SELECT* FROM tblBook WHERE CONCAT_WS('', Title, ISBN, Publisher, fk_Item_Id, Price, Placement, Author) LIKE '%{text}%'";
 
 
 
@@ -250,7 +252,7 @@ namespace WargamesGUI.Services
                             values.Price = Convert.ToInt32(reader["Price"]);
                             values.Placement = reader["Placement"].ToString();
                             values.Author = reader["Author"].ToString();
-
+                            
                             switch (values.fk_Item_Id)
                             {
                                 case 1:
@@ -266,10 +268,8 @@ namespace WargamesGUI.Services
                                     break;
                             }
 
-
                             searchedValues.Add(values);
                         }
-
                     }
                 }
                 return await Task.FromResult(searchedValues);

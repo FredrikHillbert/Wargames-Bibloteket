@@ -27,6 +27,7 @@ namespace WargamesGUI.Views
         private async Task SearchValues()
         {
             listOfBook.ItemsSource = await bookService.Searching(GetValues(text));
+            
         }
 
         private void Back_Button_Clicked(object sender, EventArgs e)
