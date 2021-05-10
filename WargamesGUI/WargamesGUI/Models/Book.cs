@@ -7,6 +7,7 @@ namespace WargamesGUI.Models
     public class Book
     {
         public int Id { get; set; }
+        public string TypeOfBook { get; set; }
         public int fk_Item_Id { get; set; }
         public string Title { get; set; }
         public string ISBN { get; set; }
@@ -17,7 +18,8 @@ namespace WargamesGUI.Models
         public string Placement { get; set; }
         public string Author { get; set; }
 
-        public override string ToString() => $"{Title}, {fk_Item_Id}, {ISBN}, {Publisher}, {Description}, {Price}, {Placement}, {Id}";
+        public override string ToString() => $"{TypeOfBook}";
+        //public override string ToString() => $"{Title}, {fk_Item_Id}, {ISBN}, {Publisher}, {Description}, {Price}, {Placement}, {Id}";
 
     }
 }

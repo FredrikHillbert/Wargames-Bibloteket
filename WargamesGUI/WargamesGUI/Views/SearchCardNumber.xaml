@@ -30,12 +30,14 @@
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        <!--Back Button-->
                         <Button Text="Back" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold" CornerRadius="15" Clicked="Back_Button_Clicked"/>
-                        <Label Text="Title" TextColor="Black" Grid.Column="0" Grid.Row="1" FontAttributes="Bold"/>
-                        <Label Text="Author" TextColor="Black" Grid.Column="1" Grid.Row="1" FontAttributes="Bold"/>
-                        <Label Text="Price" TextColor="Black" Grid.Column="2" Grid.Row="1" FontAttributes="Bold"/>
-                        <Label Text="Placement" TextColor="Black" Grid.Column="3" Grid.Row="1" FontAttributes="Bold"/>
-                        <Label Text="Category" TextColor="Black" Grid.Column="4" Grid.Row="1" FontAttributes="Bold"/>
+                        <Label Text="Bind Name Here" TextColor="Black" Grid.Column="2" Grid.Row="0" FontAttributes="Bold" FontSize="24" Margin="0,0,-50,0"/>
+                        <Label Text="Lable here" TextColor="Black" Grid.Column="0" Grid.Row="1" FontAttributes="Bold"/>
+                        <Label Text="Lable here" TextColor="Black" Grid.Column="1" Grid.Row="1" FontAttributes="Bold"/>
+                        <Label Text="Lable here" TextColor="Black" Grid.Column="2" Grid.Row="1" FontAttributes="Bold"/>
+                        <Label Text="Lable here" TextColor="Black" Grid.Column="3" Grid.Row="1" FontAttributes="Bold"/>
+                        <Label Text="Lable here" TextColor="Black" Grid.Column="4" Grid.Row="1" FontAttributes="Bold"/>
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
@@ -53,20 +55,20 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
-                                    <Label Text="{Binding Title}" HorizontalOptions="Start"/>
+                                    <Label Text="{Binding Visitor_ID}" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
-                                    <Label Text="{Binding Author}" HorizontalOptions="Start"/>
+                                    <Label Text="{Binding Borrower_ID}" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
-                                    <Label Text="{Binding Price}" HorizontalOptions="Start"/>
+                                    <Label Text="{Binding Title}" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
-                                    <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
-                                </StackLayout>
-                                <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
                                     <Label Text="{Binding Category}" HorizontalOptions="Start"/>
                                 </StackLayout>
+                                <!--<StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
+                                    <Label Text="{Binding Category}" HorizontalOptions="Start"/>
+                                </StackLayout>-->
 
                             </Grid>
                         </ViewCell>

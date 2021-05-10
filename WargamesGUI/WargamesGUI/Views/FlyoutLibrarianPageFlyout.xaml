@@ -2,14 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WargamesGUI.Views.FlyoutLibrarianPageFlyout"
-             Title="Flyout">
+             Title="Librarian">
   <StackLayout>
     <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
       <ListView.Header>
-        <Grid BackgroundColor="#03A9F4">
+                <Grid BackgroundColor="DarkSlateGray">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
@@ -23,10 +23,16 @@
           </Grid.RowDefinitions>
           <Label
               Grid.Column="1"
-              Grid.Row="2"
-              Text="AppName"
-              Style="{DynamicResource SubtitleStyle}"/>
-        </Grid>
+              Grid.Row="1"
+              Text="Wargames Library"             
+              Style="{DynamicResource SubtitleStyle}"
+              HorizontalTextAlignment="Center"
+              BackgroundColor="DarkSlateGray"/>
+          <Label 
+              Text="Logged in as: Librarian" 
+              Grid.Column="1" 
+              Grid.Row="2"/>
+          </Grid>
       </ListView.Header>
       <ListView.ItemTemplate>
         <DataTemplate>
