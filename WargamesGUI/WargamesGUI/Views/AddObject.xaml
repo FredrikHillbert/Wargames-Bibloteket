@@ -59,14 +59,14 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Text="Book type" HorizontalOptions="Center" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Title" HorizontalOptions="Center" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="ISBN" HorizontalOptions="Center" TextColor="Black" Grid.Column="2" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Publisher" HorizontalOptions="Center" TextColor="Black" Grid.Column="3" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Description" HorizontalOptions="Center" TextColor="Black" Grid.Column="4" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Price" HorizontalOptions="Center" TextColor="Black" Grid.Column="5" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Placement" HorizontalOptions="Center" TextColor="Black" Grid.Column="6" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Author" HorizontalOptions="Center" TextColor="Black" Grid.Column="7" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Book type" HorizontalOptions="Start" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Title" HorizontalOptions="Start" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="ISBN" HorizontalOptions="Start" TextColor="Black" Grid.Column="2" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Publisher" HorizontalOptions="Start" TextColor="Black" Grid.Column="3" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Description" HorizontalOptions="Start" TextColor="Black" Grid.Column="4" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Price" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Placement" HorizontalOptions="Start" TextColor="Black" Grid.Column="6" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Author" HorizontalOptions="Start" TextColor="Black" Grid.Column="7" Grid.Row="0" FontAttributes="Bold"/>
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
@@ -93,19 +93,22 @@
                                     <Label Text="{Binding Title}" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
-                                    <Label Text="{Binding ISB}" HorizontalOptions="Start"/>
+                                    <Label Text="{Binding ISBN}" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
                                     <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
-                                    <Label Text="{Binding Description}" HorizontalOptions="Start"/>
+                                    <Label Text="" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="5" Grid.Row="0">
                                     <Label Text="{Binding Price}" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="6" Grid.Row="0">
                                     <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="7" Grid.Row="0">
+                                    <Label Text="{Binding Author}" HorizontalOptions="Start"/>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

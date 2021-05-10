@@ -45,7 +45,7 @@ namespace WargamesGUI.Views
         }
 
         public bool AddNewBookAsync(int Item_id, string Title, string ISBN, string Publisher,
-                                       string Description, int Price, string Placement)
+                                       string Description, int Price, string Placement, string Author)
         {
             bool success = true;
 
@@ -56,7 +56,7 @@ namespace WargamesGUI.Views
                 {
                     using (SqlConnection con = new SqlConnection(DbHandler.theConString))
                     {
-                        string query = $"INSERT INTO {DbHandler.theBookTableName}(fk_Item_Id, Title, ISBN, Publisher, Description, Price, Placement) VALUES('{Item_id}', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}', '{Placement}')";
+                        string query = $"INSERT INTO {DbHandler.theBookTableName} (fk_Item_Id, Title, ISBN, Publisher, Description, Price, Placement) VALUES('{Item_id}', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}', '{Placement}')";
 
                         con.OpenAsync();
 
@@ -114,7 +114,7 @@ namespace WargamesGUI.Views
 
 
 
-            var b = AddNewBookAsync(itemID, Title, ISBN, Publisher, Description, Price, Placement);
+            var b = AddNewBookAsync(itemID, Title, ISBN, Publisher, Description, Price, Placement, Author);
             if (b == true)
             {
                 await DisplayAlert("Sucess!", "You added a book!", "OK");
