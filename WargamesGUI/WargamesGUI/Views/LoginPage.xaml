@@ -26,17 +26,19 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Frame CornerRadius="15" Margin="-40,-45,-40,-300" BackgroundColor="DarkSlateGray" Grid.RowSpan="8" Grid.Row="1">
+        <Frame CornerRadius="15" Margin="-60,-150,-60,-300" BackgroundColor="LightBlue" Grid.RowSpan="8" Grid.Row="1">
             
         </Frame>
+        <!--Image-->
         <Image Grid.Row="0" 
                Grid.Column="0" 
-               Source="LIBSYS.png" />
+               Source="LIBSYS.png"
+               Margin="0,30,0,0"/>
         <Label Text="Username"
                Grid.Row="1" 
                Grid.Column="0" 
                HorizontalOptions="Start"
-               Margin="92,0,0,0"/>
+               Margin="55,0,0,0"/>
         <Entry x:Name="Entryusername" 
                Placeholder="Enter your username here" 
                Grid.Row="2" Grid.Column="0" 
@@ -46,7 +48,7 @@
                Grid.Row="3" 
                Grid.Column="0" 
                HorizontalOptions="Start"
-               Margin="92,0,0,0"/>
+               Margin="55,0,0,0"/>
         <Entry x:Name="Entrypassword" 
                Placeholder="Enter your password here" 
                Grid.Row="4" 
@@ -54,6 +56,7 @@
                HorizontalOptions="Center"
                WidthRequest="200"
                IsPassword="True"/>
+        <!--Login Button-->
         <Button Text="Login" 
                 Grid.Row="5" 
                 Grid.Column="0" 
@@ -61,7 +64,8 @@
                 HorizontalOptions="Center"
                 WidthRequest="150"
                 CornerRadius="15"
-                BackgroundColor="Gray"/>
+                BackgroundColor="AliceBlue"/>
+        <!--Search Bar-->
         <SearchBar x:Name="SearchBar" 
                    Placeholder="Search for Category, ISBN, Title or Author"  
                    Grid.Row="8"
@@ -70,8 +74,7 @@
                FontAttributes="Bold"
                Grid.Row="12"
                HorizontalOptions="Center"
-               FontSize="25"
-               Margin="0,0,0,0"/>
+               FontSize="25" />
         <Entry x:Name="CardIDNumber"
                Grid.Row="13"
                Grid.Column="0"
@@ -79,12 +82,13 @@
                WidthRequest="200"
                Margin="0,0,0,0"
                Placeholder="Enter your card number"/>
+        <!--Search Button-->
         <Button Text="Search"
                 Grid.Row="14"
                 CornerRadius="15"
                 WidthRequest="150"
                 HorizontalOptions="Center"
-                BackgroundColor="Gray"
+                BackgroundColor="AliceBlue"
                 Clicked="CardID_Button_Clicked"/>
 
     </Grid>
