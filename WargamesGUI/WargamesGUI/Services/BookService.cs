@@ -277,23 +277,19 @@ namespace WargamesGUI.Services
         public async Task<List<Book>> Searching(string text)
         {
             List<Book> searchedValues = new List<Book>();
-            string query =  $"SELECT * FROM tblItem ti " +
-                            $"LEFT JOIN tblBook tb ON tb.fk_Item_Id = ti.Item_Id " +
-                            $"LEFT JOIN tblEvent te ON te.fk_Item_Id = ti.Item_Id " +
-                            $"WHERE CONCAT_WS('', tb.Title, tb.ISBN, tb.Publisher, tb.fk_Item_Id, te.fk_Item_Id, tb.Price, tb.Placement, tb.Author, ti.TypeOfItem, te.Title, te.Description) " +
-                            $"LIKE '%{text}%'";
-
-            string query2 = $"SELECT* FROM tblBook WHERE CONCAT_WS('', Title, ISBN, Publisher, fk_Item_Id, Price, Placement, Author) LIKE '%{text}%'";
-
-
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlCommand cmd = new SqlCommand("Search_Value", con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "Search_Value";
+                    cmd.Parameters.Add("@text", SqlDbType.VarChar).Value = text;
+
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
+
                         while (await reader.ReadAsync())
                         {
                             var values = new Book();

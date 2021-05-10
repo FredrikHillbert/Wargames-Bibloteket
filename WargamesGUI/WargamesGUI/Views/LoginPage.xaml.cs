@@ -59,8 +59,15 @@ namespace WargamesGUI
             Exception exception = null;
             try
             {
-                SearchValuePage.GetValues(SearchBar.Text);
-                App.Current.MainPage = new SearchValuePage();
+                if (String.IsNullOrWhiteSpace(SearchBar.Text))
+                {
+                    await DisplayAlert("Error", "You have to type something", "OK");
+                }
+                else
+                {
+                    SearchValuePage.GetValues(SearchBar.Text);
+                    App.Current.MainPage = new SearchValuePage();
+                }
 
             }
             catch (Exception ex)
@@ -75,5 +82,6 @@ namespace WargamesGUI
         {
             App.Current.MainPage = new SearchCardNumber();
         }
+
     }
 }
