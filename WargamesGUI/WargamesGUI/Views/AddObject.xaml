@@ -1,12 +1,125 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WargamesGUI.Views.AddObject">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:models="clr-namespace:WargamesGUI.Models"
+             x:Class="WargamesGUI.Views.AddObject"
+             BackgroundImageSource="pexels-cottonbro.jpg">
+    
+    <StackLayout>
+        <Frame CornerRadius="5" Margin="40,20,40,20" BackgroundColor="DarkSlateGray">
+            <Grid Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Picker x:Name="picker" BackgroundColor="#554C4C" HorizontalOptions="Center"
+                        Grid.Row="0" Grid.Column="0" WidthRequest="150" SelectedIndexChanged="picker_SelectedIndexChanged">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type models:Book}">
+                            <models:Book TypeOfBook="Book"  fk_Item_Id="1"/>
+                            <models:Book TypeOfBook="E-book" fk_Item_Id="2"/>
+                        </x:Array>
+                    </Picker.ItemsSource>
+
+                </Picker>
+                <Entry x:Name="EntryTitle" Placeholder="Title" Grid.Row="0" Grid.Column="1"/>
+                <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="0" Grid.Column="2"/>
+                <Entry x:Name="EntryPublisher" Placeholder="Publisher" Grid.Row="0" Grid.Column="3"/>
+                <Entry x:Name="EntryDescription" Placeholder="Description" Grid.Row="1" Grid.Column="0"/>
+                <Entry x:Name="EntryPrice" Placeholder="Price" Grid.Row="1" Grid.Column="1"/>
+                <Entry x:Name="EntryPlacement" Placeholder="Placement" Grid.Row="1" Grid.Column="2"/>
+                <Entry x:Name="EntryAuthor" Placeholder="Author" Grid.Row="1" Grid.Column="3"/>
+                <Button Text="Add book"  Grid.Row="2"  Grid.Column="3"  
+                    HorizontalOptions="Center" WidthRequest="150" 
+                    BackgroundColor="Black"
+                    Clicked="AddBook_Button_Clicked"/>
+            </Grid>
+        </Frame>
+        <Frame CornerRadius="5" Margin="30,0,30,0" BackgroundColor="DarkSlateGray">
+            <ListView x:Name="listOfBooks" ItemSelected="listOfBooks_ItemSelected">
+                <ListView.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Text="Book type" HorizontalOptions="Center" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Title" HorizontalOptions="Center" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="ISBN" HorizontalOptions="Center" TextColor="Black" Grid.Column="2" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Publisher" HorizontalOptions="Center" TextColor="Black" Grid.Column="3" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Description" HorizontalOptions="Center" TextColor="Black" Grid.Column="4" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Price" HorizontalOptions="Center" TextColor="Black" Grid.Column="5" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Placement" HorizontalOptions="Center" TextColor="Black" Grid.Column="6" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Author" HorizontalOptions="Center" TextColor="Black" Grid.Column="7" Grid.Row="0" FontAttributes="Bold"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+                                    <Label Text="{Binding fk_Item_Id}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Title}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
+                                    <Label Text="{Binding ISB}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
+                                    <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
+                                    <Label Text="{Binding Description}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="5" Grid.Row="0">
+                                    <Label Text="{Binding Price}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" Grid.Column="6" Grid.Row="0">
+                                    <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+        </Frame>
+        <Button Text="Remove book" 
+                Clicked="DeleteObject_Clicked"
+                Margin="15,0,15,15" 
+                HorizontalOptions="End"
+                WidthRequest="150"
+                BackgroundColor="DarkSlateGray"/>
+
+    </StackLayout>
 </ContentPage>

@@ -16,6 +16,9 @@ namespace WargamesGUI.Views
         {
             InitializeComponent();
             FlyoutPage.ListView.ItemSelected += ListView_ItemSelected;
+            {
+                FlyoutLayoutBehavior = FlyoutLayoutBehavior.Popover;
+            }
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)

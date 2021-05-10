@@ -40,6 +40,36 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(bookList);
             }
         }
+        public async Task<List<Book>> GetBooksFromDb1()
+        {
+            var bookList = new List<Book>();
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(queryForBooks, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var book = new Book();
+
+                            book.fk_Item_Id = 1;
+                            book.Title = reader["Title"].ToString();
+                            book.ISBN = reader["ISBN"].ToString();
+                            book.Publisher = reader["Publisher"].ToString();
+                            book.Description = reader["Description"].ToString();
+                            book.Price = Convert.ToInt32(reader["Price"]);
+                            book.Placement = reader["Placement"].ToString();
+
+                            bookList.Add(book);
+                        }
+                    }
+                }
+                return await Task.FromResult(bookList);
+            }
+        }
         public async Task<List<Book>> GetEbooksFromDb()
         {
             var eBookList = new List<Book>();

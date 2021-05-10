@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WargamesGUI.iOS", "Wargames
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WargamesGUI", "WargamesGUI\WargamesGUI\WargamesGUI.csproj", "{DDC69B14-7950-483C-A2CC-7A17E806D366}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{2CD25453-D55E-4DFB-B0BE-F84C7648659B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{2CD25453-D55E-4DFB-B0BE-F84C7648659B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

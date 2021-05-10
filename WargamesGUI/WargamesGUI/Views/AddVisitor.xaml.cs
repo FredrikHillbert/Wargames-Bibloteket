@@ -73,12 +73,12 @@ namespace WargamesGUI.Views
             var b = AddNewVisitor(firstName, lastName, ssnNumber, privilegeLevel);
             if (b == true)
             {
-                await DisplayAlert("Klart!", "Du la till en användare!", "OK");
+                await DisplayAlert("Success!", "You added a visitor!", "OK");
                 await ReadVisitorListFromDb();
 
 
             }
-            else await DisplayAlert("Fel!", "Kunde inte lägga till besökare!", "OK");
+            else await DisplayAlert("Error!", "Could not add visitor!", "OK");
         }
 
         private async void DeleteVisitor_Clicked(object sender, EventArgs e)
@@ -96,12 +96,12 @@ namespace WargamesGUI.Views
                         cmd.ExecuteNonQuery();
                     }
                 }
-                await DisplayAlert("Klart!", "Du tog bort en besökare!", "OK");
+                await DisplayAlert("Success!", "You removed a visitor!", "OK");
                 await ReadVisitorListFromDb();
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Fel!", $"Anledning: {ex.Message}", "OK");
+                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
             }
         }
 
