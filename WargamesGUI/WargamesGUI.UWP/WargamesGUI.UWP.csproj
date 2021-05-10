@@ -135,6 +135,7 @@
     <Content Include="libraryvid.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="LIBSYS.png" />
     <Content Include="noun_hamburger.png" />
     <Content Include="overlayreal.png" />
     <Content Include="pexels-cottonbro.jpg" />

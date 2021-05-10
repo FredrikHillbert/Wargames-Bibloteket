@@ -31,7 +31,7 @@
         </Frame>
         <Image Grid.Row="0" 
                Grid.Column="0" 
-               Source="wargames-logo.png" />
+               Source="LIBSYS.png" />
         <Label Text="Username"
                Grid.Row="1" 
                Grid.Column="0" 
