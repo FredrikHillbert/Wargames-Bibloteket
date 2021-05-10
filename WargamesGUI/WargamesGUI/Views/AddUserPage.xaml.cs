@@ -71,7 +71,7 @@ namespace WargamesGUI
                 using (SqlConnection con = new SqlConnection(DbHandler.theConString))
                 {
                     string sql =
-                        $"DELETE FROM {DbHandler.theUserTableName} WHERE Username = '{selectedItem.Username}'";
+                        $"DELETE FROM {DbHandler.theUserTableName} WHERE User_ID = '{selectedItem.User_ID}'";
 
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, con))
