@@ -40,10 +40,6 @@ namespace WargamesGUI
                         await DisplayAlert("Successful", "You are now logging in as Librarian", "OK");
                         App.Current.MainPage = new FlyoutLibrarianPage();
                         break;
-                    case 3:
-                        await DisplayAlert("Successful", "You are now logging in as Visitor", "OK");
-                        //App.Current.MainPage = new FlyoutVisitorPage();
-                        break;
                     default:
                         await DisplayAlert("Error", "Please check if username and password are correct", "Ok");
                         break;
@@ -63,8 +59,8 @@ namespace WargamesGUI
             Exception exception = null;
             try
             {
-                SearchFlyoutPage.GetValues(SearchBar.Text);
-                App.Current.MainPage = new SearchFlyoutPage();
+                SearchValuePage.GetValues(SearchBar.Text);
+                App.Current.MainPage = new SearchValuePage();
 
             }
             catch (Exception ex)
@@ -75,6 +71,9 @@ namespace WargamesGUI
             }
         }
 
-
+        private void CardID_Button_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new SearchCardNumber();
+        }
     }
 }

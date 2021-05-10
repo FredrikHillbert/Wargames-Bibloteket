@@ -11,11 +11,11 @@ using Xamarin.Forms.Xaml;
 namespace WargamesGUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SearchFlyoutPage : ContentPage
+    public partial class SearchValuePage : ContentPage
     {
         public static BookService bookService = new BookService();
         public static string text;
-        public SearchFlyoutPage()
+        public SearchValuePage()
         {
             InitializeComponent();
             
@@ -27,6 +27,7 @@ namespace WargamesGUI.Views
         private async Task SearchValues()
         {
             listOfBook.ItemsSource = await bookService.Searching(GetValues(text));
+            
         }
 
         private void Back_Button_Clicked(object sender, EventArgs e)

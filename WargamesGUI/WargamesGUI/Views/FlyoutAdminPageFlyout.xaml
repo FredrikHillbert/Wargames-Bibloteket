@@ -29,19 +29,10 @@
               Style="{DynamicResource SubtitleStyle}"
               HorizontalTextAlignment="Center"
               BackgroundColor="DarkSlateGray"/>
-          <Label 
+                    <Label 
               Text="Logged in as: Admin" 
               Grid.Column="1" 
               Grid.Row="2"/>
-                    <!--<Ellipse 
-                        Stroke="Black" 
-                        StrokeThickness="2" 
-                        Aspect="Fill" 
-                        HeightRequest="210" 
-                        WidthRequest="210" 
-                        Grid.ColumnSpan="2" 
-                        Grid.RowSpan="3">
-                    </Ellipse>-->
                 </Grid>
       </ListView.Header>
             <ListView.ItemTemplate>

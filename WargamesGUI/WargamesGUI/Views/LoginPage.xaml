@@ -7,20 +7,26 @@
     <Grid RowSpacing="10" HorizontalOptions="CenterAndExpand">
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="40"/>
+           <!--0--> <RowDefinition Height="150"/>
+           <!--1--><RowDefinition Height="20"/>
+           <!--2--><RowDefinition Height="40"/>
+           <!--3--><RowDefinition Height="20"/>
+           <!--4--><RowDefinition Height="40"/>
+           <!--5--><RowDefinition Height="40"/>
+           <!--6--><RowDefinition Height="20"/>
+           <!--7--><RowDefinition Height="20"/>
+           <!--8--><RowDefinition Height="40"/>
+           <!--9--><RowDefinition Height="40"/>
+           <!--10--><RowDefinition Height="40"/>
+           <!--11--><RowDefinition Height="20"/>
+           <!--12--><RowDefinition Height="40"/>
+           <!--13--><RowDefinition Height="40"/>
+           <!--14--><RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Frame CornerRadius="15" Margin="-40,-45,-40,-40" BackgroundColor="#554C4C" Grid.RowSpan="8" Grid.Row="1">
+        <Frame CornerRadius="15" Margin="-40,-45,-40,-300" BackgroundColor="DarkSlateGray" Grid.RowSpan="8" Grid.Row="1">
             
         </Frame>
         <Image Grid.Row="0" 
@@ -60,6 +66,27 @@
                    Placeholder="Search for Category, ISBN, Title or Author"  
                    Grid.Row="8"
                    SearchButtonPressed="SearchBar_Clicked"/>
+        <Label Text="See borrowed books"
+               FontAttributes="Bold"
+               Grid.Row="12"
+               HorizontalOptions="Center"
+               FontSize="25"
+               Margin="0,0,0,0"/>
+        <Entry x:Name="CardIDNumber"
+               Grid.Row="13"
+               Grid.Column="0"
+               HorizontalOptions="Center"
+               WidthRequest="200"
+               Margin="0,0,0,0"
+               Placeholder="Enter your card number"/>
+        <Button Text="Search"
+                Grid.Row="14"
+                CornerRadius="15"
+                WidthRequest="150"
+                HorizontalOptions="Center"
+                BackgroundColor="Gray"
+                Clicked="CardID_Button_Clicked"/>
+
     </Grid>
 
 </ContentPage>
