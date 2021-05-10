@@ -38,7 +38,7 @@
                 <Entry x:Name="EntryAuthor" Placeholder="Author" Grid.Row="1" Grid.Column="3"/>
                 <Button Text="Add book"  Grid.Row="2"  Grid.Column="3"  
                     HorizontalOptions="Center" WidthRequest="150" 
-                    BackgroundColor="Black"
+                    BackgroundColor="DarkGray"
                     Clicked="AddBook_Button_Clicked"/>
             </Grid>
         </Frame>
