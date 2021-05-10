@@ -9,9 +9,11 @@ namespace WargamesGUI
     {
        
         public App()
-        {         
+        {
+            Device.SetFlags(new string[] { "MediaElement_Experimental" });
+
             InitializeComponent();
-            Device.SetFlags(new[] { "MediaElement_Experimental", "Brush_Experimental" });
+            
             MainPage = new MainPage();
             //MainPage = new FlyoutLibrarianPage();
             //MainPage = new FlyoutAdminPage();
