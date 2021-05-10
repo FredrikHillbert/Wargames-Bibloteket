@@ -32,6 +32,7 @@ namespace WargamesGUI.Services
                             book.Description = reader["Description"].ToString();
                             book.Price = Convert.ToInt32(reader["Price"]);
                             book.Placement = reader["Placement"].ToString();
+                            book.Author = reader["Author"].ToString();
 
                             bookList.Add(book);
                         }
@@ -117,6 +118,27 @@ namespace WargamesGUI.Services
 
             try
             {
+
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.CommandText = "sp_AddBook";
+                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = Title;
+                    insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = ISBN;
+                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = Publisher;
+                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = Author;
+                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = Description;
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = Placement;
+
+                    await insertcmd.ExecuteNonQueryAsync();
+                    success = true;
+                }
+
+                return await Task.FromResult(success);
+
                 // Book
                 if (Item_id == 1)
                 {
