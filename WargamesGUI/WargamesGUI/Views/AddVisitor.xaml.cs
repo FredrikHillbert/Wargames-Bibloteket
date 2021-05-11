@@ -36,38 +36,11 @@ namespace WargamesGUI.Views
             listOfVisitors.ItemsSource = userService.ReadVisitorListFromDb();
         }
 
-        public bool AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard)
-        {
-            bool canAddNewVisitor = true;
-            try
-            {
-                using (SqlConnection con = new SqlConnection(DbHandler.theConString))
-                {
-                    string sql = $"INSERT INTO {DbHandler.theUserTableName}(fk_PrivilegeLevel, First_Name, Last_Name, SSN, Address, [E-mail], PhoneNumber, LibraryCard) VALUES('{privilegeLevel}', '{First_Name}', '{Last_Name}', '{SSN}', '{Address}', '{Email}', '{PhoneNumber}', '{LibraryCard}')";
-
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                canAddNewVisitor = true;
-                return canAddNewVisitor;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                canAddNewVisitor = false;
-                return canAddNewVisitor;
-            }
-
-        }
-
         private async void AddVisitor_Button_Clicked(object sender, EventArgs e)
         {
             privilegeLevel = 3;
 
-            var b = AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text);
+            var b = userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text);
 
             if (b == true)
             {
