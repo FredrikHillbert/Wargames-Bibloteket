@@ -36,41 +36,12 @@ namespace WargamesGUI.Views
             listOfVisitors.ItemsSource = userService.ReadVisitorListFromDb();
         }
 
-        public bool AddNewVisitor(string firstName, string lastName, string Ssn, int privilegeLevel)
-        {
-            bool canAddNewVisitor = true;
-            try
-            {
-                using (SqlConnection con = new SqlConnection(DbHandler.theConString))
-                {
-                    string sql = $"INSERT INTO {DbHandler.theUserTableName}(First_Name, Last_Name, SSN, fk_PrivilegeLevel) VALUES('{firstName}', '{lastName}', '{Ssn}', '{privilegeLevel}')";
-
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                canAddNewVisitor = true;
-                return canAddNewVisitor;
-            }
-            catch (Exception)
-            {
-
-                canAddNewVisitor = false;
-                return canAddNewVisitor;
-            }
-
-        }
-
         private async void AddVisitor_Button_Clicked(object sender, EventArgs e)
         {
-            var firstName = EntryFirstName.Text;
-            var lastName = EntryLastName.Text;
-            var ssnNumber = EntrySsnNumber.Text;
             privilegeLevel = 3;
 
-            var b = AddNewVisitor(firstName, lastName, ssnNumber, privilegeLevel);
+            var b = userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text);
+
             if (b == true)
             {
                 await DisplayAlert("Success!", "You added a visitor!", "OK");
