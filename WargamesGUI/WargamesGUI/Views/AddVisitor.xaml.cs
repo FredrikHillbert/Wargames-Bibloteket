@@ -40,9 +40,9 @@ namespace WargamesGUI.Views
         {
             privilegeLevel = 3;
 
-            var b = userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text);
+            var b = await userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text);
 
-            if (b == true)
+            if (b)
             {
                 await DisplayAlert("Success!", "You added a visitor!", "OK");
                 await ReadVisitorListFromDb();

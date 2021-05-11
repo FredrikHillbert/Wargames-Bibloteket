@@ -43,7 +43,7 @@
             </Grid>
         </Frame>
         <Frame CornerRadius="5" Margin="30,0,30,0" BackgroundColor="DarkSlateGray">
-            <ListView x:Name="listOfBooks" ItemSelected="listOfBooks_ItemSelected">
+            <ListView x:Name="listOfBooks" ItemTapped="listOfBooks_ItemTapped">
                 <ListView.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>

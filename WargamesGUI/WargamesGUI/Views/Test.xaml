@@ -6,9 +6,9 @@
     <ContentPage.Content>
         
             <behaviors:MediaElement x:Name="mediaElement" ShowsPlaybackControls="True"/>
-
-
-
         
+
+
+
     </ContentPage.Content>
 </ContentPage>
