@@ -75,6 +75,8 @@
                             <ViewCell>
                                 <StackLayout Orientation="Horizontal" Margin="50,0,0,0">
                                     <Label Text="{Binding fk_PrivilegeLevel}"/>
+                                    <Label Text="{Binding First_Name}" Margin="50,0,0,0"/>
+                                    <Label Text="{Binding Last_Name}" Margin="50,0,0,0"/>
                                     <Label Text="{Binding Username}" Margin="50,0,0,0"/>
                                 </StackLayout>
                             </ViewCell>
