@@ -27,7 +27,7 @@ namespace WargamesGUI.Services
                             var book = new Book();
 
                             book.Id = Convert.ToInt32(reader["Id"]);
-                            book.fk_Item_Id = 1;
+                            book.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
                             book.Title = reader["Title"].ToString();
                             book.ISBN = reader["ISBN"].ToString();
                             book.Publisher = reader["Publisher"].ToString();
@@ -44,36 +44,36 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<List<Book>> GetEbooksFromDb()
-        {
-            var eBookList = new List<Book>();
+        //public async Task<List<Book>> GetEbooksFromDb()
+        //{
+        //    var eBookList = new List<Book>();
 
-            using (SqlConnection con = new SqlConnection(theConString))
-            {
-                con.Open();
-                using (var command = new SqlCommand(queryForBooks, con))
-                {
-                    using (var reader =  command.ExecuteReader())
-                    {
-                        while ( reader.Read())
-                        {
-                            var eBook = new Book();
+        //    using (SqlConnection con = new SqlConnection(theConString))
+        //    {
+        //        con.Open();
+        //        using (var command = new SqlCommand(queryForBooks, con))
+        //        {
+        //            using (var reader =  command.ExecuteReader())
+        //            {
+        //                while ( reader.Read())
+        //                {
+        //                    var eBook = new Book();
 
-                            eBook.Id = Convert.ToInt32(reader["Id"]);
-                            eBook.fk_Item_Id = 2;
-                            eBook.Title = reader["Title"].ToString();
-                            eBook.ISBN = reader["ISBN"].ToString();
-                            eBook.Publisher = reader["Publisher"].ToString();
-                            eBook.Description = reader["Description"].ToString();
-                            eBook.Price = Convert.ToInt32(reader["Price"]);
+        //                    eBook.Id = Convert.ToInt32(reader["Id"]);
+        //                    eBook.fk_Item_Id = 2;
+        //                    eBook.Title = reader["Title"].ToString();
+        //                    eBook.ISBN = reader["ISBN"].ToString();
+        //                    eBook.Publisher = reader["Publisher"].ToString();
+        //                    eBook.Description = reader["Description"].ToString();
+        //                    eBook.Price = Convert.ToInt32(reader["Price"]);
 
-                            eBookList.Add(eBook);
-                        }
-                    }
-                }
-                return await Task.FromResult(eBookList);
-            }
-        }
+        //                    eBookList.Add(eBook);
+        //                }
+        //            }
+        //        }
+        //        return await Task.FromResult(eBookList);
+        //    }
+        //}
 
         /// <summary>
         /// Adderar en ny bok till table tblBook. 

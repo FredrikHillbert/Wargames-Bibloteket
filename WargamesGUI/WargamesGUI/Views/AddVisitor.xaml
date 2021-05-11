@@ -27,7 +27,7 @@
                     <Entry x:Name="EntryAdress" Placeholder="Enter address" BackgroundColor="White"/>
                     <Entry x:Name="EntryEmail" Placeholder="Enter email" BackgroundColor="White"/>
                     <Entry x:Name="EntryPhoneNumber" Placeholder="Enter phoneNumber" BackgroundColor="white"></Entry>
-                    <Entry x:Name="EntryCardNumber" Placeholder="Enter cardNumber" IsPassword="True" BackgroundColor="white"></Entry>
+                    <Entry x:Name="EntryCardNumber" Placeholder="Enter cardNumber" BackgroundColor="white"></Entry>
                     <Button Text="Register visitor" 
                             Clicked="AddVisitor_Button_Clicked" 
                             CornerRadius="20" 
@@ -42,47 +42,63 @@
 
 
         <StackLayout Grid.Row="2" VerticalOptions="Start">
-            <StackLayout/>
             <Frame CornerRadius="40" BorderColor="Black" Margin="50,-60,50,-65" BackgroundColor="LightBlue" Grid.RowSpan="2">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0"/>
-                    <Label Text="Firstname" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Margin="0,20,0,0" Grid.Column="0"/>
-                    <Label Text="Lastname" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="0" Margin="90,20,0,0"/>
-                    <Label Text="Card number" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="1" Margin="10,20,0,0"/>
-                    <Label Text="Phonenumber" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="2" Margin="-35,20,0,0"/>
-                    <Label Text="Address" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="3" Margin="-70,20,0,0"/>
-                    <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected" Grid.Row="3" BackgroundColor="White" Grid.ColumnSpan="6">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Orientation="Horizontal" Margin="10,0,0,0">
-                                        <Label Text="{Binding First_Name}"/>
-                                        <Label Text="{Binding Last_Name}" Margin="50,0,0,0" />
-                                        <Label Text="{Binding CardNumber}" Margin="50,0,0,0"/>
-                                        <Label Text="{Binding PhoneNumber}" Margin="50,0,0,0"/>
-                                        <Label Text="{Binding Address}" Margin="50,0,0,0"/>
+                <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected" Grid.Row="3" BackgroundColor="White" Grid.ColumnSpan="6">
+                    <ListView.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0"/>
+                            <Label Text="Firstname" HorizontalOptions="Start" FontSize="Small" Grid.Row="0" Margin="0,20,0,0" Grid.Column="0"/>
+                            <Label Text="Lastname" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="0" Margin="90,20,0,0"/>
+                            <Label Text="Card number" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="1" Margin="10,20,0,0"/>
+                            <Label Text="Phonenumber" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="2" Margin="-35,20,0,0"/>
+                            <Label Text="Address" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="3" Margin="-70,20,0,0"/>
+                        </Grid>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.Column="0" Grid.Row="0">
+                                        <Label Text="{Binding First_Name}" HorizontalOptions="Start" />
                                     </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-
-                </Grid>
+                                    <StackLayout Grid.Column="1" Grid.Row="0">
+                                        <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="2" Grid.Row="0">
+                                        <Label Text="{Binding CardNumber}" HorizontalOptions="Start"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="3" Grid.Row="0">
+                                        <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="4" Grid.Row="0">
+                                        <Label Text="{Binding Address}" HorizontalOptions="Start"/>
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Frame>
-
-            <Button Text="Delete visitor" 
+                <Button Text="Delete visitor" 
                             Clicked="DeleteVisitor_Clicked" 
                             CornerRadius="20" 
                             BackgroundColor="#2E4159"
@@ -91,6 +107,5 @@
                             HorizontalOptions="End"/>
 
         </StackLayout>
-
     </Grid>
 </ContentPage>
