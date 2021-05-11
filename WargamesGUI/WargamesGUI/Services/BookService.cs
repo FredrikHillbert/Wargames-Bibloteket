@@ -26,6 +26,7 @@ namespace WargamesGUI.Services
                         {
                             var book = new Book();
 
+                            book.Id = Convert.ToInt32(reader["Id"]);
                             book.fk_Item_Id = 1;
                             book.Title = reader["Title"].ToString();
                             book.ISBN = reader["ISBN"].ToString();
@@ -56,16 +57,17 @@ namespace WargamesGUI.Services
                     {
                         while ( reader.Read())
                         {
-                            var eBbook = new Book();
+                            var eBook = new Book();
 
-                            eBbook.fk_Item_Id = 2;
-                            eBbook.Title = reader["Title"].ToString();
-                            eBbook.ISBN = reader["ISBN"].ToString();
-                            eBbook.Publisher = reader["Publisher"].ToString();
-                            eBbook.Description = reader["Description"].ToString();
-                            eBbook.Price = Convert.ToInt32(reader["Price"]);
+                            eBook.Id = Convert.ToInt32(reader["Id"]);
+                            eBook.fk_Item_Id = 2;
+                            eBook.Title = reader["Title"].ToString();
+                            eBook.ISBN = reader["ISBN"].ToString();
+                            eBook.Publisher = reader["Publisher"].ToString();
+                            eBook.Description = reader["Description"].ToString();
+                            eBook.Price = Convert.ToInt32(reader["Price"]);
 
-                            eBookList.Add(eBbook);
+                            eBookList.Add(eBook);
                         }
                     }
                 }

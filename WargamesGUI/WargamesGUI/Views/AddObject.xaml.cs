@@ -21,7 +21,6 @@ namespace WargamesGUI.Views
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static BookService bookService = new BookService();
-        public static DbHandler handler = new DbHandler();
         private int itemID;
 
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
@@ -77,8 +76,12 @@ namespace WargamesGUI.Views
         {
             try
             {
-                await bookService.RemoveBook(selectedItem.Id, selectedItem.Placement);
+                // Popup "Reason"
+
+                await bookService.RemoveBook(selectedItem.Id, string.Empty);
                 await DisplayAlert("Success!", "You removed a book!", "OK");
+                OnAppearing();
+                
             }
             catch (Exception ex)
             {
@@ -86,9 +89,9 @@ namespace WargamesGUI.Views
             }
         }
 
-        private void listOfBooks_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            selectedItem = (Book)listOfBooks.SelectedItem;
+            selectedItem = (Book)e.Item;
         }
     }
 
