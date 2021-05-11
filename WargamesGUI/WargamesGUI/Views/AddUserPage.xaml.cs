@@ -79,14 +79,13 @@ namespace WargamesGUI
             
             else
             {
-                var b = userService.AddNewUser(userbox.Text, passbox.Text, privilegeLevel);
-                if (b == true)
+                var b = await userService.AddNewUser(privilegeLevel, firstnamebox.Text, lastnamebox.Text, "0000", adressbox.Text, emailbox.Text, phonebox.Text, "1111", userbox.Text, passbox.Text);
+                if (b)
                 {
                     await DisplayAlert("Sucess", "You added a user!", "OK");
                     await LoadUserTbl();
-
-
                 }
+
                 else await DisplayAlert("Error!", "Could not add user", "OK");
             }
 

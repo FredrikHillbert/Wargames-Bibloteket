@@ -155,10 +155,8 @@ namespace WargamesGUI.Services
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
                     await con.OpenAsync();
-                    SqlCommand insertcmd = new SqlCommand("sp_AddUser", con);
+                    SqlCommand insertcmd = new SqlCommand("sp_AddNewVisitor", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
-                    insertcmd.CommandText = "sp_AddUser";
-
                     insertcmd.Parameters.Add("@fk_PL", SqlDbType.Int).Value = privilegeLevel;
                     insertcmd.Parameters.Add("@firstName", SqlDbType.VarChar).Value = First_Name;
                     insertcmd.Parameters.Add("@lastName", SqlDbType.VarChar).Value = Last_Name;
@@ -179,30 +177,35 @@ namespace WargamesGUI.Services
             }
 
         }
-        public bool AddNewUser(string username, string password, int privilegeLevel)
+        public async Task<bool> AddNewUser(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard, string username, string password)
         {
-            
-            bool canAddNewUser = true;
+            bool success = true;
             try
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql = $"INSERT INTO {theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}','{privilegeLevel}')";
-
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
+                    await con.OpenAsync();
+                    SqlCommand insertcmd = new SqlCommand("sp_AddNewUser", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.Parameters.Add("@fk_PL", SqlDbType.Int).Value = privilegeLevel;
+                    insertcmd.Parameters.Add("@firstName", SqlDbType.VarChar).Value = First_Name;
+                    insertcmd.Parameters.Add("@lastName", SqlDbType.VarChar).Value = Last_Name;
+                    insertcmd.Parameters.Add("@sSN", SqlDbType.VarChar).Value = SSN;
+                    insertcmd.Parameters.Add("@address", SqlDbType.VarChar).Value = Address;
+                    insertcmd.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
+                    insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;
+                    insertcmd.Parameters.Add("@libraryCard", SqlDbType.VarChar).Value = LibraryCard;
+                    insertcmd.Parameters.Add("@username", SqlDbType.VarChar).Value = username;
+                    insertcmd.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
                 }
-                canAddNewUser = true;
-                return canAddNewUser;
             }
-            catch (Exception)
-            {
 
-                canAddNewUser = false;
-                return canAddNewUser;
+            catch
+            {
+                success = false;
+                return await Task.FromResult(success);
             }
 
         }
