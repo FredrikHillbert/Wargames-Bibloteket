@@ -24,10 +24,10 @@ namespace WargamesGUI.Views
         private int itemID;
 
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
+
         public AddObject()
         {
             InitializeComponent();
-            listOfBooks.ItemsSource = collection;
         }
 
         protected override void OnAppearing()
@@ -39,11 +39,15 @@ namespace WargamesGUI.Views
 
         private async Task LoadBooks()
         {
+            if (collection != null)
+            {
+                collection.Clear();
+            }
+
             collection.AddRange(await bookService.GetBooksFromDb());
             collection.AddRange(await bookService.GetEbooksFromDb());
+            listOfBooks.ItemsSource = collection;
         }
-
-
 
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
         {
@@ -51,17 +55,17 @@ namespace WargamesGUI.Views
             var Title = EntryTitle.Text;
             var ISBN = EntryISBN.Text;
             var Publisher = EntryPublisher.Text;
-            var Description = EntryDescription.Text;
-            var Price = 0;
-            var Placement = EntryPlacement.Text;
             var Author = EntryAuthor.Text;
+            var Description = EntryDescription.Text;
+            int.TryParse(EntryPrice.Text, out int Price);
+            var Placement = EntryPlacement.Text;
 
             var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, Placement);
-            if (b)
 
+            if (b)
             {
                 await DisplayAlert("Success!", "You added a book!", "OK");
-                await bookService.GetBooksFromDb();
+                await LoadBooks();
             }
             else await DisplayAlert("Error!", "Could not add book!", "OK");
         }
@@ -80,8 +84,9 @@ namespace WargamesGUI.Views
 
                 await bookService.RemoveBook(selectedItem.Id, string.Empty);
                 await DisplayAlert("Success!", "You removed a book!", "OK");
-                OnAppearing();
-                
+
+                await LoadBooks();
+
             }
             catch (Exception ex)
             {
