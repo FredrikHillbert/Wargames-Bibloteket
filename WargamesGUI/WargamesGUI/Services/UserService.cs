@@ -118,9 +118,9 @@ namespace WargamesGUI.Services
             return user.fk_PrivilegeLevel;
         }
 
-        public List<User> ReadVisitorListFromDb()
+        public List<Visitor> ReadVisitorListFromDb()
         {
-            List<User> listOfUsers = new List<User>();
+            List<Visitor> listOfvisitors = new List<Visitor>();
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -130,19 +130,20 @@ namespace WargamesGUI.Services
                     {
                         while (reader.Read())
                         {
-                            var users = new User();
+                            var visitor = new Visitor();
 
 
-                            users.First_Name = reader["First_Name"].ToString();
-                            users.Last_Name = reader["Last_Name"].ToString();
-                            users.Username = reader["Username"].ToString();
-                            users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                            visitor.First_Name = reader["First_Name"].ToString();
+                            visitor.Last_Name = reader["Last_Name"].ToString();
+                            visitor.CardNumber = reader["LibraryCard"].ToString();
+                            visitor.PhoneNumber = reader["PhoneNumber"].ToString();
+                            visitor.Address = reader["Address"].ToString();
 
-                            listOfUsers.Add(users);
+                            listOfvisitors.Add(visitor);
                         }
                     }
                 }
-                return listOfUsers;
+                return listOfvisitors;
 
             }
         }
