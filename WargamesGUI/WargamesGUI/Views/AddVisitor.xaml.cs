@@ -36,14 +36,14 @@ namespace WargamesGUI.Views
             listOfVisitors.ItemsSource = userService.ReadVisitorListFromDb();
         }
 
-        public bool AddNewVisitor(string firstName, string lastName, string Ssn, int privilegeLevel)
+        public bool AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard)
         {
             bool canAddNewVisitor = true;
             try
             {
                 using (SqlConnection con = new SqlConnection(DbHandler.theConString))
                 {
-                    string sql = $"INSERT INTO {DbHandler.theUserTableName}(First_Name, Last_Name, SSN, fk_PrivilegeLevel) VALUES('{firstName}', '{lastName}', '{Ssn}', '{privilegeLevel}')";
+                    string sql = $"INSERT INTO {DbHandler.theUserTableName}(fk_PrivilegeLevel, First_Name, Last_Name, SSN, Address, [E-mail], PhoneNumber, LibraryCard) VALUES('{privilegeLevel}', '{First_Name}', '{Last_Name}', '{SSN}', '{Address}', '{Email}', '{PhoneNumber}', '{LibraryCard}')";
 
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, con))
@@ -54,9 +54,9 @@ namespace WargamesGUI.Views
                 canAddNewVisitor = true;
                 return canAddNewVisitor;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                Console.WriteLine(e);
                 canAddNewVisitor = false;
                 return canAddNewVisitor;
             }
@@ -65,12 +65,10 @@ namespace WargamesGUI.Views
 
         private async void AddVisitor_Button_Clicked(object sender, EventArgs e)
         {
-            var firstName = EntryFirstName.Text;
-            var lastName = EntryLastName.Text;
-            var ssnNumber = EntrySsnNumber.Text;
             privilegeLevel = 3;
 
-            var b = AddNewVisitor(firstName, lastName, ssnNumber, privilegeLevel);
+            var b = AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text);
+
             if (b == true)
             {
                 await DisplayAlert("Success!", "You added a visitor!", "OK");
