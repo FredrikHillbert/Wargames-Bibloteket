@@ -22,7 +22,7 @@ namespace WargamesGUI.Services
                 {
                     using (var reader =  command.ExecuteReader())
                     {
-                        while ( reader.Read())
+                        while (reader.Read())
                         {
                             var book = new Book();
 
@@ -83,8 +83,8 @@ namespace WargamesGUI.Services
         /// Retunerar en bool som är true om det gick att lägga till boken eller false 
         /// ifall det inte gick att lägga till boken.
         /// </returns>
-        public async Task<bool> AddNewBook(int Item_id, string Title, string ISBN, string Publisher, string Author,
-                                           string Description, int Price, string Placement)
+        public async Task<bool> AddNewBook(int item_id, string title, string ISBN, string publisher, string author,
+                                           string description, int price, string placement)
         {
             bool success = true;
 
@@ -98,15 +98,16 @@ namespace WargamesGUI.Services
                     SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
                     insertcmd.CommandText = "sp_AddBook";
-                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = Title;
+
+                    insertcmd.Parameters.Add("@Item_id", SqlDbType.Int).Value = item_id;
+                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = title;
                     insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = ISBN;
-                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = Publisher;
-                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = Author;
-                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = Description;
-                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = Placement;
+                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = publisher;
+                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = author;
+                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = description;
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
 
                     await insertcmd.ExecuteNonQueryAsync();
-
                     return await Task.FromResult(success);
                 }
             }
@@ -134,33 +135,23 @@ namespace WargamesGUI.Services
 
             try
             {
+
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string query =
-                        $"DELETE FROM {theBookTableName} WHERE Id = @id";
-
                     await con.OpenAsync();
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("id", id);
-                        await cmd.ExecuteNonQueryAsync();
-                    }
 
-                    query = $"UPDATE {theRemovedItemTableName} " +
-                            $"SET Reason = @reason " +
-                            $"WHERE Id = @id";
+                    SqlCommand insertcmd = new SqlCommand("sp_RemoveBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.CommandText = "sp_RemoveBook";
 
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("reason", reason);
-                        cmd.Parameters.AddWithValue("id", id);
-                        await cmd.ExecuteNonQueryAsync();
-                    }
+                    insertcmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                    insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
 
-                    // Här ska det finnas en till SQL-sträng som tar bort objektet i alla tables där den är kopplad.
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
                 }
 
-                return await Task.FromResult(success);
+                // Här ska det finnas en till SQL-sträng som tar bort objektet i alla tables där den är kopplad.
             }
 
             catch (Exception)
@@ -168,43 +159,48 @@ namespace WargamesGUI.Services
                 success = false;
                 return await Task.FromResult(success);
             }
+
         }
 
-        public async Task<bool> UpdateBook(int id, string Title, string ISBN, string Publisher,
-                                           string Description, int Price, string Placement)
+        public async Task<bool> UpdateBook(int id, string title, string author, string publisher, string description,
+                                           int price, string ISBN, string placement)
         {
             bool success = true;
 
             try
             {
+
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
+                    await con.OpenAsync();
 
-                    string query =
-                        $"UPDATE {theBookTableName} " +
-                        $"SET Title = {Title}, ISBN = {ISBN}, " +
-                        $"Publisher = {Publisher}, Description = {Description} " +
-                        $"Price = {Price}, Placement = {Placement} " +
-                        $"WHERE Id = {id}";
+                    SqlCommand insertcmd = new SqlCommand("sp_UpdateBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.CommandText = "sp_UpdateBook";
 
-                    // Ändra för E-bok?
+                    insertcmd.Parameters.Add("@Id", SqlDbType.VarChar).Value = id;
+                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = title;
+                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = author;
+                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = publisher;
+                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = description;
+                    insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
+                    insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = ISBN;
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
+
                     // Här ska det finnas en till SQL-sträng som uppdaterar objektet i alla tables där den finns.
 
-                    await con.OpenAsync();
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        await cmd.ExecuteNonQueryAsync();
-                    }
-                }
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
 
-                return await Task.FromResult(success);
+                }
             }
 
-            catch (Exception)
+            catch
             {
                 success = false;
                 return await Task.FromResult(success);
             }
+
         }
         public async Task<List<Book>> Searching(string text)
         {
