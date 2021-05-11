@@ -24,6 +24,7 @@ namespace WargamesGUI
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static DbHandler handler = new DbHandler();
+        
         private int privilegeLevel;
 
         public AddUserPage()
@@ -41,17 +42,44 @@ namespace WargamesGUI
 
         private async void Register_User_Clicked(object sender, EventArgs e)
         {
-            var username = userbox.Text;
-            var password = passbox.Text;
-
-
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || privilegeLevel == 0)
+            if (privilegeLevel == 0)
             {
-                await DisplayAlert("Error!", "Username/password/privilege is incorrect", "OK");
+                await DisplayAlert("TypeNotSelected", "Select a type of user.", "OK");
             }
+                      
+            else if (string.IsNullOrEmpty(firstnamebox.Text) || CheckFormat.CheckIfAllLetter(firstnamebox.Text) == false)
+            {
+                await DisplayAlert("InvalidFormat", "Firstname is empty or format is not allowed.", "OK");
+            }
+            
+            else if (string.IsNullOrEmpty(lastnamebox.Text) || CheckFormat.CheckIfAllLetter(lastnamebox.Text) == false)
+            {
+                await DisplayAlert("InvalidLastname", "Lastname is empty or format is not allowed.", "OK");
+            }
+            else if (string.IsNullOrEmpty(adressbox.Text) || CheckFormat.CheckAdress(adressbox.Text) == false)
+            {
+                await DisplayAlert("InvalidAddress", "Address is empty or format is not allowed.", "OK");
+            }
+            else if (string.IsNullOrEmpty(emailbox.Text) || CheckFormat.IsValidEmail(emailbox.Text) == false)
+            {
+                await DisplayAlert("EmailEmpty", "Enter a valid email.", "OK");
+            }
+            else if (string.IsNullOrEmpty(phonebox.Text) || CheckFormat.CheckIfAllNumbers(phonebox.Text) == false)
+            {
+                await DisplayAlert("NumberEmpty", "Enter a valid phonenumber.", "OK");
+            }
+            else if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfAllLetter(userbox.Text) == false)
+            {               
+                await DisplayAlert("InvalidFormat", "Username is empty or format is not allowed.", "OK");
+            }
+            else if (string.IsNullOrEmpty(passbox.Text))
+            {
+                await DisplayAlert("PassEmpty", "Password entry is empty.", "OK");
+            }
+            
             else
             {
-                var b = userService.AddNewUser(username, password, privilegeLevel);
+                var b = userService.AddNewUser(userbox.Text, passbox.Text, privilegeLevel);
                 if (b == true)
                 {
                     await DisplayAlert("Sucess", "You added a user!", "OK");
