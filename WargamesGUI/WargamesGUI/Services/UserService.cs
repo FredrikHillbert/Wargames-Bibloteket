@@ -171,8 +171,9 @@ namespace WargamesGUI.Services
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
+                exceptionMessage = ex.Message;
                 success = false;
                 return await Task.FromResult(success);
             }
