@@ -13,7 +13,7 @@ namespace WargamesGUI.Services
 {
     public class UserService : DbHandler
     {
-
+        public string exceptionMessage;
         public async Task<ObservableCollection<User>> ReadUserListFromDb()
         {
             ObservableCollection<User> obsList = new ObservableCollection<User>();
@@ -32,6 +32,9 @@ namespace WargamesGUI.Services
                             users.First_Name = reader["First_Name"].ToString();
                             users.Last_Name = reader["Last_Name"].ToString();
                             users.Username = reader["Username"].ToString();
+                            users.Email = reader["Email"].ToString();
+                            users.PhoneNumber = reader["PhoneNumber"].ToString();
+                            users.Address = reader["Address"].ToString();
                             users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
                             users.User_ID = Convert.ToInt32(reader["User_ID"]);
 
@@ -43,7 +46,7 @@ namespace WargamesGUI.Services
 
             }
         }
-       
+
         public bool DeleteUserListFromDb(int userId)
         {
             bool isWorking;
@@ -173,38 +176,44 @@ namespace WargamesGUI.Services
             }
 
         }
-        public bool AddNewUser(string username, string password, int privilegeLevel)
+        public bool AddNewUser(string username, string password, int privilegeLevel,
+            string firstname, string lastname, string email, string phonenumber, string address)
         {
-            
-            bool canAddNewUser = true;
+
+            bool canAddNewUser = false;
             try
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql = $"INSERT INTO {theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}','{privilegeLevel}')";
+                    string sql = $"INSERT INTO {theUserTableName}(fk_PrivilegeLevel, First_Name, Last_Name, SSN, [E-mail], PhoneNumber, Address) " +
+                        $"VALUES('{username}','{password}','{privilegeLevel}','{firstname}','{lastname}','{email}','{phonenumber}','{address}')";
 
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, con))
                     {
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                canAddNewUser = true;
-                return canAddNewUser;
-            }
-            catch (Exception)
-            {
 
+                        cmd.ExecuteNonQuery();
+
+                    }
+                    canAddNewUser = true;
+                    return canAddNewUser;
+                }
+            }
+            catch (Exception ex)
+            {
+                exceptionMessage = ex.Message;
                 canAddNewUser = false;
                 return canAddNewUser;
             }
-
         }
 
-
-
     }
+
+
+
+
 }
+
 
 
 

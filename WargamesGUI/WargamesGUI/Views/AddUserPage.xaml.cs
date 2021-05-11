@@ -24,7 +24,7 @@ namespace WargamesGUI
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static DbHandler handler = new DbHandler();
-        
+
         private int privilegeLevel;
 
         public AddUserPage()
@@ -46,17 +46,17 @@ namespace WargamesGUI
             {
                 await DisplayAlert("TypeNotSelected", "Select a type of user.", "OK");
             }
-                      
+
             else if (string.IsNullOrEmpty(firstnamebox.Text) || CheckFormat.CheckIfAllLetter(firstnamebox.Text) == false)
             {
                 await DisplayAlert("InvalidFormat", "Firstname is empty or format is not allowed.", "OK");
             }
-            
+
             else if (string.IsNullOrEmpty(lastnamebox.Text) || CheckFormat.CheckIfAllLetter(lastnamebox.Text) == false)
             {
                 await DisplayAlert("InvalidLastname", "Lastname is empty or format is not allowed.", "OK");
             }
-            else if (string.IsNullOrEmpty(adressbox.Text) || CheckFormat.CheckAdress(adressbox.Text) == false)
+            else if (string.IsNullOrEmpty(addressbox.Text) || CheckFormat.CheckAdress(addressbox.Text) == false)
             {
                 await DisplayAlert("InvalidAddress", "Address is empty or format is not allowed.", "OK");
             }
@@ -69,25 +69,31 @@ namespace WargamesGUI
                 await DisplayAlert("NumberEmpty", "Enter a valid phonenumber.", "OK");
             }
             else if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfAllLetter(userbox.Text) == false)
-            {               
+            {
                 await DisplayAlert("InvalidFormat", "Username is empty or format is not allowed.", "OK");
             }
             else if (string.IsNullOrEmpty(passbox.Text))
             {
                 await DisplayAlert("PassEmpty", "Password entry is empty.", "OK");
             }
-            
+
             else
             {
-                var b = userService.AddNewUser(userbox.Text, passbox.Text, privilegeLevel);
-                if (b == true)
+                try
                 {
-                    await DisplayAlert("Sucess", "You added a user!", "OK");
-                    await LoadUserTbl();
-
-
+                    
+                    if (userService.AddNewUser(userbox.Text, passbox.Text, privilegeLevel,
+                                       firstnamebox.Text, lastnamebox.Text, emailbox.Text, phonebox.Text, addressbox.Text))
+                    {
+                        await DisplayAlert("Sucess", "You added a user!", "OK");
+                        await LoadUserTbl();
+                    }
                 }
-                else await DisplayAlert("Error!", "Could not add user", "OK");
+                catch (Exception)
+                {
+                    await DisplayAlert("Error!", $"Reason {userService.exceptionMessage}", "OK");
+                    
+                }            
             }
 
         }
