@@ -45,7 +45,7 @@ namespace WargamesGUI.Views
             }
 
             collection.AddRange(await bookService.GetBooksFromDb());
-            collection.AddRange(await bookService.GetEbooksFromDb());
+            //collection.AddRange(await bookService.GetEbooksFromDb());
             listOfBooks.ItemsSource = collection;
         }
 
