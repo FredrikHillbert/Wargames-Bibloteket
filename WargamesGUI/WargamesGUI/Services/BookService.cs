@@ -22,41 +22,11 @@ namespace WargamesGUI.Services
                 {
                     using (var reader =  command.ExecuteReader())
                     {
-                        while ( reader.Read())
-                        {
-                            var book = new Book();
-
-                            book.fk_Item_Id = 1;
-                            book.Title = reader["Title"].ToString();
-                            book.ISBN = reader["ISBN"].ToString();
-                            book.Publisher = reader["Publisher"].ToString();
-                            book.Description = reader["Description"].ToString();
-                            book.Price = Convert.ToInt32(reader["Price"]);
-                            book.Placement = reader["Placement"].ToString();
-                            book.Author = reader["Author"].ToString();
-
-                            bookList.Add(book);
-                        }
-                    }
-                }
-                return await Task.FromResult(bookList);
-            }
-        }
-        public async Task<List<Book>> GetBooksFromDb1()
-        {
-            var bookList = new List<Book>();
-
-            using (SqlConnection con = new SqlConnection(theConString))
-            {
-                con.Open();
-                using (var command = new SqlCommand(queryForBooks, con))
-                {
-                    using (var reader = command.ExecuteReader())
-                    {
                         while (reader.Read())
                         {
                             var book = new Book();
 
+                            book.Id = Convert.ToInt32(reader["Id"]);
                             book.fk_Item_Id = 1;
                             book.Title = reader["Title"].ToString();
                             book.ISBN = reader["ISBN"].ToString();
@@ -73,6 +43,7 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(bookList);
             }
         }
+
         public async Task<List<Book>> GetEbooksFromDb()
         {
             var eBookList = new List<Book>();
@@ -86,16 +57,17 @@ namespace WargamesGUI.Services
                     {
                         while ( reader.Read())
                         {
-                            var eBbook = new Book();
+                            var eBook = new Book();
 
-                            eBbook.fk_Item_Id = 2;
-                            eBbook.Title = reader["Title"].ToString();
-                            eBbook.ISBN = reader["ISBN"].ToString();
-                            eBbook.Publisher = reader["Publisher"].ToString();
-                            eBbook.Description = reader["Description"].ToString();
-                            eBbook.Price = Convert.ToInt32(reader["Price"]);
+                            eBook.Id = Convert.ToInt32(reader["Id"]);
+                            eBook.fk_Item_Id = 2;
+                            eBook.Title = reader["Title"].ToString();
+                            eBook.ISBN = reader["ISBN"].ToString();
+                            eBook.Publisher = reader["Publisher"].ToString();
+                            eBook.Description = reader["Description"].ToString();
+                            eBook.Price = Convert.ToInt32(reader["Price"]);
 
-                            eBookList.Add(eBbook);
+                            eBookList.Add(eBook);
                         }
                     }
                 }
@@ -113,8 +85,8 @@ namespace WargamesGUI.Services
         /// Retunerar en bool som är true om det gick att lägga till boken eller false 
         /// ifall det inte gick att lägga till boken.
         /// </returns>
-        public async Task<bool> AddNewBook(int Item_id, string Title, string ISBN, string Publisher, string Author,
-                                           string Description, int Price, string Placement)
+        public async Task<bool> AddNewBook(int item_id, string title, string ISBN, string publisher, string author,
+                                           string description, int price, string placement)
         {
             bool success = true;
 
@@ -128,65 +100,26 @@ namespace WargamesGUI.Services
                     SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
                     insertcmd.CommandText = "sp_AddBook";
-                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = Title;
+
+                    insertcmd.Parameters.Add("@Item_id", SqlDbType.Int).Value = item_id;
+                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = title;
                     insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = ISBN;
-                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = Publisher;
-                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = Author;
-                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = Description;
-                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = Placement;
+                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = publisher;
+                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = author;
+                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = description;
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
 
                     await insertcmd.ExecuteNonQueryAsync();
-                    success = true;
+                    return await Task.FromResult(success);
                 }
-
-                return await Task.FromResult(success);
-
-                // Book
-                if (Item_id == 1)
-                {
-                    using (SqlConnection con = new SqlConnection(theConString))
-                    {
-                        string query =
-                            $"INSERT INTO {theBookTableName}" +
-                            $"(fk_Item_Id, Title, ISBN, Publisher, Author, Description, Price, Placement) " +
-                            $"VALUES('1', '{Title}', '{ISBN}', '{Publisher}', '{Author}' '{Description}', '{Price}', '{Placement}')";
-
-                        await con.OpenAsync();
-
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            await cmd.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
-
-                // E-book
-                else if (Item_id == 2)
-                {
-                    using (SqlConnection con = new SqlConnection(theConString))
-                    {
-                        string query =
-                            $"INSERT INTO {theBookTableName}" +
-                            $"(fk_Item_Id, Title, ISBN, Publisher, Author, Description, Price, Placement) " +
-                            $"VALUES('2', '{Title}', '{ISBN}', '{Publisher}', '{Author}' '{Description}', '{Price}', '{Placement}')";
-
-                        await con.OpenAsync();
-
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            await cmd.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
-
-                return await Task.FromResult(success);
             }
 
-            catch (Exception)
+            catch
             {
                 success = false;
                 return await Task.FromResult(success);
             }
+
         }
 
         /// <summary>
@@ -204,33 +137,23 @@ namespace WargamesGUI.Services
 
             try
             {
+
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string query =
-                        $"DELETE FROM {theBookTableName} WHERE Id = @id";
-
                     await con.OpenAsync();
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("id", id);
-                        await cmd.ExecuteNonQueryAsync();
-                    }
 
-                    query = $"UPDATE {theRemovedItemTableName} " +
-                            $"SET Reason = @reason " +
-                            $"WHERE Id = @id";
+                    SqlCommand insertcmd = new SqlCommand("sp_RemoveBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.CommandText = "sp_RemoveBook";
 
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("reason", reason);
-                        cmd.Parameters.AddWithValue("id", id);
-                        await cmd.ExecuteNonQueryAsync();
-                    }
+                    insertcmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                    insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
 
-                    // Här ska det finnas en till SQL-sträng som tar bort objektet i alla tables där den är kopplad.
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
                 }
 
-                return await Task.FromResult(success);
+                // Här ska det finnas en till SQL-sträng som tar bort objektet i alla tables där den är kopplad.
             }
 
             catch (Exception)
@@ -238,43 +161,48 @@ namespace WargamesGUI.Services
                 success = false;
                 return await Task.FromResult(success);
             }
+
         }
 
-        public async Task<bool> UpdateBook(int id, string Title, string ISBN, string Publisher,
-                                           string Description, int Price, string Placement)
+        public async Task<bool> UpdateBook(int id, string title, string author, string publisher, string description,
+                                           int price, string ISBN, string placement)
         {
             bool success = true;
 
             try
             {
+
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
+                    await con.OpenAsync();
 
-                    string query =
-                        $"UPDATE {theBookTableName} " +
-                        $"SET Title = {Title}, ISBN = {ISBN}, " +
-                        $"Publisher = {Publisher}, Description = {Description} " +
-                        $"Price = {Price}, Placement = {Placement} " +
-                        $"WHERE Id = {id}";
+                    SqlCommand insertcmd = new SqlCommand("sp_UpdateBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.CommandText = "sp_UpdateBook";
 
-                    // Ändra för E-bok?
+                    insertcmd.Parameters.Add("@Id", SqlDbType.VarChar).Value = id;
+                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = title;
+                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = author;
+                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = publisher;
+                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = description;
+                    insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
+                    insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = ISBN;
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
+
                     // Här ska det finnas en till SQL-sträng som uppdaterar objektet i alla tables där den finns.
 
-                    await con.OpenAsync();
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        await cmd.ExecuteNonQueryAsync();
-                    }
-                }
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
 
-                return await Task.FromResult(success);
+                }
             }
 
-            catch (Exception)
+            catch
             {
                 success = false;
                 return await Task.FromResult(success);
             }
+
         }
         public async Task<List<Book>> Searching(string text)
         {
