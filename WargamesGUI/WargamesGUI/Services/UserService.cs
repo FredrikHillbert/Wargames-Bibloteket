@@ -147,14 +147,14 @@ namespace WargamesGUI.Services
             }
         }
 
-        public bool AddNewVisitor(string firstName, string lastName, int Ssn)
+        public bool AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard)
         {
             bool canAddNewVisitor = true;
             try
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql = $"INSERT INTO {theUserTableName}(First_Name, Last_Name, SSN) VALUES('{firstName}', '{lastName}', '{Ssn}')";
+                    string sql = $"INSERT INTO {theUserTableName}(fk_PrivilegeLevel, First_Name, Last_Name, SSN, Address, [E-mail], PhoneNumber, LibraryCard) VALUES('{privilegeLevel}','{First_Name}','{Last_Name}','{SSN}','{Address}','{Email}','{PhoneNumber}','{LibraryCard}')";
 
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, con))
@@ -165,9 +165,9 @@ namespace WargamesGUI.Services
                 canAddNewVisitor = true;
                 return canAddNewVisitor;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                Console.WriteLine(e);
                 canAddNewVisitor = false;
                 return canAddNewVisitor;
             }

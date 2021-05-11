@@ -17,11 +17,12 @@ namespace WargamesGUI.Services
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
+                con.Open();
                 using (var command = new SqlCommand(queryForBooks, con))
                 {
-                    using (var reader = await command.ExecuteReaderAsync())
+                    using (var reader =  command.ExecuteReader())
                     {
-                        while (await reader.ReadAsync())
+                        while ( reader.Read())
                         {
                             var book = new Book();
 
@@ -32,6 +33,7 @@ namespace WargamesGUI.Services
                             book.Description = reader["Description"].ToString();
                             book.Price = Convert.ToInt32(reader["Price"]);
                             book.Placement = reader["Placement"].ToString();
+                            book.Author = reader["Author"].ToString();
 
                             bookList.Add(book);
                         }
@@ -77,11 +79,12 @@ namespace WargamesGUI.Services
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
+                con.Open();
                 using (var command = new SqlCommand(queryForBooks, con))
                 {
-                    using (var reader = await command.ExecuteReaderAsync())
+                    using (var reader =  command.ExecuteReader())
                     {
-                        while (await reader.ReadAsync())
+                        while ( reader.Read())
                         {
                             var eBbook = new Book();
 
@@ -117,6 +120,27 @@ namespace WargamesGUI.Services
 
             try
             {
+
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.CommandText = "sp_AddBook";
+                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = Title;
+                    insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = ISBN;
+                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = Publisher;
+                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = Author;
+                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = Description;
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = Placement;
+
+                    await insertcmd.ExecuteNonQueryAsync();
+                    success = true;
+                }
+
+                return await Task.FromResult(success);
+
                 // Book
                 if (Item_id == 1)
                 {
@@ -255,23 +279,19 @@ namespace WargamesGUI.Services
         public async Task<List<Book>> Searching(string text)
         {
             List<Book> searchedValues = new List<Book>();
-            string query =  $"SELECT * FROM tblItem ti " +
-                            $"LEFT JOIN tblBook tb ON tb.fk_Item_Id = ti.Item_Id " +
-                            $"LEFT JOIN tblEvent te ON te.fk_Item_Id = ti.Item_Id " +
-                            $"WHERE CONCAT_WS('', tb.Title, tb.ISBN, tb.Publisher, tb.fk_Item_Id, te.fk_Item_Id, tb.Price, tb.Placement, tb.Author, ti.TypeOfItem, te.Title, te.Description) " +
-                            $"LIKE '%{text}%'";
-
-            string query2 = $"SELECT* FROM tblBook WHERE CONCAT_WS('', Title, ISBN, Publisher, fk_Item_Id, Price, Placement, Author) LIKE '%{text}%'";
-
-
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlCommand cmd = new SqlCommand("Search_Value", con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "Search_Value";
+                    cmd.Parameters.Add("@text", SqlDbType.VarChar).Value = text;
+
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
+
                         while (await reader.ReadAsync())
                         {
                             var values = new Book();
