@@ -28,7 +28,7 @@
                     BackgroundColor="LightBlue"
                     CornerRadius="15"/>
         </Grid>
-        <Frame CornerRadius="15" Margin="40,-10,40,0" BackgroundColor="LightBlue">
+        <Frame CornerRadius="15" Margin="40,-10,40,40" BackgroundColor="LightBlue">
             <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected" HorizontalOptions="Center">
                 <ListView.Header>
                     <Grid>
