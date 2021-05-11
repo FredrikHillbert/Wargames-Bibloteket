@@ -13,7 +13,7 @@ namespace WargamesGUI.Services
 {
     public class UserService : DbHandler
     {
-
+        public string exceptionMessage;
         public async Task<ObservableCollection<User>> ReadUserListFromDb()
         {
             ObservableCollection<User> obsList = new ObservableCollection<User>();
@@ -118,9 +118,9 @@ namespace WargamesGUI.Services
             return user.fk_PrivilegeLevel;
         }
 
-        public List<User> ReadVisitorListFromDb()
+        public List<Visitor> ReadVisitorListFromDb()
         {
-            List<User> listOfUsers = new List<User>();
+            List<Visitor> listOfvisitors = new List<Visitor>();
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -130,19 +130,20 @@ namespace WargamesGUI.Services
                     {
                         while (reader.Read())
                         {
-                            var users = new User();
+                            var visitor = new Visitor();
 
 
-                            users.First_Name = reader["First_Name"].ToString();
-                            users.Last_Name = reader["Last_Name"].ToString();
-                            users.Username = reader["Username"].ToString();
-                            users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                            visitor.First_Name = reader["First_Name"].ToString();
+                            visitor.Last_Name = reader["Last_Name"].ToString();
+                            visitor.CardNumber = reader["LibraryCard"].ToString();
+                            visitor.PhoneNumber = reader["PhoneNumber"].ToString();
+                            visitor.Address = reader["Address"].ToString();
 
-                            listOfUsers.Add(users);
+                            listOfvisitors.Add(visitor);
                         }
                     }
                 }
-                return listOfUsers;
+                return listOfvisitors;
 
             }
         }
@@ -155,10 +156,8 @@ namespace WargamesGUI.Services
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
                     await con.OpenAsync();
-                    SqlCommand insertcmd = new SqlCommand("sp_AddUser", con);
+                    SqlCommand insertcmd = new SqlCommand("sp_AddNewVisitor", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
-                    insertcmd.CommandText = "sp_AddUser";
-
                     insertcmd.Parameters.Add("@fk_PL", SqlDbType.Int).Value = privilegeLevel;
                     insertcmd.Parameters.Add("@firstName", SqlDbType.VarChar).Value = First_Name;
                     insertcmd.Parameters.Add("@lastName", SqlDbType.VarChar).Value = Last_Name;
@@ -179,30 +178,35 @@ namespace WargamesGUI.Services
             }
 
         }
-        public bool AddNewUser(string username, string password, int privilegeLevel)
+        public async Task<bool> AddNewUser(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string username, string password)
         {
-            
-            bool canAddNewUser = true;
+            bool success = true;
             try
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql = $"INSERT INTO {theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}','{password}','{privilegeLevel}')";
-
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
+                    await con.OpenAsync();
+                    SqlCommand insertcmd = new SqlCommand("sp_AddNewUser", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.Parameters.Add("@fk_PL", SqlDbType.Int).Value = privilegeLevel;
+                    insertcmd.Parameters.Add("@firstName", SqlDbType.VarChar).Value = First_Name;
+                    insertcmd.Parameters.Add("@lastName", SqlDbType.VarChar).Value = Last_Name;
+                    insertcmd.Parameters.Add("@sSN", SqlDbType.VarChar).Value = SSN;
+                    insertcmd.Parameters.Add("@address", SqlDbType.VarChar).Value = Address;
+                    insertcmd.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
+                    insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;                    
+                    insertcmd.Parameters.Add("@username", SqlDbType.VarChar).Value = username;
+                    insertcmd.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
                 }
-                canAddNewUser = true;
-                return canAddNewUser;
             }
-            catch (Exception)
-            {
 
-                canAddNewUser = false;
-                return canAddNewUser;
+            catch (Exception ex)
+            {
+                exceptionMessage = ex.Message;
+                success = false;
+                return await Task.FromResult(success);
             }
 
         }
