@@ -41,7 +41,37 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(bookList);
             }
         }
+        public async Task<List<Book>> GetBooksFromDb1()
+        {
+            var bookList = new List<Book>();
 
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(queryForBooks, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var book = new Book();
+
+                            book.fk_Item_Id = 1;
+                            book.Title = reader["Title"].ToString();
+                            book.ISBN = reader["ISBN"].ToString();
+                            book.Publisher = reader["Publisher"].ToString();
+                            book.Description = reader["Description"].ToString();
+                            book.Price = Convert.ToInt32(reader["Price"]);
+                            book.Placement = reader["Placement"].ToString();
+                            book.Author = reader["Author"].ToString();
+
+                            bookList.Add(book);
+                        }
+                    }
+                }
+                return await Task.FromResult(bookList);
+            }
+        }
         public async Task<List<Book>> GetEbooksFromDb()
         {
             var eBookList = new List<Book>();
@@ -104,17 +134,57 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = Placement;
 
                     await insertcmd.ExecuteNonQueryAsync();
-
-                    return await Task.FromResult(success);
+                    success = true;
                 }
+
+                return await Task.FromResult(success);
+
+                // Book
+                if (Item_id == 1)
+                {
+                    using (SqlConnection con = new SqlConnection(theConString))
+                    {
+                        string query =
+                            $"INSERT INTO {theBookTableName}" +
+                            $"(fk_Item_Id, Title, ISBN, Publisher, Author, Description, Price, Placement) " +
+                            $"VALUES('1', '{Title}', '{ISBN}', '{Publisher}', '{Author}' '{Description}', '{Price}', '{Placement}')";
+
+                        await con.OpenAsync();
+
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+
+                // E-book
+                else if (Item_id == 2)
+                {
+                    using (SqlConnection con = new SqlConnection(theConString))
+                    {
+                        string query =
+                            $"INSERT INTO {theBookTableName}" +
+                            $"(fk_Item_Id, Title, ISBN, Publisher, Author, Description, Price, Placement) " +
+                            $"VALUES('2', '{Title}', '{ISBN}', '{Publisher}', '{Author}' '{Description}', '{Price}', '{Placement}')";
+
+                        await con.OpenAsync();
+
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+
+                return await Task.FromResult(success);
             }
 
-            catch
+            catch (Exception)
             {
                 success = false;
                 return await Task.FromResult(success);
             }
-
         }
 
         /// <summary>
