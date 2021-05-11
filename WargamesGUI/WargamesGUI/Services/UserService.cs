@@ -52,10 +52,10 @@ namespace WargamesGUI.Services
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
                     con.Open();
-                    SqlCommand deletecmd = new SqlCommand("P0100_DELETE_USER", con);
+                    SqlCommand deletecmd = new SqlCommand("sp_DeleteUser", con);
                     deletecmd.CommandType = CommandType.StoredProcedure;
-                    deletecmd.CommandText = "P0100_DELETE_USER";
-                    deletecmd.Parameters.Add("@User_Id", SqlDbType.Int).Value = userId;
+                    deletecmd.CommandText = "sp_DeleteUser";
+                    deletecmd.Parameters.Add("@Id", SqlDbType.Int).Value = userId;
                     deletecmd.ExecuteNonQuery();
                     isWorking = true;
                 }
@@ -147,29 +147,35 @@ namespace WargamesGUI.Services
             }
         }
 
-        public bool AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard)
+        public async Task<bool> AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard)
         {
-            bool canAddNewVisitor = true;
+            bool success = true;
             try
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    string sql = $"INSERT INTO {theUserTableName}(fk_PrivilegeLevel, First_Name, Last_Name, SSN, Address, [E-mail], PhoneNumber, LibraryCard) VALUES('{privilegeLevel}','{First_Name}','{Last_Name}','{SSN}','{Address}','{Email}','{PhoneNumber}','{LibraryCard}')";
+                    await con.OpenAsync();
+                    SqlCommand insertcmd = new SqlCommand("sp_AddUser", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.CommandText = "sp_AddUser";
 
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
+                    insertcmd.Parameters.Add("@fk_PL", SqlDbType.Int).Value = privilegeLevel;
+                    insertcmd.Parameters.Add("@firstName", SqlDbType.VarChar).Value = First_Name;
+                    insertcmd.Parameters.Add("@lastName", SqlDbType.VarChar).Value = Last_Name;
+                    insertcmd.Parameters.Add("@sSN", SqlDbType.VarChar).Value = SSN;
+                    insertcmd.Parameters.Add("@address", SqlDbType.VarChar).Value = Address;
+                    insertcmd.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
+                    insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;
+                    insertcmd.Parameters.Add("@libraryCard", SqlDbType.VarChar).Value = LibraryCard;
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
                 }
-                canAddNewVisitor = true;
-                return canAddNewVisitor;
             }
-            catch (Exception e)
+
+            catch
             {
-                Console.WriteLine(e);
-                canAddNewVisitor = false;
-                return canAddNewVisitor;
+                success = false;
+                return await Task.FromResult(success);
             }
 
         }
