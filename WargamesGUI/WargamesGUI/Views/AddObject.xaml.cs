@@ -33,78 +33,18 @@ namespace WargamesGUI.Views
 
         protected override void OnAppearing()
         {
-        
+
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
 
         }
 
-        private async Task LoadBooks() 
+        private async Task LoadBooks()
         {
-<<<<<<< Updated upstream
-            listOfBooks.ItemsSource = await bookService.GetEbooksFromDb();
-
-        }
-
-        public bool AddNewBookAsync(int Item_id, string Title, string ISBN, string Publisher,
-                                       string Description, int Price, string Placement, string Author)
-        {
-            bool success = true;
-
-            try
-            {
-                // Book
-                if (Item_id == 1)
-                {
-                    using (SqlConnection con = new SqlConnection(DbHandler.theConString))
-                    {
-                        string query = $"INSERT INTO {DbHandler.theBookTableName} (fk_Item_Id, Title, ISBN, Publisher, Description, Price, Placement) VALUES('{Item_id}', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}', '{Placement}')";
-
-                        con.OpenAsync();
-
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            cmd.ExecuteNonQueryAsync();
-                        }
-                    }
-                    success = true;
-                    return success;
-                }
-
-                // E-book
-                else if (Item_id == 2)
-                {
-                    using (SqlConnection con = new SqlConnection(DbHandler.theConString))
-                    {
-                        string query =
-                            $"INSERT INTO {DbHandler.theBookTableName}" +
-                            $"(fk_Item_Id, Title, ISBN, Publisher, Description, Price, Placement) " +
-                            $"VALUES('2', '{Title}', '{ISBN}', '{Publisher}', '{Description}', '{Price}', '{Placement}')";
-
-                        con.OpenAsync();
-
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            cmd.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
-
-                //return Task.FromResult(success);
-                success = true;
-                return success;
-            }
-
-            catch (Exception)
-            {
-                success = false;
-                //return Task.FromResult(success);
-                return success;
-            }
-=======
             collection.AddRange(await bookService.GetBooksFromDb());
             collection.AddRange(await bookService.GetEbooksFromDb());
->>>>>>> Stashed changes
         }
+
+
 
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
         {
@@ -117,15 +57,9 @@ namespace WargamesGUI.Views
             var Placement = EntryPlacement.Text;
             var Author = EntryAuthor.Text;
 
-<<<<<<< Updated upstream
-
-
-            var b = AddNewBookAsync(itemID, Title, ISBN, Publisher, Description, Price, Placement, Author);
-            if (b == true)
-=======
             var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, Placement);
             if (b)
->>>>>>> Stashed changes
+
             {
                 await DisplayAlert("Success!", "You added a book!", "OK");
                 await bookService.GetBooksFromDb();

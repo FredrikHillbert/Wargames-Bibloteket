@@ -17,11 +17,12 @@ namespace WargamesGUI.Services
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
+                con.Open();
                 using (var command = new SqlCommand(queryForBooks, con))
                 {
-                    using (var reader = await command.ExecuteReaderAsync())
+                    using (var reader =  command.ExecuteReader())
                     {
-                        while (await reader.ReadAsync())
+                        while ( reader.Read())
                         {
                             var book = new Book();
 
@@ -48,11 +49,12 @@ namespace WargamesGUI.Services
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
+                con.Open();
                 using (var command = new SqlCommand(queryForBooks, con))
                 {
-                    using (var reader = await command.ExecuteReaderAsync())
+                    using (var reader =  command.ExecuteReader())
                     {
-                        while (await reader.ReadAsync())
+                        while ( reader.Read())
                         {
                             var eBbook = new Book();
 
