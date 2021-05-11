@@ -59,7 +59,7 @@ namespace WargamesGUI.Views
             var Description = EntryDescription.Text;
             int.TryParse(EntryPrice.Text, out int Price);
             var Placement = EntryPlacement.Text;
-
+            
             var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, Placement);
 
             if (b)
@@ -80,13 +80,14 @@ namespace WargamesGUI.Views
         {
             try
             {
-                // Popup "Reason"
+                string reason = await DisplayPromptAsync($"Remove book", $"Reason for removing: {selectedItem.Title}?");
 
-                await bookService.RemoveBook(selectedItem.Id, string.Empty);
-                await DisplayAlert("Success!", "You removed a book!", "OK");
-
-                await LoadBooks();
-
+                if (reason != null)
+                {
+                    await bookService.RemoveBook(selectedItem.Id, reason);
+                    await DisplayAlert("Success!", "You removed a book!", "OK");
+                    await LoadBooks();
+                }
             }
             catch (Exception ex)
             {

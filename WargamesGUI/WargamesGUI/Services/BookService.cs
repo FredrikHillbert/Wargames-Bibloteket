@@ -139,7 +139,8 @@ namespace WargamesGUI.Services
             {
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
-                    await con.OpenAsync();
+                    con.Open();
+                    //await con.OpenAsync();
 
                     SqlCommand insertcmd = new SqlCommand("sp_RemoveBook", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
