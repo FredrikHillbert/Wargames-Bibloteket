@@ -1,5 +1,4 @@
-﻿using MvvmHelpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -7,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
-
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -23,24 +21,25 @@ namespace WargamesGUI.Views
         public static BookService bookService = new BookService();
         public static DbHandler handler = new DbHandler();
         private int itemID;
-
-        private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
         public AddObject()
         {
             InitializeComponent();
-            listOfBooks.ItemsSource = collection;
         }
 
         protected override void OnAppearing()
         {
-        
-            MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+            MainThread.InvokeOnMainThreadAsync(async () => { await GetBooksFromDb1(); });
+            MainThread.InvokeOnMainThreadAsync(async () => { await GetEbooksFromDb(); });
 
         }
 
-        private async Task LoadBooks() 
+        private async Task GetBooksFromDb1()
         {
-<<<<<<< Updated upstream
+            listOfBooks.ItemsSource = await bookService.GetBooksFromDb1();
+
+        }        
+        private async Task GetEbooksFromDb()
+        {
             listOfBooks.ItemsSource = await bookService.GetEbooksFromDb();
 
         }
@@ -100,10 +99,6 @@ namespace WargamesGUI.Views
                 //return Task.FromResult(success);
                 return success;
             }
-=======
-            collection.AddRange(await bookService.GetBooksFromDb());
-            collection.AddRange(await bookService.GetEbooksFromDb());
->>>>>>> Stashed changes
         }
 
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
@@ -117,18 +112,15 @@ namespace WargamesGUI.Views
             var Placement = EntryPlacement.Text;
             var Author = EntryAuthor.Text;
 
-<<<<<<< Updated upstream
 
 
             var b = AddNewBookAsync(itemID, Title, ISBN, Publisher, Description, Price, Placement, Author);
             if (b == true)
-=======
-            var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, Placement);
-            if (b)
->>>>>>> Stashed changes
             {
-                await DisplayAlert("Success!", "You added a book!", "OK");
-                await bookService.GetBooksFromDb();
+                await DisplayAlert("Sucess!", "You added a book!", "OK");
+                await GetBooksFromDb1();
+
+
             }
             else await DisplayAlert("Error!", "Could not add book!", "OK");
         }
@@ -143,8 +135,19 @@ namespace WargamesGUI.Views
         {
             try
             {
-                await bookService.RemoveBook(selectedItem.Id, selectedItem.Placement);
+                using (SqlConnection con = new SqlConnection(DbHandler.theConString))
+                {
+                    string sql =
+                        $"DELETE FROM {DbHandler.theBookTableName} WHERE Title = '{selectedItem.Title}'";
+
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
                 await DisplayAlert("Success!", "You removed a book!", "OK");
+                await GetBooksFromDb1();
             }
             catch (Exception ex)
             {
