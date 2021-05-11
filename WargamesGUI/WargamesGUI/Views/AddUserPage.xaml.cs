@@ -82,8 +82,7 @@ namespace WargamesGUI
                 try
                 {
                     
-                    if (userService.AddNewUser(userbox.Text, passbox.Text, privilegeLevel,
-                                       firstnamebox.Text, lastnamebox.Text, emailbox.Text, phonebox.Text, addressbox.Text))
+                    if (await userService.AddNewUser(privilegeLevel, firstnamebox.Text, lastnamebox.Text, ssnbox.Text, addressbox.Text, emailbox.Text, phonebox.Text, userbox.Text, passbox.Text))
                     {
                         await DisplayAlert("Sucess", "You added a user!", "OK");
                         await LoadUserTbl();

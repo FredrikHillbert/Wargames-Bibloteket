@@ -33,6 +33,7 @@
                     <Entry x:Name="firstnamebox" Placeholder="Enter firstname" BackgroundColor="White"/>
                     <Entry x:Name="lastnamebox" Placeholder="Enter lastname" BackgroundColor="White"/>
                     <Entry x:Name="addressbox" Placeholder="Enter adress" BackgroundColor="White"/>
+                    <Entry x:Name="ssnbox" Placeholder="Enter SSN" BackgroundColor="White"/>
                     <Entry x:Name="emailbox" Placeholder="Enter email" BackgroundColor="White"/>
                     <Entry x:Name="phonebox" Placeholder="Enter phonenumber" BackgroundColor="White"/>
                     <Entry x:Name="userbox" Placeholder="Enter username" BackgroundColor="white"></Entry>

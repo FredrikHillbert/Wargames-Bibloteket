@@ -13,7 +13,7 @@ namespace WargamesGUI.Services
 {
     public class UserService : DbHandler
     {
-
+        public string exceptionMessage;
         public async Task<ObservableCollection<User>> ReadUserListFromDb()
         {
             ObservableCollection<User> obsList = new ObservableCollection<User>();
@@ -178,7 +178,7 @@ namespace WargamesGUI.Services
             }
 
         }
-        public async Task<bool> AddNewUser(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard, string username, string password)
+        public async Task<bool> AddNewUser(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string username, string password)
         {
             bool success = true;
             try
@@ -194,8 +194,7 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@sSN", SqlDbType.VarChar).Value = SSN;
                     insertcmd.Parameters.Add("@address", SqlDbType.VarChar).Value = Address;
                     insertcmd.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
-                    insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;
-                    insertcmd.Parameters.Add("@libraryCard", SqlDbType.VarChar).Value = LibraryCard;
+                    insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;                    
                     insertcmd.Parameters.Add("@username", SqlDbType.VarChar).Value = username;
                     insertcmd.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
                     await insertcmd.ExecuteNonQueryAsync();
@@ -203,8 +202,9 @@ namespace WargamesGUI.Services
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
+                exceptionMessage = ex.Message;
                 success = false;
                 return await Task.FromResult(success);
             }
