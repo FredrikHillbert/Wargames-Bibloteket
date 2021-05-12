@@ -15,8 +15,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
         </Grid>
-        <Frame CornerRadius="15" Margin="50,20,50,40" BackgroundColor="DarkSlateGray">
-            <ListView x:Name="listOfBook" HorizontalOptions="Center" >
+        <Frame CornerRadius="15" Margin="50,20,50,40" BackgroundColor="LightBlue">
+            <ListView x:Name="listOfBook" HorizontalOptions="Center" ItemSelected="listOfBook_ItemSelected" >
                 <ListView.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -30,7 +30,7 @@
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Button Text="Back" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold" Clicked="Back_Button_Clicked" CornerRadius="15"/>
+                        <Button Text="Back" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold" Clicked="Back_Button_Clicked" CornerRadius="15" BackgroundColor="#2E4159"/>
                         <Label Text="Title" TextColor="Black" Grid.Column="0" Grid.Row="1" FontAttributes="Bold"/>
                         <Label Text="Author" TextColor="Black" Grid.Column="1" Grid.Row="1" FontAttributes="Bold"/>
                         <Label Text="Price" TextColor="Black" Grid.Column="2" Grid.Row="1" FontAttributes="Bold"/>
