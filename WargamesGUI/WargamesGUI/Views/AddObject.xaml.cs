@@ -47,6 +47,7 @@ namespace WargamesGUI.Views
             collection.AddRange(await bookService.GetBooksFromDb());
             //collection.AddRange(await bookService.GetEbooksFromDb());
             listOfBooks.ItemsSource = collection;
+            
         }
 
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
@@ -64,6 +65,13 @@ namespace WargamesGUI.Views
 
             if (b)
             {
+                EntryTitle.Text = string.Empty;
+                EntryISBN.Text = string.Empty;
+                EntryPublisher.Text = string.Empty;
+                EntryAuthor.Text = string.Empty;
+                EntryDescription.Text = string.Empty;
+                EntryPrice.Text = string.Empty;
+                EntryPlacement.Text = string.Empty;
                 await DisplayAlert("Success!", "You added a book!", "OK");
                 await LoadBooks();
             }
@@ -98,6 +106,16 @@ namespace WargamesGUI.Views
         private void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (Book)e.Item;
+        }
+
+        private void DetailsSelected_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listOfBooks_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+
         }
     }
 
