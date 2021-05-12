@@ -32,6 +32,9 @@ namespace WargamesGUI.Services
                             users.First_Name = reader["First_Name"].ToString();
                             users.Last_Name = reader["Last_Name"].ToString();
                             users.Username = reader["Username"].ToString();
+                            users.Address = reader["Address"].ToString();
+                            users.Email = reader["E-mail"].ToString();
+                            users.PhoneNumber = reader["PhoneNumber"].ToString();
                             users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
                             users.User_ID = Convert.ToInt32(reader["User_ID"]);
 
@@ -148,7 +151,7 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<bool> AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard)
+        public async Task<bool> AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard, string Username, string Password)
         {
             bool success = true;
             try
@@ -166,6 +169,9 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
                     insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;
                     insertcmd.Parameters.Add("@libraryCard", SqlDbType.VarChar).Value = LibraryCard;
+                    insertcmd.Parameters.Add("@username", SqlDbType.VarChar).Value = Username;
+                    insertcmd.Parameters.Add("@password", SqlDbType.VarChar).Value = Password;
+
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
                 }

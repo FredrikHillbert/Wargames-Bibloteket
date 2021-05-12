@@ -21,6 +21,7 @@ namespace WargamesGUI
     public partial class AddUserPage : ContentPage
     {
         public User selectedItem;
+        public Color color;
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static DbHandler handler = new DbHandler();
@@ -81,8 +82,15 @@ namespace WargamesGUI
             {
                 try
                 {
-                    
-                    if (await userService.AddNewUser(privilegeLevel, firstnamebox.Text, lastnamebox.Text, ssnbox.Text, addressbox.Text, emailbox.Text, phonebox.Text, userbox.Text, passbox.Text))
+
+                    if (privilegeLevel == 3)
+                    {
+                        await userService.AddNewVisitor(privilegeLevel, firstnamebox.Text, lastnamebox.Text, ssnbox.Text, addressbox.Text, emailbox.Text, phonebox.Text, "11", userbox.Text, passbox.Text);
+
+                        await DisplayAlert("Sucess", "You added a visitor!", "OK");
+                        await LoadUserTbl();
+                    }
+                    else if (await userService.AddNewUser(privilegeLevel, firstnamebox.Text, lastnamebox.Text, ssnbox.Text, addressbox.Text, emailbox.Text, phonebox.Text, userbox.Text, passbox.Text))
                     {
                         await DisplayAlert("Sucess", "You added a user!", "OK");
                         await LoadUserTbl();
@@ -91,8 +99,8 @@ namespace WargamesGUI
                 catch (Exception)
                 {
                     await DisplayAlert("Error!", $"Reason {userService.exceptionMessage}", "OK");
-                    
-                }            
+
+                }
             }
 
         }
@@ -123,18 +131,65 @@ namespace WargamesGUI
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             selectedItem = (User)listOfUsers.SelectedItem;
+           
+           
+            
         }
         private void picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedItem = (User)picker.SelectedItem;
-            privilegeLevel = selectedItem.fk_PrivilegeLevel;
+            privilegeLevel = selectedItem.fk_PrivilegeLevel;           
+
+            switch (privilegeLevel)
+            {
+                case 1:
+                    firstnamebox.IsVisible = true;
+                    lastnamebox.IsVisible = true;
+                    addressbox.IsVisible = true;
+                    ssnbox.IsVisible = true;
+                    emailbox.IsVisible = true;
+                    phonebox.IsVisible = true;
+                    userbox.IsVisible = true;
+                    passbox.IsVisible = true;
+                    break;
+                case 2:
+                    firstnamebox.IsVisible = true;
+                    lastnamebox.IsVisible = true;
+                    addressbox.IsVisible = true;
+                    ssnbox.IsVisible = true;
+                    emailbox.IsVisible = true;
+                    phonebox.IsVisible = true;
+                    userbox.IsVisible = true;
+                    passbox.IsVisible = true;
+                    break;
+                case 3:
+                    firstnamebox.IsVisible = true;
+                    lastnamebox.IsVisible = true;
+                    addressbox.IsVisible = true;
+                    ssnbox.IsVisible = true;
+                    emailbox.IsVisible = true;
+                    phonebox.IsVisible = true;
+                    userbox.IsVisible = true;
+                    passbox.IsVisible = true;
+                    break;
+
+            }
 
         }
         private async Task LoadUserTbl()
         {
-            listOfUsers.ItemsSource = await userService.ReadUserListFromDb();
+            try
+            {
+                listOfUsers.ItemsSource = await userService.ReadUserListFromDb();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("LoadError", $"Reason for error: {ex.Message}", "OK");
+            }
+
 
         }
 
+        
     }
 }

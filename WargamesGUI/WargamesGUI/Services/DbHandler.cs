@@ -19,6 +19,7 @@ namespace WargamesGUI.Services
         public const string theRemovedItemTableName = "tblRemovedItem";
         public const string theDeweyMainTableName = "tblDeweyMain";
         public const string theDeweySubTableName = "tblDeweySub";
+        public const string theBorrowedItemTableName = "tblBorrowedItem";
 
 
         // Alla olika SQL-satser som vi behöver.
@@ -32,6 +33,7 @@ namespace WargamesGUI.Services
 
         // SELECT - Procedures
         public string queryForBooks = $"SELECT * FROM {theBookTableName} ORDER BY Title";
+        public string queryForBorrowrdBooks = $"SELECT * FROM {theBorrowedItemTableName} WHERE Borrowed_ID = 'cardnumber' ORDER BY Title";
 
         // INSERT INTO - Procedures
 
@@ -61,62 +63,5 @@ namespace WargamesGUI.Services
         public string queryForVisitors = $"SELECT * FROM {theUserTableName} WHERE fk_PrivilegeLevel = 3";
 
 
-        //public async Task<List<T>> Searching<T>(string text)
-        //{
-        //    List<T> searchedValues = new List<T>();
-        //    string query = $"SELECT * FROM tblItem ti " +
-        //                    $"LEFT JOIN tblBook tb ON tb.fk_Item_Id = ti.Item_Id " +
-        //                    $"LEFT JOIN tblEvent te ON te.fk_Item_Id = ti.Item_Id " +
-        //                    $"WHERE CONCAT_WS('', tb.Title, tb.ISBN, tb.Publisher, tb.fk_Item_Id, te.fk_Item_Id, tb.Price, tb.Placement, tb.Author, ti.TypeOfItem, te.Title, te.Description) " +
-        //                    $"LIKE '%{text}%'";
-
-        //    string query2 = $"SELECT* FROM tblBook WHERE CONCAT_WS('', Title, ISBN, Publisher, fk_Item_Id, Price, Placement, Author) LIKE '%{text}%'";
-
-
-
-        //    using (SqlConnection con = new SqlConnection(theConString))
-        //    {
-        //        await con.OpenAsync();
-        //        using (SqlCommand cmd = new SqlCommand(query, con))
-        //        {
-        //            using (var reader = await cmd.ExecuteReaderAsync())
-        //            {
-        //                while (await reader.ReadAsync())
-        //                {
-        //                    var values = new Book();
-
-        //                    values.ISBN = reader["ISBN"].ToString();
-        //                    values.Title = reader["Title"].ToString();
-        //                    values.Publisher = reader["Publisher"].ToString();
-        //                    values.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
-        //                    values.Price = Convert.ToInt32(reader["Price"]);
-        //                    values.Placement = reader["Placement"].ToString();
-        //                    values.Author = reader["Author"].ToString();
-
-
-        //                    switch (values.fk_Item_Id)
-        //                    {
-        //                        case 1:
-        //                            values.Category = "Book";
-        //                            break;
-        //                        case 2:
-        //                            values.Category = "Ebook";
-        //                            break;
-        //                        case 3:
-        //                            values.Category = "Event";
-        //                            break;
-        //                        default:
-        //                            break;
-        //                    }
-
-
-        //                    searchedValues.Add(values);
-        //                }
-
-        //            }
-        //        }
-        //        return await Task.FromResult(searchedValues);
-        //    }
-        //}
     }
 }

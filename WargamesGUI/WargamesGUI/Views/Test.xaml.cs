@@ -19,12 +19,6 @@ namespace WargamesGUI.Views
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            var uri = new Uri("https://sec.ch9.ms/ch9/5d93/a1eab4bf-3288-4faf-81c4-294402a85d93/XamarinShow_mid.mp4", UriKind.Absolute);
-            mediaElement.Source = MediaSource.FromUri(uri);
-        }
+        
     }
 }

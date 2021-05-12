@@ -11,6 +11,6 @@ namespace WargamesGUI.Models
         public string CardNumber { get; set; }
        
 
-        public override string ToString() => $"{First_Name} {Last_Name} {CardNumber} {PhoneNumber} {Email}";
+        public override string ToString() => $"{First_Name} {Last_Name}s borrowrd items";
     }
 }

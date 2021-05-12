@@ -11,7 +11,5 @@ namespace WargamesGUI.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime DateOfEvent { get; set; }
-
-        public override string ToString() => $"{Title}, {Description}, {DateOfEvent}, {Id}, {fk_Item_Id}";
     }
 }
