@@ -17,6 +17,7 @@ namespace WargamesGUI.Views
         public static BookService bookService = new BookService();
         public static string text;
         public Book selecteditem;
+        public static string cardnumber;
         public SearchValuePage()
         {
             InitializeComponent();
@@ -41,9 +42,16 @@ namespace WargamesGUI.Views
             return text;
         }
 
-        private void listOfBook_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void listOfBook_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            //selecteditem = (Book)
+            //selecteditem = (Book)e.Item;
+            //await bookService.LoanBook(selecteditem.Id, cardnumber);
+        }
+
+        private async void Loan_Button_Clicked(object sender, EventArgs e)
+        {
+            cardnumber = await DisplayPromptAsync($"Loan Book", "CardNumber:");
+
         }
     }
 }
