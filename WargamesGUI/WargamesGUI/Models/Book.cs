@@ -7,16 +7,17 @@ namespace WargamesGUI.Models
     public class Book
     {
         public int Id { get; set; }
-        public string TypeOfBook { get; set; }
+        public string TypeOfBook { get; set; } // Används i "AddObject" - ej i databasen.
         public int fk_Item_Id { get; set; }
         public string Title { get; set; }
-        public string ISBN { get; set; }
+        public string Author { get; set; }
         public string Publisher { get; set; }
-        public string Category { get; set; }
         public string Description { get; set; }
         public int? Price { get; set; }
+        public string ISBN { get; set; }
         public string Placement { get; set; }
-        public string Author { get; set; }
+        public int InStock { get; set; }
+        public string Category { get; set; } // Används i BookService - ej i databasen.
 
         public override string ToString() => $"{TypeOfBook}";
         //public override string ToString() => $"{Title}, {fk_Item_Id}, {ISBN}, {Publisher}, {Description}, {Price}, {Placement}, {Id}";
