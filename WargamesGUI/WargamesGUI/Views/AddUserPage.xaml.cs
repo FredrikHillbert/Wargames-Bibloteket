@@ -130,7 +130,7 @@ namespace WargamesGUI
         }
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            //selectedItem = (User)listOfUsers.SelectedItem;
+            selectedItem = (User)listOfUsers.SelectedItem;
            
            
             
