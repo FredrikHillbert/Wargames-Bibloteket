@@ -4,9 +4,9 @@
              xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
              x:Class="WargamesGUI.Views.Test">
     <ContentPage.Content>
-        
-            <behaviors:MediaElement x:Name="mediaElement" ShowsPlaybackControls="True"/>
-        
+
+        <behaviors:MediaElement x:Name="mediaElement" ShowsPlaybackControls="True"/>
+
 
 
 
