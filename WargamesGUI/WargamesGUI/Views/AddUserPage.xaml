@@ -83,7 +83,7 @@
                             <DataTemplate>
                                 <ViewCell>
                                     
-                                    <Grid BackgroundColor="White">
+                                    <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
