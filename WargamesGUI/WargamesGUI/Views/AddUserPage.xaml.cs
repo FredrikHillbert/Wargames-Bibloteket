@@ -82,7 +82,14 @@ namespace WargamesGUI
                 try
                 {
                     
-                    if (await userService.AddNewUser(privilegeLevel, firstnamebox.Text, lastnamebox.Text, ssnbox.Text, addressbox.Text, emailbox.Text, phonebox.Text, userbox.Text, passbox.Text))
+                    if (privilegeLevel == 3)
+                    {
+                        await userService.AddNewVisitor(privilegeLevel, firstnamebox.Text, lastnamebox.Text, ssnbox.Text, addressbox.Text, emailbox.Text, phonebox.Text,"11", userbox.Text, passbox.Text);
+
+                        await DisplayAlert("Sucess", "You added a visitor!", "OK");
+                        await LoadUserTbl();
+                    }
+                    else if (await userService.AddNewUser(privilegeLevel, firstnamebox.Text, lastnamebox.Text, ssnbox.Text, addressbox.Text, emailbox.Text, phonebox.Text, userbox.Text, passbox.Text))
                     {
                         await DisplayAlert("Sucess", "You added a user!", "OK");
                         await LoadUserTbl();
