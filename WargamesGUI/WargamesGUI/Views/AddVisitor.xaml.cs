@@ -73,7 +73,7 @@ namespace WargamesGUI.Views
                 privilegeLevel = 3;
                 try
                 {
-                    if (await userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text))
+                    if (await userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text, "11","11"))
                     {
                         EntryFirstName.Text = string.Empty;
                         EntryLastName.Text = string.Empty;

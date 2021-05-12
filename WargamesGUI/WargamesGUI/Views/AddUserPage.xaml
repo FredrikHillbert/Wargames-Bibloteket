@@ -123,7 +123,7 @@
 
             </Frame>
         </StackLayout>
-        <StackLayout>
+        <!--<StackLayout>
         <Button Text="Delete user" 
                             Clicked="Delete_User_Clicked" 
                             CornerRadius="20" 
@@ -132,6 +132,6 @@
                             Margin="0,0,0,0"
                             HorizontalOptions="End"
                 VerticalOptions="End"/>
-        </StackLayout>
+        </StackLayout>-->
     </Grid>
 </ContentPage>

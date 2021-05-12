@@ -151,7 +151,7 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<bool> AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard)
+        public async Task<bool> AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard, string Username, string Password)
         {
             bool success = true;
             try
@@ -169,6 +169,9 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
                     insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;
                     insertcmd.Parameters.Add("@libraryCard", SqlDbType.VarChar).Value = LibraryCard;
+                    insertcmd.Parameters.Add("@username", SqlDbType.VarChar).Value = Username;
+                    insertcmd.Parameters.Add("@password", SqlDbType.VarChar).Value = Password;
+
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
                 }
