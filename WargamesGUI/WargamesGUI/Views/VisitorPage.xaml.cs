@@ -66,5 +66,10 @@ namespace WargamesGUI.Views
             
 
         }
+
+        private void Back_Button_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new MainPage();
+        }
     }
 }
