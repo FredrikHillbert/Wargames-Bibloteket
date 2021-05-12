@@ -11,6 +11,7 @@ namespace WargamesGUI.Services
 {
     public class BookService : DbHandler
     {
+        public string exceptionMessage;
         public async Task<List<Book>> GetBooksFromDb()
         {
             var bookList = new List<Book>();
@@ -200,7 +201,7 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<bool> LoanBook(int book_id, int user_id)
+        public async Task<bool> LoanBook(int book_id, int fk_LibraryCard)
         {
             bool success = true;
 
@@ -214,15 +215,16 @@ namespace WargamesGUI.Services
                     insertcmd.CommandType = CommandType.StoredProcedure;
 
                     insertcmd.Parameters.Add("@fk_Book_Id", SqlDbType.Int).Value = book_id;
-                    insertcmd.Parameters.Add("@fk_User_Id", SqlDbType.Int).Value = user_id;
+                    insertcmd.Parameters.Add("@fk_LibraryCard", SqlDbType.Int).Value = fk_LibraryCard;
 
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
+                exceptionMessage = ex.Message;
                 success = false;
                 return await Task.FromResult(success);
             }

@@ -16,7 +16,8 @@ namespace WargamesGUI.Views
     public partial class VisitorPage : ContentPage
     {
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
-        public User selectedItem;
+        public Book selectedItem;
+        public User user;
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static BookService bookService = new BookService();
@@ -34,10 +35,6 @@ namespace WargamesGUI.Views
 
         }
 
-        private void listofbooks_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-
-        }
         private async Task LoadBooks()
         {
             if (collection != null)
@@ -46,9 +43,28 @@ namespace WargamesGUI.Views
             }
 
             collection.AddRange(await bookService.GetBooksFromDb());
-            //collection.AddRange(await bookService.GetEbooksFromDb());
             listofbooks.ItemsSource = collection;
         }
 
+        private async void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            selectedItem = (Book)e.Item;
+
+        }
+
+        private async void Loan_Button_Clicked(object sender, EventArgs e)
+        {
+            
+            if (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+            {
+                await DisplayAlert("Susscessfull", "Book is added", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Error", $"{bookService.exceptionMessage}", "OK");
+            }
+            
+
+        }
     }
 }
