@@ -18,6 +18,7 @@ namespace WargamesGUI.Models
         public string Placement { get; set; }
         public int InStock { get; set; }
         public string Category { get; set; } // Används i BookService - ej i databasen.
+        public override string ToString() => $"{TypeOfBook}";
 
     }
 }
