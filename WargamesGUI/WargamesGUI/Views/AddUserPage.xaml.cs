@@ -132,7 +132,15 @@ namespace WargamesGUI
         }
         private async Task LoadUserTbl()
         {
-            listOfUsers.ItemsSource = await userService.ReadUserListFromDb();
+            try
+            {
+                listOfUsers.ItemsSource = await userService.ReadUserListFromDb();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("LoadError", $"Reason for error: {ex.Message}", "OK");
+            }
+            
 
         }
 

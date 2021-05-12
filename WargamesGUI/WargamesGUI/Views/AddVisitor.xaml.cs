@@ -38,18 +38,60 @@ namespace WargamesGUI.Views
 
         private async void AddVisitor_Button_Clicked(object sender, EventArgs e)
         {
-            privilegeLevel = 3;
-
-            var b = await userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text);
-
-            if (b)
+            
+            if (string.IsNullOrEmpty(EntryFirstName.Text) || !CheckFormat.CheckIfAllLetter(EntryFirstName.Text))
             {
-                await DisplayAlert("Success!", "You added a visitor!", "OK");
-                await ReadVisitorListFromDb();
-
-
+                await DisplayAlert("Invalid Format", "Firstname is empty or format is not allowed.", "OK");
             }
-            else await DisplayAlert("Error!", "Could not add visitor!", "OK");
+            else if (string.IsNullOrEmpty(EntryLastName.Text) || !CheckFormat.CheckIfAllLetter(EntryLastName.Text))
+            {
+                await DisplayAlert("Invalid Format", "Lastname is empty or format is not allowed.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntrySsnNumber.Text) ||!CheckFormat.CheckIfAllNumbers(EntrySsnNumber.Text))
+            {
+                await DisplayAlert("Invalid SSNnumber", "SSN number is empty or format is not allowed.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryAdress.Text) || !CheckFormat.CheckAdress(EntryAdress.Text))
+            {
+                await DisplayAlert("Invalid address", "Address is empty or format is not allowed.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryEmail.Text) || !CheckFormat.IsValidEmail(EntryEmail.Text))
+            {
+                await DisplayAlert("Invalid email", "Email is empty or format is not allowed.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryPhoneNumber.Text) || !CheckFormat.CheckIfAllNumbers(EntryPhoneNumber.Text))
+            {
+                await DisplayAlert("Invalid phonenumber", "Phonenumber is empty or format is not allowed.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryCardNumber.Text) || !CheckFormat.CheckIfAllNumbers(EntryCardNumber.Text))
+            {
+                await DisplayAlert("InvalidSSNnumber", "SSN number is empty or format is not allowed.", "OK");
+            }
+
+            else
+            {
+                privilegeLevel = 3;
+                try
+                {
+                    if (await userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text))
+                    {
+                        EntryFirstName.Text = string.Empty;
+                        EntryLastName.Text = string.Empty;
+                        EntrySsnNumber.Text = string.Empty;
+                        EntryAdress.Text = string.Empty;
+                        EntryEmail.Text = string.Empty;
+                        EntryPhoneNumber.Text = string.Empty;
+                        EntryCardNumber.Text = string.Empty;
+                        await DisplayAlert("Success!", "You added a visitor!", "OK");
+                        await ReadVisitorListFromDb();
+                    }
+                }
+                catch (Exception)
+                {
+                    await DisplayAlert("Error!",$"Reason: {userService.exceptionMessage}", "OK");
+                }
+            }
+             
         }
 
         private async void DeleteVisitor_Clicked(object sender, EventArgs e)

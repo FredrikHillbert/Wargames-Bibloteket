@@ -4,93 +4,116 @@
              x:Class="WargamesGUI.Views.AddVisitor"
              BackgroundImageSource="pexels-cottonbro.jpg">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <StackLayout>
 
-        <Image Source="pexels-cottonbro.jpg" Aspect="AspectFill" Opacity="0.5" Grid.RowSpan="3"></Image>
-        <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
-
-
-        <StackLayout Grid.Row="0" Margin="0,10,0,0">
-            <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,0" BackgroundColor="LightBlue">
-                <StackLayout>
-                    <Entry x:Name="EntryFirstName" Placeholder="Enter firstname" BackgroundColor="White"/>
-                    <Entry x:Name="EntryLastName" Placeholder="Enter lastname" BackgroundColor="White"/>
-                    <Entry x:Name="EntrySsnNumber" Placeholder="Enter SSN" BackgroundColor="White"/>
-                    <Entry x:Name="EntryAdress" Placeholder="Enter address" BackgroundColor="White"/>
-                    <Entry x:Name="EntryEmail" Placeholder="Enter email" BackgroundColor="White"/>
-                    <Entry x:Name="EntryPhoneNumber" Placeholder="Enter phoneNumber" BackgroundColor="white"></Entry>
-                    <Entry x:Name="EntryCardNumber" Placeholder="Enter cardNumber" IsPassword="True" BackgroundColor="white"></Entry>
-                    <Button Text="Register visitor" 
+        <Frame CornerRadius="40" BorderColor="Black" Margin="50,10,50,0" BackgroundColor="LightBlue">
+            <Grid Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="27"/>
+                    <RowDefinition Height="27"/>
+                    <RowDefinition Height="27"/>
+                    <RowDefinition Height="27"/>
+                    <RowDefinition Height="27"/>
+                    <RowDefinition Height="27"/>
+                    <RowDefinition Height="27"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Entry x:Name="EntryFirstName" Placeholder="Enter firstname" BackgroundColor="White" Grid.Row="0" Grid.Column="0"/>
+                <Entry x:Name="EntryLastName" Placeholder="Enter lastname" BackgroundColor="White" Grid.Row="1" Grid.Column="0"/>
+                <Entry x:Name="EntrySsnNumber" Placeholder="Enter SSN" BackgroundColor="White" Grid.Row="2" Grid.Column="0"/>
+                <Entry x:Name="EntryAdress" Placeholder="Enter address" BackgroundColor="White" Grid.Row="3" Grid.Column="0"/>
+                <Entry x:Name="EntryEmail" Placeholder="Enter email" BackgroundColor="White" Grid.Row="4" Grid.Column="0"/>
+                <Entry x:Name="EntryPhoneNumber" Placeholder="Enter phoneNumber" BackgroundColor="white" Grid.Row="5" Grid.Column="0"/>
+                <Entry x:Name="EntryCardNumber" Placeholder="Enter cardNumber" BackgroundColor="white" Grid.Row="6" Grid.Column="0"/>
+                <Button Text="Register visitor" 
                             Clicked="AddVisitor_Button_Clicked" 
                             CornerRadius="20" 
                             BackgroundColor="#2E4159"
                             TextColor="White"
                             Margin="200,0,0,0"
-                            HorizontalOptions="End"/>
-                </StackLayout>
-            </Frame>
-        </StackLayout>
+                            HorizontalOptions="End"
+                            Grid.Row="7" Grid.Column="0"/>
+            </Grid>
+        </Frame>
+        <Frame CornerRadius="40" BorderColor="Black" Margin="50,30,50,20" BackgroundColor="LightBlue">
+            <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected">
+                <ListView.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0"/>
+                        <Label Text="Firstname" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="0"/>
+                        <Label Text="Lastname" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="1"/>
+                        <Label Text="Card number" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="2"/>
+                        <Label Text="Phonenumber" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="3"/>
+                        <Label Text="Address" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="4"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid BackgroundColor="White">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Grid.Column="0" Grid.Row="0">
+                                    <Label Text="{Binding First_Name}" HorizontalOptions="Start" />
+                                </StackLayout>
+                                <StackLayout Grid.Column="1" Grid.Row="0">
+                                    <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Grid.Column="2" Grid.Row="0">
+                                    <Label Text="{Binding CardNumber}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Grid.Column="3" Grid.Row="0">
+                                    <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <StackLayout Grid.Column="4" Grid.Row="0">
+                                    <Label Text="{Binding Address}" HorizontalOptions="Start"/>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackLayout Grid.Column="0" Grid.Row="0" Margin="0,0,40,40">
+                        <Button Text="Delete visitor" 
+                                    Clicked="DeleteVisitor_Clicked" 
+                                    CornerRadius="20" 
+                                    BackgroundColor="#2E4159"
+                                    TextColor="White"
+                                    HorizontalOptions="EndAndExpand"/>
+                        </StackLayout>
+                    </Grid>
+                </ListView.Footer>
+            </ListView>
+        </Frame>
 
-
-
-        <StackLayout Grid.Row="2" VerticalOptions="Start">
-            <StackLayout/>
-            <Frame CornerRadius="40" BorderColor="Black" Margin="50,-60,50,-65" BackgroundColor="LightBlue" Grid.RowSpan="2">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0"/>
-                    <Label Text="Firstname" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Margin="0,20,0,0" Grid.Column="0"/>
-                    <Label Text="Lastname" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="0" Margin="90,20,0,0"/>
-                    <Label Text="Card number" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="1" Margin="10,20,0,0"/>
-                    <Label Text="Phonenumber" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="2" Margin="-35,20,0,0"/>
-                    <Label Text="Address" HorizontalOptions="Start" FontSize="Small" Grid.Row="2" Grid.Column="3" Margin="-70,20,0,0"/>
-                    <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected" Grid.Row="3" BackgroundColor="White" Grid.ColumnSpan="6">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Orientation="Horizontal" Margin="10,0,0,0">
-                                        <Label Text="{Binding First_Name}"/>
-                                        <Label Text="{Binding Last_Name}" Margin="50,0,0,0" />
-                                        <Label Text="{Binding CardNumber}" Margin="50,0,0,0"/>
-                                        <Label Text="{Binding PhoneNumber}" Margin="50,0,0,0"/>
-                                        <Label Text="{Binding Address}" Margin="50,0,0,0"/>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-
-                </Grid>
-            </Frame>
-
-            <Button Text="Delete visitor" 
-                            Clicked="DeleteVisitor_Clicked" 
-                            CornerRadius="20" 
-                            BackgroundColor="#2E4159"
-                            TextColor="White"
-                            Margin="0,0,70,40"
-                            HorizontalOptions="End"/>
-
-        </StackLayout>
-
-    </Grid>
+    </StackLayout>
 </ContentPage>

@@ -32,6 +32,9 @@ namespace WargamesGUI.Services
                             users.First_Name = reader["First_Name"].ToString();
                             users.Last_Name = reader["Last_Name"].ToString();
                             users.Username = reader["Username"].ToString();
+                            users.Address = reader["Address"].ToString();
+                            users.Email = reader["E-mail"].ToString();
+                            users.PhoneNumber = reader["PhoneNumber"].ToString();
                             users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
                             users.User_ID = Convert.ToInt32(reader["User_ID"]);
 
@@ -171,8 +174,9 @@ namespace WargamesGUI.Services
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
+                exceptionMessage = ex.Message;
                 success = false;
                 return await Task.FromResult(success);
             }

@@ -53,7 +53,7 @@
         
         <StackLayout Grid.Row="2" VerticalOptions="Start">
             <StackLayout/>
-            <Frame CornerRadius="40" BorderColor="Black" Margin="50,-60,50,-65" BackgroundColor="LightBlue" Grid.RowSpan="2">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,-20,50,-65" BackgroundColor="LightBlue" Grid.RowSpan="2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1"/>
@@ -68,21 +68,21 @@
                    FontAttributes="Italic"
                    TextColor="#2E4159"
                    BackgroundColor="Transparent" Grid.Row="2"></Label>
-                    <Label Text="Privilege     Username" Grid.Row="3" Margin="30,-5,0,0"/>
+                    <Label Text="Privilege     Firstname        Lastname" Grid.Row="3" Margin="30,-5,0,0"/>
 
                     <ListView x:Name="listOfUsers" ItemSelected="listOfUsers_ItemSelected" Margin="0,20,0,0" Grid.Row="3" BackgroundColor="White">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Orientation="Horizontal" Margin="50,0,0,0">
-                                    <Label Text="{Binding fk_PrivilegeLevel}"/>
-                                    <Label Text="{Binding First_Name}" Margin="50,0,0,0"/>
-                                    <Label Text="{Binding Last_Name}" Margin="50,0,0,0"/>
-                                    <Label Text="{Binding Email}" Margin="50,0,0,0"/>
-                                    <Label Text="{Binding PhoneNumber}" Margin="50,0,0,0"/>
-                                    <Label Text="{Binding Address}" Margin="50,0,0,0"/>
-                                </StackLayout>
-                            </ViewCell>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal" Margin="50,0,0,0">
+                                        <Label Text="{Binding fk_PrivilegeLevel}"/>
+                                        <Label Text="{Binding First_Name}"/>
+                                        <Label Text="{Binding Last_Name}" />
+                                        <Label Text="{Binding Email}"/>
+                                        <Label Text="{Binding PhoneNumber}" />
+                                        <Label Text="{Binding Address}"/>
+                                    </StackLayout>
+                                </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
