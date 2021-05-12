@@ -170,7 +170,6 @@ namespace WargamesGUI.Services
 
             try
             {
-
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
                     await con.OpenAsync();
@@ -191,7 +190,6 @@ namespace WargamesGUI.Services
 
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
-
                 }
             }
 
@@ -200,7 +198,34 @@ namespace WargamesGUI.Services
                 success = false;
                 return await Task.FromResult(success);
             }
+        }
 
+        public async Task<bool> LoanBook(int book_id, int user_id)
+        {
+            bool success = true;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_LoanBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+
+                    insertcmd.Parameters.Add("@fk_Book_Id", SqlDbType.Int).Value = book_id;
+                    insertcmd.Parameters.Add("@fk_User_Id", SqlDbType.Int).Value = user_id;
+
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
+                }
+            }
+
+            catch
+            {
+                success = false;
+                return await Task.FromResult(success);
+            }
         }
         public async Task<List<Book>> Searching(string text)
         {
