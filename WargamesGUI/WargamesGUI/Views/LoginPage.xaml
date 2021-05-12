@@ -64,7 +64,7 @@
                 HorizontalOptions="Center"
                 WidthRequest="150"
                 CornerRadius="15"
-                BackgroundColor="AliceBlue"/>
+                BackgroundColor="#2E4159"/>
         <!--Search Bar-->
         <SearchBar x:Name="SearchBar" 
                    Placeholder="Search for Category, ISBN, Title or Author"  
@@ -88,7 +88,7 @@
                 CornerRadius="15"
                 WidthRequest="150"
                 HorizontalOptions="Center"
-                BackgroundColor="AliceBlue"
+                BackgroundColor="#2E4159"
                 Clicked="CardID_Button_Clicked"/>
 
     </Grid>

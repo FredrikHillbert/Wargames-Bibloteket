@@ -42,6 +42,10 @@ namespace WargamesGUI
                         await DisplayAlert("Successful", "You are now logging in as Librarian", "OK");
                         App.Current.MainPage = new FlyoutLibrarianPage();
                         break;
+                    case 3:
+                        await DisplayAlert("Successful", "You are now logging in as Visitor", "OK");
+                        App.Current.MainPage = new VisitorPage();
+                        break;
                     default:
                         await DisplayAlert("Error", "Please check if username and password are correct", "Ok");
                         break;
