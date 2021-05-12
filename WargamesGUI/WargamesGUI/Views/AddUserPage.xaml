@@ -53,78 +53,78 @@
 
         <StackLayout Grid.Row="2" VerticalOptions="Start">
             <Frame CornerRadius="40" BorderColor="Black" Margin="50,-20,50,20" BackgroundColor="LightBlue">
-                <ListView x:Name="listOfUsers" ItemSelected="listOfUsers_ItemSelected" Margin="0,0,0,40">
-                    <ListView.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                            <Label Text="Privilege" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
-                            <Label Text="Firstname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
-                            <Label Text="Lastname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
-                            <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
-                            <Label Text="Address" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
-                            <Label Text="Email" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
-                            <Label Text="Phonenr" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
-                        </Grid>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid BackgroundColor="White">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackLayout Grid.Column="0" Grid.Row="0">
-                                        <Label Text="{Binding fk_PrivilegeLevel}" HorizontalOptions="Start" />
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="1" Grid.Row="0">
-                                        <Label Text="{Binding First_Name}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="2" Grid.Row="0">
-                                        <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="3" Grid.Row="0">
-                                        <Label Text="{Binding Username}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="4" Grid.Row="0">
-                                        <Label Text="{Binding Address}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="5" Grid.Row="0">
-                                        <Label Text="{Binding Email}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="6" Grid.Row="0">
-                                        <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
+                <StackLayout>
+                    <ListView x:Name="listOfUsers" ItemSelected="listOfUsers_ItemSelected" Margin="0,0,0,40">
 
-                </ListView>
+                        <ListView.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <Label Text="Privilege" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="Firstname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="Lastname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
+                                <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Address" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="Email" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
+                                <Label Text="Phonenr" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid BackgroundColor="White">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Column="0" Grid.Row="0">
+                                            <Label Text="{Binding fk_PrivilegeLevel}" HorizontalOptions="Start" />
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="1" Grid.Row="0">
+                                            <Label Text="{Binding First_Name}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="2" Grid.Row="0">
+                                            <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="3" Grid.Row="0">
+                                            <Label Text="{Binding Username}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="4" Grid.Row="0">
+                                            <Label Text="{Binding Address}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="5" Grid.Row="0">
+                                            <Label Text="{Binding Email}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="6" Grid.Row="0">
+                                            <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
 
+                    </ListView>
+                </StackLayout>
             </Frame>
-        </StackLayout>
-        <!--<StackLayout>
-        <Button Text="Delete user" 
+            <Button Text="Delete user" 
                             Clicked="Delete_User_Clicked" 
                             CornerRadius="20" 
                             BackgroundColor="#2E4159"
@@ -132,6 +132,7 @@
                             Margin="0,0,0,0"
                             HorizontalOptions="End"
                 VerticalOptions="End"/>
-        </StackLayout>-->
+        </StackLayout>
+       
     </Grid>
 </ContentPage>
