@@ -7,6 +7,8 @@ using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+
+
 namespace WargamesGUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
