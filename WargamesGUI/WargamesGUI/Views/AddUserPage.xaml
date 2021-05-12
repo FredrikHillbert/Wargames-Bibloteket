@@ -54,10 +54,7 @@
         <StackLayout Grid.Row="2" VerticalOptions="Start">
             <Frame CornerRadius="40" BorderColor="Black" Margin="50,-50,50,20" BackgroundColor="LightBlue">
                 <StackLayout>
-                    <ListView x:Name="listOfUsers" ItemSelected="listOfUsers_ItemSelected" Margin="0,0,0,10">
-
-                        <ListView.Header>
-                            <Grid>
+                    <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
@@ -66,8 +63,8 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
                                 <Label Text="Privilege" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
@@ -78,7 +75,9 @@
                                 <Label Text="Email" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
                                 <Label Text="Phonenr" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
                             </Grid>
-                        </ListView.Header>
+                    <ListView x:Name="listOfUsers" ItemSelected="listOfUsers_ItemSelected" Margin="0,0,0,10" ItemTapped="listOfUsers_ItemTapped">
+
+                       
                         <ListView.ItemTemplate>
                             
                             <DataTemplate>
@@ -89,15 +88,14 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
-                                       
                                         <StackLayout Grid.Column="0" Grid.Row="0">
                                             <Label Text="{Binding fk_PrivilegeLevel}" HorizontalOptions="Start" />
                                         </StackLayout>
@@ -119,6 +117,7 @@
                                         <StackLayout Grid.Column="6" Grid.Row="0">
                                             <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
                                         </StackLayout>
+
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>

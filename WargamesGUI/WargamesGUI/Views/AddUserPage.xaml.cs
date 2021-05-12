@@ -130,7 +130,7 @@ namespace WargamesGUI
         }
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            selectedItem = (User)listOfUsers.SelectedItem;
+            //selectedItem = (User)listOfUsers.SelectedItem;
            
            
             
@@ -190,6 +190,10 @@ namespace WargamesGUI
 
         }
 
-        
+        private void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            selectedItem = (User)listOfUsers.SelectedItem;
+            
+        }
     }
 }
