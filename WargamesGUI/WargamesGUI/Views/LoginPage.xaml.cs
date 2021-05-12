@@ -33,6 +33,8 @@ namespace WargamesGUI
                 switch (service.SignIn(Entryusername.Text, Entrypassword.Text))
                 {
                     case 1:
+                        Entryusername.Text = string.Empty;
+                        Entrypassword.Text = string.Empty;
                         await DisplayAlert("Successful", "You are now logging in as Admin", "OK");
                         App.Current.MainPage = new FlyoutAdminPage();
                         break;
