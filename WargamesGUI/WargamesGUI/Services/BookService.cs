@@ -45,36 +45,36 @@ namespace WargamesGUI.Services
             }
         }
 
-        //public async Task<List<Book>> GetEbooksFromDb()
-        //{
-        //    var eBookList = new List<Book>();
+        public async Task<List<Book>> GetBorrowedBooksFromDb()
+        {
+            var BorrowedBooks = new List<Book>();
 
-        //    using (SqlConnection con = new SqlConnection(theConString))
-        //    {
-        //        con.Open();
-        //        using (var command = new SqlCommand(queryForBooks, con))
-        //        {
-        //            using (var reader =  command.ExecuteReader())
-        //            {
-        //                while ( reader.Read())
-        //                {
-        //                    var eBook = new Book();
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(queryForBooks, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var BorrowedBo = new Book();
 
-        //                    eBook.Id = Convert.ToInt32(reader["Id"]);
-        //                    eBook.fk_Item_Id = 2;
-        //                    eBook.Title = reader["Title"].ToString();
-        //                    eBook.ISBN = reader["ISBN"].ToString();
-        //                    eBook.Publisher = reader["Publisher"].ToString();
-        //                    eBook.Description = reader["Description"].ToString();
-        //                    eBook.Price = Convert.ToInt32(reader["Price"]);
+                            BorrowedBo.Id = Convert.ToInt32(reader["Id"]);
+                            BorrowedBo.fk_Item_Id = 2;
+                            BorrowedBo.Title = reader["Title"].ToString();
+                            BorrowedBo.ISBN = reader["ISBN"].ToString();
+                            BorrowedBo.Publisher = reader["Publisher"].ToString();
+                            BorrowedBo.Description = reader["Description"].ToString();
+                            BorrowedBo.Price = Convert.ToInt32(reader["Price"]);
 
-        //                    eBookList.Add(eBook);
-        //                }
-        //            }
-        //        }
-        //        return await Task.FromResult(eBookList);
-        //    }
-        //}
+                            BorrowedBooks.Add(BorrowedBo);
+                        }
+                    }
+                }
+                return await Task.FromResult(BorrowedBooks);
+            }
+        }
 
         /// <summary>
         /// Adderar en ny bok till table tblBook. 
