@@ -31,7 +31,7 @@
             <Frame CornerRadius="40" BorderColor="White" Margin="50,0,50,0">
                 <StackLayout>
                     <Label Text="Add user" HorizontalOptions="Start" FontSize="Medium" TextColor="White"/>
-                    <Picker x:Name="picker" Title="Type of User" BackgroundColor="White" HorizontalOptions="Center" SelectedIndexChanged="picker_SelectedIndexChanged" TitleColor="Black">
+                    <Picker x:Name="picker" Title="Type of User" BackgroundColor="White" HorizontalOptions="Center" SelectedIndexChanged="picker_SelectedIndexChanged" TitleColor="White">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type models:User}">
                                 <models:User TypeOfUser="Admin" fk_PrivilegeLevel="1"/>
