@@ -5,7 +5,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:local="using:WargamesGUI.UWP">
     <Application.Resources>
-        <SolidColorBrush x:Key="SystemControlHighlightListAccentLowBrush" Color="GhostWhite" />
-        <SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush" Color="GhostWhite" />
+        <SolidColorBrush x:Key="SystemControlHighlightListAccentLowBrush" Color="#344955" />
+        <SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush" Color="#344955" />
     </Application.Resources>
 </Application>

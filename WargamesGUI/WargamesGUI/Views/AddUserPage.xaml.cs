@@ -143,33 +143,57 @@ namespace WargamesGUI
             switch (privilegeLevel)
             {
                 case 1:
+                    firstnameframe.IsVisible = true;
                     firstnamebox.IsVisible = true;
+                    lastnameframe.IsVisible = true;
                     lastnamebox.IsVisible = true;
+                    adressframe.IsVisible = true;
                     addressbox.IsVisible = true;
+                    ssnframe.IsVisible = true;
                     ssnbox.IsVisible = true;
+                    emailframe.IsVisible = true;
                     emailbox.IsVisible = true;
+                    phoneframe.IsVisible = true;
                     phonebox.IsVisible = true;
+                    userframe.IsVisible = true;
                     userbox.IsVisible = true;
+                    passframe.IsVisible = true;
                     passbox.IsVisible = true;
                     break;
                 case 2:
+                    firstnameframe.IsVisible = true;
                     firstnamebox.IsVisible = true;
+                    lastnameframe.IsVisible = true;
                     lastnamebox.IsVisible = true;
+                    adressframe.IsVisible = true;
                     addressbox.IsVisible = true;
+                    ssnframe.IsVisible = true;
                     ssnbox.IsVisible = true;
+                    emailframe.IsVisible = true;
                     emailbox.IsVisible = true;
+                    phoneframe.IsVisible = true;
                     phonebox.IsVisible = true;
+                    userframe.IsVisible = true;
                     userbox.IsVisible = true;
+                    passframe.IsVisible = true;
                     passbox.IsVisible = true;
                     break;
                 case 3:
+                    firstnameframe.IsVisible = true;
                     firstnamebox.IsVisible = true;
+                    lastnameframe.IsVisible = true;
                     lastnamebox.IsVisible = true;
+                    adressframe.IsVisible = true;
                     addressbox.IsVisible = true;
+                    ssnframe.IsVisible = true;
                     ssnbox.IsVisible = true;
+                    emailframe.IsVisible = true;
                     emailbox.IsVisible = true;
+                    phoneframe.IsVisible = true;
                     phonebox.IsVisible = true;
+                    userframe.IsVisible = true;
                     userbox.IsVisible = true;
+                    passframe.IsVisible = true;
                     passbox.IsVisible = true;
                     break;
 
