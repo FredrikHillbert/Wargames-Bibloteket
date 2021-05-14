@@ -306,9 +306,18 @@ namespace WargamesGUI.Services
                             values.Title = reader["Title"].ToString();
                             values.Publisher = reader["Publisher"].ToString();
                             values.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
-                            values.Price = Convert.ToInt32(reader["Price"]);
                             values.Placement = reader["Placement"].ToString();
                             values.Author = reader["Author"].ToString();
+                            values.InStock = Convert.ToInt32(reader["InStock"]);
+
+                            if (values.InStock == 0)
+                            {
+                                values.Status = "Unavailable";
+                            }
+                            else
+                            {
+                                values.Status = "Available";
+                            }
                             
                             switch (values.fk_Item_Id)
                             {
