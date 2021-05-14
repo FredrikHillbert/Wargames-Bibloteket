@@ -27,8 +27,16 @@ namespace WargamesGUI.Views
         }
 
         private async Task LoadBooks()
-        {                       
-            listOfBooks.ItemsSource = await bookService.GetBooksFromDb();
+        {
+            try
+            {
+                listOfBooks.ItemsSource = await bookService.GetBorrowedBooksFromDbLibrarian();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("LoadError", $"Reason for error: {ex.Message}", "OK");
+            }
+            
         }
     }
 }

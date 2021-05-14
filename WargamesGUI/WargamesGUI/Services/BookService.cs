@@ -74,6 +74,62 @@ namespace WargamesGUI.Services
             }
         }
 
+        public async Task<List<Book>> GetBorrowedBooksFromDbLibrarian()
+        {
+            var BorrowedBooks = new List<Book>();
+            //var BookLoanList = new List<BookLoan>();
+            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.ReturnDate, bl.ReturnedDate, bl.fk_BookLoanStatus_Id" +
+                           $" FROM tblBookLoan bl" +
+                           $" LEFT JOIN tblBook b" +
+                           $" ON b.Id = bl.fk_Book_Id";
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(query, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var BorrowedBo = new Book();
+                            
+
+                            BorrowedBo.Title = reader["Title"].ToString();
+                            BorrowedBo.Author = reader["Author"].ToString();
+                            BorrowedBo.Publisher = reader["Publisher"].ToString();
+                            BorrowedBo.Placement = reader["Placement"].ToString();
+                            BorrowedBo.InStock = Convert.ToInt32(reader["InStock"]);
+                            switch (BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
+                            {
+                                case 1:
+                                    BorrowedBo.Status = "Active";
+                                    break;
+                                case 2:
+                                    BorrowedBo.Status = "Delayed";
+                                    break;
+                                case 3:
+                                    BorrowedBo.Status = "Lost";
+                                    break;
+                                case 4:
+                                    BorrowedBo.Status = "Stolen";
+                                    break;
+                                case 5:
+                                    BorrowedBo.Status = "Returned";
+                                    break;
+                            }
+                      
+                            BorrowedBo.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
+                            
+
+                            BorrowedBooks.Add(BorrowedBo);
+
+                            
+                        }
+                    }
+                }
+                return await Task.FromResult(BorrowedBooks);
+            }
+        }
         /// <summary>
         /// Adderar en ny bok till table tblBook. 
         /// Måste skickas med: Title, ISBN, Publisher, Description, Price, Placement till boken.

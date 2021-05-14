@@ -40,6 +40,9 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                             
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -52,6 +55,9 @@
                         <Label Text="Publisher" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2" TextColor="White"/>
                         <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3" TextColor="White"/>
                         <Label Text="InStock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4" TextColor="White"/>
+                        <Label Text="DateToReturn" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5" TextColor="White"/>
+                        <Label Text="ReturnDate" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6" TextColor="White"/>
+                        <Label Text="Status" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="7" TextColor="White"/>
                         
                     </Grid>
 
@@ -73,22 +79,34 @@
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
                                             
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Grid.Column="0" Grid.Row="0">
-                                            <Label Text="{Binding Title}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding Title}" FontSize="17" HorizontalOptions="Start" TextColor="White"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="1" Grid.Row="0">
-                                            <Label Text="{Binding Author}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding Author}" FontSize="17" HorizontalOptions="Start" TextColor="White"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="2" Grid.Row="0">
-                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding Publisher}" FontSize="17" HorizontalOptions="Start" TextColor="White"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="3" Grid.Row="0">
-                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding Placement}" FontSize="17" HorizontalOptions="Start" TextColor="White"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding InStock}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding InStock}" FontSize="17" HorizontalOptions="Start" TextColor="White"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="5" Grid.Row="0">
+                                            <Label Text="{Binding ReturnDate}" FontSize="17" HorizontalOptions="Start" TextColor="White"/>
+                                        </StackLayout>
+                                        <!--<StackLayout Grid.Column="6" Grid.Row="0">
+                                            <Label Text="{Binding ReturnedDate}" HorizontalOptions="Start" TextColor="White"/>
+                                        </StackLayout>-->
+                                        <StackLayout Grid.Column="7" Grid.Row="0">
+                                            <Label Text="{Binding fk_BookLoanStatus_IdString}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                        
 
