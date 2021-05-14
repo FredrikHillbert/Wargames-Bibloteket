@@ -45,34 +45,6 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<List<Book>> GetBorrowedBooksFromDb(int fk_LibraryCard)
-        {
-            var BorrowedBooks = new List<Book>();
-            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id";
-            using (SqlConnection con = new SqlConnection(theConString))
-            {
-                con.Open();
-                using (var command = new SqlCommand(query, con))
-                {
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var BorrowedBo = new Book();
-
-                            BorrowedBo.Title = reader["Title"].ToString();
-                            BorrowedBo.Author = reader["Publisher"].ToString();
-                            BorrowedBo.Publisher = reader["Publisher"].ToString();
-                            BorrowedBo.Placement = reader["Publisher"].ToString();
-                            BorrowedBo.InStock = Convert.ToInt32(reader["InStock"]);
-                            BorrowedBooks.Add(BorrowedBo);
-                        }
-                    }
-                }
-                return await Task.FromResult(BorrowedBooks);
-            }
-        }
-
         /// <summary>
         /// Adderar en ny bok till table tblBook. 
         /// Måste skickas med: Title, ISBN, Publisher, Description, Price, Placement till boken.
