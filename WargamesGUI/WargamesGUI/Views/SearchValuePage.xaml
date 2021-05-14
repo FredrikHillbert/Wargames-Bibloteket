@@ -64,7 +64,7 @@
                                     <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
-                                    <Label Text="{Binding InStock}" HorizontalOptions="Start"/>
+                                    <Label Text="{Binding Status}" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <!--<StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
                                     <Label Text="{Binding Category}" HorizontalOptions="Start"/>
