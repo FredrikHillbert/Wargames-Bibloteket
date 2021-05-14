@@ -21,6 +21,7 @@ namespace WargamesGUI.Views
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService;
         public static BookService bookService = new BookService();
+        public static LoanService bookLoanService = new LoanService();
 
         public static DbHandler handler = new DbHandler();
         public VisitorPage()
@@ -45,7 +46,7 @@ namespace WargamesGUI.Views
 
             collection.AddRange(await bookService.GetBooksFromDb());
             listofbooks.ItemsSource = collection;
-            listofBorrowedbooks.ItemsSource = await bookService.GetBorrowedBooksFromDb(UserService.fk_LibraryCard);
+            listofBorrowedbooks.ItemsSource = await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard);
         }
         private async Task LoadBorrowedBooks()
         {
@@ -54,7 +55,7 @@ namespace WargamesGUI.Views
                 collection.Clear();
             }
 
-            collection.AddRange(await bookService.GetBorrowedBooksFromDb(UserService.fk_LibraryCard));
+            collection.AddRange(await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard));
             listofBorrowedbooks.ItemsSource = collection;
         }
 
