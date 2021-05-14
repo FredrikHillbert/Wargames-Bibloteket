@@ -19,7 +19,7 @@ namespace WargamesGUI.Views
         public Book selectedItem;
         public User user;
         public static AddUserPage addUser = new AddUserPage();
-        public static UserService userService = new UserService();
+        public static UserService userService;
         public static BookService bookService = new BookService();
 
         public static DbHandler handler = new DbHandler();
@@ -32,6 +32,7 @@ namespace WargamesGUI.Views
         {
 
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+            
 
         }
 
@@ -44,6 +45,17 @@ namespace WargamesGUI.Views
 
             collection.AddRange(await bookService.GetBooksFromDb());
             listofbooks.ItemsSource = collection;
+            listofBorrowedbooks.ItemsSource = await bookService.GetBorrowedBooksFromDb(UserService.fk_LibraryCard);
+        }
+        private async Task LoadBorrowedBooks()
+        {
+            if (collection != null)
+            {
+                collection.Clear();
+            }
+
+            collection.AddRange(await bookService.GetBorrowedBooksFromDb(UserService.fk_LibraryCard));
+            listofBorrowedbooks.ItemsSource = collection;
         }
 
         private async void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)

@@ -20,9 +20,9 @@
             <Frame CornerRadius="15" BorderColor="Black" Margin="20,20,20,10" BackgroundColor="LightBlue">
                 <StackLayout>
                     <StackLayout>
-                        <Button Text="Loan Book" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="Start" WidthRequest="150" Clicked="Back_Button_Clicked"/>
+                        <Button Text="Back" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="Start" WidthRequest="150" Clicked="Back_Button_Clicked"/>
                     </StackLayout>
-                    <ListView x:Name="listofbooks" Margin="5" ItemTapped="listofbooks_ItemTapped" >
+                    <ListView x:Name="listofbooks" ItemTapped="listofbooks_ItemTapped">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -50,7 +50,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid BackgroundColor="White">
+                                    <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
@@ -128,7 +128,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid BackgroundColor="White">
+                                    <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
@@ -160,7 +160,7 @@
                                             <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="6" Grid.Row="0">
-                                            <Label Text="{Binding Instock}" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding InStock}" HorizontalOptions="Start"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>
