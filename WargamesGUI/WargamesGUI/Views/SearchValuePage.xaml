@@ -34,10 +34,10 @@
                         <Button Text="Back" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold" Clicked="Back_Button_Clicked" CornerRadius="15" BackgroundColor="#2E4159"/>
                         <Label Text="Title" TextColor="Black" Grid.Column="0" Grid.Row="1" FontAttributes="Bold"/>
                         <Label Text="Author" TextColor="Black" Grid.Column="1" Grid.Row="1" FontAttributes="Bold"/>
-                        <Label Text="Price" TextColor="Black" Grid.Column="2" Grid.Row="1" FontAttributes="Bold"/>
-                        <Label Text="Placement" TextColor="Black" Grid.Column="3" Grid.Row="1" FontAttributes="Bold"/>
-                        <Label Text="Category" TextColor="Black" Grid.Column="4" Grid.Row="1" FontAttributes="Bold"/>
-                        <Button Text="Loan book" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" />
+                        <Label Text="Placement" TextColor="Black" Grid.Column="2" Grid.Row="1" FontAttributes="Bold"/>
+                        <Label Text="Status" TextColor="Black" Grid.Column="3" Grid.Row="1" FontAttributes="Bold"/>
+                        <!--<Label Text="Category" TextColor="Black" Grid.Column="4" Grid.Row="1" FontAttributes="Bold"/>-->
+                        <!--<Button Text="Loan book" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" />-->
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
@@ -61,14 +61,14 @@
                                     <Label Text="{Binding Author}" HorizontalOptions="Start"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
-                                    <Label Text="{Binding Price}" HorizontalOptions="Start"/>
-                                </StackLayout>
-                                <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
                                     <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
                                 </StackLayout>
-                                <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
-                                    <Label Text="{Binding Category}" HorizontalOptions="Start"/>
+                                <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
+                                    <Label Text="{Binding InStock}" HorizontalOptions="Start"/>
                                 </StackLayout>
+                                <!--<StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
+                                    <Label Text="{Binding Category}" HorizontalOptions="Start"/>
+                                </StackLayout>-->
 
                             </Grid>
                         </ViewCell>
