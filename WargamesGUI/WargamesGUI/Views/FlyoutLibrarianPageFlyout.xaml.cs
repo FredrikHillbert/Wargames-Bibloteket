@@ -36,6 +36,7 @@ namespace WargamesGUI.Views
                     new FlyoutLibrarianPageFlyoutMenuItem { Id = 0, Title = "Home", TargetType=typeof(FlyoutLibrarianPageDetail) },
                     new FlyoutLibrarianPageFlyoutMenuItem { Id = 1, Title = "Books", TargetType=typeof(AddObject) },
                     new FlyoutLibrarianPageFlyoutMenuItem { Id = 2, Title = "Visitors", TargetType=typeof(AddVisitor) },
+                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 3, Title = "Manual return", TargetType=typeof(ManualReturn) },
                     
                 });
             }

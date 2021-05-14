@@ -11,6 +11,7 @@ namespace WargamesGUI.Services
 {
     public class BookService : DbHandler
     {
+        public string exceptionMessage;
         public async Task<List<Book>> GetBooksFromDb()
         {
             var bookList = new List<Book>();
@@ -35,6 +36,7 @@ namespace WargamesGUI.Services
                             book.Price = Convert.ToInt32(reader["Price"]);
                             book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
+                            book.InStock = Convert.ToInt32(reader["InStock"]);
 
                             bookList.Add(book);
                         }
@@ -44,36 +46,33 @@ namespace WargamesGUI.Services
             }
         }
 
-        //public async Task<List<Book>> GetEbooksFromDb()
-        //{
-        //    var eBookList = new List<Book>();
+        public async Task<List<Book>> GetBorrowedBooksFromDb(int fk_LibraryCard)
+        {
+            var BorrowedBooks = new List<Book>();
+            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id";
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(query, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var BorrowedBo = new Book();
 
-        //    using (SqlConnection con = new SqlConnection(theConString))
-        //    {
-        //        con.Open();
-        //        using (var command = new SqlCommand(queryForBooks, con))
-        //        {
-        //            using (var reader =  command.ExecuteReader())
-        //            {
-        //                while ( reader.Read())
-        //                {
-        //                    var eBook = new Book();
-
-        //                    eBook.Id = Convert.ToInt32(reader["Id"]);
-        //                    eBook.fk_Item_Id = 2;
-        //                    eBook.Title = reader["Title"].ToString();
-        //                    eBook.ISBN = reader["ISBN"].ToString();
-        //                    eBook.Publisher = reader["Publisher"].ToString();
-        //                    eBook.Description = reader["Description"].ToString();
-        //                    eBook.Price = Convert.ToInt32(reader["Price"]);
-
-        //                    eBookList.Add(eBook);
-        //                }
-        //            }
-        //        }
-        //        return await Task.FromResult(eBookList);
-        //    }
-        //}
+                            BorrowedBo.Title = reader["Title"].ToString();
+                            BorrowedBo.Author = reader["Publisher"].ToString();
+                            BorrowedBo.Publisher = reader["Publisher"].ToString();
+                            BorrowedBo.Placement = reader["Publisher"].ToString();
+                            BorrowedBo.InStock = Convert.ToInt32(reader["InStock"]);
+                            BorrowedBooks.Add(BorrowedBo);
+                        }
+                    }
+                }
+                return await Task.FromResult(BorrowedBooks);
+            }
+        }
 
         /// <summary>
         /// Adderar en ny bok till table tblBook. 
@@ -200,7 +199,7 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<bool> LoanBook(int book_id, int user_id)
+        public async Task<bool> LoanBook(int book_id, int fk_LibraryCard)
         {
             bool success = true;
 
@@ -214,15 +213,16 @@ namespace WargamesGUI.Services
                     insertcmd.CommandType = CommandType.StoredProcedure;
 
                     insertcmd.Parameters.Add("@fk_Book_Id", SqlDbType.Int).Value = book_id;
-                    insertcmd.Parameters.Add("@fk_User_Id", SqlDbType.Int).Value = user_id;
+                    insertcmd.Parameters.Add("@fk_LibraryCard", SqlDbType.Int).Value = fk_LibraryCard;
 
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
+                exceptionMessage = ex.Message;
                 success = false;
                 return await Task.FromResult(success);
             }
