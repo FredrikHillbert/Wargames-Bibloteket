@@ -151,7 +151,6 @@ namespace WargamesGUI.Services
 
                             visitor.First_Name = reader["First_Name"].ToString();
                             visitor.Last_Name = reader["Last_Name"].ToString();
-                            visitor.CardNumber = reader["LibraryCard"].ToString();
                             visitor.PhoneNumber = reader["PhoneNumber"].ToString();
                             visitor.Address = reader["Address"].ToString();
 
