@@ -19,7 +19,7 @@ namespace WargamesGUI.Services
         public const string theRemovedItemTableName = "tblRemovedItem";
         public const string theDeweyMainTableName = "tblDeweyMain";
         public const string theDeweySubTableName = "tblDeweySub";
-        public const string theBorrowedItemTableName = "tblBorrowedItem";
+        public const string theBorrowedItemTableName = "tblBookLoan";
 
 
         // Alla olika SQL-satser som vi behöver.
@@ -33,7 +33,6 @@ namespace WargamesGUI.Services
 
         // SELECT - Procedures
         public string queryForBooks = $"SELECT * FROM {theBookTableName} ORDER BY Title";
-        public string queryForBorrowrdBooks = $"SELECT * FROM {theBorrowedItemTableName} WHERE Borrowed_ID = 'cardnumber' ORDER BY Title";
 
         // INSERT INTO - Procedures
 

@@ -36,6 +36,7 @@ namespace WargamesGUI.Services
                             book.Price = Convert.ToInt32(reader["Price"]);
                             book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
+                            book.InStock = Convert.ToInt32(reader["InStock"]);
 
                             bookList.Add(book);
                         }
@@ -45,14 +46,14 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<List<Book>> GetBorrowedBooksFromDb()
+        public async Task<List<Book>> GetBorrowedBooksFromDb(int fk_LibraryCard)
         {
             var BorrowedBooks = new List<Book>();
-
+            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id";
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
-                using (var command = new SqlCommand(queryForBooks, con))
+                using (var command = new SqlCommand(query, con))
                 {
                     using (var reader = command.ExecuteReader())
                     {
@@ -60,14 +61,11 @@ namespace WargamesGUI.Services
                         {
                             var BorrowedBo = new Book();
 
-                            BorrowedBo.Id = Convert.ToInt32(reader["Id"]);
-                            BorrowedBo.fk_Item_Id = 2;
                             BorrowedBo.Title = reader["Title"].ToString();
-                            BorrowedBo.ISBN = reader["ISBN"].ToString();
+                            BorrowedBo.Author = reader["Publisher"].ToString();
                             BorrowedBo.Publisher = reader["Publisher"].ToString();
-                            BorrowedBo.Description = reader["Description"].ToString();
-                            BorrowedBo.Price = Convert.ToInt32(reader["Price"]);
-
+                            BorrowedBo.Placement = reader["Publisher"].ToString();
+                            BorrowedBo.InStock = Convert.ToInt32(reader["InStock"]);
                             BorrowedBooks.Add(BorrowedBo);
                         }
                     }
