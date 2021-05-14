@@ -85,7 +85,7 @@ namespace WargamesGUI.Views
                 if (reason != null)
                 {
                     await bookService.RemoveBook(selectedItem.Id, reason);
-                    await DisplayAlert("Success!", "You removed a book!", "OK");
+                    await DisplayAlert("Success!", $"You removed {selectedItem.Title}!", "OK");
                     await LoadBooks();
                 }
             }
