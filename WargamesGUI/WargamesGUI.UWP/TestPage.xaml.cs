@@ -6,21 +6,17 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.CommunityToolkit;
-using Xamarin.CommunityToolkit.Core;
 
-
-namespace WargamesGUI.Views
+namespace WargamesGUI.UWP
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Test : ContentPage
+    public partial class TestPage
     {
-        public Test()
+        public TestPage()
         {
             InitializeComponent();
-           
-        }
 
-        
+            
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace WargamesGUI
     public partial class MainPage : ContentPage
     {
         public static UserService service = new UserService();
-
+        public static User user;
         public MainPage()
         {
             InitializeComponent();
@@ -39,10 +39,14 @@ namespace WargamesGUI
                         App.Current.MainPage = new FlyoutAdminPage();
                         break;
                     case 2:
+                        Entryusername.Text = string.Empty;
+                        Entrypassword.Text = string.Empty;
                         await DisplayAlert("Successful", "You are now logging in as Librarian", "OK");
                         App.Current.MainPage = new FlyoutLibrarianPage();
                         break;
                     case 3:
+                        Entryusername.Text = string.Empty;
+                        Entrypassword.Text = string.Empty;
                         await DisplayAlert("Successful", "You are now logging in as Visitor", "OK");
                         App.Current.MainPage = new VisitorPage();
                         break;

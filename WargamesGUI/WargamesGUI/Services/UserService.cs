@@ -14,6 +14,7 @@ namespace WargamesGUI.Services
     public class UserService : DbHandler
     {
         public string exceptionMessage;
+        public static int fk_LibraryCard;
         public async Task<ObservableCollection<User>> ReadUserListFromDb()
         {
             ObservableCollection<User> obsList = new ObservableCollection<User>();
@@ -46,7 +47,7 @@ namespace WargamesGUI.Services
 
             }
         }
-       
+
         public bool DeleteUserListFromDb(int userId)
         {
             bool isWorking;
@@ -106,7 +107,9 @@ namespace WargamesGUI.Services
             Connection.Open();
             string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
 
-            using (SqlCommand command = new SqlCommand(query, Connection))
+            string query2 = $"SELECT fk_PrivilegeLevel, Username, fk_LibraryCard, Password, CardNumber FROM tblUser LEFT JOIN tblLibraryCard ON fk_LibraryCard = LibraryCard_Id WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
+
+            using (SqlCommand command = new SqlCommand(query2, Connection))
             {
 
                 using (var reader = command.ExecuteReader())
@@ -114,6 +117,16 @@ namespace WargamesGUI.Services
                     while (reader.Read())
                     {
                         user.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                        if (user.fk_PrivilegeLevel == 3)
+                        {
+                            fk_LibraryCard = Convert.ToInt32(reader["fk_LibraryCard"]);
+                            return user.fk_PrivilegeLevel;
+                        }
+                        else
+                        {
+                            return user.fk_PrivilegeLevel;
+                        }
+                        
                     }
                 }
             }
@@ -151,7 +164,7 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<bool> AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard)
+        public async Task<bool> AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard, string Username, string Password)
         {
             bool success = true;
             try
@@ -169,6 +182,9 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
                     insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;
                     insertcmd.Parameters.Add("@libraryCard", SqlDbType.VarChar).Value = LibraryCard;
+                    insertcmd.Parameters.Add("@username", SqlDbType.VarChar).Value = Username;
+                    insertcmd.Parameters.Add("@password", SqlDbType.VarChar).Value = Password;
+
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
                 }
@@ -198,7 +214,7 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@sSN", SqlDbType.VarChar).Value = SSN;
                     insertcmd.Parameters.Add("@address", SqlDbType.VarChar).Value = Address;
                     insertcmd.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
-                    insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;                    
+                    insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;
                     insertcmd.Parameters.Add("@username", SqlDbType.VarChar).Value = username;
                     insertcmd.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
                     await insertcmd.ExecuteNonQueryAsync();

@@ -20,8 +20,9 @@ namespace WargamesGUI.UWP
         public MainPage()
         {
             this.InitializeComponent();
-
+            
             LoadApplication(new WargamesGUI.App());
+           
         }
     }
 }

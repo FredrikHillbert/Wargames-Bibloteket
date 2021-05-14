@@ -59,12 +59,13 @@
                         <Label Text="Card number" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="2"/>
                         <Label Text="Phonenumber" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="3"/>
                         <Label Text="Address" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="4"/>
+                        
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid BackgroundColor="White">
+                            <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
@@ -113,6 +114,7 @@
                     </Grid>
                 </ListView.Footer>
             </ListView>
+            
         </Frame>
 
     </StackLayout>

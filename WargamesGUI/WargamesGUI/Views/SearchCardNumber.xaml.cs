@@ -13,6 +13,7 @@ namespace WargamesGUI.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SearchCardNumber : ContentPage
     {
+
         public User selectedItem;
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
