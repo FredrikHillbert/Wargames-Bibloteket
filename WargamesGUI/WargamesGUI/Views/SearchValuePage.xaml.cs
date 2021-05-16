@@ -29,7 +29,15 @@ namespace WargamesGUI.Views
         }
         private async Task SearchValues()
         {
-            listOfBook.ItemsSource = await bookService.Searching(GetValues(text));
+            
+            try
+            {
+                listOfBook.ItemsSource = await bookService.Searching(GetValues(text));
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"{ex.Message}", "Ok");
+            }
         }
 
         private void Back_Button_Clicked(object sender, EventArgs e)
