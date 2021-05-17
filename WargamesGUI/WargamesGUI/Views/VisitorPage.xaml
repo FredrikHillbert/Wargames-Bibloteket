@@ -41,10 +41,8 @@
                                 <Label Text="Title" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
                                 <Label Text="Author" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
                                 <Label Text="Publisher" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="Text" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
-                                <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
-                                <Label Text="Instock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
+                                <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Instock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
 
                             </Grid>
                         </ListView.Header>
@@ -56,8 +54,6 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -76,7 +72,7 @@
                                         <StackLayout Grid.Column="3" Grid.Row="0">
                                             <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
                                         </StackLayout>
-                                        <StackLayout Grid.Column="6" Grid.Row="0">
+                                        <StackLayout Grid.Column="4" Grid.Row="0">
                                             <Label Text="{Binding InStock}" HorizontalOptions="Start"/>
                                         </StackLayout>
                                     </Grid>
@@ -115,10 +111,8 @@
                                 <Label Text="Title" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
                                 <Label Text="Author" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
                                 <Label Text="Publisher" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="Text" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
-                                <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
-                                <Label Text="Instock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
+                                <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Instock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
@@ -129,8 +123,6 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -147,15 +139,9 @@
                                             <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="3" Grid.Row="0">
-                                            <Label Text="{Binding Username}" HorizontalOptions="Start"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding Price}" HorizontalOptions="Start"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="5" Grid.Row="0">
                                             <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
                                         </StackLayout>
-                                        <StackLayout Grid.Column="6" Grid.Row="0">
+                                        <StackLayout Grid.Column="4" Grid.Row="0">
                                             <Label Text="{Binding InStock}" HorizontalOptions="Start"/>
                                         </StackLayout>
                                     </Grid>
