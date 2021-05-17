@@ -52,7 +52,7 @@
                         <Label Text="Existing loans" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" FontAttributes="Bold"/>
                         <Label Text="Title" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
                         <Label Text="Author" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="Publisher" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2" TextColor="Black" FontAttributes="Bold"/>
+                        <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2" TextColor="Black" FontAttributes="Bold"/>
                         <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3" TextColor="Black" FontAttributes="Bold"/>
                         <Label Text="InStock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4" TextColor="Black" FontAttributes="Bold"/>
                         <Label Text="DateToReturn" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5" TextColor="Black" FontAttributes="Bold"/>
@@ -91,7 +91,7 @@
                                             <Label Text="{Binding Author}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="2" Grid.Row="0">
-                                            <Label Text="{Binding Publisher}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>
+                                            <Label Text="{Binding Username}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="3" Grid.Row="0">
                                             <Label Text="{Binding Placement}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>

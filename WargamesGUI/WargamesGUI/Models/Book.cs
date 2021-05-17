@@ -11,6 +11,7 @@ namespace WargamesGUI.Models
         public int fk_Item_Id { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
+        public string Username { get; set; }
         public string Publisher { get; set; }
         public string Description { get; set; }
         public int? Price { get; set; }

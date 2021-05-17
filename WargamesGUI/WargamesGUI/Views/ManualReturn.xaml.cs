@@ -33,6 +33,7 @@ namespace WargamesGUI.Views
             try
             {
                 listOfBooks.ItemsSource = await bookService.GetBorrowedBooksFromDbLibrarian();
+
             }
             catch (Exception ex)
             {
@@ -43,16 +44,16 @@ namespace WargamesGUI.Views
 
         private async void Handled_Clicked(object sender, EventArgs e)
         {
-            if (selectedBook.Status == "Active")
+            if (selectedBook.Status == "Returned")
             {
                 
                 try
                 {
                     var loanID = selectedBook.Loan_Id;
-                    //await bookService.UpdateBorrowedBooksFromDbLibrarian(loanID);
+                    await bookService.UpdateBorrowedBooksFromDbLibrarian(loanID);
                     await DisplayAlert("Book handled!", $"You handled {selectedBook.Title}.", "OK");
                     await LoadBooks();
-                    //Funktion som lägger till den returnerade boken i en retur tabell?
+                    
                 }
                 catch (Exception ex)
                 {

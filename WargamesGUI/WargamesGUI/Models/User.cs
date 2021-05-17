@@ -20,7 +20,7 @@ namespace WargamesGUI.Models
         public string Address { get; set; }
         public int Cardnumber { get; set; }
 
-        public override string ToString() => $"{TypeOfUser}";
+        public override string ToString() => $"{TypeOfUser} {Username}";
 
     }
 }

@@ -76,11 +76,13 @@ namespace WargamesGUI.Services
 
         public async Task<List<Book>> GetBorrowedBooksFromDbLibrarian()
         {
-            var BorrowedBooks = new List<Book>();          
-            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.ReturnDate, bl.ReturnedDate, bl.fk_BookLoanStatus_Id" +
+            var BorrowedBooks = new List<Book>();
+            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate, bl.ReturnedDate, bl.fk_BookLoanStatus_Id, bl.Loan_Id" +
                            $" FROM tblBookLoan bl" +
                            $" LEFT JOIN tblBook b" +
-                           $" ON b.Id = bl.fk_Book_Id";
+                           $" ON b.Id = bl.fk_Book_Id" +
+                           $" LEFT JOIN tblUser tu" +
+                           $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard";
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -91,13 +93,16 @@ namespace WargamesGUI.Services
                         while (reader.Read())
                         {
                             var BorrowedBo = new Book();
-                            
+                            //var user = new User();
 
+                            BorrowedBo.Username = reader["Username"].ToString();
+                            //user.Cardnumber = Convert.ToInt32(reader["fk_LibraryCard_Id"]);
                             BorrowedBo.Title = reader["Title"].ToString();
                             BorrowedBo.Author = reader["Author"].ToString();
-                            BorrowedBo.Publisher = reader["Publisher"].ToString();
+                            //BorrowedBo.Publisher = reader["Publisher"].ToString();
                             BorrowedBo.Placement = reader["Placement"].ToString();
                             BorrowedBo.InStock = Convert.ToInt32(reader["InStock"]);
+                            BorrowedBo.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
                             switch (BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
                             {
                                 case 1:
@@ -138,7 +143,7 @@ namespace WargamesGUI.Services
             var BorrowedBooks = new List<Book>();
             
             string querySelect = $"UPDATE tblBookLoan" +
-                                 $" SET fk_BookLoanStatus_Id = 6" +
+                                 $" SET fk_BookLoanStatus_Id = 6, ReturnedDate = GETDATE()" +
                                  $" WHERE Loan_Id = {loanID}" +
                                  $" SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.ReturnDate, bl.ReturnedDate, bl.fk_BookLoanStatus_Id" +
                                  $" FROM tblBookLoan bl" +
@@ -164,8 +169,7 @@ namespace WargamesGUI.Services
                             BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]);
                             BorrowedBo.Status = "Handled";
                             BorrowedBo.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
-                            BorrowedBo.InStock++;
-                            BorrowedBo.ReturnedDate = DateTime.Now;
+                           
 
                             BorrowedBooks.Add(BorrowedBo);
 
