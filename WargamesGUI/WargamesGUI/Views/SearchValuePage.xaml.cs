@@ -52,14 +52,9 @@ namespace WargamesGUI.Views
 
         private async void listOfBook_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            //selecteditem = (Book)e.Item;
-            //await bookService.LoanBook(selecteditem.Id, cardnumber);
+            selecteditem = (Book)e.Item;
+            cardnumber = await DisplayPromptAsync($"Loan Book", "Enter your cardnumber please:");
         }
 
-        private async void Loan_Button_Clicked(object sender, EventArgs e)
-        {
-            cardnumber = await DisplayPromptAsync($"Loan Book", "CardNumber:");
-
-        }
     }
 }

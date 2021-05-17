@@ -33,8 +33,8 @@ namespace WargamesGUI.Services
                             book.ISBN = reader["ISBN"].ToString();
                             book.Publisher = reader["Publisher"].ToString();
                             book.Description = reader["Description"].ToString();
-                            book.Price = Convert.ToInt32(reader["Price"]);
-                            book.Placement = reader["Placement"].ToString();
+                            //book.Price = Convert.ToInt32(reader["Price"]);
+                            //book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
                             book.InStock = Convert.ToInt32(reader["InStock"]);
 
