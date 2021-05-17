@@ -103,9 +103,51 @@ namespace WargamesGUI.Views
             }
         }
 
-        private void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (Book)e.Item;
+            var bookDetails = await DisplayActionSheet("Choose action: ", "Cancel", null, "Details", "Change Details", "Delete Book");
+            switch (bookDetails)
+            {
+                case "Details":
+                    Details(selectedItem);
+                    break;
+                case "Change Details":
+                    Change_Details(selectedItem);
+                    break;
+                case "Delete Book":
+                    Delete_Book(selectedItem);
+                    break;
+            }
+        }
+
+        private async void Delete_Book(Book selectedItem)
+        {
+            try
+            {
+                string reason = await DisplayPromptAsync($"Remove book", $"Reason for removing: {selectedItem.Title}?");
+
+                if (reason != null)
+                {
+                    await bookService.RemoveBook(selectedItem.Id, reason);
+                    await DisplayAlert("Success!", "You removed a book!", "OK");
+                    await LoadBooks();
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
+            }
+        }
+
+        private void Change_Details(Book selectedItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Details(Book selectedItem)
+        {
+            App.Current.MainPage = new DetailPage();
         }
 
         private void DetailsSelected_Clicked(object sender, EventArgs e)
