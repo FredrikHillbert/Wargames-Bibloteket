@@ -54,6 +54,8 @@ namespace WargamesGUI.Views
         {
             selecteditem = (Book)e.Item;
             cardnumber = await DisplayPromptAsync($"Loan Book", "Enter your cardnumber please:");
+
+
         }
 
     }
