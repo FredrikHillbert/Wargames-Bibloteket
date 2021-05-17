@@ -124,8 +124,18 @@ namespace WargamesGUI.Services
                                     BorrowedBo.Status = "Handled";
                                     break;
                             }
-                      
+                            
                             BorrowedBo.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
+
+                            
+
+                            bool a = DateTime.TryParse(reader["ReturnedDate"].ToString(), out DateTime dateTime);
+                            if (a == true)
+                            {
+                                BorrowedBo.ReturnedDate = Convert.ToDateTime(reader["ReturnedDate"]);
+                            }
+                            
+                            
                             
 
                             BorrowedBooks.Add(BorrowedBo);
