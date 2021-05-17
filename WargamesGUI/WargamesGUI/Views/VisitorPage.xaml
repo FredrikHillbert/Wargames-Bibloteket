@@ -107,12 +107,12 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Label Text="Your borrowed books" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                <Label Text="Title" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
-                                <Label Text="Author" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
-                                <Label Text="Publisher" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="Instock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="Your borrowed books" HorizontalOptions="Start" FontSize="25" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <Label Text="Title" HorizontalOptions="Start" FontSize="20" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="Author" HorizontalOptions="Start" FontSize="20" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="Publisher" HorizontalOptions="Start" FontSize="20" Grid.Row="1" Grid.Column="2"/>
+                                <Label Text="Placement" HorizontalOptions="Start" FontSize="20" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Instock" HorizontalOptions="Start" FontSize="20" Grid.Row="1" Grid.Column="4"/>
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
