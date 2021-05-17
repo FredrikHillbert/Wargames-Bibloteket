@@ -18,9 +18,9 @@
             <BoxView.Background>
                 <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
                     <GradientStop Color="Transparent" Offset="0"/>
-                    <GradientStop Color="Orange" Offset="0"/>
-                    <GradientStop Color="#344955" Offset="0.95"/>
-                    <GradientStop Color="#344955" Offset="1"/>
+                    <GradientStop Color="LightBlue" Offset="0"/>
+                    <GradientStop Color="#2E4159" Offset="0.95"/>
+                    <GradientStop Color="#2E4159" Offset="1"/>
                 </LinearGradientBrush>
             </BoxView.Background>
 
@@ -28,7 +28,7 @@
 
         <StackLayout Grid.Row="0" VerticalOptions="Start" Margin="0,0,0,0">
 
-            <Frame CornerRadius="40" BorderColor="White" Margin="50,20,50,-540" BackgroundColor="LightBlue">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,20,50,-510" BackgroundColor="LightBlue">
 
                 <StackLayout>
 
@@ -118,7 +118,7 @@
                     </ListView>
                     <Button Text="Handled" 
                             Clicked="Handled_Clicked"
-                            BackgroundColor="Orange" 
+                            BackgroundColor="#2E4159" 
                             TextColor="White" 
                             CornerRadius="20" 
                             HorizontalOptions="End"></Button>
