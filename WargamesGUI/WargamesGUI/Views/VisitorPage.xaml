@@ -16,74 +16,78 @@
         <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
 
         <!--LIST OF BOOKS, VISITOR-->
-        <StackLayout Grid.Row="0" >
+        <StackLayout>
             <Frame CornerRadius="15" BorderColor="Black" Margin="20,20,20,10" BackgroundColor="LightBlue">
-                <ListView x:Name="listofbooks" ItemSelected="listofbooks_ItemSelected" Margin="5" >
-                    <ListView.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                            <Label Text="Privilege" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
-                            <Label Text="Firstname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
-                            <Label Text="Lastname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
-                            <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
-                            <Label Text="Address" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
-                            <Label Text="Email" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
-                            <Label Text="Phonenr" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
-                        </Grid>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid BackgroundColor="White">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackLayout Grid.Column="0" Grid.Row="0">
-                                        <Label Text="{Binding fk_PrivilegeLevel}" HorizontalOptions="Start" />
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="1" Grid.Row="0">
-                                        <Label Text="{Binding First_Name}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="2" Grid.Row="0">
-                                        <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="3" Grid.Row="0">
-                                        <Label Text="{Binding Username}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="4" Grid.Row="0">
-                                        <Label Text="{Binding Address}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="5" Grid.Row="0">
-                                        <Label Text="{Binding Email}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="6" Grid.Row="0">
-                                        <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <StackLayout>
+                    <!--LOG OUT BUTTON-->
+                    <StackLayout>
+                        <Button Text="Log Out" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="Start" WidthRequest="150" Clicked="Back_Button_Clicked"/>
+                    </StackLayout>
+                    <ListView x:Name="listofbooks" ItemTapped="listofbooks_ItemTapped">
+                        <ListView.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="List of Books" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <Label Text="Title" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="Author" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="Publisher" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
+                                <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Text" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
+                                <Label Text="Instock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
+
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Column="0" Grid.Row="0">
+                                            <Label Text="{Binding Title}" HorizontalOptions="Start" />
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="1" Grid.Row="0">
+                                            <Label Text="{Binding Author}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="2" Grid.Row="0">
+                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="3" Grid.Row="0">
+                                            <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="6" Grid.Row="0">
+                                            <Label Text="{Binding InStock}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackLayout>
+                        <Button Text="Loan Book" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="Loan_Button_Clicked"/>
+                    </StackLayout>
+                </StackLayout>
             </Frame>
         </StackLayout>
 
@@ -91,72 +95,77 @@
         <!--LIST OF BORROWRD BOCKS VISITOR-->
         <StackLayout Grid.Row="2" VerticalOptions="Start">
             <Frame CornerRadius="15" BorderColor="Black" Margin="20,10,20,20" BackgroundColor="LightBlue">
-                <ListView x:Name="listofBorrowedbooks" Margin="5">
-                    <ListView.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                            <Label Text="Privilege" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
-                            <Label Text="Firstname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
-                            <Label Text="Lastname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
-                            <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
-                            <Label Text="Address" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
-                            <Label Text="Email" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
-                            <Label Text="Phonenr" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
-                        </Grid>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid BackgroundColor="White">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackLayout Grid.Column="0" Grid.Row="0">
-                                        <Label Text="{Binding fk_PrivilegeLevel}" HorizontalOptions="Start" />
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="1" Grid.Row="0">
-                                        <Label Text="{Binding First_Name}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="2" Grid.Row="0">
-                                        <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="3" Grid.Row="0">
-                                        <Label Text="{Binding Username}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="4" Grid.Row="0">
-                                        <Label Text="{Binding Address}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="5" Grid.Row="0">
-                                        <Label Text="{Binding Email}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="6" Grid.Row="0">
-                                        <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <StackLayout>
+                    <ListView x:Name="listofBorrowedbooks" Margin="5">
+                        <ListView.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="Your borrowed books" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <Label Text="Title" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="Author" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="Publisher" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
+                                <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Text" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
+                                <Label Text="Instock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Column="0" Grid.Row="0">
+                                            <Label Text="{Binding Title}" HorizontalOptions="Start" />
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="1" Grid.Row="0">
+                                            <Label Text="{Binding Author}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="2" Grid.Row="0">
+                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="3" Grid.Row="0">
+                                            <Label Text="{Binding Username}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="4" Grid.Row="0">
+                                            <Label Text="{Binding Price}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="5" Grid.Row="0">
+                                            <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="6" Grid.Row="0">
+                                            <Label Text="{Binding InStock}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackLayout>
+                        <Button Text="Hand book back" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="Loan_Button_Clicked"/>
+                    </StackLayout>
+                </StackLayout>
             </Frame>
         </StackLayout>
     </Grid>

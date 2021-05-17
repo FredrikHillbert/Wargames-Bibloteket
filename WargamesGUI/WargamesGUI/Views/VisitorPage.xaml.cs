@@ -16,10 +16,12 @@ namespace WargamesGUI.Views
     public partial class VisitorPage : ContentPage
     {
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
-        public User selectedItem;
+        public Book selectedItem;
+        public User user;
         public static AddUserPage addUser = new AddUserPage();
-        public static UserService userService = new UserService();
+        public static UserService userService;
         public static BookService bookService = new BookService();
+        public static LoanService bookLoanService = new LoanService();
 
         public static DbHandler handler = new DbHandler();
         public VisitorPage()
@@ -32,23 +34,63 @@ namespace WargamesGUI.Views
 
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
 
-        }
-
-        private void listofbooks_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
 
         }
+
         private async Task LoadBooks()
+        {
+            try
+            {
+                if (collection != null)
+                {
+                    collection.Clear();
+                }
+
+                collection.AddRange(await bookService.GetBooksFromDb());
+                listofbooks.ItemsSource = collection;
+                listofBorrowedbooks.ItemsSource = await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"{ex.Message}", "Ok");
+                throw;
+            }
+        }
+        private async Task LoadBorrowedBooks()
         {
             if (collection != null)
             {
                 collection.Clear();
             }
 
-            collection.AddRange(await bookService.GetBooksFromDb());
-            //collection.AddRange(await bookService.GetEbooksFromDb());
-            listofbooks.ItemsSource = collection;
+            collection.AddRange(await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard));
+            listofBorrowedbooks.ItemsSource = collection;
         }
 
+        private async void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            selectedItem = (Book)e.Item;
+
+        }
+
+        private async void Loan_Button_Clicked(object sender, EventArgs e)
+        {
+
+            if (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+            {
+                await DisplayAlert("Susscessfull", "Book is added", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Error", $"{bookService.exceptionMessage}", "OK");
+            }
+
+
+        }
+
+        private void Back_Button_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new MainPage();
+        }
     }
 }

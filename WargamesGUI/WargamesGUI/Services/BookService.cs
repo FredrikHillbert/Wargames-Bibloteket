@@ -11,6 +11,7 @@ namespace WargamesGUI.Services
 {
     public class BookService : DbHandler
     {
+        public string exceptionMessage;
         public async Task<List<Book>> GetBooksFromDb()
         {
             var bookList = new List<Book>();
@@ -32,9 +33,10 @@ namespace WargamesGUI.Services
                             book.ISBN = reader["ISBN"].ToString();
                             book.Publisher = reader["Publisher"].ToString();
                             book.Description = reader["Description"].ToString();
-                            book.Price = Convert.ToInt32(reader["Price"]);
-                            book.Placement = reader["Placement"].ToString();
+                            //book.Price = Convert.ToInt32(reader["Price"]);
+                            //book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
+                            book.InStock = Convert.ToInt32(reader["InStock"]);
 
                             bookList.Add(book);
                         }
@@ -44,37 +46,136 @@ namespace WargamesGUI.Services
             }
         }
 
-        //public async Task<List<Book>> GetEbooksFromDb()
-        //{
-        //    var eBookList = new List<Book>();
+        public async Task<List<Book>> GetBorrowedBooksFromDb(int fk_LibraryCard)
+        {
+            var BorrowedBooks = new List<Book>();
+            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id";
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(query, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var BorrowedBo = new Book();
 
-        //    using (SqlConnection con = new SqlConnection(theConString))
-        //    {
-        //        con.Open();
-        //        using (var command = new SqlCommand(queryForBooks, con))
-        //        {
-        //            using (var reader =  command.ExecuteReader())
-        //            {
-        //                while ( reader.Read())
-        //                {
-        //                    var eBook = new Book();
+                            BorrowedBo.Title = reader["Title"].ToString();
+                            BorrowedBo.Author = reader["Publisher"].ToString();
+                            BorrowedBo.Publisher = reader["Publisher"].ToString();
+                            BorrowedBo.Placement = reader["Publisher"].ToString();
+                            BorrowedBo.InStock = Convert.ToInt32(reader["InStock"]);
+                            BorrowedBooks.Add(BorrowedBo);
+                        }
+                    }
+                }
+                return await Task.FromResult(BorrowedBooks);
+            }
+        }
 
-        //                    eBook.Id = Convert.ToInt32(reader["Id"]);
-        //                    eBook.fk_Item_Id = 2;
-        //                    eBook.Title = reader["Title"].ToString();
-        //                    eBook.ISBN = reader["ISBN"].ToString();
-        //                    eBook.Publisher = reader["Publisher"].ToString();
-        //                    eBook.Description = reader["Description"].ToString();
-        //                    eBook.Price = Convert.ToInt32(reader["Price"]);
+        public async Task<List<Book>> GetBorrowedBooksFromDbLibrarian()
+        {
+            var BorrowedBooks = new List<Book>();          
+            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.ReturnDate, bl.ReturnedDate, bl.fk_BookLoanStatus_Id" +
+                           $" FROM tblBookLoan bl" +
+                           $" LEFT JOIN tblBook b" +
+                           $" ON b.Id = bl.fk_Book_Id";
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(query, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var BorrowedBo = new Book();
+                            
 
-        //                    eBookList.Add(eBook);
-        //                }
-        //            }
-        //        }
-        //        return await Task.FromResult(eBookList);
-        //    }
-        //}
+                            BorrowedBo.Title = reader["Title"].ToString();
+                            BorrowedBo.Author = reader["Author"].ToString();
+                            BorrowedBo.Publisher = reader["Publisher"].ToString();
+                            BorrowedBo.Placement = reader["Placement"].ToString();
+                            BorrowedBo.InStock = Convert.ToInt32(reader["InStock"]);
+                            switch (BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
+                            {
+                                case 1:
+                                    BorrowedBo.Status = "Active";
+                                    break;
+                                case 2:
+                                    BorrowedBo.Status = "Delayed";
+                                    break;
+                                case 3:
+                                    BorrowedBo.Status = "Lost";
+                                    break;
+                                case 4:
+                                    BorrowedBo.Status = "Stolen";
+                                    break;
+                                case 5:
+                                    BorrowedBo.Status = "Returned";
+                                    break;
+                                case 6:
+                                    BorrowedBo.Status = "Handled";
+                                    break;
+                            }
+                      
+                            BorrowedBo.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
+                            
 
+                            BorrowedBooks.Add(BorrowedBo);
+
+                            
+                        }
+                    }
+                }
+                return await Task.FromResult(BorrowedBooks);
+            }
+        }
+
+        public async Task<List<Book>> UpdateBorrowedBooksFromDbLibrarian(int loanID)
+        {
+            var BorrowedBooks = new List<Book>();
+            
+            string querySelect = $"UPDATE tblBookLoan" +
+                                 $" SET fk_BookLoanStatus_Id = 6" +
+                                 $" WHERE Loan_Id = {loanID}" +
+                                 $" SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.ReturnDate, bl.ReturnedDate, bl.fk_BookLoanStatus_Id" +
+                                 $" FROM tblBookLoan bl" +
+                                 $" LEFT JOIN tblBook b" +
+                                 $" ON b.Id = bl.fk_Book_Id";
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(querySelect, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var BorrowedBo = new Book();
+
+
+                            BorrowedBo.Title = reader["Title"].ToString();
+                            BorrowedBo.Author = reader["Author"].ToString();
+                            BorrowedBo.Publisher = reader["Publisher"].ToString();
+                            BorrowedBo.Placement = reader["Placement"].ToString();
+                            BorrowedBo.InStock = Convert.ToInt32(reader["InStock"]);
+                            BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]);
+                            BorrowedBo.Status = "Handled";
+                            BorrowedBo.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
+                            BorrowedBo.InStock++;
+                            BorrowedBo.ReturnedDate = DateTime.Now;
+
+                            BorrowedBooks.Add(BorrowedBo);
+
+
+                        }
+                    }
+                }
+                return await Task.FromResult(BorrowedBooks);
+            }
+        }
         /// <summary>
         /// Adderar en ny bok till table tblBook. 
         /// Måste skickas med: Title, ISBN, Publisher, Description, Price, Placement till boken.
@@ -200,7 +301,7 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<bool> LoanBook(int book_id, int user_id)
+        public async Task<bool> LoanBook(int book_id, int fk_LibraryCard)
         {
             bool success = true;
 
@@ -214,15 +315,16 @@ namespace WargamesGUI.Services
                     insertcmd.CommandType = CommandType.StoredProcedure;
 
                     insertcmd.Parameters.Add("@fk_Book_Id", SqlDbType.Int).Value = book_id;
-                    insertcmd.Parameters.Add("@fk_User_Id", SqlDbType.Int).Value = user_id;
+                    insertcmd.Parameters.Add("@fk_LibraryCard", SqlDbType.Int).Value = fk_LibraryCard;
 
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
+                exceptionMessage = ex.Message;
                 success = false;
                 return await Task.FromResult(success);
             }
@@ -250,9 +352,18 @@ namespace WargamesGUI.Services
                             values.Title = reader["Title"].ToString();
                             values.Publisher = reader["Publisher"].ToString();
                             values.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
-                            values.Price = Convert.ToInt32(reader["Price"]);
                             values.Placement = reader["Placement"].ToString();
                             values.Author = reader["Author"].ToString();
+                            values.InStock = Convert.ToInt32(reader["InStock"]);
+
+                            if (values.InStock == 0)
+                            {
+                                values.Status = "Unavailable";
+                            }
+                            else
+                            {
+                                values.Status = "Available";
+                            }
                             
                             switch (values.fk_Item_Id)
                             {

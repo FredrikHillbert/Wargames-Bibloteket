@@ -18,6 +18,11 @@ namespace WargamesGUI.Models
         public string Placement { get; set; }
         public int InStock { get; set; }
         public string Category { get; set; } // Används i BookService - ej i databasen.
+        public int fk_BookLoanStatus_Id { get; set; }
+        public string Status { get; set; }
+        public DateTime ReturnDate { get; set; }
+        public DateTime ReturnedDate { get; set; }
+        public override string ToString() => $"{TypeOfBook}";
 
     }
 }
