@@ -48,7 +48,8 @@ namespace WargamesGUI.Views
                 
                 try
                 {
-                    //await bookService.UpdateBorrowedBooksFromDbLibrarian();
+                    var loanID = selectedBook.Loan_Id;
+                    //await bookService.UpdateBorrowedBooksFromDbLibrarian(loanID);
                     await DisplayAlert("Book handled!", $"You handled {selectedBook.Title}.", "OK");
                     await LoadBooks();
                     //Funktion som lägger till den returnerade boken i en retur tabell?
