@@ -33,8 +33,8 @@ namespace WargamesGUI.Services
                             book.ISBN = reader["ISBN"].ToString();
                             book.Publisher = reader["Publisher"].ToString();
                             book.Description = reader["Description"].ToString();
-                            book.Price = Convert.ToInt32(reader["Price"]);
-                            book.Placement = reader["Placement"].ToString();
+                            //book.Price = Convert.ToInt32(reader["Price"]);
+                            //book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
                             book.InStock = Convert.ToInt32(reader["InStock"]);
 
@@ -200,7 +200,6 @@ namespace WargamesGUI.Services
 
                     SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
-
                     insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = item_id;
                     insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = title;
                     insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = ISBN;
@@ -209,7 +208,6 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = description;
                     insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
-
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
                 }

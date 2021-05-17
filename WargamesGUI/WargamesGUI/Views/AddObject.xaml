@@ -4,39 +4,50 @@
              xmlns:models="clr-namespace:WargamesGUI.Models"
              x:Class="WargamesGUI.Views.AddObject"
              BackgroundImageSource="pexels-cottonbro.jpg">
-    
-    <StackLayout>
-        <Frame CornerRadius="40" BorderColor="Black" Margin="40,20,40,20" BackgroundColor="LightBlue">
-            <Grid Margin="0,0,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Picker x:Name="picker" BackgroundColor="#2E4159" TextColor="White" HorizontalOptions="Center"
-                        Grid.Row="0" Grid.Column="0" WidthRequest="200" SelectedIndexChanged="picker_SelectedIndexChanged">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type models:Book}">
-                            <models:Book TypeOfBook="Book"  fk_Item_Id="1"/>
-                            <models:Book TypeOfBook="E-book" fk_Item_Id="2"/>
-                        </x:Array>
-                    </Picker.ItemsSource>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-                </Picker>
-                <Entry x:Name="EntryTitle" Placeholder="Title" Grid.Row="0" Grid.Column="1"/>
-                <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="0" Grid.Column="2"/>
-                <Entry x:Name="EntryPublisher" Placeholder="Publisher" Grid.Row="0" Grid.Column="3"/>
-                <Entry x:Name="EntryDescription" Placeholder="Description" Grid.Row="1" Grid.Column="0"/>
-                <Entry x:Name="EntryPrice" Placeholder="Price" Grid.Row="1" Grid.Column="1"/>
-                <Entry x:Name="EntryPlacement" Placeholder="Placement" Grid.Row="1" Grid.Column="2"/>
-                <Entry x:Name="EntryAuthor" Placeholder="Author" Grid.Row="1" Grid.Column="3"/>
-                <Button Text="Add book"  
+        <Image Source="pexels-cottonbro.jpg" Aspect="AspectFill" Opacity="0.5" Grid.RowSpan="3"></Image>
+        <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
+
+        <StackLayout>
+            <Frame CornerRadius="40" BorderColor="Black" Margin="40,20,40,20" BackgroundColor="LightBlue">
+                <Grid Margin="0,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Picker x:Name="picker" BackgroundColor="#2E4159" TextColor="White" HorizontalOptions="Center"
+                        Grid.Row="0" Grid.Column="0" WidthRequest="200" SelectedIndexChanged="picker_SelectedIndexChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type models:Book}">
+                                <models:Book TypeOfBook="Book"  fk_Item_Id="1"/>
+                                <models:Book TypeOfBook="E-book" fk_Item_Id="2"/>
+                            </x:Array>
+                        </Picker.ItemsSource>
+
+                    </Picker>
+                    <Entry x:Name="EntryTitle" Placeholder="Title" Grid.Row="0" Grid.Column="1"/>
+                    <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="0" Grid.Column="2"/>
+                    <Entry x:Name="EntryPublisher" Placeholder="Publisher" Grid.Row="0" Grid.Column="3"/>
+                    <Entry x:Name="EntryDescription" Placeholder="Description" Grid.Row="1" Grid.Column="0"/>
+                    <Entry x:Name="EntryPrice" Placeholder="Price" Grid.Row="1" Grid.Column="1"/>
+                    <Entry x:Name="EntryPlacement" Placeholder="Placement" Grid.Row="1" Grid.Column="2"/>
+                    <Entry x:Name="EntryAuthor" Placeholder="Author" Grid.Row="1" Grid.Column="3"/>
+                    <Button Text="Add book"  
                         Grid.Row="2"  
                         Grid.Column="3" 
                         CornerRadius="20"
@@ -44,83 +55,83 @@
                         BackgroundColor="#2E4159"
                         TextColor="White"
                         Clicked="AddBook_Button_Clicked"/>
-            </Grid>
-        </Frame>
-        <Frame CornerRadius="40" BorderColor="Black" Margin="40,0,40,20" BackgroundColor="LightBlue">
-            <StackLayout>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Label Text="Book type" HorizontalOptions="Start" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold"/>
-                    <Label Text="Title" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold"/>
-                    <Label Text="ISBN" HorizontalOptions="Start" TextColor="Black" Grid.Column="2" Grid.Row="0" FontAttributes="Bold"/>
-                    <Label Text="Publisher" HorizontalOptions="Start" TextColor="Black" Grid.Column="3" Grid.Row="0" FontAttributes="Bold"/>
-                    <Label Text="Price" HorizontalOptions="Start" TextColor="Black" Grid.Column="4" Grid.Row="0" FontAttributes="Bold"/>
-                    <Label Text="Placement" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontAttributes="Bold"/>
-                    <Label Text="Author" HorizontalOptions="Start" TextColor="Black" Grid.Column="6" Grid.Row="0" FontAttributes="Bold"/>
                 </Grid>
-                <ListView x:Name="listOfBooks" ItemTapped="listOfBooks_ItemTapped" ItemSelected="listOfBooks_ItemSelected">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="3*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
-                                        <Label Text="{Binding fk_Item_Id}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
-                                        <Label Text="{Binding Title}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
-                                        <Label Text="{Binding ISBN}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
-                                        <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
-                                        <Label Text="{Binding Price}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" Grid.Column="5" Grid.Row="0">
-                                        <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal" Grid.Column="6" Grid.Row="0">
-                                        <Label Text="{Binding Author}" HorizontalOptions="Start"/>
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <StackLayout Margin="0,10,0,0">
+            </Frame>
+            <Frame CornerRadius="40" BorderColor="Black" Margin="40,30,40,-400" BackgroundColor="LightBlue">
+                <StackLayout>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Button Text="Details" 
+                        <Label Text="Book type" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Title" TextDecorations="Underline" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="ISBN" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="2" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Publisher" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="3" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Price" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="4" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Placement" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Author" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="6" Grid.Row="0" FontAttributes="Bold"/>
+                    </Grid>
+                    <ListView x:Name="listOfBooks" ItemTapped="listOfBooks_ItemTapped" ItemSelected="listOfBooks_ItemSelected">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+                                            <Label Text="{Binding fk_Item_Id}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                                            <Label Text="{Binding Title}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
+                                            <Label Text="{Binding ISBN}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
+                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
+                                            <Label Text="{Binding Price}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" Grid.Column="5" Grid.Row="0">
+                                            <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" Grid.Column="6" Grid.Row="0">
+                                            <Label Text="{Binding Author}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackLayout Margin="0,10,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Button Text="Details" 
                                     Clicked="DetailsSelected_Clicked"
                                     CornerRadius="20" 
                                     BackgroundColor="#2E4159"
@@ -129,7 +140,7 @@
                                     Grid.Column="0" Grid.Row="0"
                                     WidthRequest="80"
                                     Margin="0,0,110,0"/>
-                        <Button Text="Remove book" 
+                            <Button Text="Remove book" 
                                     Clicked="DeleteObject_Clicked" 
                                     CornerRadius="20" 
                                     BackgroundColor="#2E4159"
@@ -137,13 +148,14 @@
                                     HorizontalOptions="EndAndExpand"
                                     Grid.Column="0" Grid.Row="0"
                                     Margin="0,0,0,0"/>
-                        
-                    </Grid>
+
+                        </Grid>
+                    </StackLayout>
+
                 </StackLayout>
-
-            </StackLayout>
-        </Frame>
+            </Frame>
 
 
-    </StackLayout>
+        </StackLayout>
+    </Grid>
 </ContentPage>

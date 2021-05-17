@@ -18,6 +18,7 @@ namespace WargamesGUI.Views
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
         public Book selectedItem;
         public User user;
+        public Book itemTapped;
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService;
         public static BookService bookService = new BookService();
@@ -33,20 +34,28 @@ namespace WargamesGUI.Views
         {
 
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
-            
+
 
         }
 
         private async Task LoadBooks()
         {
-            if (collection != null)
+            try
             {
-                collection.Clear();
-            }
+                if (collection != null)
+                {
+                    collection.Clear();
+                }
 
-            collection.AddRange(await bookService.GetBooksFromDb());
-            listofbooks.ItemsSource = collection;
-            listofBorrowedbooks.ItemsSource = await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard);
+                collection.AddRange(await bookService.GetBooksFromDb());
+                listofbooks.ItemsSource = collection;
+                listofBorrowedbooks.ItemsSource = await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"{ex.Message}", "Ok");
+                throw;
+            }
         }
         private async Task LoadBorrowedBooks()
         {
@@ -67,8 +76,12 @@ namespace WargamesGUI.Views
 
         private async void Loan_Button_Clicked(object sender, EventArgs e)
         {
-            
-            if (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+            if (selectedItem.InStock == 0) 
+            {
+                await DisplayAlert("Error", "Book is not in stock", "OK");
+
+            }
+            else if (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
             {
                 await DisplayAlert("Susscessfull", "Book is added", "OK");
             }
@@ -76,7 +89,7 @@ namespace WargamesGUI.Views
             {
                 await DisplayAlert("Error", $"{bookService.exceptionMessage}", "OK");
             }
-            
+
 
         }
 
@@ -84,5 +97,23 @@ namespace WargamesGUI.Views
         {
             App.Current.MainPage = new MainPage();
         }
+        private void listofBorrowedbooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            itemTapped = (Book)e.Item;
+        }
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+
+
+
+
+
+
+
+
+
+        }
+
+       
     }
 }

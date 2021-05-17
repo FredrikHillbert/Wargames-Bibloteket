@@ -69,7 +69,7 @@ namespace WargamesGUI
             Exception exception = null;
             try
             {
-                if (String.IsNullOrWhiteSpace(SearchBar.Text))
+                if (string.IsNullOrWhiteSpace(SearchBar.Text))
                 {
                     await DisplayAlert("Error", "You have to type something", "OK");
                 }
