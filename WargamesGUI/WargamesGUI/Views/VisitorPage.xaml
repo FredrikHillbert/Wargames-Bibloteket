@@ -84,6 +84,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <!--LOAN BOOK BUTTON -->
                     <StackLayout>
                         <Button Text="Loan Book" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="Loan_Button_Clicked"/>
                     </StackLayout>
@@ -96,7 +97,7 @@
         <StackLayout Grid.Row="2" VerticalOptions="Start">
             <Frame CornerRadius="15" BorderColor="Black" Margin="20,10,20,20" BackgroundColor="LightBlue">
                 <StackLayout>
-                    <ListView x:Name="listofBorrowedbooks" Margin="5">
+                    <ListView x:Name="listofBorrowedbooks" Margin="5" ItemTapped="listofBorrowedbooks_ItemTapped">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -162,8 +163,9 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <!-- HAND BOOK BACK BUTTON-->
                     <StackLayout>
-                        <Button Text="Hand book back" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="Loan_Button_Clicked"/>
+                        <Button Text="Hand book back" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="Button_Clicked"/>
                     </StackLayout>
                 </StackLayout>
             </Frame>

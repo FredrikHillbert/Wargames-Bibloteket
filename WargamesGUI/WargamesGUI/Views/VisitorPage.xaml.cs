@@ -18,6 +18,7 @@ namespace WargamesGUI.Views
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
         public Book selectedItem;
         public User user;
+        public Book itemTapped;
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService;
         public static BookService bookService = new BookService();
@@ -75,8 +76,12 @@ namespace WargamesGUI.Views
 
         private async void Loan_Button_Clicked(object sender, EventArgs e)
         {
+            if (selectedItem.InStock == 0) 
+            {
+                await DisplayAlert("Error", "Book is not in stock", "OK");
 
-            if (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+            }
+            else if (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
             {
                 await DisplayAlert("Susscessfull", "Book is added", "OK");
             }
@@ -92,5 +97,23 @@ namespace WargamesGUI.Views
         {
             App.Current.MainPage = new MainPage();
         }
+        private void listofBorrowedbooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            itemTapped = (Book)e.Item;
+        }
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+
+
+
+
+
+
+
+
+
+        }
+
+       
     }
 }
