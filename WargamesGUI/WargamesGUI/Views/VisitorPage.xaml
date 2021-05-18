@@ -23,7 +23,7 @@
                     <StackLayout>
                         <Button Text="Log Out" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="Start" WidthRequest="150" Clicked="Back_Button_Clicked"/>
                     </StackLayout>
-                    <ListView x:Name="listofbooks" ItemTapped="listofbooks_ItemTapped">
+                    <ListView x:Name="listofbooks" ItemTapped="listofbooks_ItemTapped" >
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -38,7 +38,7 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Label Text="List of Books" HorizontalOptions="Start" FontSize="30" FontAttributes="Italic" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                <SearchBar Grid.Row="0" Grid.Column="1" Placeholder="Search"/>
+                                <SearchBar Grid.Row="0" Grid.Column="1" Placeholder="Search" TextChanged="SearchBar_TextChanged"/>
                                 <Label Text="Title" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
                                 <Label Text="Author" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
                                 <Label Text="Publisher" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
@@ -94,7 +94,7 @@
         <StackLayout Grid.Row="2" VerticalOptions="Start">
             <Frame CornerRadius="15" BorderColor="Black" Margin="20,10,20,20" BackgroundColor="LightBlue">
                 <StackLayout>
-                    <ListView x:Name="listofBorrowedbooks" Margin="5" ItemTapped="listofBorrowedbooks_ItemTapped" HasUnevenRows="True">
+                    <ListView x:Name="listofBorrowedbooks" Margin="5" ItemTapped="listofBorrowedbooks_ItemTapped" >
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -152,7 +152,7 @@
                     </ListView>
                     <!-- HAND BOOK BACK BUTTON-->
                     <StackLayout>
-                        <Button Text="Hand book back" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="Button_Clicked"/>
+                        <Button Text="Hand book back" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="HandBookBack_Button_Clicked"/>
                     </StackLayout>
                 </StackLayout>
             </Frame>

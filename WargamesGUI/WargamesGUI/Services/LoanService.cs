@@ -10,11 +10,12 @@ namespace WargamesGUI.Services
 {
     public class LoanService : DbHandler
     {
+        
         public async Task<List<Book>> GetLoanedBooksFromDb(int fk_LibraryCard)
         {
             var LoanedBooks = new List<Book>();
 
-            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id";
+            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.Loan_Id FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id AND fk_BookLoanStatus_Id< 5";
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -31,6 +32,7 @@ namespace WargamesGUI.Services
                             LoanedBook.Publisher = reader["Publisher"].ToString();
                             LoanedBook.Placement = reader["Publisher"].ToString();
                             LoanedBook.InStock = Convert.ToInt32(reader["InStock"]);
+                            LoanedBook.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
 
                             LoanedBooks.Add(LoanedBook);
                         }
@@ -74,6 +76,32 @@ namespace WargamesGUI.Services
             {
                 success = false;
                 return await Task.FromResult(success);
+            }
+        }
+        public async Task<bool> ChangeBookLoanStatus(int Loan_Id)
+        {
+            bool success = true;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_ChangeBookLoanStatus", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+
+                    insertcmd.Parameters.Add("@Loan_Id", SqlDbType.Int).Value = Loan_Id;
+
+
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
