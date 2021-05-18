@@ -242,13 +242,13 @@ namespace WargamesGUI
                     }
                     else
                     {
-                        await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
+                        await loanService.ChangeCardStatus(2, selectedItem.Cardnumber);
                         await DisplayAlert("Success!", $"Status for card changed to: Delayed books.", "OK");
                     }
                     break;
 
                 case "Lost books":
-                    if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
+                    if (!await loanService.ChangeCardStatus(3, selectedItem.Cardnumber))
                     {
                         await DisplayAlert("Error!", $"Status did not change.", "OK");
                     }
