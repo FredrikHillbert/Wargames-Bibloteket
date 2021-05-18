@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 
+
 namespace WargamesGUI.Services
 {
     public class BookService : DbHandler
@@ -330,6 +331,7 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@fk_LibraryCard", SqlDbType.Int).Value = fk_LibraryCard;
                     insertcmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
 
+                    
                     await insertcmd.ExecuteNonQueryAsync();
                     returnValue = (int)insertcmd.Parameters["@returnValue"].Value;
 

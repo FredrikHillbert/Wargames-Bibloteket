@@ -116,13 +116,28 @@
                         </ListView.ItemTemplate>
 
                     </ListView>
-                    <Button Text="Handled" 
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    <Button Text="Handled"
+                            WidthRequest="100"
                             Clicked="Handled_Clicked"
                             BackgroundColor="#2E4159" 
                             TextColor="White" 
                             CornerRadius="20" 
                             HorizontalOptions="End"></Button>
-
+                    <Button Text="Refresh" 
+                            WidthRequest="100"
+                            Clicked="Refresh_Clicked"
+                            BackgroundColor="#2E4159" 
+                            TextColor="White" 
+                            CornerRadius="20"                            
+                            HorizontalOptions="Center"></Button>
+                </Grid>
                 </StackLayout>
             </Frame>
 

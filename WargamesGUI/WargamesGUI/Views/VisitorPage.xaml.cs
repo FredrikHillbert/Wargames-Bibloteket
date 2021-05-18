@@ -15,9 +15,10 @@ namespace WargamesGUI.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class VisitorPage : ContentPage
     {
-        private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
-        private ObservableRangeCollection<Book> collection2 { get; set; } = new ObservableRangeCollection<Book>();
-        private IEnumerable<string> books;
+        
+        private List<Book> BookCollection { get; set; } = new List<Book>();
+        private List<Book> LoanCollection { get; set; } = new List<Book>();
+        
         public Book selectedItem;
         public User user;
         public Book itemTapped;
@@ -44,33 +45,23 @@ namespace WargamesGUI.Views
         {
             try
             {
-                if (collection != null || collection2 != null)
+                if (BookCollection != null || LoanCollection != null)
                 {
-                    collection.Clear();
-                    collection2.Clear();
+                    BookCollection.Clear();
+                    LoanCollection.Clear();
                 }
 
-                collection.AddRange(await bookService.GetBooksFromDb());
-                collection2.AddRange(await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard));
+                BookCollection.AddRange(await bookService.GetBooksFromDb());
+                LoanCollection.AddRange(await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard));
                 
-                listofbooks.ItemsSource = collection;
-                listofBorrowedbooks.ItemsSource = collection2;
+                listofbooks.ItemsSource = BookCollection;
+                listofBorrowedbooks.ItemsSource = LoanCollection;
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", $"{ex.Message}", "Ok");
                 throw;
             }
-        }
-        private async Task LoadBorrowedBooks()
-        {
-            if (collection != null)
-            {
-                collection.Clear();
-            }
-
-            collection.AddRange(await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard));
-            listofBorrowedbooks.ItemsSource = collection;
         }
 
         private async void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -126,13 +117,15 @@ namespace WargamesGUI.Views
             await LoadBooks();
         }
 
-        private void SearchBar_SearchButtonPressed(object sender, EventArgs e)
+        private void MainSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var keyword = MainSearchBar.Text;
+            var searchresult = BookCollection.Where(x => x.Title.Contains(MainSearchBar.Text)
+                                                      || x.Author.Contains(MainSearchBar.Text)
+                                                      || x.ISBN.Contains(MainSearchBar.Text)
+                                                      || x.Publisher.Contains(MainSearchBar.Text));
+                                                      
 
-            listofbooks.ItemsSource = collection2;
-
-            collection2 = (ObservableRangeCollection<Book>)books.Where(x => x.Contains(keyword));
+            listofbooks.ItemsSource = searchresult;
         }
     }
 }
