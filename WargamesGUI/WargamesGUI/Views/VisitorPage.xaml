@@ -22,7 +22,7 @@
                     <!--LOG OUT BUTTON-->
                     <StackLayout Orientation="Horizontal">
                         <Button Text="Log Out" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="Start" WidthRequest="150" Clicked="Back_Button_Clicked"/>
-                        <SearchBar x:Name="MainSearchBar" Placeholder="Search" SearchButtonPressed="SearchBar_SearchButtonPressed" />
+                        <SearchBar x:Name="MainSearchBar" WidthRequest="150" Placeholder="Search"  TextChanged="MainSearchBar_TextChanged" />
                     </StackLayout>
                     <ListView x:Name="listofbooks" ItemTapped="listofbooks_ItemTapped" >
                         <ListView.Header>

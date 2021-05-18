@@ -329,6 +329,7 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@fk_Book_Id", SqlDbType.Int).Value = book_id;
                     insertcmd.Parameters.Add("@fk_LibraryCard", SqlDbType.Int).Value = fk_LibraryCard;
 
+                    
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
                 }
