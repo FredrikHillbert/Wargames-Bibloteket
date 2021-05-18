@@ -59,6 +59,7 @@
                 Grid.Column="0" 
                 Clicked="SignIn_Button_Clicked" 
                 HorizontalOptions="Center"
+                TextColor="White"
                 WidthRequest="150"
                 CornerRadius="15"
                 BackgroundColor="#2E4159"/>

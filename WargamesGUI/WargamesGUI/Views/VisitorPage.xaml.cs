@@ -16,6 +16,8 @@ namespace WargamesGUI.Views
     public partial class VisitorPage : ContentPage
     {
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
+        private ObservableRangeCollection<Book> collection2 { get; set; } = new ObservableRangeCollection<Book>();
+        private IEnumerable<string> books;
         public Book selectedItem;
         public User user;
         public Book itemTapped;
@@ -28,7 +30,7 @@ namespace WargamesGUI.Views
         public VisitorPage()
         {
             InitializeComponent();
-
+            BindingContext = listofbooks;
         }
         protected override void OnAppearing()
         {
@@ -42,14 +44,17 @@ namespace WargamesGUI.Views
         {
             try
             {
-                if (collection != null)
+                if (collection != null || collection2 != null)
                 {
                     collection.Clear();
+                    collection2.Clear();
                 }
 
                 collection.AddRange(await bookService.GetBooksFromDb());
+                collection2.AddRange(await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard));
+                
                 listofbooks.ItemsSource = collection;
-                listofBorrowedbooks.ItemsSource = await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard);
+                listofBorrowedbooks.ItemsSource = collection2;
             }
             catch (Exception ex)
             {
@@ -76,7 +81,7 @@ namespace WargamesGUI.Views
 
         private async void Loan_Button_Clicked(object sender, EventArgs e)
         {
-            if (selectedItem.InStock == 0) 
+            if (selectedItem.InStock == 0)
             {
                 await DisplayAlert("Error", "Book is not in stock", "OK");
 
@@ -84,12 +89,12 @@ namespace WargamesGUI.Views
             else if (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
             {
                 await DisplayAlert("Susscessfull", "Book is added", "OK");
+                await LoadBooks();
             }
             else
             {
                 await DisplayAlert("Error", $"{bookService.exceptionMessage}", "OK");
             }
-
 
         }
 
@@ -100,13 +105,23 @@ namespace WargamesGUI.Views
         private void listofBorrowedbooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             itemTapped = (Book)e.Item;
-            
         }
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void HandBookBack_Button_Clicked(object sender, EventArgs e)
         {
-            
+            //LoanService.LoanedBooks.Remove(itemTapped);
+            await bookLoanService.ChangeBookLoanStatus(itemTapped.Loan_Id);
+            await DisplayAlert("Succsess", "Your book is handed back", "OK");
+
+            await LoadBooks();
         }
 
-       
+        private void SearchBar_SearchButtonPressed(object sender, EventArgs e)
+        {
+            var keyword = MainSearchBar.Text;
+
+            listofbooks.ItemsSource = collection2;
+
+            collection2 = (ObservableRangeCollection<Book>)books.Where(x => x.Contains(keyword));
+        }
     }
 }
