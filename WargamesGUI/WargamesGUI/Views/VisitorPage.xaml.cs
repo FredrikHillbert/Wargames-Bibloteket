@@ -48,14 +48,13 @@ namespace WargamesGUI.Views
                 if (BookCollection != null || LoanCollection != null)
                 {
                     BookCollection.Clear();
-                    LoanCollection.Clear();
+
                 }
 
                 BookCollection.AddRange(await bookService.GetBooksFromDb());
-                LoanCollection.AddRange(await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard));
-                
-                listofbooks.ItemsSource = BookCollection;
-                listofBorrowedbooks.ItemsSource = LoanCollection;
+
+                listofbooks.ItemsSource = await bookService.GetBooksFromDb();
+                listofBorrowedbooks.ItemsSource = await bookLoanService.GetBorrowedBooksFromDb(UserService.fk_LibraryCard);
             }
             catch (Exception ex)
             {
@@ -64,7 +63,7 @@ namespace WargamesGUI.Views
             }
         }
 
-        private async void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (Book)e.Item;
 
@@ -79,7 +78,7 @@ namespace WargamesGUI.Views
             }
             else
             {
-                switch (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+                switch (await bookLoanService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
                 {
                     case 0:
                         await DisplayAlert("Successful", "Book is added", "OK");

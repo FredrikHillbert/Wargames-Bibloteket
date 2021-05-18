@@ -133,14 +133,14 @@ namespace WargamesGUI
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             selectedItem = (User)listOfUsers.SelectedItem;
-           
-           
-            
+
+
+
         }
         private void picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedItem = (User)picker.SelectedItem;
-            privilegeLevel = selectedItem.fk_PrivilegeLevel;           
+            privilegeLevel = selectedItem.fk_PrivilegeLevel;
 
             switch (privilegeLevel)
             {
@@ -220,9 +220,57 @@ namespace WargamesGUI
         {
             selectedItem = (User)listOfUsers.SelectedItem;
 
-            int.TryParse(await DisplayPromptAsync($"Status ID", "Enter new status ID for cardnumber?"), out StatusID);
+            var bookDetails = await DisplayActionSheet("Choose action: ", "Cancel", null, "Active", "Delayed books", "Lost books", "Theft");
+            switch (bookDetails)
+            {
+                case "Active":
+                    if (!await loanService.ChangeCardStatus(1, selectedItem.Cardnumber))
+                    {
+                      await DisplayAlert("Error!", $"Status did not change.", "OK");
+                    }
+                    else
+                    {
+                        await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
+                        await DisplayAlert("Success!", $"Status for card changed to: Active.", "OK");
+                    }
+                    break;
 
-            await loanService.ChangeCardStatus(StatusID, selectedItem.Cardnumber);
+                case "Delayed books":
+                    if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
+                    {
+                        await DisplayAlert("Error!", $"Status did not change.", "OK");
+                    }
+                    else
+                    {
+                        await loanService.ChangeCardStatus(2, selectedItem.Cardnumber);
+                        await DisplayAlert("Success!", $"Status for card changed to: Delayed books.", "OK");
+                    }
+                    break;
+
+                case "Lost books":
+                    if (!await loanService.ChangeCardStatus(3, selectedItem.Cardnumber))
+                    {
+                        await DisplayAlert("Error!", $"Status did not change.", "OK");
+                    }
+                    else
+                    {
+                        await loanService.ChangeCardStatus(3, selectedItem.Cardnumber);
+                        await DisplayAlert("Success!", $"Status for card changed to: Lost books", "OK");
+                    }
+                    break;
+
+                case "Theft":
+                    if (!await loanService.ChangeCardStatus(4, selectedItem.Cardnumber))
+                    {
+                        await DisplayAlert("Error!", $"Status did not change.", "OK");
+                    }
+                    else
+                    {
+                        await loanService.ChangeCardStatus(4, selectedItem.Cardnumber);
+                        await DisplayAlert("Success!", $"Status for card changed to: Theft", "OK");
+                    }
+                    break;
+            }
         }
     }
-}
+}   
