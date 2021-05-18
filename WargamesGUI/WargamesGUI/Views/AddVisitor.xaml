@@ -38,8 +38,9 @@
                             Grid.Row="7" Grid.Column="0"/>
             </Grid>
         </Frame>
+        <!--EXISTING VISITORS-->
         <Frame CornerRadius="40" BorderColor="Black" Margin="50,30,50,20" BackgroundColor="LightBlue">
-            <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected">
+            <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected" ItemTapped="listOfVisitors_ItemTapped">
                 <ListView.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>

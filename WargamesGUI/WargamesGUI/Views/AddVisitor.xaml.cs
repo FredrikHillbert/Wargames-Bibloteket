@@ -19,7 +19,9 @@ namespace WargamesGUI.Views
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static DbHandler handler = new DbHandler();
+        public static LoanService loanService = new LoanService();
         private int privilegeLevel;
+        private int StatusID;
         public AddVisitor()
         {
             InitializeComponent();
@@ -121,6 +123,15 @@ namespace WargamesGUI.Views
         private void listOfVisitors_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             selectedItem = (User)listOfVisitors.SelectedItem;
+        }
+
+        private async void listOfVisitors_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            selectedItem = (User)listOfVisitors.SelectedItem;
+
+            int.TryParse(await DisplayPromptAsync($"Status ID", "Enter new status ID for cardnumber?"), out StatusID);
+
+            await loanService.ChangeCardStatus(StatusID, selectedItem.Cardnumber);
         }
     }
 }

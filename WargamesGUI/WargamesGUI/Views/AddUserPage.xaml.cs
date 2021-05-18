@@ -25,6 +25,8 @@ namespace WargamesGUI
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static DbHandler handler = new DbHandler();
+        public static LoanService loanService = new LoanService();
+        public int StatusID;
 
         private int privilegeLevel;
 
@@ -214,10 +216,13 @@ namespace WargamesGUI
 
         }
 
-        private void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (User)listOfUsers.SelectedItem;
-            
+
+            int.TryParse(await DisplayPromptAsync($"Status ID", "Enter new status ID for cardnumber?"), out StatusID);
+
+            await loanService.ChangeCardStatus(StatusID, selectedItem.Cardnumber);
         }
     }
 }

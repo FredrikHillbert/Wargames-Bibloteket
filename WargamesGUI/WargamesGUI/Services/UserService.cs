@@ -38,6 +38,11 @@ namespace WargamesGUI.Services
                             users.PhoneNumber = reader["PhoneNumber"].ToString();
                             users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
                             users.User_ID = Convert.ToInt32(reader["User_ID"]);
+                            
+                            if (int.TryParse(reader["fk_LibraryCard"].ToString(), out int cardnumber))
+                            {
+                                users.Cardnumber = cardnumber;
+                            }
 
                             obsList.Add(users);
                         }
@@ -153,6 +158,10 @@ namespace WargamesGUI.Services
                             visitor.Last_Name = reader["Last_Name"].ToString();
                             visitor.PhoneNumber = reader["PhoneNumber"].ToString();
                             visitor.Address = reader["Address"].ToString();
+                            if (int.TryParse(reader["fk_LibraryCard"].ToString(), out int cardnumber))
+                            {
+                                visitor.Cardnumber = cardnumber;
+                            }
 
                             listOfvisitors.Add(visitor);
                         }
@@ -229,9 +238,7 @@ namespace WargamesGUI.Services
             }
 
         }
-
-
-
+        
     }
 }
 
