@@ -83,18 +83,23 @@ namespace WargamesGUI.Views
                 {
                     case 0:
                         await DisplayAlert("Successful", "Book is added", "OK");
+                        await LoadBooks();
                         break;
                     case 1:
                         await DisplayAlert("Error", "You have delayed books. Return them before trying to loan a new one", "OK");
+                        await LoadBooks();
                         break;
                     case 2:
                         await DisplayAlert("Error", "You have lost books. Contact the library to solve this issue", "OK");
+                        await LoadBooks();
                         break;
                     case 3:
                         await DisplayAlert("Error", "You have stolen books. Contact the library to solve this issue", "OK");
+                        await LoadBooks();
                         break;
                     default:
                         await DisplayAlert("Error", "Unknown error. Contact the library to solve this issue", "OK");
+                        await LoadBooks();
                         break;
                 }
             }
