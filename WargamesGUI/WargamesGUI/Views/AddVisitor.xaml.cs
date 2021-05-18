@@ -40,7 +40,7 @@ namespace WargamesGUI.Views
 
         private async void AddVisitor_Button_Clicked(object sender, EventArgs e)
         {
-            
+
             if (string.IsNullOrEmpty(EntryFirstName.Text) || !CheckFormat.CheckIfAllLetter(EntryFirstName.Text))
             {
                 await DisplayAlert("Invalid Format", "Firstname is empty or format is not allowed.", "OK");
@@ -49,7 +49,7 @@ namespace WargamesGUI.Views
             {
                 await DisplayAlert("Invalid Format", "Lastname is empty or format is not allowed.", "OK");
             }
-            else if (string.IsNullOrEmpty(EntrySsnNumber.Text) ||!CheckFormat.CheckIfAllNumbers(EntrySsnNumber.Text))
+            else if (string.IsNullOrEmpty(EntrySsnNumber.Text) || !CheckFormat.CheckIfAllNumbers(EntrySsnNumber.Text))
             {
                 await DisplayAlert("Invalid SSNnumber", "SSN number is empty or format is not allowed.", "OK");
             }
@@ -75,7 +75,7 @@ namespace WargamesGUI.Views
                 privilegeLevel = 3;
                 try
                 {
-                    if (await userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text, "11","11"))
+                    if (await userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text, "11", "11"))
                     {
                         EntryFirstName.Text = string.Empty;
                         EntryLastName.Text = string.Empty;
@@ -90,10 +90,10 @@ namespace WargamesGUI.Views
                 }
                 catch (Exception)
                 {
-                    await DisplayAlert("Error!",$"Reason: {userService.exceptionMessage}", "OK");
+                    await DisplayAlert("Error!", $"Reason: {userService.exceptionMessage}", "OK");
                 }
             }
-             
+
         }
 
         private async void DeleteVisitor_Clicked(object sender, EventArgs e)
@@ -129,9 +129,57 @@ namespace WargamesGUI.Views
         {
             selectedItem = (User)listOfVisitors.SelectedItem;
 
-            int.TryParse(await DisplayPromptAsync($"Status ID", "Enter new status ID for cardnumber?"), out StatusID);
+            var bookDetails = await DisplayActionSheet("Choose action: ", "Cancel", null, "Active", "Delayed books", "Lost books", "Theft");
+            switch (bookDetails)
+            {
+                case "Active":
+                    if (!await loanService.ChangeCardStatus(1, selectedItem.Cardnumber))
+                    {
+                        await DisplayAlert("Error!", $"Status did not change.", "OK");
+                    }
+                    else
+                    {
+                        await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
+                        await DisplayAlert("Success!", $"Status for card changed to: Active.", "OK");
+                    }
+                    break;
 
-            await loanService.ChangeCardStatus(StatusID, selectedItem.Cardnumber);
+                case "Delayed books":
+                    if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
+                    {
+                        await DisplayAlert("Error!", $"Status did not change.", "OK");
+                    }
+                    else
+                    {
+                        await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
+                        await DisplayAlert("Success!", $"Status for card changed to: Delayed books.", "OK");
+                    }
+                    break;
+
+                case "Lost books":
+                    if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
+                    {
+                        await DisplayAlert("Error!", $"Status did not change.", "OK");
+                    }
+                    else
+                    {
+                        await loanService.ChangeCardStatus(3, selectedItem.Cardnumber);
+                        await DisplayAlert("Success!", $"Status for card changed to: Lost books", "OK");
+                    }
+                    break;
+
+                case "Theft":
+                    if (!await loanService.ChangeCardStatus(4, selectedItem.Cardnumber))
+                    {
+                        await DisplayAlert("Error!", $"Status did not change.", "OK");
+                    }
+                    else
+                    {
+                        await loanService.ChangeCardStatus(4, selectedItem.Cardnumber);
+                        await DisplayAlert("Success!", $"Status for card changed to: Theft", "OK");
+                    }
+                    break;
+            }
         }
     }
 }
