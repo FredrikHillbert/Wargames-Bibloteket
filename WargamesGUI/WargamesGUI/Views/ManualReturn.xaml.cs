@@ -16,6 +16,7 @@ namespace WargamesGUI.Views
     public partial class ManualReturn : ContentPage
     {
         public static BookService bookService = new BookService();
+        public static LoanService loanService = new LoanService();
         public static Book selectedBook;       
         public ManualReturn()
         {
@@ -30,7 +31,7 @@ namespace WargamesGUI.Views
         {
             try
             {
-                listOfBooks.ItemsSource = await bookService.GetBorrowedBooksFromDbLibrarian();
+                listOfBooks.ItemsSource = await loanService.GetBorrowedBooksFromDbLibrarian();
 
             }
             catch (Exception ex)
@@ -46,7 +47,7 @@ namespace WargamesGUI.Views
 
                 try
                 {                   
-                    await bookService.UpdateBorrowedBooksFromDbLibrarian(selectedBook.Loan_Id);
+                    await loanService.UpdateBorrowedBooksFromDbLibrarian(selectedBook.Loan_Id);
                     await DisplayAlert("Book handled!", $"You handled {selectedBook.Title}.", "OK");
                     await LoadBooks();
 
