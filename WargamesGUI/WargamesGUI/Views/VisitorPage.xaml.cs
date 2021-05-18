@@ -100,18 +100,11 @@ namespace WargamesGUI.Views
         private void listofBorrowedbooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             itemTapped = (Book)e.Item;
+            
         }
         private void Button_Clicked(object sender, EventArgs e)
         {
-
-
-
-
-
-
-
-
-
+            
         }
 
        
