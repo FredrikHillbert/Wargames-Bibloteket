@@ -313,9 +313,9 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<bool> LoanBook(int book_id, int fk_LibraryCard)
+        public async Task<int> LoanBook(int book_id, int fk_LibraryCard)
         {
-            bool success = true;
+            int returnValue = 0;
 
             try
             {
@@ -328,17 +328,19 @@ namespace WargamesGUI.Services
 
                     insertcmd.Parameters.Add("@fk_Book_Id", SqlDbType.Int).Value = book_id;
                     insertcmd.Parameters.Add("@fk_LibraryCard", SqlDbType.Int).Value = fk_LibraryCard;
+                    insertcmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
 
                     await insertcmd.ExecuteNonQueryAsync();
-                    return await Task.FromResult(success);
+                    returnValue = (int)insertcmd.Parameters["@returnValue"].Value;
+
+                    return await Task.FromResult(returnValue);
                 }
             }
 
             catch (Exception ex)
             {
                 exceptionMessage = ex.Message;
-                success = false;
-                return await Task.FromResult(success);
+                return await Task.FromResult(returnValue);
             }
         }
         public async Task<List<Book>> Searching(string text)

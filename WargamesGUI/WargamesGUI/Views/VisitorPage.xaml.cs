@@ -86,16 +86,27 @@ namespace WargamesGUI.Views
                 await DisplayAlert("Error", "Book is not in stock", "OK");
 
             }
-            else if (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
-            {
-                await DisplayAlert("Susscessfull", "Book is added", "OK");
-                await LoadBooks();
-            }
             else
             {
-                await DisplayAlert("Error", $"{bookService.exceptionMessage}", "OK");
+                switch (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+                {
+                    case 0:
+                        await DisplayAlert("Successful", "Book is added", "OK");
+                        break;
+                    case 1:
+                        await DisplayAlert("Error", "You have delayed books. Return them before trying to loan a new one", "OK");
+                        break;
+                    case 2:
+                        await DisplayAlert("Error", "You have lost books. Contact the library to solve this issue", "OK");
+                        break;
+                    case 3:
+                        await DisplayAlert("Error", "You have stolen books. Contact the library to solve this issue", "OK");
+                        break;
+                    default:
+                        await DisplayAlert("Error", "Unknown error. Contact the library to solve this issue", "OK");
+                        break;
+                }
             }
-
         }
 
         private void Back_Button_Clicked(object sender, EventArgs e)
@@ -110,7 +121,7 @@ namespace WargamesGUI.Views
         {
             //LoanService.LoanedBooks.Remove(itemTapped);
             await bookLoanService.ChangeBookLoanStatus(itemTapped.Loan_Id);
-            await DisplayAlert("Succsess", "Your book is handed back", "OK");
+            await DisplayAlert("Success", "Your book is handed back", "OK");
 
             await LoadBooks();
         }
