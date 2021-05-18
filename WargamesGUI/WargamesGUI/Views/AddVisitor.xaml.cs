@@ -65,17 +65,12 @@ namespace WargamesGUI.Views
             {
                 await DisplayAlert("Invalid phonenumber", "Phonenumber is empty or format is not allowed.", "OK");
             }
-            else if (string.IsNullOrEmpty(EntryCardNumber.Text) || !CheckFormat.CheckIfAllNumbers(EntryCardNumber.Text))
-            {
-                await DisplayAlert("InvalidSSNnumber", "SSN number is empty or format is not allowed.", "OK");
-            }
-
             else
             {
                 privilegeLevel = 3;
                 try
                 {
-                    if (await userService.AddNewVisitor(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryCardNumber.Text, "11","11"))
+                    if (await userService.AddNewUser(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryUserName.Text, EntryPassword.Text))
                     {
                         EntryFirstName.Text = string.Empty;
                         EntryLastName.Text = string.Empty;
@@ -83,7 +78,8 @@ namespace WargamesGUI.Views
                         EntryAdress.Text = string.Empty;
                         EntryEmail.Text = string.Empty;
                         EntryPhoneNumber.Text = string.Empty;
-                        EntryCardNumber.Text = string.Empty;
+                        EntryUserName.Text = string.Empty;
+                        EntryPassword.Text = string.Empty;
                         await DisplayAlert("Success!", "You added a visitor!", "OK");
                         await ReadVisitorListFromDb();
                     }
