@@ -17,6 +17,7 @@ namespace WargamesGUI.Views
     {
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
         private ObservableRangeCollection<Book> collection2 { get; set; } = new ObservableRangeCollection<Book>();
+        private IEnumerable<string> books;
         public Book selectedItem;
         public User user;
         public Book itemTapped;
@@ -29,7 +30,7 @@ namespace WargamesGUI.Views
         public VisitorPage()
         {
             InitializeComponent();
-            BindingContext = listofBorrowedbooks;
+            BindingContext = listofbooks;
         }
         protected override void OnAppearing()
         {
@@ -109,13 +110,18 @@ namespace WargamesGUI.Views
         {
             //LoanService.LoanedBooks.Remove(itemTapped);
             await bookLoanService.ChangeBookLoanStatus(itemTapped.Loan_Id);
+            await DisplayAlert("Succsess", "Your book is handed back", "OK");
 
             await LoadBooks();
         }
 
-        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        private void SearchBar_SearchButtonPressed(object sender, EventArgs e)
         {
+            var keyword = MainSearchBar.Text;
 
+            listofbooks.ItemsSource = collection2;
+
+            collection2 = (ObservableRangeCollection<Book>)books.Where(x => x.Contains(keyword));
         }
     }
 }

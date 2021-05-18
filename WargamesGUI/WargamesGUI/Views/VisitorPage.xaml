@@ -20,8 +20,9 @@
             <Frame CornerRadius="15" BorderColor="Black" Margin="20,20,20,10" BackgroundColor="LightBlue">
                 <StackLayout>
                     <!--LOG OUT BUTTON-->
-                    <StackLayout>
+                    <StackLayout Orientation="Horizontal">
                         <Button Text="Log Out" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="Start" WidthRequest="150" Clicked="Back_Button_Clicked"/>
+                        <SearchBar x:Name="MainSearchBar" Placeholder="Search" SearchButtonPressed="SearchBar_SearchButtonPressed" />
                     </StackLayout>
                     <ListView x:Name="listofbooks" ItemTapped="listofbooks_ItemTapped" >
                         <ListView.Header>
@@ -38,7 +39,6 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Label Text="List of Books" HorizontalOptions="Start" FontSize="30" FontAttributes="Italic" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                <SearchBar Grid.Row="0" Grid.Column="1" Placeholder="Search" TextChanged="SearchBar_TextChanged"/>
                                 <Label Text="Title" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
                                 <Label Text="Author" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
                                 <Label Text="Publisher" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
