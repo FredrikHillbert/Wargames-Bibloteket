@@ -246,5 +246,32 @@ namespace WargamesGUI.Services
                 throw;
             }
         }
+        public async Task<bool> ManualAddLibraryCard(int user_id)
+        {
+            bool success = true;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_ManualAddLibraryCard", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+
+                    insertcmd.Parameters.Add("@User_Id", SqlDbType.Int).Value = user_id;
+
+                    await insertcmd.ExecuteNonQueryAsync();
+
+                    return await Task.FromResult(success);
+                }
+            }
+
+            catch (Exception)
+            {
+                success = false;
+                return await Task.FromResult(success);
+            }
+        }
     }
 }
