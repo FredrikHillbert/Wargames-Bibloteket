@@ -148,7 +148,7 @@ namespace WargamesGUI.Views
 
         private void Details(Book selectedItem)
         {
-            App.Current.MainPage = new DetailPage();
+            //App.Current.MainPage = new DetailPage();
         }
 
         private void DetailsSelected_Clicked(object sender, EventArgs e)
@@ -165,88 +165,13 @@ namespace WargamesGUI.Views
         {
             var selectedItem = (Dewey)categorypicker.SelectedItem;
 
-            var deweySubId = selectedItem.DeweySub_Id;
-
-            var choice = string.Empty;
-            switch (selectedItem.fk_DeweyMain_Id)
-            {
-                case 0:
-                    var list = await bookService.GetDeweyData(selectedItem.fk_DeweyMain_Id);
-                    choice = await DisplayActionSheet($"Välj en subkategori: {selectedItem.MainCategoryName}", "Avbryt", null,
-                        $"Computer science, knowledge & systems",
-                        $"Bibliographies",
-                        $"Library & information sciences",
-                        $"Encyclopedias & books of facts",
-                        $"[Unassigned]",
-                        $"Magazines, journals & serials",
-                        $"Associations, organizations & museums",
-                        $"News media, journalism & publishing",
-                        $"Quotations",
-                        $"Manuscripts & rare books"
-                        );
-                   
-                        switch (choice)
-                        {
-                            case "Computer science, knowledge & systems":
-                                selectedItem.DeweySub_Id = 000;                               
-                                break;
-                            case "Bibliographies":
-                                selectedItem.DeweySub_Id = 010;
-                                break;
-                            case "Library & information sciences":
-                                selectedItem.DeweySub_Id = 020;
-                                break;
-                            case "Encyclopedias & books of facts":
-                                selectedItem.DeweySub_Id = 030;
-                                break;
-                            case "[Unassigned]":
-                                selectedItem.DeweySub_Id = 040;
-                                break;
-                            case "Magazines, journals & serials":
-                                selectedItem.DeweySub_Id = 050;
-                                break;
-                            case "Associations, organizations & museums":
-                                selectedItem.DeweySub_Id = 060;
-                                break;
-                            case "News media, journalism & publishing":
-                                selectedItem.DeweySub_Id = 070;
-                                break;
-                            case "Quotations":
-                                selectedItem.DeweySub_Id = 080;
-                                break;
-                            case "Manuscripts & rare books":
-                                selectedItem.DeweySub_Id = 090;
-                                break;
-                            default:
-                                break;
-                        }
+            
+            
+               
+    
                     
 
 
-                    break;
-
-
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
-                default:
-                    break;
-            }
 
         }
     }
