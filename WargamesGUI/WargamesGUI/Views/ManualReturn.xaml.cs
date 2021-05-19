@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
@@ -15,7 +16,8 @@ namespace WargamesGUI.Views
     public partial class ManualReturn : ContentPage
     {
         public static BookService bookService = new BookService();
-        public static Book selectedBook;
+        public static LoanService loanService = new LoanService();
+        public static Book selectedBook;       
         public ManualReturn()
         {
             InitializeComponent();
@@ -23,16 +25,14 @@ namespace WargamesGUI.Views
 
         protected override void OnAppearing()
         {
-
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
-
         }
-
         private async Task LoadBooks()
         {
             try
             {
-                listOfBooks.ItemsSource = await bookService.GetBorrowedBooksFromDbLibrarian();
+                listOfBooks.ItemsSource = await loanService.GetBorrowedBooksFromDbLibrarian();
+
             }
             catch (Exception ex)
             {
@@ -40,18 +40,17 @@ namespace WargamesGUI.Views
             }
 
         }
-
         private async void Handled_Clicked(object sender, EventArgs e)
         {
             if (selectedBook.Status == "Returned")
             {
-                
+
                 try
-                {
-                    //await bookService.UpdateBorrowedBooksFromDbLibrarian();
+                {                   
+                    await loanService.UpdateBorrowedBooksFromDbLibrarian(selectedBook.Loan_Id);
                     await DisplayAlert("Book handled!", $"You handled {selectedBook.Title}.", "OK");
                     await LoadBooks();
-                    //Funktion som lägger till den returnerade boken i en retur tabell?
+
                 }
                 catch (Exception ex)
                 {
@@ -68,6 +67,11 @@ namespace WargamesGUI.Views
         private void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedBook = (Book)e.Item;
+        }
+
+        private async void Refresh_Clicked(object sender, EventArgs e)
+        {
+            await LoadBooks();
         }
     }
 }

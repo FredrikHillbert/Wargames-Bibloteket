@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
 using WargamesGUI.Views;
+//using Windows.UI.Xaml.Controls;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -25,6 +26,8 @@ namespace WargamesGUI
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static DbHandler handler = new DbHandler();
+        public static LoanService loanService = new LoanService();
+        public int StatusID;
 
         private int privilegeLevel;
 
@@ -85,7 +88,7 @@ namespace WargamesGUI
 
                     if (privilegeLevel == 3)
                     {
-                        await userService.AddNewVisitor(privilegeLevel, firstnamebox.Text, lastnamebox.Text, ssnbox.Text, addressbox.Text, emailbox.Text, phonebox.Text, "11", userbox.Text, passbox.Text);
+                        await userService.AddNewUser(privilegeLevel, firstnamebox.Text, lastnamebox.Text, ssnbox.Text, addressbox.Text, emailbox.Text, phonebox.Text, userbox.Text, passbox.Text);
 
                         await DisplayAlert("Sucess", "You added a visitor!", "OK");
                         await LoadUserTbl();
@@ -131,14 +134,14 @@ namespace WargamesGUI
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             selectedItem = (User)listOfUsers.SelectedItem;
-           
-           
-            
+
+
+
         }
         private void picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedItem = (User)picker.SelectedItem;
-            privilegeLevel = selectedItem.fk_PrivilegeLevel;           
+            privilegeLevel = selectedItem.fk_PrivilegeLevel;
 
             switch (privilegeLevel)
             {
@@ -214,10 +217,95 @@ namespace WargamesGUI
 
         }
 
-        private void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (User)listOfUsers.SelectedItem;
-            
+
+            if (selectedItem.fk_PrivilegeLevel == 3)
+            {
+                var choice = await DisplayActionSheet($"Choose action for username {selectedItem.Username}: ", "Cancel", null, "User details", "Add library card", "Library card details");
+
+                switch (choice)
+                {
+                    case "User details":
+                        
+                        break;
+
+                    case "Add library card":
+                        bool success = await loanService.ManualAddLibraryCard(selectedItem.User_ID);
+                        if (success)
+                        {
+                            await DisplayAlert("Sucess", $"Library card added for {selectedItem.Username}", "OK");
+                        }
+                        else
+                        {
+                            await DisplayAlert("Failure", $"Library card could not be added for {selectedItem.Username}", "OK");
+                        }
+                        break;
+
+                    case "Library card details":
+                        var libraryCardDetails = await DisplayActionSheet($"Status for library card with username {selectedItem.Username}: ", "Cancel", null, "Active", "Delayed books", "Lost books", "Theft");
+
+                        switch (libraryCardDetails)
+                        {
+                            case "Active":
+                                if (!await loanService.ChangeCardStatus(1, selectedItem.Cardnumber))
+                                {
+                                    await DisplayAlert("Error!", $"Status did not change.", "OK");
+                                }
+                                else
+                                {
+                                    await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
+                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                }
+                                break;
+
+                            case "Delayed books":
+                                if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
+                                {
+                                    await DisplayAlert("Error!", $"Status did not change.", "OK");
+                                }
+                                else
+                                {
+                                    await loanService.ChangeCardStatus(2, selectedItem.Cardnumber);
+                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                }
+                                break;
+
+                            case "Lost books":
+                                if (!await loanService.ChangeCardStatus(3, selectedItem.Cardnumber))
+                                {
+                                    await DisplayAlert("Error!", $"Status did not change.", "OK");
+                                }
+                                else
+                                {
+                                    await loanService.ChangeCardStatus(3, selectedItem.Cardnumber);
+                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                }
+                                break;
+
+                            case "Theft":
+                                if (!await loanService.ChangeCardStatus(4, selectedItem.Cardnumber))
+                                {
+                                    await DisplayAlert("Error!", $"Status did not change.", "OK");
+                                }
+                                else
+                                {
+                                    await loanService.ChangeCardStatus(4, selectedItem.Cardnumber);
+                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                }
+                                break;
+                        }
+                        break;
+                            
+                    default:
+                        break;
+                }             
+            }
+            else
+            {
+                await DisplayActionSheet($"Choose action for username {selectedItem.Username}: ", "Cancel", null, "User details");
+            }
         }
     }
-}
+}   

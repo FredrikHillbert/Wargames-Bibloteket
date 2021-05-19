@@ -20,10 +20,11 @@
             <Frame CornerRadius="15" BorderColor="Black" Margin="20,20,20,10" BackgroundColor="LightBlue">
                 <StackLayout>
                     <!--LOG OUT BUTTON-->
-                    <StackLayout>
-                        <Button Text="Log Out" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="Start" WidthRequest="150" Clicked="Back_Button_Clicked"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Button Text="Log Out" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="Start" WidthRequest="150" Clicked="Back_Button_Clicked"/>
+                        <SearchBar x:Name="MainSearchBar" WidthRequest="150" Placeholder="Search"  TextChanged="MainSearchBar_TextChanged" />
                     </StackLayout>
-                    <ListView x:Name="listofbooks" ItemTapped="listofbooks_ItemTapped">
+                    <ListView x:Name="listofbooks" ItemTapped="listofbooks_ItemTapped" >
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -37,14 +38,12 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Label Text="List of Books" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                <Label Text="Title" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
-                                <Label Text="Author" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
-                                <Label Text="Publisher" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="Text" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
-                                <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
-                                <Label Text="Instock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
+                                <Label Text="List of Books" HorizontalOptions="Start" FontSize="30" FontAttributes="Italic" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <Label Text="Title" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="Author" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="Publisher" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
+                                <Label Text="InStock" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Placement" HorizontalOptions="Start" FontSize="20"  FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
 
                             </Grid>
                         </ListView.Header>
@@ -61,31 +60,30 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Grid.Column="0" Grid.Row="0">
-                                            <Label Text="{Binding Title}" HorizontalOptions="Start" />
+                                            <Label Text="{Binding Title}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="1" Grid.Row="0">
-                                            <Label Text="{Binding Author}" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding Author}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="2" Grid.Row="0">
-                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="3" Grid.Row="0">
-                                            <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding InStock}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
-                                        <StackLayout Grid.Column="6" Grid.Row="0">
-                                            <Label Text="{Binding InStock}" HorizontalOptions="Start"/>
+                                        <StackLayout Grid.Column="4" Grid.Row="0">
+                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <!--LOAN BOOK BUTTON -->
                     <StackLayout>
-                        <Button Text="Loan Book" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="Loan_Button_Clicked"/>
+                        <Button Text="Loan Book" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="Loan_Button_Clicked"/>
                     </StackLayout>
                 </StackLayout>
             </Frame>
@@ -96,7 +94,7 @@
         <StackLayout Grid.Row="2" VerticalOptions="Start">
             <Frame CornerRadius="15" BorderColor="Black" Margin="20,10,20,20" BackgroundColor="LightBlue">
                 <StackLayout>
-                    <ListView x:Name="listofBorrowedbooks" Margin="5">
+                    <ListView x:Name="listofBorrowedbooks" Margin="5" ItemTapped="listofBorrowedbooks_ItemTapped" >
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -110,14 +108,12 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Label Text="Your borrowed books" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                <Label Text="Title" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0"/>
-                                <Label Text="Author" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1"/>
-                                <Label Text="Publisher" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="Text" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4"/>
-                                <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5"/>
-                                <Label Text="Instock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6"/>
+                                <Label Text="Borrowed Books" HorizontalOptions="Start" FontSize="30" FontAttributes="Italic" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <Label Text="Title" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="Author" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="Publisher" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
+                                <Label Text="Placement" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Instock" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
@@ -133,37 +129,30 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Grid.Column="0" Grid.Row="0">
-                                            <Label Text="{Binding Title}" HorizontalOptions="Start" />
+                                            <Label Text="{Binding Title}" HorizontalOptions="Start" FontSize="17" />
                                         </StackLayout>
                                         <StackLayout Grid.Column="1" Grid.Row="0">
-                                            <Label Text="{Binding Author}" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding Author}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="2" Grid.Row="0">
-                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="3" Grid.Row="0">
-                                            <Label Text="{Binding Username}" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding Price}" HorizontalOptions="Start"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="5" Grid.Row="0">
-                                            <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="6" Grid.Row="0">
-                                            <Label Text="{Binding InStock}" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding InStock}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <!-- HAND BOOK BACK BUTTON-->
                     <StackLayout>
-                        <Button Text="Hand book back" TextColor="Black" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="Loan_Button_Clicked"/>
+                        <Button Text="Hand book back" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="HandBookBack_Button_Clicked"/>
                     </StackLayout>
                 </StackLayout>
             </Frame>

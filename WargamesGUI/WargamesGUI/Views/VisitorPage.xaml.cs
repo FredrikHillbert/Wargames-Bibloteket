@@ -15,9 +15,13 @@ namespace WargamesGUI.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class VisitorPage : ContentPage
     {
-        private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
+        
+        private List<Book> BookCollection { get; set; } = new List<Book>();
+        private List<Book> LoanCollection { get; set; } = new List<Book>();
+        
         public Book selectedItem;
         public User user;
+        public Book itemTapped;
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService;
         public static BookService bookService = new BookService();
@@ -27,28 +31,25 @@ namespace WargamesGUI.Views
         public VisitorPage()
         {
             InitializeComponent();
-
         }
         protected override void OnAppearing()
         {
-
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
-
-
         }
 
         private async Task LoadBooks()
         {
             try
             {
-                if (collection != null)
+                if (BookCollection != null || LoanCollection != null)
                 {
-                    collection.Clear();
+                    BookCollection.Clear();
                 }
 
-                collection.AddRange(await bookService.GetBooksFromDb());
-                listofbooks.ItemsSource = collection;
-                listofBorrowedbooks.ItemsSource = await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard);
+                BookCollection.AddRange(await bookService.GetBooksFromDb());
+
+                listofbooks.ItemsSource = await bookService.GetBooksFromDb();
+                listofBorrowedbooks.ItemsSource = await bookLoanService.GetBorrowedBooksFromDb(UserService.fk_LibraryCard);
             }
             catch (Exception ex)
             {
@@ -56,18 +57,8 @@ namespace WargamesGUI.Views
                 throw;
             }
         }
-        private async Task LoadBorrowedBooks()
-        {
-            if (collection != null)
-            {
-                collection.Clear();
-            }
 
-            collection.AddRange(await bookLoanService.GetLoanedBooksFromDb(UserService.fk_LibraryCard));
-            listofBorrowedbooks.ItemsSource = collection;
-        }
-
-        private async void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (Book)e.Item;
 
@@ -75,22 +66,65 @@ namespace WargamesGUI.Views
 
         private async void Loan_Button_Clicked(object sender, EventArgs e)
         {
-
-            if (await bookService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+            if (selectedItem.InStock == 0)
             {
-                await DisplayAlert("Susscessfull", "Book is added", "OK");
+                await DisplayAlert("Error", "Book is not in stock", "OK");
+
             }
             else
             {
-                await DisplayAlert("Error", $"{bookService.exceptionMessage}", "OK");
+                switch (await bookLoanService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+                {
+                    case 0:
+                        await DisplayAlert("Successful", "Book is added", "OK");
+                        await LoadBooks();
+                        break;
+                    case 1:
+                        await DisplayAlert("Error", "You have delayed books. Return them before trying to loan a new one", "OK");
+                        await LoadBooks();
+                        break;
+                    case 2:
+                        await DisplayAlert("Error", "You have lost books. Contact the library to solve this issue", "OK");
+                        await LoadBooks();
+                        break;
+                    case 3:
+                        await DisplayAlert("Error", "You have stolen books. Contact the library to solve this issue", "OK");
+                        await LoadBooks();
+                        break;
+                    default:
+                        await DisplayAlert("Error", "Unknown error. Contact the library to solve this issue", "OK");
+                        await LoadBooks();
+                        break;
+                }
             }
-
-
         }
 
         private void Back_Button_Clicked(object sender, EventArgs e)
         {
             App.Current.MainPage = new MainPage();
+        }
+        private void listofBorrowedbooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            itemTapped = (Book)e.Item;
+        }
+        private async void HandBookBack_Button_Clicked(object sender, EventArgs e)
+        {
+            //LoanService.LoanedBooks.Remove(itemTapped);
+            await bookLoanService.ChangeBookLoanStatus(itemTapped.Loan_Id);
+            await DisplayAlert("Success", "Your book is handed back", "OK");
+
+            await LoadBooks();
+        }
+
+        private void MainSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchresult = BookCollection.Where(x => x.Title.Contains(MainSearchBar.Text)
+                                                      || x.Author.Contains(MainSearchBar.Text)
+                                                      || x.ISBN.Contains(MainSearchBar.Text)
+                                                      || x.Publisher.Contains(MainSearchBar.Text));
+                                                      
+
+            listofbooks.ItemsSource = searchresult;
         }
     }
 }

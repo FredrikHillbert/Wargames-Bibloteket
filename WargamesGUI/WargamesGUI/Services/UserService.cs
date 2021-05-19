@@ -38,6 +38,11 @@ namespace WargamesGUI.Services
                             users.PhoneNumber = reader["PhoneNumber"].ToString();
                             users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
                             users.User_ID = Convert.ToInt32(reader["User_ID"]);
+                            
+                            if (int.TryParse(reader["fk_LibraryCard"].ToString(), out int cardnumber))
+                            {
+                                users.Cardnumber = cardnumber;
+                            }
 
                             obsList.Add(users);
                         }
@@ -134,9 +139,9 @@ namespace WargamesGUI.Services
             return user.fk_PrivilegeLevel;
         }
 
-        public List<Visitor> ReadVisitorListFromDb()
+        public List<User> ReadVisitorListFromDb()
         {
-            List<Visitor> listOfvisitors = new List<Visitor>();
+            List<User> listOfvisitors = new List<User>();
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -146,56 +151,30 @@ namespace WargamesGUI.Services
                     {
                         while (reader.Read())
                         {
-                            var visitor = new Visitor();
+                            var users = new User();
 
 
-                            visitor.First_Name = reader["First_Name"].ToString();
-                            visitor.Last_Name = reader["Last_Name"].ToString();
-                            visitor.PhoneNumber = reader["PhoneNumber"].ToString();
-                            visitor.Address = reader["Address"].ToString();
+                            users.First_Name = reader["First_Name"].ToString();
+                            users.Last_Name = reader["Last_Name"].ToString();
+                            users.Username = reader["Username"].ToString();
+                            users.Address = reader["Address"].ToString();
+                            users.Email = reader["E-mail"].ToString();
+                            users.PhoneNumber = reader["PhoneNumber"].ToString();
+                            users.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                            users.User_ID = Convert.ToInt32(reader["User_ID"]);
 
-                            listOfvisitors.Add(visitor);
+                            if (int.TryParse(reader["fk_LibraryCard"].ToString(), out int cardnumber))
+                            {
+                                users.Cardnumber = cardnumber;
+                            }
+
+                            listOfvisitors.Add(users);
                         }
                     }
                 }
                 return listOfvisitors;
 
             }
-        }
-
-        public async Task<bool> AddNewVisitor(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string LibraryCard, string Username, string Password)
-        {
-            bool success = true;
-            try
-            {
-                using (SqlConnection con = new SqlConnection(theConString))
-                {
-                    await con.OpenAsync();
-                    SqlCommand insertcmd = new SqlCommand("sp_AddNewVisitor", con);
-                    insertcmd.CommandType = CommandType.StoredProcedure;
-                    insertcmd.Parameters.Add("@fk_PL", SqlDbType.Int).Value = privilegeLevel;
-                    insertcmd.Parameters.Add("@firstName", SqlDbType.VarChar).Value = First_Name;
-                    insertcmd.Parameters.Add("@lastName", SqlDbType.VarChar).Value = Last_Name;
-                    insertcmd.Parameters.Add("@sSN", SqlDbType.VarChar).Value = SSN;
-                    insertcmd.Parameters.Add("@address", SqlDbType.VarChar).Value = Address;
-                    insertcmd.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
-                    insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = PhoneNumber;
-                    insertcmd.Parameters.Add("@libraryCard", SqlDbType.VarChar).Value = LibraryCard;
-                    insertcmd.Parameters.Add("@username", SqlDbType.VarChar).Value = Username;
-                    insertcmd.Parameters.Add("@password", SqlDbType.VarChar).Value = Password;
-
-                    await insertcmd.ExecuteNonQueryAsync();
-                    return await Task.FromResult(success);
-                }
-            }
-
-            catch (Exception ex)
-            {
-                exceptionMessage = ex.Message;
-                success = false;
-                return await Task.FromResult(success);
-            }
-
         }
         public async Task<bool> AddNewUser(int privilegeLevel, string First_Name, string Last_Name, string SSN, string Address, string Email, string PhoneNumber, string username, string password)
         {
@@ -229,9 +208,7 @@ namespace WargamesGUI.Services
             }
 
         }
-
-
-
+        
     }
 }
 

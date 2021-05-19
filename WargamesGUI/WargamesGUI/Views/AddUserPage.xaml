@@ -19,19 +19,19 @@
             <BoxView.Background>
                 <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
                     <GradientStop Color="Transparent" Offset="0"/>
-                    <GradientStop Color="Orange" Offset="0"/>
-                    <GradientStop Color="#344955" Offset="0.95"/>
-                    <GradientStop Color="#344955" Offset="1"/>
+                    <GradientStop Color="LightBlue" Offset="0"/>
+                    <GradientStop Color="#2E4159" Offset="0.95"/>
+                    <GradientStop Color="#2E4159" Offset="1"/>
                 </LinearGradientBrush>
             </BoxView.Background>
 
         </BoxView>
 
         <StackLayout Grid.Row="0" Margin="0,10,0,0">
-            <Frame CornerRadius="40" BorderColor="White" Margin="50,0,50,0">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,0" BackgroundColor="LightBlue">
                 <StackLayout>
-                    <Label Text="Add user" HorizontalOptions="Start" FontSize="Medium" TextColor="White"/>
-                    <Picker x:Name="picker" Title="Type of User" BackgroundColor="White" HorizontalOptions="Center" SelectedIndexChanged="picker_SelectedIndexChanged" TitleColor="White">
+                    <Label Text="Add user" HorizontalOptions="Start" FontSize="Medium" TextColor="Black"/>
+                    <Picker x:Name="picker" Title="Type of User" BackgroundColor="White" HorizontalOptions="Center" SelectedIndexChanged="picker_SelectedIndexChanged" TitleColor="Black">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type models:User}">
                                 <models:User TypeOfUser="Admin" fk_PrivilegeLevel="1"/>
@@ -68,8 +68,8 @@
                     <Button Text="Register user" 
                             Clicked="Register_User_Clicked" 
                             CornerRadius="20" 
-                            BackgroundColor="Orange"
-                            TextColor="Black"
+                            BackgroundColor="#2E4159"
+                            TextColor="White"
                             Margin="200,0,0,0"
                             HorizontalOptions="End"/>
                 </StackLayout>
@@ -80,7 +80,7 @@
 
         <StackLayout Grid.Row="2" VerticalOptions="Start">
 
-            <Frame CornerRadius="40" BorderColor="White" Margin="50,-50,50,20">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,-50,50,20" BackgroundColor="LightBlue">
                 
                 <StackLayout>
                     
@@ -97,14 +97,14 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                        <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="White"/>
-                        <Label Text="Privilege" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0" TextColor="White"/>
-                        <Label Text="Firstname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1" TextColor="White"/>
-                        <Label Text="Lastname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2" TextColor="White"/>
-                        <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3" TextColor="White"/>
-                        <Label Text="Address" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4" TextColor="White"/>
-                        <Label Text="Email" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5" TextColor="White"/>
-                        <Label Text="Phonenr" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6" TextColor="White"/>
+                        <Label Text="Existing users" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black"/>
+                        <Label Text="Privilege" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
+                        <Label Text="Firstname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
+                        <Label Text="Lastname" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2" TextColor="Black"/>
+                        <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3" TextColor="Black"/>
+                        <Label Text="Address" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4" TextColor="Black" />
+                        <Label Text="Email" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5" TextColor="Black"/>
+                        <Label Text="Phonenr" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6" TextColor="Black"/>
                             </Grid> 
                    
                     <ListView x:Name="listOfUsers" ItemSelected="listOfUsers_ItemSelected" Margin="0,0,0,10" ItemTapped="listOfUsers_ItemTapped">
@@ -129,25 +129,25 @@
                                             <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Grid.Column="0" Grid.Row="0">
-                                            <Label Text="{Binding fk_PrivilegeLevel}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding fk_PrivilegeLevel}" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="1" Grid.Row="0">
-                                            <Label Text="{Binding First_Name}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding First_Name}" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="2" Grid.Row="0">
-                                            <Label Text="{Binding Last_Name}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding Last_Name}" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="3" Grid.Row="0">
-                                            <Label Text="{Binding Username}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding Username}" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding Address}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding Address}" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="5" Grid.Row="0">
-                                            <Label Text="{Binding Email}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding Email}" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="6" Grid.Row="0">
-                                            <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start" TextColor="White"/>
+                                            <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
 
                                     </Grid>
@@ -158,8 +158,8 @@
                     </ListView>
                     <Button Text="Delete user" 
                             Clicked="Delete_User_Clicked"
-                            BackgroundColor="Orange" 
-                            TextColor="Black" 
+                            BackgroundColor="#2E4159" 
+                            TextColor="White" 
                             CornerRadius="20" 
                             HorizontalOptions="End"></Button>
                     

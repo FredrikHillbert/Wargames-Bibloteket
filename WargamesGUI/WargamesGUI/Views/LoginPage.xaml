@@ -9,88 +9,65 @@
         <Grid.RowDefinitions>
            <!--0--> <RowDefinition Height="150"/>
            <!--1--><RowDefinition Height="20"/>
-           <!--2--><RowDefinition Height="40"/>
+           <!--2--><RowDefinition Height="150"/>
            <!--3--><RowDefinition Height="20"/>
            <!--4--><RowDefinition Height="40"/>
-           <!--5--><RowDefinition Height="40"/>
-           <!--6--><RowDefinition Height="20"/>
-           <!--7--><RowDefinition Height="20"/>
+           <!--5--><RowDefinition Height="20"/>
+           <!--6--><RowDefinition Height="40"/>
+           <!--7--><RowDefinition Height="40"/>
            <!--8--><RowDefinition Height="40"/>
            <!--9--><RowDefinition Height="40"/>
            <!--10--><RowDefinition Height="40"/>
-           <!--11--><RowDefinition Height="20"/>
-           <!--12--><RowDefinition Height="40"/>
-           <!--13--><RowDefinition Height="40"/>
-           <!--14--><RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Frame CornerRadius="15" Margin="-60,-150,-60,-300" BackgroundColor="LightBlue" Grid.RowSpan="8" Grid.Row="1">
+        <Frame CornerRadius="15" Margin="-40,-170,-40,-200" BackgroundColor="LightBlue" Grid.RowSpan="4" Grid.Row="3">
             
         </Frame>
         <!--Image-->
-        <Image Grid.Row="0" 
+        <Image Grid.Row="2" 
                Grid.Column="0" 
                Source="LIBSYS.png"
                Margin="0,30,0,0"/>
         <Label Text="Username"
-               Grid.Row="1" 
+               Grid.Row="3" 
                Grid.Column="0" 
                HorizontalOptions="Start"
                Margin="55,0,0,0"/>
         <Entry x:Name="Entryusername" 
                Placeholder="Enter your username here" 
-               Grid.Row="2" Grid.Column="0" 
+               Grid.Row="4" 
+               Grid.Column="0" 
                HorizontalOptions="Center"
                WidthRequest="200"/>
         <Label Text="Password" 
-               Grid.Row="3" 
+               Grid.Row="5" 
                Grid.Column="0" 
                HorizontalOptions="Start"
                Margin="55,0,0,0"/>
         <Entry x:Name="Entrypassword" 
                Placeholder="Enter your password here" 
-               Grid.Row="4" 
+               Grid.Row="6" 
                Grid.Column="0" 
                HorizontalOptions="Center"
                WidthRequest="200"
                IsPassword="True"/>
         <!--Login Button-->
         <Button Text="Login" 
-                Grid.Row="5" 
+                Grid.Row="7" 
                 Grid.Column="0" 
                 Clicked="SignIn_Button_Clicked" 
                 HorizontalOptions="Center"
+                TextColor="White"
                 WidthRequest="150"
                 CornerRadius="15"
                 BackgroundColor="#2E4159"/>
         <!--Search Bar-->
         <SearchBar x:Name="SearchBar" 
                    Placeholder="Search for Category, ISBN, Title or Author"  
-                   Grid.Row="8"
+                   Grid.Row="9"
                    SearchButtonPressed="SearchBar_Clicked"/>
-        <Label Text="See borrowed books"
-               FontAttributes="Bold"
-               Grid.Row="12"
-               HorizontalOptions="Center"
-               FontSize="25" />
-        <Entry x:Name="CardIDNumber"
-               Grid.Row="13"
-               Grid.Column="0"
-               HorizontalOptions="Center"
-               WidthRequest="200"
-               Margin="0,0,0,0"
-               Placeholder="Enter your card number"/>
-        <!--Search Button-->
-        <Button Text="Search"
-                Grid.Row="14"
-                CornerRadius="15"
-                WidthRequest="150"
-                HorizontalOptions="Center"
-                BackgroundColor="#2E4159"
-                Clicked="CardID_Button_Clicked"/>
-
     </Grid>
 
 </ContentPage>

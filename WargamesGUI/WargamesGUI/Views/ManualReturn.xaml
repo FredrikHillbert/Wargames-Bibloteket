@@ -18,9 +18,9 @@
             <BoxView.Background>
                 <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
                     <GradientStop Color="Transparent" Offset="0"/>
-                    <GradientStop Color="Orange" Offset="0"/>
-                    <GradientStop Color="#344955" Offset="0.95"/>
-                    <GradientStop Color="#344955" Offset="1"/>
+                    <GradientStop Color="LightBlue" Offset="0"/>
+                    <GradientStop Color="#2E4159" Offset="0.95"/>
+                    <GradientStop Color="#2E4159" Offset="1"/>
                 </LinearGradientBrush>
             </BoxView.Background>
 
@@ -28,7 +28,7 @@
 
         <StackLayout Grid.Row="0" VerticalOptions="Start" Margin="0,0,0,0">
 
-            <Frame CornerRadius="40" BorderColor="White" Margin="50,20,50,-490">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,20,50,-510" BackgroundColor="LightBlue">
 
                 <StackLayout>
 
@@ -52,7 +52,7 @@
                         <Label Text="Existing loans" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" FontAttributes="Bold"/>
                         <Label Text="Title" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
                         <Label Text="Author" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="Publisher" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2" TextColor="Black" FontAttributes="Bold"/>
+                        <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2" TextColor="Black" FontAttributes="Bold"/>
                         <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3" TextColor="Black" FontAttributes="Bold"/>
                         <Label Text="InStock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4" TextColor="Black" FontAttributes="Bold"/>
                         <Label Text="DateToReturn" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5" TextColor="Black" FontAttributes="Bold"/>
@@ -91,7 +91,7 @@
                                             <Label Text="{Binding Author}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="2" Grid.Row="0">
-                                            <Label Text="{Binding Publisher}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>
+                                            <Label Text="{Binding Username}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="3" Grid.Row="0">
                                             <Label Text="{Binding Placement}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>
@@ -102,9 +102,9 @@
                                         <StackLayout Grid.Column="5" Grid.Row="0">
                                             <Label Text="{Binding ReturnDate}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
-                                        <!--<StackLayout Grid.Column="6" Grid.Row="0">
-                                            <Label Text="{Binding ReturnedDate}" HorizontalOptions="Start" TextColor="Black"/>
-                                        </StackLayout>-->
+                                        <StackLayout Grid.Column="6" Grid.Row="0">
+                                            <Label Text="{Binding ReturnedDate}" FontSize="17" HorizontalOptions="Start" TextColor="Black" x:Name="returnedDateLabel"/>
+                                        </StackLayout>
                                         <StackLayout Grid.Column="7" Grid.Row="0">
                                             <Label Text="{Binding Status}" FontSize="17" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
@@ -116,13 +116,28 @@
                         </ListView.ItemTemplate>
 
                     </ListView>
-                    <Button Text="Handled" 
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    <Button Text="Handled"
+                            WidthRequest="100"
                             Clicked="Handled_Clicked"
-                            BackgroundColor="Orange" 
-                            TextColor="Black" 
+                            BackgroundColor="#2E4159" 
+                            TextColor="White" 
                             CornerRadius="20" 
                             HorizontalOptions="End"></Button>
-
+                    <Button Text="Refresh" 
+                            WidthRequest="100"
+                            Clicked="Refresh_Clicked"
+                            BackgroundColor="#2E4159" 
+                            TextColor="White" 
+                            CornerRadius="20"                            
+                            HorizontalOptions="Center"></Button>
+                </Grid>
                 </StackLayout>
             </Frame>
 
