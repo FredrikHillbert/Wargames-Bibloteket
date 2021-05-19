@@ -44,21 +44,9 @@
                     
                     
                     <Picker x:Name="categorypicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Center"
-                        Grid.Row="0" Grid.Column="1" WidthRequest="250" Title="Kategori" SelectedIndexChanged="categorypicker_SelectedIndexChanged">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type models:Dewey}">
-                                <models:Dewey MainCategoryName="Computer Science, Information, and General Works"  fk_DeweyMain_Id="0"/>
-                                <models:Dewey MainCategoryName="Philosophy and Psychology" fk_DeweyMain_Id="1"/>
-                                <models:Dewey MainCategoryName="Religion" fk_DeweyMain_Id="2"/>
-                                <models:Dewey MainCategoryName="Social Sciences" fk_DeweyMain_Id="3"/>
-                                <models:Dewey MainCategoryName="Languages" fk_DeweyMain_Id="4"/>
-                                <models:Dewey MainCategoryName="Science" fk_DeweyMain_Id="5"/>
-                                <models:Dewey MainCategoryName="Technology" fk_DeweyMain_Id="6"/>
-                                <models:Dewey MainCategoryName="Arts and Recreation" fk_DeweyMain_Id="7"/>
-                                <models:Dewey MainCategoryName="Literature" fk_DeweyMain_Id="8"/>
-                                <models:Dewey MainCategoryName="History and Geography" fk_DeweyMain_Id="9"/>
-                            </x:Array>
-                        </Picker.ItemsSource>
+                        Grid.Row="0" Grid.Column="1" WidthRequest="250" Title="Kategori" SelectedIndexChanged="categorypicker_SelectedIndexChanged"
+                            ItemsSource="{Binding deweyMain}">
+                        
 
                     </Picker>
                     

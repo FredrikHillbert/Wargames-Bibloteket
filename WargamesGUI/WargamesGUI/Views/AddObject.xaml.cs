@@ -18,11 +18,17 @@ namespace WargamesGUI.Views
     public partial class AddObject : ContentPage
     {
         public Book selectedItem;
+        public DeweySub selectedDewey;
+
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static BookService bookService = new BookService();
+
         private int itemID;
         private string categoryID;
+
+        List<DeweyMain> deweyMain = new List<DeweyMain>();
+        List<DeweySub> deweySub = new List<DeweySub>();
 
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
 
@@ -31,11 +37,16 @@ namespace WargamesGUI.Views
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
 
-            MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
 
+            deweySub = await bookService.GetDeweySubData();
+            deweyMain = await bookService.GetDeweyMainData();
+
+            categorypicker.ItemsSource = deweyMain;
+                
         }
 
         private async Task LoadBooks()
@@ -163,17 +174,23 @@ namespace WargamesGUI.Views
 
         private async void categorypicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedItem = (Dewey)categorypicker.SelectedItem;
+            var selectedDewey = (DeweyMain)categorypicker.SelectedItem;
+
+            switch (selectedDewey.DeweyMain_Id)
+            {
+                default:
+                    await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null, 
+                        deweySub.Where(x => x.fk_DeweyMain_Id == selectedDewey.DeweyMain_Id)
+                        .Select(x => x.SubCategoryName)
+                        .ToArray());
+                    break;
+            }
+           
 
             
-            
-               
-    
-                    
-
 
 
         }
+      
     }
-
 }

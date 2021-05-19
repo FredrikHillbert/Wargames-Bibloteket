@@ -229,15 +229,12 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(searchedValues);
             }
         }
-        public async Task<List<Dewey>> GetDeweyData(int fk_DeweyMain_Id)
+        public async Task<List<DeweySub>> GetDeweySubData()
         {
-            var deweyList = new List<Dewey>();
+            var deweyList = new List<DeweySub>();
 
-            var query = $"SELECT ds.SubCategoryName" +
-                        $" FROM tblDeweySub ds" +
-                        $" INNER JOIN tblDeweyMain dm" +
-                        $" ON ds.fk_DeweyMain_Id = dm.DeweyMain_Id" +
-                        $" WHERE ds.fk_DeweyMain_Id = {fk_DeweyMain_Id}";
+            var query = $"SELECT DeweySub_Id, SubCategoryName, fk_DeweyMain_Id FROM tblDeweySub";
+
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -247,11 +244,41 @@ namespace WargamesGUI.Services
                     {
                         while (reader.Read())
                         {
-                            var dewey = new Dewey();
+                            var dewey = new DeweySub();
 
-                            
                             dewey.SubCategoryName = reader["SubCategoryName"].ToString();
+                            dewey.fk_DeweyMain_Id = Convert.ToInt32(reader["fk_DeweyMain_Id"]);
+                            dewey.DeweySub_Id = Convert.ToInt32(reader["DeweySub_Id"]);
                                                         
+
+                            deweyList.Add(dewey);
+                        }
+                    }
+                }
+                return await Task.FromResult(deweyList);
+            }
+        }
+
+        public async Task<List<DeweyMain>> GetDeweyMainData()
+        {
+            var deweyList = new List<DeweyMain>();
+
+            var query = $"SELECT DeweyMain_Id, MainCategoryName FROM tblDeweyMain";
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(query, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var dewey = new DeweyMain();
+
+                            dewey.MainCategoryName = reader["MainCategoryName"].ToString();
+                            dewey.DeweyMain_Id = Convert.ToInt32(reader["DeweyMain_Id"]);
+
 
                             deweyList.Add(dewey);
                         }
