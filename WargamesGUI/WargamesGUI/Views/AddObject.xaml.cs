@@ -47,7 +47,6 @@ namespace WargamesGUI.Views
             collection.AddRange(await bookService.GetBooksFromDb());
             //collection.AddRange(await bookService.GetEbooksFromDb());
             listOfBooks.ItemsSource = collection;
-            
         }
 
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
@@ -106,16 +105,16 @@ namespace WargamesGUI.Views
         private async void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (Book)e.Item;
-            var bookDetails = await DisplayActionSheet("Choose action: ", "Cancel", null, "Details", "Change Details", "Delete Book");
+            var bookDetails = await DisplayActionSheet("Välj: ", "Stäng", null, "Detaljer", "Ändra detaljer", "Radera bok");
             switch (bookDetails)
             {
-                case "Details":
+                case "Detaljer":
                     Details(selectedItem);
                     break;
-                case "Change Details":
+                case "Ändra detaljer":
                     Change_Details(selectedItem);
                     break;
-                case "Delete Book":
+                case "Radera bok":
                     Delete_Book(selectedItem);
                     break;
             }
@@ -140,14 +139,29 @@ namespace WargamesGUI.Views
             }
         }
 
-        private void Change_Details(Book selectedItem)
+        private async void Change_Details(Book selectedItem)
         {
-            throw new NotImplementedException();
+            string bookType = selectedItem.fk_Item_Id.ToString();
+            string title = selectedItem.Title;
+            string author = selectedItem.Author;
+            string publisher = selectedItem.Publisher;
+            string isbn = selectedItem.ISBN;
+            string inStock = selectedItem.InStock.ToString();
+            string description = selectedItem.Description;
+            await Navigation.PushAsync(new ChangeDetailPage(bookType, title, author, publisher, isbn, inStock, description));
         }
 
-        private void Details(Book selectedItem)
+        private async void Details(Book selectedItem)
         {
-            App.Current.MainPage = new DetailPage();
+            //App.Current.MainPage = new DetailPage();
+            string bookType = selectedItem.fk_Item_Id.ToString();
+            string title = selectedItem.Title;
+            string author = selectedItem.Author;
+            string publisher = selectedItem.Publisher;
+            string isbn = selectedItem.ISBN;
+            string inStock = selectedItem.InStock.ToString();
+            string description = selectedItem.Description;
+            await Navigation.PushAsync(new DetailPage(bookType, title, author, publisher, isbn, inStock, description));
         }
 
         private void DetailsSelected_Clicked(object sender, EventArgs e)

@@ -1,16 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WargamesGUI.Views.DetailPage"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:models="clr-namespace:WargamesGUI.Models"
+             x:Class="WargamesGUI.Views.ChangeDetailPage"
              BackgroundImageSource="pexels-cottonbro.jpg">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
         <Image Source="pexels-cottonbro.jpg" Aspect="AspectFill" Opacity="0.5" Grid.RowSpan="3"></Image>
         <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
 
         <StackLayout>
-            <Frame CornerRadius="40" BorderColor="Black" Margin="80,100,80,20" BackgroundColor="LightBlue">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="40,20,40,10" BackgroundColor="LightBlue">
+                <Grid Margin="0,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="33"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Picker x:Name="picker" BackgroundColor="#2E4159" TextColor="White" HorizontalOptions="Center"
+                        Grid.Row="0" Grid.Column="0" WidthRequest="200">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type models:Book}">
+                                <models:Book TypeOfBook="Book"  fk_Item_Id="1"/>
+                                <models:Book TypeOfBook="E-book" fk_Item_Id="2"/>
+                            </x:Array>
+                        </Picker.ItemsSource>
+
+                    </Picker>
+                    <Entry x:Name="EntryLastName" Placeholder="Titel" BackgroundColor="White" Grid.Row="1" Grid.Column="0"/>
+                    <Entry x:Name="EntrySsnNumber" Placeholder="Författare" BackgroundColor="White" Grid.Row="2" Grid.Column="0"/>
+                    <Entry x:Name="EntryAdress" Placeholder="Utgivare" BackgroundColor="White" Grid.Row="3" Grid.Column="0"/>
+                    <Entry x:Name="EntryEmail" Placeholder="ISBN" BackgroundColor="White" Grid.Row="4" Grid.Column="0"/>
+                    <Entry x:Name="EntryPhoneNumber" Placeholder="Lager" BackgroundColor="white" Grid.Row="5" Grid.Column="0"/>
+                    <Entry x:Name="EntryCardNumber" Placeholder="Beskrivning" BackgroundColor="white" Grid.Row="6" Grid.Column="0"/>
+                    <Button Text="Uppdatera bok" 
+                            CornerRadius="20" 
+                            BackgroundColor="#2E4159"
+                            TextColor="White"
+                            Margin="200,0,0,0"
+                            HorizontalOptions="End"
+                            Grid.Row="7" Grid.Column="0"/>
+                </Grid>
+            </Frame>
+            <Frame CornerRadius="40" BorderColor="Black" Margin="40,10,40,-400" BackgroundColor="LightBlue">
                 <StackLayout>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -51,6 +99,9 @@
                     <Label Text="{Binding Description}" VerticalOptions="Center" TextColor="Black" Margin="0,0,0,50"/>
                 </StackLayout>
             </Frame>
+
+
         </StackLayout>
     </Grid>
+
 </ContentPage>

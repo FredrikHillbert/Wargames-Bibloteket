@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace WargamesGUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DetailPage : ContentPage
+    public partial class ChangeDetailPage : ContentPage
     {
         public string BookType { get; set; }
         public string Titles { get; set; }
@@ -19,8 +19,7 @@ namespace WargamesGUI.Views
         public string ISBN { get; set; }
         public string InStock { get; set; }
         public string Description { get; set; }
-
-        public DetailPage(string bookType, string title, string author, string publisher, string isbn, string inStock, string description)
+        public ChangeDetailPage(string bookType, string title, string author, string publisher, string isbn, string inStock, string description)
         {
             switch (bookType)
             {
@@ -41,11 +40,6 @@ namespace WargamesGUI.Views
             BindingContext = this;
 
             InitializeComponent();
-        }
-
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-            App.Current.MainPage = new FlyoutLibrarianPage();
         }
     }
 }
