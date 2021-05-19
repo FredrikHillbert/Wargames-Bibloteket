@@ -18,11 +18,17 @@ namespace WargamesGUI.Views
     public partial class AddObject : ContentPage
     {
         public Book selectedItem;
+        public DeweySub selectedDewey;
+
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static BookService bookService = new BookService();
+
         private int itemID;
         private string categoryID;
+
+        List<DeweyMain> deweyMain = new List<DeweyMain>();
+        List<DeweySub> deweySub = new List<DeweySub>();
 
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
 
@@ -31,11 +37,16 @@ namespace WargamesGUI.Views
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
 
-            MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
 
+            deweySub = await bookService.GetDeweySubData();
+            deweyMain = await bookService.GetDeweyMainData();
+
+            categorypicker.ItemsSource = deweyMain;
+                
         }
 
         private async Task LoadBooks()
@@ -148,7 +159,7 @@ namespace WargamesGUI.Views
 
         private void Details(Book selectedItem)
         {
-            App.Current.MainPage = new DetailPage();
+            //App.Current.MainPage = new DetailPage();
         }
 
         private void DetailsSelected_Clicked(object sender, EventArgs e)
@@ -163,59 +174,23 @@ namespace WargamesGUI.Views
 
         private async void categorypicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedItem = (Dewey)categorypicker.SelectedItem;
+            var selectedDewey = (DeweyMain)categorypicker.SelectedItem;
 
-            var choice = string.Empty;
-            switch (selectedItem.fk_DeweyMain_Id)
+            switch (selectedDewey.DeweyMain_Id)
             {
-                case 0:
-                    var list = await bookService.GetDeweyData(selectedItem.fk_DeweyMain_Id);
-                    await DisplayActionSheet($"Välj en subkategori: {selectedItem.MainCategoryName}", "Avbryt", null,
-                        $"{list[0]}",
-                        $"{list[1]}",
-                        $"{list[2]}",
-                        $"{list[3]}",
-                        $"{list[4]}",
-                        $"{list[5]}",
-                        $"{list[6]}",
-                        $"{list[7]}",
-                        $"{list[8]}",
-                        $"{list[9]}"
-                        );
-                    switch (list)
-                    {
-                        case 0:
-
-                        default:
-                            break;
-                    }
-
-                    break;
-
-
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
                 default:
+                    await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null, 
+                        deweySub.Where(x => x.fk_DeweyMain_Id == selectedDewey.DeweyMain_Id)
+                        .Select(x => x.SubCategoryName)
+                        .ToArray());
                     break;
             }
+           
+
+            
+
 
         }
+      
     }
-
 }
