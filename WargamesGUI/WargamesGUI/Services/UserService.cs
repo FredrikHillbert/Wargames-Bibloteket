@@ -209,6 +209,31 @@ namespace WargamesGUI.Services
 
         }
         
+        public async Task<int> GetStatusForLibraryCardFromDb(int LibraryCard_Id)
+        {
+            User user = new User();
+            var statusquery = $"SELECT fk_Status_Id" +
+                              $" FROM tblLibraryCard" +
+                              $" WHERE LibraryCard_Id = {LibraryCard_Id}";
+
+            SqlConnection Connection = new SqlConnection(theConString);
+            Connection.Open();
+            using (SqlCommand command = new SqlCommand(statusquery, Connection))
+            {
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {                       
+
+                        user.fk_Status_Id = Convert.ToInt32(reader["fk_Status_Id"]);
+
+                    }
+                }
+            }
+
+            return await Task.FromResult(user.fk_Status_Id);
+        }
     }
 }
 

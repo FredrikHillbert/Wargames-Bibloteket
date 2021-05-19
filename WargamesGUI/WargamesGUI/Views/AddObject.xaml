@@ -53,9 +53,8 @@
                     <Entry x:Name="EntryTitle" Placeholder="Title" Grid.Row="1" Grid.Column="0"/>
                     <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="1" Grid.Column="1"/>
                     <Entry x:Name="EntryPublisher" Placeholder="Publisher" Grid.Row="1" Grid.Column="2"/>
-                    <Entry x:Name="EntryDescription" Placeholder="Description" Grid.Row="1" Grid.Column="3"/>
-                    <Entry x:Name="EntryPrice" Placeholder="Price" Grid.Row="2" Grid.Column="0"/>
-                    <Entry x:Name="EntryPlacement" Placeholder="Placement" Grid.Row="2" Grid.Column="1"/>
+                    <Entry x:Name="EntryDescription" Placeholder="Description" Grid.Row="2" Grid.Column="0"/>
+                    <Entry x:Name="EntryPrice" Placeholder="Price" Grid.Row="2" Grid.Column="1"/>
                     <Entry x:Name="EntryAuthor" Placeholder="Author" Grid.Row="2" Grid.Column="2"/>
                     <Button Text="Add book"  
                         Grid.Row="2"  

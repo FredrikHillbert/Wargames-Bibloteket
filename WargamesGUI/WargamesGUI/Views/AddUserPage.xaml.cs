@@ -28,7 +28,7 @@ namespace WargamesGUI
         public static DbHandler handler = new DbHandler();
         public static LoanService loanService = new LoanService();
         public int StatusID;
-
+        public string statusString;
         private int privilegeLevel;
 
         public AddUserPage()
@@ -219,16 +219,42 @@ namespace WargamesGUI
 
         private async void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            selectedItem = (User)listOfUsers.SelectedItem;
+            selectedItem = (User)listOfUsers.SelectedItem;          
 
             if (selectedItem.fk_PrivilegeLevel == 3)
             {
                 var choice = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Detaljer för användare", "Lägg till bibliotekskort", "Ändra status för bibliotekskort");
-
+                try
+                {
+                    var statusnumber = await userService.GetStatusForLibraryCardFromDb(selectedItem.Cardnumber);
+                    switch (statusnumber)
+                    {
+                        case 1:
+                            statusString = "Active";
+                            break;
+                        case 2:
+                            statusString = "Delayed books";
+                            break;
+                        case 3:
+                            statusString = "Lost books";
+                            break;
+                        case 4:
+                            statusString = "Theft";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error", $"{ex.Message}", "OK");
+                    
+                }                         
                 switch (choice)
                 {
                     case "Detaljer för användare":
-
+                        await DisplayActionSheet($"Välj detalj för användare {selectedItem.Username}: ", "Avbryt", null, "Se status för bibliotekskort");
+                        await DisplayAlert("Status för bibliotekskort:", $"Användaren {selectedItem.Username} har statusen: '{statusString}' för sitt bibliotekskort", "OK");
                         break;
 
                     case "Lägg till bibliotekskort":
@@ -244,7 +270,7 @@ namespace WargamesGUI
                         break;
 
                     case "Ändra status för bibliotekskort":
-                        var libraryCardDetails = await DisplayActionSheet($"Status för bibliotekskort med användarnamn {selectedItem.Username}: ", "Avbryt", null, "Aktivt", "Försenade böcker", "Borttappade böcker", "Stöld");
+                        var libraryCardDetails = await DisplayActionSheet($"Ny status för bibliotekskort med användarnamn {selectedItem.Username}: ", "Avbryt", null, "Aktivt", "Försenade böcker", "Borttappade böcker", "Stöld");
 
                         switch (libraryCardDetails)
                         {

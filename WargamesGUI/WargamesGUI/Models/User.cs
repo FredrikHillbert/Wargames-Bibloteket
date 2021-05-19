@@ -19,6 +19,7 @@ namespace WargamesGUI.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public int Cardnumber { get; set; }
+        public int fk_Status_Id { get; set; }
 
         public override string ToString() => $"{TypeOfUser} {Username}";
 
