@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
 using WargamesGUI.Views;
-using Windows.UI.Xaml.Controls;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -268,7 +267,7 @@ namespace WargamesGUI
                                 else
                                 {
                                     await loanService.ChangeCardStatus(2, selectedItem.Cardnumber);
-                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                    await DisplayAlert("Success!", $"Status for library card changed to: Delayed books.", "OK");
                                 }
                                 break;
 
@@ -280,7 +279,7 @@ namespace WargamesGUI
                                 else
                                 {
                                     await loanService.ChangeCardStatus(3, selectedItem.Cardnumber);
-                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                    await DisplayAlert("Success!", $"Status for library card changed to: Lost books.", "OK");
                                 }
                                 break;
 
@@ -292,7 +291,7 @@ namespace WargamesGUI
                                 else
                                 {
                                     await loanService.ChangeCardStatus(4, selectedItem.Cardnumber);
-                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                    await DisplayAlert("Success!", $"Status for library card changed to: Theft.", "OK");
                                 }
                                 break;
                         }
