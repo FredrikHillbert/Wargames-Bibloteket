@@ -129,56 +129,90 @@ namespace WargamesGUI.Views
         {
             selectedItem = (User)listOfVisitors.SelectedItem;
 
-            var bookDetails = await DisplayActionSheet("Choose action: ", "Cancel", null, "Active", "Delayed books", "Lost books", "Theft");
-            switch (bookDetails)
+            if (selectedItem.fk_PrivilegeLevel == 3)
             {
-                case "Active":
-                    if (!await loanService.ChangeCardStatus(1, selectedItem.Cardnumber))
-                    {
-                        await DisplayAlert("Error!", $"Status did not change.", "OK");
-                    }
-                    else
-                    {
-                        await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
-                        await DisplayAlert("Success!", $"Status for card changed to: Active.", "OK");
-                    }
-                    break;
+                var choice = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Detaljer för användare", "Lägg till bibliotekskort", "Ändra status för bibliotekskort");
 
-                case "Delayed books":
-                    if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
-                    {
-                        await DisplayAlert("Error!", $"Status did not change.", "OK");
-                    }
-                    else
-                    {
-                        await loanService.ChangeCardStatus(2, selectedItem.Cardnumber);
-                        await DisplayAlert("Success!", $"Status for card changed to: Delayed books.", "OK");
-                    }
-                    break;
+                switch (choice)
+                {
+                    case "Detaljer för användare":
 
-                case "Lost books":
-                    if (!await loanService.ChangeCardStatus(3, selectedItem.Cardnumber))
-                    {
-                        await DisplayAlert("Error!", $"Status did not change.", "OK");
-                    }
-                    else
-                    {
-                        await loanService.ChangeCardStatus(3, selectedItem.Cardnumber);
-                        await DisplayAlert("Success!", $"Status for card changed to: Lost books", "OK");
-                    }
-                    break;
+                        break;
 
-                case "Theft":
-                    if (!await loanService.ChangeCardStatus(4, selectedItem.Cardnumber))
-                    {
-                        await DisplayAlert("Error!", $"Status did not change.", "OK");
-                    }
-                    else
-                    {
-                        await loanService.ChangeCardStatus(4, selectedItem.Cardnumber);
-                        await DisplayAlert("Success!", $"Status for card changed to: Theft", "OK");
-                    }
-                    break;
+                    case "Lägg till bibliotekskort":
+                        bool success = await loanService.ManualAddLibraryCard(selectedItem.User_ID);
+                        if (success)
+                        {
+                            await DisplayAlert("Lyckades!", $"Bibliotekskort tillagt för {selectedItem.Username}", "OK");
+                        }
+                        else
+                        {
+                            await DisplayAlert("Misslyckades!", $"Bibliotekskort kunde inte läggas till för {selectedItem.Username}", "OK");
+                        }
+                        break;
+
+                    case "Ändra status för bibliotekskort":
+                        var libraryCardDetails = await DisplayActionSheet($"Status för bibliotekskort med användarnamn {selectedItem.Username}: ", "Avbryt", null, "Aktivt", "Försenade böcker", "Borttappade böcker", "Stöld");
+
+                        switch (libraryCardDetails)
+                        {
+                            case "Aktivt":
+                                if (!await loanService.ChangeCardStatus(1, selectedItem.Cardnumber))
+                                {
+                                    await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                }
+                                else
+                                {
+                                    await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
+                                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Aktivt.", "OK");
+                                }
+                                break;
+
+                            case "Försenade böcker":
+                                if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
+                                {
+                                    await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                }
+                                else
+                                {
+                                    await loanService.ChangeCardStatus(2, selectedItem.Cardnumber);
+                                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Försenade böcker.", "OK");
+                                }
+                                break;
+
+                            case "Borttappade böcker":
+                                if (!await loanService.ChangeCardStatus(3, selectedItem.Cardnumber))
+                                {
+                                    await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                }
+                                else
+                                {
+                                    await loanService.ChangeCardStatus(3, selectedItem.Cardnumber);
+                                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Lost books.", "OK");
+                                }
+                                break;
+
+                            case "Stöld":
+                                if (!await loanService.ChangeCardStatus(4, selectedItem.Cardnumber))
+                                {
+                                    await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                }
+                                else
+                                {
+                                    await loanService.ChangeCardStatus(4, selectedItem.Cardnumber);
+                                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Theft.", "OK");
+                                }
+                                break;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Detaljer för användare");
             }
         }
     }
