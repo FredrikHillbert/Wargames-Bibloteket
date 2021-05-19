@@ -42,8 +42,8 @@
                                 <Label Text="Title" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
                                 <Label Text="Author" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
                                 <Label Text="Publisher" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="Placement" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="Instock" HorizontalOptions="Start" FontSize="20"  FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="InStock" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Placement" HorizontalOptions="Start" FontSize="20"  FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
 
                             </Grid>
                         </ListView.Header>
@@ -71,10 +71,10 @@
                                             <Label Text="{Binding Publisher}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="3" Grid.Row="0">
-                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding InStock}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding InStock}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>

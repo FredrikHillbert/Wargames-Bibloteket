@@ -31,14 +31,10 @@ namespace WargamesGUI.Views
         public VisitorPage()
         {
             InitializeComponent();
-            BindingContext = listofbooks;
         }
         protected override void OnAppearing()
         {
-
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
-
-
         }
 
         private async Task LoadBooks()
@@ -48,7 +44,6 @@ namespace WargamesGUI.Views
                 if (BookCollection != null || LoanCollection != null)
                 {
                     BookCollection.Clear();
-
                 }
 
                 BookCollection.AddRange(await bookService.GetBooksFromDb());

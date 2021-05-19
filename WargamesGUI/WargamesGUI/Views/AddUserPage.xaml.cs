@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
 using WargamesGUI.Views;
-using Windows.UI.Xaml.Controls;
+//using Windows.UI.Xaml.Controls;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
