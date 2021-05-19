@@ -7,7 +7,12 @@ namespace WargamesGUI.Models
     public class Dewey
     {
         public int DeweySub_Id { get; set; }
-        public string CategoryName { get; set; }
+        public string MainCategoryName { get; set; }
+        public string SubCategoryName { get; set; }
         public int fk_DeweyMain_Id { get; set; }
+        
+        public override string ToString() => $"{MainCategoryName}{SubCategoryName}";
+
+        
     }
 }

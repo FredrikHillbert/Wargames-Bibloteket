@@ -20,9 +20,10 @@
             <Frame CornerRadius="40" BorderColor="Black" Margin="40,20,40,20" BackgroundColor="LightBlue">
                 <Grid Margin="0,0,0,0">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="55"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
+                       
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -30,8 +31,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Picker x:Name="picker" BackgroundColor="#2E4159" TextColor="White" HorizontalOptions="Center"
-                        Grid.Row="0" Grid.Column="0" WidthRequest="200" SelectedIndexChanged="picker_SelectedIndexChanged">
+                    <Picker x:Name="picker" BackgroundColor="White" TextColor="Black" HorizontalOptions="End"
+                        Grid.Row="0" Grid.Column="2" WidthRequest="250" SelectedIndexChanged="picker_SelectedIndexChanged" Title="Typ av bok">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type models:Book}">
                                 <models:Book TypeOfBook="Book"  fk_Item_Id="1"/>
@@ -40,13 +41,34 @@
                         </Picker.ItemsSource>
 
                     </Picker>
-                    <Entry x:Name="EntryTitle" Placeholder="Title" Grid.Row="0" Grid.Column="1"/>
-                    <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="0" Grid.Column="2"/>
-                    <Entry x:Name="EntryPublisher" Placeholder="Publisher" Grid.Row="0" Grid.Column="3"/>
-                    <Entry x:Name="EntryDescription" Placeholder="Description" Grid.Row="1" Grid.Column="0"/>
-                    <Entry x:Name="EntryPrice" Placeholder="Price" Grid.Row="1" Grid.Column="1"/>
-                    <Entry x:Name="EntryPlacement" Placeholder="Placement" Grid.Row="1" Grid.Column="2"/>
-                    <Entry x:Name="EntryAuthor" Placeholder="Author" Grid.Row="1" Grid.Column="3"/>
+                    
+                    
+                    <Picker x:Name="categorypicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Center"
+                        Grid.Row="0" Grid.Column="1" WidthRequest="250" Title="Kategori" SelectedIndexChanged="categorypicker_SelectedIndexChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type models:Dewey}">
+                                <models:Dewey MainCategoryName="Computer Science, Information, and General Works"  fk_DeweyMain_Id="0"/>
+                                <models:Dewey MainCategoryName="Philosophy and Psychology" fk_DeweyMain_Id="1"/>
+                                <models:Dewey MainCategoryName="Religion" fk_DeweyMain_Id="2"/>
+                                <models:Dewey MainCategoryName="Social Sciences" fk_DeweyMain_Id="3"/>
+                                <models:Dewey MainCategoryName="Languages" fk_DeweyMain_Id="4"/>
+                                <models:Dewey MainCategoryName="Science" fk_DeweyMain_Id="5"/>
+                                <models:Dewey MainCategoryName="Technology" fk_DeweyMain_Id="6"/>
+                                <models:Dewey MainCategoryName="Arts and Recreation" fk_DeweyMain_Id="7"/>
+                                <models:Dewey MainCategoryName="Literature" fk_DeweyMain_Id="8"/>
+                                <models:Dewey MainCategoryName="History and Geography" fk_DeweyMain_Id="9"/>
+                            </x:Array>
+                        </Picker.ItemsSource>
+
+                    </Picker>
+                    
+                    <Entry x:Name="EntryTitle" Placeholder="Title" Grid.Row="1" Grid.Column="0"/>
+                    <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="1" Grid.Column="1"/>
+                    <Entry x:Name="EntryPublisher" Placeholder="Publisher" Grid.Row="1" Grid.Column="2"/>
+                    <Entry x:Name="EntryDescription" Placeholder="Description" Grid.Row="1" Grid.Column="3"/>
+                    <Entry x:Name="EntryPrice" Placeholder="Price" Grid.Row="2" Grid.Column="0"/>
+                    <Entry x:Name="EntryPlacement" Placeholder="Placement" Grid.Row="2" Grid.Column="1"/>
+                    <Entry x:Name="EntryAuthor" Placeholder="Author" Grid.Row="2" Grid.Column="2"/>
                     <Button Text="Add book"  
                         Grid.Row="2"  
                         Grid.Column="3" 
