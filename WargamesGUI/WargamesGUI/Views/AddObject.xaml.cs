@@ -26,6 +26,8 @@ namespace WargamesGUI.Views
 
         private int itemID;
         private string categoryID;
+        public int dewymainID;
+        public string deweysubID;
 
         List<DeweyMain> deweyMain = new List<DeweyMain>();
         List<DeweySub> deweySub = new List<DeweySub>();
@@ -39,14 +41,22 @@ namespace WargamesGUI.Views
 
         protected async override void OnAppearing()
         {
+            try
+            {
 
-            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+                await MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
 
-            deweySub = await bookService.GetDeweySubData();
-            deweyMain = await bookService.GetDeweyMainData();
+                deweySub = await bookService.GetDeweySubData();
+                deweyMain = await bookService.GetDeweyMainData();
+                categorypicker.ItemsSource = deweyMain;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"{ex.Message}", "OK");
 
-            categorypicker.ItemsSource = deweyMain;
-                
+            }
+
+
         }
 
         private async Task LoadBooks()
@@ -71,9 +81,9 @@ namespace WargamesGUI.Views
             var Author = EntryAuthor.Text;
             var Description = EntryDescription.Text;
             int.TryParse(EntryPrice.Text, out int Price);
-            var Placement = EntryPlacement.Text;
+            //var Placement = EntryPlacement.Text;
 
-            var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, Placement);
+            var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID);
 
             if (b)
             {
@@ -83,7 +93,7 @@ namespace WargamesGUI.Views
                 EntryAuthor.Text = string.Empty;
                 EntryDescription.Text = string.Empty;
                 EntryPrice.Text = string.Empty;
-                EntryPlacement.Text = string.Empty;
+                //EntryPlacement.Text = string.Empty;
                 await DisplayAlert("Success!", "You added a book!", "OK");
                 await LoadBooks();
             }
@@ -179,18 +189,21 @@ namespace WargamesGUI.Views
             switch (selectedDewey.DeweyMain_Id)
             {
                 default:
-                    await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null, 
+                    var y = await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null,
                         deweySub.Where(x => x.fk_DeweyMain_Id == selectedDewey.DeweyMain_Id)
                         .Select(x => x.SubCategoryName)
                         .ToArray());
+                    dewymainID = selectedDewey.DeweyMain_Id;
+                    deweysubID = deweySub.Where(x => x.SubCategoryName == y).Select(x => x.DeweySub_Id).ToList().ElementAt(0).ToString();
+
                     break;
             }
-           
 
-            
+
+
 
 
         }
-      
+
     }
 }
