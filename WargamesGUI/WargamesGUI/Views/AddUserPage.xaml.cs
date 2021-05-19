@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
 using WargamesGUI.Views;
+//using Windows.UI.Xaml.Controls;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -227,7 +228,7 @@ namespace WargamesGUI
                 switch (choice)
                 {
                     case "Detaljer för användare":
-                        
+
                         break;
 
                     case "Lägg till bibliotekskort":
@@ -296,10 +297,10 @@ namespace WargamesGUI
                                 break;
                         }
                         break;
-                            
+
                     default:
                         break;
-                }             
+                }
             }
             else
             {
