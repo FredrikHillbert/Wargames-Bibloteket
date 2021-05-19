@@ -22,6 +22,7 @@ namespace WargamesGUI.Views
         public static UserService userService = new UserService();
         public static BookService bookService = new BookService();
         private int itemID;
+        private string categoryID;
 
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
 
@@ -47,7 +48,7 @@ namespace WargamesGUI.Views
             collection.AddRange(await bookService.GetBooksFromDb());
             //collection.AddRange(await bookService.GetEbooksFromDb());
             listOfBooks.ItemsSource = collection;
-            
+
         }
 
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
@@ -60,7 +61,7 @@ namespace WargamesGUI.Views
             var Description = EntryDescription.Text;
             int.TryParse(EntryPrice.Text, out int Price);
             var Placement = EntryPlacement.Text;
-            
+
             var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, Placement);
 
             if (b)
@@ -157,6 +158,62 @@ namespace WargamesGUI.Views
 
         private void listOfBooks_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
+
+        }
+
+        private async void categorypicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedItem = (Dewey)categorypicker.SelectedItem;
+
+            var choice = string.Empty;
+            switch (selectedItem.fk_DeweyMain_Id)
+            {
+                case 0:
+                    var list = await bookService.GetDeweyData(selectedItem.fk_DeweyMain_Id);
+                    await DisplayActionSheet($"Välj en subkategori: {selectedItem.MainCategoryName}", "Avbryt", null,
+                        $"{list[0]}",
+                        $"{list[1]}",
+                        $"{list[2]}",
+                        $"{list[3]}",
+                        $"{list[4]}",
+                        $"{list[5]}",
+                        $"{list[6]}",
+                        $"{list[7]}",
+                        $"{list[8]}",
+                        $"{list[9]}"
+                        );
+                    switch (list)
+                    {
+                        case 0:
+
+                        default:
+                            break;
+                    }
+
+                    break;
+
+
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+                default:
+                    break;
+            }
 
         }
     }

@@ -229,5 +229,36 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(searchedValues);
             }
         }
+        public async Task<List<Dewey>> GetDeweyData(int fk_DeweyMain_Id)
+        {
+            var deweyList = new List<Dewey>();
+
+            var query = $"SELECT ds.SubCategoryName" +
+                        $" FROM tblDeweySub ds" +
+                        $" INNER JOIN tblDeweyMain dm" +
+                        $" ON ds.fk_DeweyMain_Id = dm.DeweyMain_Id" +
+                        $" WHERE ds.fk_DeweyMain_Id = {fk_DeweyMain_Id}";
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(query, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var dewey = new Dewey();
+
+                            
+                            dewey.SubCategoryName = reader["SubCategoryName"].ToString();
+                                                        
+
+                            deweyList.Add(dewey);
+                        }
+                    }
+                }
+                return await Task.FromResult(deweyList);
+            }
+        }
     }
 }
