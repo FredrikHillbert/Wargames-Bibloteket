@@ -21,7 +21,7 @@ namespace WargamesGUI.Views
         public static DbHandler handler = new DbHandler();
         public static LoanService loanService = new LoanService();
         private int privilegeLevel;
-        
+
         public AddVisitor()
         {
             InitializeComponent();
@@ -29,13 +29,29 @@ namespace WargamesGUI.Views
 
         protected override void OnAppearing()
         {
-            MainThread.InvokeOnMainThreadAsync(async () => { await ReadVisitorListFromDb(); });
+            try
+            {
+                MainThread.InvokeOnMainThreadAsync(async () => { await ReadVisitorListFromDb(); });
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("AddVisitorOnAppearing Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+
 
         }
 
         private async Task ReadVisitorListFromDb()
         {
-            listOfVisitors.ItemsSource = userService.ReadVisitorListFromDb();
+            try
+            {
+                listOfVisitors.ItemsSource = await userService.ReadVisitorListFromDb();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ReadVisitorListFromDb Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+
         }
 
         private async void AddVisitor_Button_Clicked(object sender, EventArgs e)

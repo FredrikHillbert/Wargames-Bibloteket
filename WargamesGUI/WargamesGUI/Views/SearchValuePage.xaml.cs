@@ -21,22 +21,30 @@ namespace WargamesGUI.Views
         public SearchValuePage()
         {
             InitializeComponent();
-            
+
         }
         protected override void OnAppearing()
         {
-            MainThread.InvokeOnMainThreadAsync(async () => { await SearchValues(); });
+            try
+            {
+                MainThread.InvokeOnMainThreadAsync(async () => { await SearchValues(); });
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("SearchValuePageOnAppearing Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+
         }
         private async Task SearchValues()
         {
-            
+
             try
             {
                 listOfBook.ItemsSource = await bookService.Searching(GetValues(text));
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", $"{ex.Message}", "Ok");
+                await DisplayAlert("SearchValues Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
 
@@ -53,12 +61,8 @@ namespace WargamesGUI.Views
         private async void listOfBook_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selecteditem = (Book)e.Item;
-            
+
             await DisplayAlert("Beskrivning", $"{selecteditem.Description}", "OK");
-
-
-
-
         }
 
     }

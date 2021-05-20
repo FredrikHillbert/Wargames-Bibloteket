@@ -39,7 +39,15 @@ namespace WargamesGUI
 
         protected override void OnAppearing()
         {
-            MainThread.InvokeOnMainThreadAsync(async () => { await LoadUserTbl(); });
+            try
+            {
+                MainThread.InvokeOnMainThreadAsync(async () => { await LoadUserTbl(); });
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("AddUserPageOnAppearing Error", $"{ex.Message}", "OK");
+            }
+
 
         }
 
@@ -99,9 +107,9 @@ namespace WargamesGUI
                         await LoadUserTbl();
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    await DisplayAlert("Error!", $"Reason {userService.exceptionMessage}", "OK");
+                    await DisplayAlert("Register_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
 
                 }
             }
@@ -128,14 +136,12 @@ namespace WargamesGUI
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
+                await DisplayAlert("Delete_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             selectedItem = (User)listOfUsers.SelectedItem;
-
-
 
         }
         private void picker_SelectedIndexChanged(object sender, EventArgs e)
@@ -211,7 +217,7 @@ namespace WargamesGUI
             }
             catch (Exception ex)
             {
-                await DisplayAlert("LoadError", $"Reason for error: {ex.Message}", "OK");
+                await DisplayAlert("LoadUserTbl Error", $"Felmeddelande: {ex.Message}", "OK");
             }
 
 
@@ -219,7 +225,7 @@ namespace WargamesGUI
 
         private async void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            selectedItem = (User)listOfUsers.SelectedItem;          
+            selectedItem = (User)listOfUsers.SelectedItem;
 
             if (selectedItem.fk_PrivilegeLevel == 3)
             {
@@ -247,9 +253,9 @@ namespace WargamesGUI
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("Error", $"{ex.Message}", "OK");
-                    
-                }                         
+                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
+
+                }
                 switch (choice)
                 {
                     case "Detaljer för användare":
@@ -258,15 +264,23 @@ namespace WargamesGUI
                         break;
 
                     case "Lägg till bibliotekskort":
-                        bool success = await loanService.ManualAddLibraryCard(selectedItem.User_ID);
-                        if (success)
+                        try
                         {
-                            await DisplayAlert("Lyckades!", $"Bibliotekskort tillagt för {selectedItem.Username}", "OK");
+                            bool success = await loanService.ManualAddLibraryCard(selectedItem.User_ID);
+                            if (success)
+                            {
+                                await DisplayAlert("Lyckades!", $"Bibliotekskort tillagt för {selectedItem.Username}", "OK");
+                            }
+                            else
+                            {
+                                await DisplayAlert("Misslyckades!", $"Bibliotekskort kunde inte läggas till för {selectedItem.Username}", "OK");
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            await DisplayAlert("Misslyckades!", $"Bibliotekskort kunde inte läggas till för {selectedItem.Username}", "OK");
+                            await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
                         }
+
                         break;
 
                     case "Ändra status för bibliotekskort":
@@ -275,51 +289,83 @@ namespace WargamesGUI
                         switch (libraryCardDetails)
                         {
                             case "Aktivt":
-                                if (!await loanService.ChangeCardStatus(1, selectedItem.Cardnumber))
+                                try
                                 {
-                                    await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    if (!await loanService.ChangeCardStatus(1, selectedItem.Cardnumber))
+                                    {
+                                        await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    }
+                                    else
+                                    {
+                                        await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
+                                        await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Aktivt.", "OK");
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
-                                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Aktivt.", "OK");
+                                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
                                 }
+
                                 break;
 
                             case "Försenade böcker":
-                                if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
+                                try
                                 {
-                                    await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
+                                    {
+                                        await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    }
+                                    else
+                                    {
+                                        await loanService.ChangeCardStatus(2, selectedItem.Cardnumber);
+                                        await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Försenade böcker.", "OK");
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    await loanService.ChangeCardStatus(2, selectedItem.Cardnumber);
-                                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Försenade böcker.", "OK");
+                                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
                                 }
+
                                 break;
 
                             case "Borttappade böcker":
-                                if (!await loanService.ChangeCardStatus(3, selectedItem.Cardnumber))
+                                try
                                 {
-                                    await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    if (!await loanService.ChangeCardStatus(3, selectedItem.Cardnumber))
+                                    {
+                                        await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    }
+                                    else
+                                    {
+                                        await loanService.ChangeCardStatus(3, selectedItem.Cardnumber);
+                                        await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Lost books.", "OK");
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    await loanService.ChangeCardStatus(3, selectedItem.Cardnumber);
-                                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Lost books.", "OK");
+                                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
                                 }
+
                                 break;
 
                             case "Stöld":
-                                if (!await loanService.ChangeCardStatus(4, selectedItem.Cardnumber))
+                                try
                                 {
-                                    await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    if (!await loanService.ChangeCardStatus(4, selectedItem.Cardnumber))
+                                    {
+                                        await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    }
+                                    else
+                                    {
+                                        await loanService.ChangeCardStatus(4, selectedItem.Cardnumber);
+                                        await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Theft.", "OK");
+                                    }
                                 }
-                                else
-                                {
-                                    await loanService.ChangeCardStatus(4, selectedItem.Cardnumber);
-                                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Theft.", "OK");
+                                catch (Exception ex) 
+                                { 
+                                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK"); 
                                 }
+
                                 break;
                         }
                         break;
@@ -334,4 +380,4 @@ namespace WargamesGUI
             }
         }
     }
-}   
+}

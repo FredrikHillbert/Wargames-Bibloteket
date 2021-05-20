@@ -139,7 +139,7 @@ namespace WargamesGUI.Services
             return user.fk_PrivilegeLevel;
         }
 
-        public List<User> ReadVisitorListFromDb()
+        public async Task<List<User>> ReadVisitorListFromDb()
         {
             List<User> listOfvisitors = new List<User>();
             using (SqlConnection con = new SqlConnection(theConString))
@@ -172,7 +172,7 @@ namespace WargamesGUI.Services
                         }
                     }
                 }
-                return listOfvisitors;
+                return await Task.FromResult(listOfvisitors);
 
             }
         }
