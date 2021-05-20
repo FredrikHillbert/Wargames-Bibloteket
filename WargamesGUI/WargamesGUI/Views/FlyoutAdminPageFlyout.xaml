@@ -4,13 +4,13 @@
              x:Class="WargamesGUI.Views.FlyoutAdminPageFlyout"
              IconImageSource="noun_hamburger.png"
              Title="Admin">
-  <StackLayout BackgroundColor="LightBlue">
+  <StackLayout BackgroundColor="White">
     <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
             <ListView.Header>
-                <Grid BackgroundColor="LightBlue">
+                <Grid BackgroundColor="White">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="*"/>
@@ -29,7 +29,7 @@
               Style="{DynamicResource SubtitleStyle}"
               FontSize="25"
               HorizontalTextAlignment="Center"
-              BackgroundColor="LightBlue"/>
+              BackgroundColor="White"/>
                     <Label 
               Text="Inloggad som: Admin" 
               Grid.Column="1" 
@@ -49,6 +49,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Text="Logga ut" FontSize="25" TextColor="Black" CornerRadius="30" Margin="20" Clicked="Logout_Button_Clicked"/>
+        <Button Text="Logga ut" FontSize="25" TextColor="White" CornerRadius="30" Margin="20" Clicked="Logout_Button_Clicked" BackgroundColor="#2E4159"/>
     </StackLayout>
 </ContentPage>
