@@ -12,6 +12,38 @@ namespace WargamesGUI.Services
     {
         public string exceptionMessage;
 
+        public async Task<List<LibraryCard>> GetLibraryCardsFromDb()
+        {
+            var LibraryCards = new List<LibraryCard>();
+
+            string query = $"SELECT lc.LibraryCard_Id, lc.CardNumber, lc.fk_Status_Id, lcs.Status_Id, lcs.Status_Level " +
+                           $"FROM tblLibraryCard lc " +
+                           $"INNER JOIN tblLibraryCardStatus lcs " +
+                           $"ON lc.fk_Status_Id = lcs.Status_Id";
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                con.Open();
+                using (var command = new SqlCommand(query, con))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var LibraryCard = new LibraryCard();
+
+                            LibraryCard.LibraryCard_Id = Convert.ToInt32(reader["LibraryCard_Id"]);
+                            LibraryCard.CardNumber = reader["CardNumber"].ToString();
+                            LibraryCard.fk_Status_Id = Convert.ToInt32(reader["fk_Status_Id"]);
+                            LibraryCard.Status_Level = reader["Status_Level"].ToString();
+
+                            LibraryCards.Add(LibraryCard);
+                        }
+                    }
+                }
+                return await Task.FromResult(LibraryCards);
+            }
+        }
         public async Task<List<Book>> GetBorrowedBooksFromDb(int fk_LibraryCard)
         {
             var LoanedBooks = new List<Book>();
