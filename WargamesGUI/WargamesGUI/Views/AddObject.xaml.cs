@@ -256,7 +256,7 @@ namespace WargamesGUI.Views
             catch (Exception ex)
             {
                 await DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");
-                throw;
+                
             }
 
 

@@ -48,7 +48,7 @@
                     </Picker>
                     
 
-                    <Entry x:Name="LabelSubCategoryName" Grid.Row="0" Grid.Column="1" Margin="0,25,0,0" 
+                    <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="1" Margin="0,25,0,0" 
                            WidthRequest="400" TextColor="Black" HorizontalOptions="Start" IsReadOnly="True"/>
                     
 
