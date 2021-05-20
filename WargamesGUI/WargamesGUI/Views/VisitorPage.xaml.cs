@@ -147,7 +147,7 @@ namespace WargamesGUI.Views
                   || x.Author.Contains(MainSearchBar.Text)
                   || x.ISBN.Contains(MainSearchBar.Text)
                   || x.Publisher.Contains(MainSearchBar.Text)
-                  || x.subCategory.Contains(MainSearchBar.Text));
+                  || x.Category.Contains(MainSearchBar.Text));
 
                 listofbooks.ItemsSource = searchresult;
             }

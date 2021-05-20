@@ -38,7 +38,7 @@ namespace WargamesGUI.Services
                             book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
                             book.InStock = Convert.ToInt32(reader["InStock"]);
-                            book.subCategory = reader["Category"].ToString();
+                            book.Category = reader["Category"].ToString();
 
                             if (book.fk_Item_Id == 1)
                             {
@@ -189,7 +189,7 @@ namespace WargamesGUI.Services
                             values.Placement = reader["Placement"].ToString();
                             values.Author = reader["Author"].ToString();
                             values.InStock = Convert.ToInt32(reader["InStock"]);
-                            values.subCategory = reader["Category"].ToString();
+                            values.Category = reader["Category"].ToString();
                             values.Description = reader["Description"].ToString();
 
                             if (values.InStock == 0)

@@ -68,10 +68,17 @@ namespace WargamesGUI.Views
             {
                 collection.Clear();
             }
+            try
+            {
+                collection.AddRange(await bookService.GetBooksFromDb());
 
-            collection.AddRange(await bookService.GetBooksFromDb());
-            //collection.AddRange(await bookService.GetEbooksFromDb());
-            listOfBooks.ItemsSource = collection;
+                listOfBooks.ItemsSource = collection;
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("LoadBooks", $"Anledning: {ex.Message}", "OK");
+            }
 
         }
 
@@ -85,24 +92,31 @@ namespace WargamesGUI.Views
             var Description = EntryDescription.Text;
             int.TryParse(EntryPrice.Text, out int Price);
             //var Placement = EntryPlacement.Text;
-
-            var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID, subCategoryName);
-
-            if (b)
+            try
             {
-                EntryTitle.Text = string.Empty;
-                EntryISBN.Text = string.Empty;
-                EntryPublisher.Text = string.Empty;
-                EntryAuthor.Text = string.Empty;
-                EntryDescription.Text = string.Empty;
-                LabelSubCategoryName.Text = string.Empty;
-                //EntryPlacement.Text = string.Empty;
-                await DisplayAlert("Lyckades!", "Du la till en bok!", "OK");
-                await LoadBooks();
+                var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID, subCategoryName);
+
+                if (b)
+                {
+                    EntryTitle.Text = string.Empty;
+                    EntryISBN.Text = string.Empty;
+                    EntryPublisher.Text = string.Empty;
+                    EntryAuthor.Text = string.Empty;
+                    EntryDescription.Text = string.Empty;
+                    EntrySubCategoryName.Text = string.Empty;
+                    //EntryPlacement.Text = string.Empty;
+                    await DisplayAlert("Lyckades!", "Du la till en bok!", "OK");
+                    await LoadBooks();
 
 
+                }
+                else await DisplayAlert("Misslyckades!", "Kunde inte lägga till boken!", "OK");
             }
-            else await DisplayAlert("Misslyckades!", "Kunde inte lägga till boken!", "OK");
+            catch (Exception ex)
+            {
+                await DisplayAlert("AddBook_Button_Clicked", $"Anledning: {ex.Message}", "OK");
+            }
+
 
 
         }
@@ -136,18 +150,26 @@ namespace WargamesGUI.Views
         {
             selectedItem = (Book)e.Item;
             var bookDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Ändra Detaljer", "Ta bort bok");
-            switch (bookDetails)
+            try
             {
-                case "Detaljer":
-                    Details(selectedItem);
-                    break;
-                case "Ändra Detaljer":
-                    Change_Details(selectedItem);
-                    break;
-                case "Ta bort bok":
-                    Delete_Book(selectedItem);
-                    break;
+                switch (bookDetails)
+                {
+                    case "Detaljer":
+                        Details(selectedItem);
+                        break;
+                    case "Ändra Detaljer":
+                        Change_Details(selectedItem);
+                        break;
+                    case "Ta bort bok":
+                        Delete_Book(selectedItem);
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+                await DisplayAlert("listOfBooks_ItemTapped", $"Anledning: {ex.Message}", "OK");
+            }
+
         }
 
         private async void Delete_Book(Book selectedItem)
@@ -176,7 +198,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Misslyckades!", $"{ex.Message}", "OK");
+                await DisplayAlert("Delete_Book", $"{ex.Message}", "OK");
             }
         }
 
@@ -217,7 +239,7 @@ namespace WargamesGUI.Views
                                 .ToArray());
                         if (subCategoryName == "Avbryt" || subCategoryName == null)
                         {
-                            LabelSubCategoryName.Text = string.Empty;
+                            EntrySubCategoryName.Text = string.Empty;
                             break;
                         }
 
@@ -225,7 +247,7 @@ namespace WargamesGUI.Views
                                             .Select(x => x.DeweySub_Id)
                                             .ToList().ElementAt(0).ToString();
 
-                        LabelSubCategoryName.Text = subCategoryName;
+                        EntrySubCategoryName.Text = subCategoryName;
 
                         break;
                 }
