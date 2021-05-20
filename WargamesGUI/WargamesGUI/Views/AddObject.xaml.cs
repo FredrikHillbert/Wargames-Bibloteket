@@ -203,14 +203,33 @@ namespace WargamesGUI.Views
             }
         }
 
-        private void Change_Details(Book selectedItem)
+        private async void Change_Details(Book selectedItem)
         {
-            throw new NotImplementedException();
+            int idOfBook = selectedItem.Id;
+            string bookType = selectedItem.fk_Item_Id.ToString();
+            string title = selectedItem.Title;
+            string author = selectedItem.Author;
+            string publisher = selectedItem.Publisher;
+            string isbn = selectedItem.ISBN;
+            //int inStock = selectedItem.InStock;
+            string description = selectedItem.Description;
+            string placement = selectedItem.Placement;
+            int price = (int)selectedItem.Price;
+            await Navigation.PushAsync(new ChangeDetailPage(bookType, title, author, publisher, isbn, description));
+
         }
 
-        private void Details(Book selectedItem)
+        private async void Details(Book selectedItem)
         {
             //App.Current.MainPage = new DetailPage();
+            string bookType = selectedItem.fk_Item_Id.ToString();
+            string title = selectedItem.Title;
+            string author = selectedItem.Author;
+            string publisher = selectedItem.Publisher;
+            string isbn = selectedItem.ISBN;
+            string inStock = selectedItem.InStock.ToString();
+            string description = selectedItem.Description;
+            await Navigation.PushAsync(new DetailPage(bookType, title, author, publisher, isbn, inStock, description));
         }
 
         private void DetailsSelected_Clicked(object sender, EventArgs e)
