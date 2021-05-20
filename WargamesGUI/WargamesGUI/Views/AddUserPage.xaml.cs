@@ -56,37 +56,37 @@ namespace WargamesGUI
         {
             if (privilegeLevel == 0)
             {
-                await DisplayAlert("TypeNotSelected", "Select a type of user.", "OK");
+                await DisplayAlert("Typ av användare inte vald", "Välj typ av användare.", "OK");
             }
 
             else if (string.IsNullOrEmpty(firstnamebox.Text) || CheckFormat.CheckIfAllLetter(firstnamebox.Text) == false)
             {
-                await DisplayAlert("InvalidFormat", "Firstname is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Förnamnfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
 
             else if (string.IsNullOrEmpty(lastnamebox.Text) || CheckFormat.CheckIfAllLetter(lastnamebox.Text) == false)
             {
-                await DisplayAlert("InvalidLastname", "Lastname is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Efternamnfältet är tomt eller så är formatet inte tållåtet", "OK");
             }
             else if (string.IsNullOrEmpty(addressbox.Text) || CheckFormat.CheckAdress(addressbox.Text) == false)
             {
-                await DisplayAlert("InvalidAddress", "Address is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Adressfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(emailbox.Text) || CheckFormat.IsValidEmail(emailbox.Text) == false)
             {
-                await DisplayAlert("EmailEmpty", "Enter a valid email.", "OK");
+                await DisplayAlert("Misslyckades", "Emailfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(phonebox.Text) || CheckFormat.CheckIfAllNumbers(phonebox.Text) == false)
             {
-                await DisplayAlert("NumberEmpty", "Enter a valid phonenumber.", "OK");
+                await DisplayAlert("Misslyckades", "Telefonnummerfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfAllLetter(userbox.Text) == false)
             {
-                await DisplayAlert("InvalidFormat", "Username is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Användarnmanfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(passbox.Text))
             {
-                await DisplayAlert("PassEmpty", "Password entry is empty.", "OK");
+                await DisplayAlert("Misslyckades", "Lösenordfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
 
             else

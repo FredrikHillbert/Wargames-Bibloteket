@@ -55,7 +55,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", $"{ex.Message}", "OK");
+                await DisplayAlert("AddObject_OnAppearing", $"{ex.Message}", "OK");
 
             }
 
@@ -97,12 +97,12 @@ namespace WargamesGUI.Views
                 EntryDescription.Text = string.Empty;
                 LabelSubCategoryName.Text = string.Empty;
                 //EntryPlacement.Text = string.Empty;
-                await DisplayAlert("Success!", "You added a book!", "OK");
+                await DisplayAlert("Lyckades!", "Du la till en bok!", "OK");
                 await LoadBooks();
 
 
             }
-            else await DisplayAlert("Error!", "Could not add book!", "OK");
+            else await DisplayAlert("Misslyckades!", "Kunde inte lägga till boken!", "OK");
 
 
         }
@@ -117,34 +117,34 @@ namespace WargamesGUI.Views
         {
             try
             {
-                string reason = await DisplayPromptAsync($"Remove book", $"Reason for removing: {selectedItem.Title}?");
+                string reason = await DisplayPromptAsync($"Ta bort bok", $"Anledning: {selectedItem.Title}?");
 
                 if (reason != null)
                 {
                     await bookService.RemoveBook(selectedItem.Id, reason);
-                    await DisplayAlert("Success!", "You removed a book!", "OK");
+                    await DisplayAlert("Lyckades!", "Du tog bort en bok!", "OK");
                     await LoadBooks();
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
+                await DisplayAlert("Misslyckades!", $"Anledning: {ex.Message}", "OK");
             }
         }
 
         private async void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (Book)e.Item;
-            var bookDetails = await DisplayActionSheet("Choose action: ", "Cancel", null, "Details", "Change Details", "Delete Book");
+            var bookDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Ändra Detaljer", "Ta bort bok");
             switch (bookDetails)
             {
-                case "Details":
+                case "Detaljer":
                     Details(selectedItem);
                     break;
-                case "Change Details":
+                case "Ändra Detaljer":
                     Change_Details(selectedItem);
                     break;
-                case "Delete Book":
+                case "Ta bort bok":
                     Delete_Book(selectedItem);
                     break;
             }
@@ -154,18 +154,18 @@ namespace WargamesGUI.Views
         {
             try
             {
-                string reason = await DisplayPromptAsync($"Remove book", $"Reason for removing: {selectedItem.Title}?");
+                string reason = await DisplayPromptAsync($"Ta bort", $"Anledning: {selectedItem.Title}?");
 
                 if (reason != null)
                 {
                     await bookService.RemoveBook(selectedItem.Id, reason);
-                    await DisplayAlert("Success!", "You removed a book!", "OK");
+                    await DisplayAlert("Lyckades!", "Du tog bort en bok!", "OK");
                     await LoadBooks();
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
+                await DisplayAlert("Misslyckades!", $"Anledning: {ex.Message}", "OK");
             }
         }
 
@@ -221,7 +221,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Misslyckat", $"{ex.Message}", "Ok");
+                await DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");
                 throw;
             }
 
