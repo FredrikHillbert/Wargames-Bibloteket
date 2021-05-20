@@ -40,6 +40,15 @@ namespace WargamesGUI.Services
                             book.InStock = Convert.ToInt32(reader["InStock"]);
                             book.subCategory = reader["Category"].ToString();
 
+                            if (book.fk_Item_Id == 1)
+                            {
+                                book.TypeOfBook = "Bok";
+                            }
+                            else if (book.fk_Item_Id == 2)
+                            {
+                                book.TypeOfBook = "E-bok";
+                            }
+
                             bookList.Add(book);
                         }
                     }

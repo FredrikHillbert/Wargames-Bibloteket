@@ -82,10 +82,5 @@ namespace WargamesGUI
             }
         }
 
-        private void CardID_Button_Clicked(object sender, EventArgs e)
-        {
-            App.Current.MainPage = new SearchCardNumber();
-        }
-
     }
 }

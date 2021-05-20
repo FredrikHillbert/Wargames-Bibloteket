@@ -104,22 +104,22 @@ namespace WargamesGUI.Services
                             switch (BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
                             {
                                 case 1:
-                                    BorrowedBo.Status = "Active";
+                                    BorrowedBo.Status = "Aktiv";
                                     break;
                                 case 2:
-                                    BorrowedBo.Status = "Delayed";
+                                    BorrowedBo.Status = "Försenad";
                                     break;
                                 case 3:
-                                    BorrowedBo.Status = "Lost";
+                                    BorrowedBo.Status = "Försvunnen";
                                     break;
                                 case 4:
-                                    BorrowedBo.Status = "Stolen";
+                                    BorrowedBo.Status = "Stulen";
                                     break;
                                 case 5:
-                                    BorrowedBo.Status = "Returned";
+                                    BorrowedBo.Status = "Återlämnad";
                                     break;
                                 case 6:
-                                    BorrowedBo.Status = "Handled";
+                                    BorrowedBo.Status = "Hanterad";
                                     break;
                             }
 
