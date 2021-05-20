@@ -56,7 +56,7 @@ namespace WargamesGUI.Views
                 try
                 {
                     await loanService.UpdateBorrowedBooksFromDbLibrarian(selectedBook.Loan_Id);
-                    await DisplayAlert("Book handled!", $"You handled {selectedBook.Title}.", "OK");
+                    await DisplayAlert("Bok Hanterad!", $"Du hanterade {selectedBook.Title}.", "OK");
                     await LoadBooks();
 
                 }
@@ -68,7 +68,7 @@ namespace WargamesGUI.Views
             }
             else
             {
-                await DisplayAlert("BookNotReturned", "The book you are trying to handle is not returned. The status of the book has to be 'returned' in order to handle.", "OK");
+                await DisplayAlert("BookNotReturned", "Boken du försöker hantera är inte återlämnad. Statusen på boken måste vara 'återlämnad' för att kunna hanteras.", "OK");
             }
         }
 

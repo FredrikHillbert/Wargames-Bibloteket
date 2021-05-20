@@ -50,7 +50,7 @@ namespace WargamesGUI
                         App.Current.MainPage = new VisitorPage();
                         break;
                     default:
-                        await DisplayAlert("Ett fel uppstod", "Kotrollera användarnamn och lösenord", "Ok");
+                        await DisplayAlert("Misslyckades", "Kotrollera användarnamn och lösenord", "Ok");
                         break;
                 }
             }
@@ -67,7 +67,7 @@ namespace WargamesGUI
             {
                 if (string.IsNullOrWhiteSpace(SearchBar.Text))
                 {
-                    await DisplayAlert("Ett fel uppstod", "Du måste skriva något", "OK");
+                    await DisplayAlert("Misslyckades", "Du måste skriva något", "OK");
                 }
                 else
                 {
@@ -78,13 +78,8 @@ namespace WargamesGUI
             }
             catch (Exception ex)
             {               
-                await DisplayAlert("Ett fel uppstod", $"{ex.Message}", "Ok");             
+                await DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");             
             }
-        }
-
-        private void CardID_Button_Clicked(object sender, EventArgs e)
-        {
-            App.Current.MainPage = new SearchCardNumber();
         }
 
     }

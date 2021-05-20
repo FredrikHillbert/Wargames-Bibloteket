@@ -58,12 +58,12 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Label Text="Befintliga användare" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                        <Label Text="Förnamn" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="0"/>
-                        <Label Text="Efternamn" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="1"/>
-                        <Label Text="Användarnamn" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="2"/>
+                        <Label Text="Förnamn" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="0"/>
+                            <Label Text="Efternamn" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="1"/>
+                            <Label Text="Användarnamn" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="2"/>
                         <!--<Label Text="Lösenord" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="3"/>-->
-                        <Label Text="Telefonnummer" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="3"/>
-                        <Label Text="Adress" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="4"/>
+                            <Label Text="Telefonnummer" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="3"/>
+                            <Label Text="Adress" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="4"/>
 
                     </Grid>
                 </ListView.Header>
@@ -72,7 +72,7 @@
                             <ViewCell>
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="30"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*"/>
@@ -82,19 +82,19 @@
                                         <ColumnDefinition Width="2*"/>
                                     </Grid.ColumnDefinitions>
                                     <StackLayout Grid.Column="0" Grid.Row="0">
-                                        <Label Text="{Binding First_Name}" HorizontalOptions="Start" />
+                                        <Label Text="{Binding First_Name}" HorizontalOptions="Start" FontSize="16" />
                                     </StackLayout>
                                     <StackLayout Grid.Column="1" Grid.Row="0">
-                                        <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
+                                        <Label Text="{Binding Last_Name}" HorizontalOptions="Start" FontSize="16"/>
                                     </StackLayout>
                                     <StackLayout Grid.Column="2" Grid.Row="0">
-                                        <Label Text="{Binding Username}" HorizontalOptions="Start"/>
+                                        <Label Text="{Binding Username}" HorizontalOptions="Start" FontSize="16"/>
                                     </StackLayout>
                                     <StackLayout Grid.Column="3" Grid.Row="0">
-                                        <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
+                                        <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start" FontSize="16"/>
                                     </StackLayout>
                                     <StackLayout Grid.Column="4" Grid.Row="0">
-                                        <Label Text="{Binding Address}" HorizontalOptions="Start"/>
+                                        <Label Text="{Binding Address}" HorizontalOptions="Start" FontSize="16"/>
                                     </StackLayout>
                                 </Grid>
                             </ViewCell>
