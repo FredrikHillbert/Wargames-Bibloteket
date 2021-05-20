@@ -35,8 +35,8 @@
                         Grid.Row="0" Grid.Column="2" WidthRequest="250" SelectedIndexChanged="picker_SelectedIndexChanged" Title="Typ av bok">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type models:Book}">
-                                <models:Book TypeOfBook="Book"  fk_Item_Id="1"/>
-                                <models:Book TypeOfBook="E-book" fk_Item_Id="2"/>
+                                <models:Book TypeOfBook="Bok"  fk_Item_Id="1"/>
+                                <models:Book TypeOfBook="E-bok" fk_Item_Id="2"/>
                             </x:Array>
                         </Picker.ItemsSource>
 
@@ -50,13 +50,13 @@
 
                     </Picker>
                     
-                    <Entry x:Name="EntryTitle" Placeholder="Title" Grid.Row="1" Grid.Column="0"/>
+                    <Entry x:Name="EntryTitle" Placeholder="Titel" Grid.Row="1" Grid.Column="0"/>
                     <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="1" Grid.Column="1"/>
-                    <Entry x:Name="EntryPublisher" Placeholder="Publisher" Grid.Row="1" Grid.Column="2"/>
-                    <Entry x:Name="EntryDescription" Placeholder="Description" Grid.Row="2" Grid.Column="0"/>
-                    <Entry x:Name="EntryPrice" Placeholder="Price" Grid.Row="2" Grid.Column="1"/>
-                    <Entry x:Name="EntryAuthor" Placeholder="Author" Grid.Row="2" Grid.Column="2"/>
-                    <Button Text="Add book"  
+                    <Entry x:Name="EntryPublisher" Placeholder="Utgivare" Grid.Row="1" Grid.Column="2"/>
+                    <Entry x:Name="EntryDescription" Placeholder="Beskrivning" Grid.Row="2" Grid.Column="0"/>
+                    <Entry x:Name="EntryPrice" Placeholder="Pris" Grid.Row="2" Grid.Column="1"/>
+                    <Entry x:Name="EntryAuthor" Placeholder="Författare" Grid.Row="2" Grid.Column="2"/>
+                    <Button Text="Lägg till bok"  
                         Grid.Row="2"  
                         Grid.Column="3" 
                         CornerRadius="20"
@@ -81,13 +81,13 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Text="Book type" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Title" TextDecorations="Underline" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Bok typ" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="0" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Titel" TextDecorations="Underline" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold"/>
                         <Label Text="ISBN" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="2" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Publisher" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="3" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Price" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="4" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Placement" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Author" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="6" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Utgivare" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="3" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Pris" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="4" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Placering" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Föfattare" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="6" Grid.Row="0" FontAttributes="Bold"/>
                     </Grid>
                     <ListView x:Name="listOfBooks" ItemTapped="listOfBooks_ItemTapped" ItemSelected="listOfBooks_ItemSelected">
                         <ListView.ItemTemplate>
@@ -140,7 +140,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Button Text="Details" 
+                            <Button Text="Detaljer" 
                                     Clicked="DetailsSelected_Clicked"
                                     CornerRadius="20" 
                                     BackgroundColor="#2E4159"
@@ -149,7 +149,7 @@
                                     Grid.Column="0" Grid.Row="0"
                                     WidthRequest="80"
                                     Margin="0,0,110,0"/>
-                            <Button Text="Remove book" 
+                            <Button Text="Ta bort bok" 
                                     Clicked="DeleteObject_Clicked" 
                                     CornerRadius="20" 
                                     BackgroundColor="#2E4159"

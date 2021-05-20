@@ -24,12 +24,13 @@
           <Label
               Grid.Column="1"
               Grid.Row="1"
-              Text="Wargames Library"             
+              Text="Wargames Biblotek"
+              FontSize="32"
               Style="{DynamicResource SubtitleStyle}"
               HorizontalTextAlignment="Center"
               BackgroundColor="DarkSlateGray"/>
           <Label 
-              Text="Logged in as: Librarian" 
+              Text="Inloggad som: Bibliotekarie" 
               Grid.Column="1" 
               Grid.Row="2"/>
           </Grid>
@@ -47,6 +48,6 @@
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>
-        <Button Text="Logout" FontSize="25" TextColor="Black" CornerRadius="30" Margin="20" Clicked="Logout_Button_Clicked"/>
+        <Button Text="Logga ut" FontSize="25" TextColor="Black" CornerRadius="30" Margin="20" Clicked="Logout_Button_Clicked"/>
     </StackLayout>
 </ContentPage>

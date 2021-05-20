@@ -35,30 +35,30 @@ namespace WargamesGUI
                     case 1:
                         Entryusername.Text = string.Empty;
                         Entrypassword.Text = string.Empty;
-                        await DisplayAlert("Successful", "You are now logging in as Admin", "OK");
+                        await DisplayAlert("Lyckades", "Du loggar nu in som administratör", "OK");
                         App.Current.MainPage = new FlyoutAdminPage();
                         break;
                     case 2:
                         Entryusername.Text = string.Empty;
                         Entrypassword.Text = string.Empty;
-                        await DisplayAlert("Successful", "You are now logging in as Librarian", "OK");
+                        await DisplayAlert("Lyckades", "Du loggar nu in som Bibliotekarie", "OK");
                         App.Current.MainPage = new FlyoutLibrarianPage();
                         break;
                     case 3:
                         Entryusername.Text = string.Empty;
                         Entrypassword.Text = string.Empty;
-                        await DisplayAlert("Successful", "You are now logging in as Visitor", "OK");
+                        await DisplayAlert("Lyckades", "Du loggar nu in som Besökare", "OK");
                         App.Current.MainPage = new VisitorPage();
                         break;
                     default:
-                        await DisplayAlert("Error", "Please check if username and password are correct", "Ok");
+                        await DisplayAlert("Ett fel uppstod", "Kotrollera användarnamn och lösenord", "Ok");
                         break;
                 }
             }
             catch (Exception ex)
             {
                 exception = ex;
-                await DisplayAlert("Error", $"{exception.Message}", "Ok");
+                await DisplayAlert("Ett fel uppstod", $"{exception.Message}", "Ok");
                 throw;
             }
 
@@ -71,7 +71,7 @@ namespace WargamesGUI
             {
                 if (string.IsNullOrWhiteSpace(SearchBar.Text))
                 {
-                    await DisplayAlert("Error", "You have to type something", "OK");
+                    await DisplayAlert("Ett fel uppstod", "Du måste skriva något", "OK");
                 }
                 else
                 {
@@ -83,7 +83,7 @@ namespace WargamesGUI
             catch (Exception ex)
             {
                 exception = ex;
-                await DisplayAlert("Error", $"{exception.Message}", "Ok");
+                await DisplayAlert("Ett fel uppstod", $"{exception.Message}", "Ok");
                 throw;
             }
         }

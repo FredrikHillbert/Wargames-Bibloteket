@@ -12,11 +12,11 @@ namespace WargamesGUI
         {         
             InitializeComponent();
             Device.SetFlags(new[] { "MediaElement_Experimental", "Brush_Experimental" });
-            //MainPage = new MainPage();          
+            MainPage = new MainPage();          
             //MainPage = new FlyoutLibrarianPage();
             //MainPage = new FlyoutAdminPage();
             //MainPage = new VisitorPage();
-            MainPage = new AddUserPage();
+            //MinPage = new AddUserPage();
             //MainPage = new Test();
             //MainPage = new ManualReturn();
             
