@@ -55,7 +55,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", $"{ex.Message}", "OK");
+                await DisplayAlert("AddObjectOnAppearing", $"Felmeddelande: {ex.Message}", "OK");
 
             }
 
@@ -68,11 +68,16 @@ namespace WargamesGUI.Views
             {
                 collection.Clear();
             }
+            try
+            {
+                collection.AddRange(await bookService.GetBooksFromDb());
 
-            collection.AddRange(await bookService.GetBooksFromDb());
-            //collection.AddRange(await bookService.GetEbooksFromDb());
-            listOfBooks.ItemsSource = collection;
-
+                listOfBooks.ItemsSource = collection;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("LoadBooks", $"Felmeddelande: {ex.Message}", "OK");
+            }
         }
 
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
@@ -85,25 +90,32 @@ namespace WargamesGUI.Views
             var Description = EntryDescription.Text;
             int.TryParse(EntryPrice.Text, out int Price);
             //var Placement = EntryPlacement.Text;
-
-            var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID, subCategoryName);
-
-            if (b)
+            try
             {
-                EntryTitle.Text = string.Empty;
-                EntryISBN.Text = string.Empty;
-                EntryPublisher.Text = string.Empty;
-                EntryAuthor.Text = string.Empty;
-                EntryDescription.Text = string.Empty;
-                EntryPrice.Text = string.Empty;
-                EntrySubCategoryName.Text = string.Empty;
-                //EntryPlacement.Text = string.Empty;
-                await DisplayAlert("Success!", "You added a book!", "OK");
-                await LoadBooks();
+                var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID, subCategoryName);
+
+                if (b)
+                {
+                    EntryTitle.Text = string.Empty;
+                    EntryISBN.Text = string.Empty;
+                    EntryPublisher.Text = string.Empty;
+                    EntryAuthor.Text = string.Empty;
+                    EntryDescription.Text = string.Empty;
+                    EntryPrice.Text = string.Empty;
+                    EntrySubCategoryName.Text = string.Empty;
+                    //EntryPlacement.Text = string.Empty;
+                    await DisplayAlert("Success!", "You added a book!", "OK");
+                    await LoadBooks();
 
 
+                }
+                else await DisplayAlert("Error!", "Could not add book!", "OK");
             }
-            else await DisplayAlert("Error!", "Could not add book!", "OK");
+            catch (Exception ex)
+            {
+                await DisplayAlert("AddBook_Button_Clicked", $"Felmeddelande: {ex.Message}", "OK");
+            }
+
 
 
         }
@@ -129,7 +141,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
+                await DisplayAlert("DeleteObject_Clicked", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
 
@@ -137,18 +149,26 @@ namespace WargamesGUI.Views
         {
             selectedItem = (Book)e.Item;
             var bookDetails = await DisplayActionSheet("Choose action: ", "Cancel", null, "Details", "Change Details", "Delete Book");
-            switch (bookDetails)
+            try
             {
-                case "Details":
-                    Details(selectedItem);
-                    break;
-                case "Change Details":
-                    Change_Details(selectedItem);
-                    break;
-                case "Delete Book":
-                    Delete_Book(selectedItem);
-                    break;
+                switch (bookDetails)
+                {
+                    case "Details":
+                        Details(selectedItem);
+                        break;
+                    case "Change Details":
+                        Change_Details(selectedItem);
+                        break;
+                    case "Delete Book":
+                        Delete_Book(selectedItem);
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+                await DisplayAlert("listOfBooks_ItemTapped", $"Felmeddelande: {ex.Message}", "OK");
+            }
+
         }
 
         private async void Delete_Book(Book selectedItem)
@@ -223,7 +243,7 @@ namespace WargamesGUI.Views
             catch (Exception ex)
             {
                 await DisplayAlert("Misslyckat", $"{ex.Message}", "Ok");
-                throw;
+                
             }
 
 
