@@ -154,7 +154,7 @@ namespace WargamesGUI.Views
         {
             try
             {
-                string reason = await DisplayActionSheet($"Ta bort bok", "Avbryt", null, new string[] { "Slut på lager", "Tryckning upphörd", "Dålig försäljning", "Annan anledning" });
+                string reason = await DisplayActionSheet($"Ta bort bok", "Avbryt", null, new string[] { "Slut på lager", "Tryckning upphörd", "Tillfälligt stopp", "Annan anledning" });
 
                 switch (reason)
                 {
@@ -176,7 +176,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
+                await DisplayAlert("Misslyckades!", $"{ex.Message}", "OK");
             }
         }
 
