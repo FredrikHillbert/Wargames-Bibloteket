@@ -99,11 +99,11 @@ namespace WargamesGUI.Views
                 //EntryPlacement.Text = string.Empty;
                 await DisplayAlert("Success!", "You added a book!", "OK");
                 await LoadBooks();
-                categorypicker.SelectedIndex = -1;
+
 
             }
-            else await DisplayAlert("Error!", "Could not add book!", "OK"); 
-            
+            else await DisplayAlert("Error!", "Could not add book!", "OK");
+
 
         }
 
@@ -191,19 +191,24 @@ namespace WargamesGUI.Views
 
         private async void categorypicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
 
             var selectedDewey = (DeweyMain)categorypicker.SelectedItem;
             try
             {
+
                 switch (selectedDewey.DeweyMain_Id)
                 {
                     default:
+                        var numb = categorypicker.SelectedIndex;
                         subCategoryName = await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null,
-
                         deweySub.Where(x => x.fk_DeweyMain_Id == selectedDewey.DeweyMain_Id)
                                 .Select(x => x.SubCategoryName)
                                 .ToArray());
+                        if (subCategoryName == "Avbryt" || subCategoryName == null)
+                        {
+                            break;
+                        }
 
                         deweysubID = deweySub.Where(x => x.SubCategoryName == subCategoryName)
                                             .Select(x => x.DeweySub_Id)
