@@ -200,21 +200,17 @@ namespace WargamesGUI.Services
                             {
                                 values.Status = "Tillgänglig";
                             }
-                            
-                            switch (values.fk_Item_Id)
+
+                            if (values.fk_Item_Id == 1)
                             {
-                                case 1:
-                                    values.Category = "Bok";
-                                    break;
-                                case 2:
-                                    values.Category = "Ebok";
-                                    break;
-                                case 3:
-                                    values.Category = "Seminarium";
-                                    break;
-                                default:
-                                    break;
+                                values.TypeOfBook = "Bok";
                             }
+                            else if (values.fk_Item_Id == 2)
+                            {
+                                values.TypeOfBook = "E-bok";
+                            }
+
+
 
                             searchedValues.Add(values);
                         }

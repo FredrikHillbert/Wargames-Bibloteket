@@ -119,9 +119,9 @@
                                 <Label Text="Titel" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
                                 <Label Text="Författare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
                                 <Label Text="Utgivare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="I lager" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="Placering" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
-                                <Label Text="Kategori" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="5"/>
+                                <!--<Label Text="I lager" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>-->
+                                <Label Text="Placering" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Kategori" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
@@ -148,14 +148,14 @@
                                         <StackLayout Grid.Column="2" Grid.Row="0">
                                             <Label Text="{Binding Publisher}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
-                                        <StackLayout Grid.Column="3" Grid.Row="0">
+                                        <!--<StackLayout Grid.Column="3" Grid.Row="0">
                                             <Label Text="{Binding Instock}" HorizontalOptions="Start" FontSize="17"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="4" Grid.Row="0">
+                                        </StackLayout>-->
+                                        <StackLayout Grid.Column="3" Grid.Row="0">
                                             <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
-                                        <StackLayout Grid.Column="5" Grid.Row="0">
-                                            <Label Text="{Binding subCategory}" HorizontalOptions="Start" FontSize="17"/>
+                                        <StackLayout Grid.Column="4" Grid.Row="0">
+                                            <Label Text="{Binding Category}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>

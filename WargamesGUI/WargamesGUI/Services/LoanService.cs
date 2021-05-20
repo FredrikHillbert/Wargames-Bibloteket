@@ -56,12 +56,12 @@ namespace WargamesGUI.Services
                             var LoanedBook = new Book();
 
                             LoanedBook.Title = reader["Title"].ToString();
-                            LoanedBook.Author = reader["Publisher"].ToString();
+                            LoanedBook.Author = reader["Author"].ToString();
                             LoanedBook.Publisher = reader["Publisher"].ToString();
-                            LoanedBook.Placement = reader["Publisher"].ToString();
+                            LoanedBook.Placement = reader["Placement"].ToString();
                             LoanedBook.InStock = Convert.ToInt32(reader["InStock"]);
                             LoanedBook.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
-                            LoanedBook.subCategory = reader["Category"].ToString();
+                            LoanedBook.Category = reader["Category"].ToString();
                             LoanedBook.Description = reader["Description"].ToString();
 
                             LoanedBooks.Add(LoanedBook);

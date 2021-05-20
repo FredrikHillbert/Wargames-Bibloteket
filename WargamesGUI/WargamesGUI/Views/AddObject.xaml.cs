@@ -47,10 +47,7 @@ namespace WargamesGUI.Views
             {
 
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
-
-                deweySub = await bookService.GetDeweySubData();
-                deweyMain = await bookService.GetDeweyMainData();
-                categorypicker.ItemsSource = deweyMain;
+                await MainThread.InvokeOnMainThreadAsync(async () => { await LoadDeweyData(); });
 
             }
             catch (Exception ex)
@@ -58,10 +55,14 @@ namespace WargamesGUI.Views
                 await DisplayAlert("AddObject_OnAppearing", $"{ex.Message}", "OK");
 
             }
-
-
         }
 
+        private async Task LoadDeweyData()
+        {
+            deweySub = await bookService.GetDeweySubData();
+            deweyMain = await bookService.GetDeweyMainData();
+            categorypicker.ItemsSource = deweyMain;
+        }
         private async Task LoadBooks()
         {
             if (collection != null)
