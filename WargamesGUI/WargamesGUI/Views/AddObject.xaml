@@ -17,7 +17,7 @@
         <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
 
         <StackLayout>
-            <Frame CornerRadius="40" BorderColor="Black" Margin="40,20,40,20" BackgroundColor="LightBlue">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="40,20,40,0" BackgroundColor="LightBlue">
                 <Grid Margin="0,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="55"/>
@@ -44,8 +44,7 @@
                     
                     
                     <Picker x:Name="categorypicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Center"
-                        Grid.Row="0" Grid.Column="1" WidthRequest="250" Title="Kategori" SelectedIndexChanged="categorypicker_SelectedIndexChanged"
-                            ItemsSource="{Binding deweyMain}">
+                        Grid.Row="0" Grid.Column="1" WidthRequest="250" Title="Kategori" SelectedIndexChanged="categorypicker_SelectedIndexChanged">
                         
 
                     </Picker>
@@ -66,7 +65,7 @@
                         Clicked="AddBook_Button_Clicked"/>
                 </Grid>
             </Frame>
-            <Frame CornerRadius="40" BorderColor="Black" Margin="40,30,40,-400" BackgroundColor="LightBlue">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="40,0,40,-620" BackgroundColor="LightBlue">
                 <StackLayout>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -85,9 +84,9 @@
                         <Label Text="Titel" TextDecorations="Underline" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold"/>
                         <Label Text="ISBN" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="2" Grid.Row="0" FontAttributes="Bold"/>
                         <Label Text="Utgivare" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="3" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Pris" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="4" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Placering" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontAttributes="Bold"/>
-                        <Label Text="Föfattare" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="6" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Placering" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="4" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Föfattare" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontAttributes="Bold"/>
+                        <Label Text="Kategori" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="6" Grid.Row="0" FontAttributes="Bold"/>
                     </Grid>
                     <ListView x:Name="listOfBooks" ItemTapped="listOfBooks_ItemTapped" ItemSelected="listOfBooks_ItemSelected">
                         <ListView.ItemTemplate>
@@ -119,13 +118,13 @@
                                             <Label Text="{Binding Publisher}" HorizontalOptions="Start"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding Price}" HorizontalOptions="Start"/>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal" Grid.Column="5" Grid.Row="0">
                                             <Label Text="{Binding Placement}" HorizontalOptions="Start"/>
                                         </StackLayout>
-                                        <StackLayout Orientation="Horizontal" Grid.Column="6" Grid.Row="0">
+                                        <StackLayout Orientation="Horizontal" Grid.Column="5" Grid.Row="0">
                                             <Label Text="{Binding Author}" HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" Grid.Column="6" Grid.Row="0">
+                                            <Label Text="{Binding subCategory}" HorizontalOptions="Start"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>

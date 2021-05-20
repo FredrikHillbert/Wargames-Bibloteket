@@ -25,7 +25,7 @@ namespace WargamesGUI.Views
         public static BookService bookService = new BookService();
 
         private int itemID;
-        
+
         public int dewymainID;
         public string deweysubID;
 
@@ -51,6 +51,7 @@ namespace WargamesGUI.Views
                 deweySub = await bookService.GetDeweySubData();
                 deweyMain = await bookService.GetDeweyMainData();
                 categorypicker.ItemsSource = deweyMain;
+
             }
             catch (Exception ex)
             {
@@ -98,8 +99,12 @@ namespace WargamesGUI.Views
                 //EntryPlacement.Text = string.Empty;
                 await DisplayAlert("Success!", "You added a book!", "OK");
                 await LoadBooks();
+                categorypicker.SelectedIndex = -1;
+
             }
-            else await DisplayAlert("Error!", "Could not add book!", "OK");
+            else await DisplayAlert("Error!", "Could not add book!", "OK"); 
+            
+
         }
 
         private void picker_SelectedIndexChanged(object sender, EventArgs e)
@@ -186,23 +191,32 @@ namespace WargamesGUI.Views
 
         private async void categorypicker_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
+
             var selectedDewey = (DeweyMain)categorypicker.SelectedItem;
-
-            switch (selectedDewey.DeweyMain_Id)
+            try
             {
-                default:
-                    subCategoryName = await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null,
+                switch (selectedDewey.DeweyMain_Id)
+                {
+                    default:
+                        subCategoryName = await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null,
+
                         deweySub.Where(x => x.fk_DeweyMain_Id == selectedDewey.DeweyMain_Id)
-                        .Select(x => x.SubCategoryName)
-                        .ToArray());
-                    dewymainID = selectedDewey.DeweyMain_Id;
-                    deweysubID = deweySub.Where(x => x.SubCategoryName == subCategoryName).Select(x => x.DeweySub_Id).ToList().ElementAt(0).ToString();
-          
-                    break;
+                                .Select(x => x.SubCategoryName)
+                                .ToArray());
+
+                        deweysubID = deweySub.Where(x => x.SubCategoryName == subCategoryName)
+                                            .Select(x => x.DeweySub_Id)
+                                            .ToList().ElementAt(0).ToString();
+
+                        break;
+                }
             }
-
-
-
+            catch (Exception ex)
+            {
+                await DisplayAlert("Misslyckat", $"{ex.Message}", "Ok");
+                throw;
+            }
 
 
         }

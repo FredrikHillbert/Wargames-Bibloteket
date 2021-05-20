@@ -54,10 +54,7 @@ namespace WargamesGUI.Views
         {
             selecteditem = (Book)e.Item;
             
-            await DisplayAlert("Beskrivning", $"{selecteditem.Description}", "OK");
-
-
-
+            await DisplayAlert("Beskrivning:", $"{selecteditem.Description}", "OK");
 
         }
 
