@@ -49,15 +49,15 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Text="Existing loans" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="Title" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="Author" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="Username" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="Placement" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="InStock" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="DateToReturn" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="ReturnDate" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="Status" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="7" TextColor="Black" FontAttributes="Bold"/>
+                        <Label Text="Befintliga lån" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" FontAttributes="Italic"/>
+                        <Label Text="Titel" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
+                        <Label Text="Författare" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
+                        <Label Text="Användarnamn" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2" TextColor="Black" />
+                        <Label Text="Placering" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3" TextColor="Black" />
+                        <Label Text="I lager" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4" TextColor="Black"/>
+                        <Label Text="Återlämna" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5" TextColor="Black"/>
+                        <Label Text="Återlämningsdatum" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6" TextColor="Black"/>
+                        <Label Text="Status" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="7" TextColor="Black"/>
                         
                     </Grid>
 
@@ -123,14 +123,14 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                    <Button Text="Handled"
+                        <Button Text="Hantera"
                             WidthRequest="100"
                             Clicked="Handled_Clicked"
                             BackgroundColor="#2E4159" 
                             TextColor="White" 
                             CornerRadius="20" 
                             HorizontalOptions="End"></Button>
-                    <Button Text="Refresh" 
+                        <Button Text="Uppdatera" 
                             WidthRequest="100"
                             Clicked="Refresh_Clicked"
                             BackgroundColor="#2E4159" 
