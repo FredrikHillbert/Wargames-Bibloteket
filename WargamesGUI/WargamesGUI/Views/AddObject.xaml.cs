@@ -154,18 +154,29 @@ namespace WargamesGUI.Views
         {
             try
             {
-                string reason = await DisplayPromptAsync($"Ta bort", $"Anledning: {selectedItem.Title}?");
+                string reason = await DisplayActionSheet($"Ta bort bok", "Avbryt", null, new string[] { "Slut på lager", "Tryckning upphörd", "Dålig försäljning", "Annan anledning" });
 
-                if (reason != null)
+                switch (reason)
                 {
-                    await bookService.RemoveBook(selectedItem.Id, reason);
-                    await DisplayAlert("Lyckades!", "Du tog bort en bok!", "OK");
-                    await LoadBooks();
+                    case "Annan anledning":
+                        string otherReason = await DisplayPromptAsync($"Ta bort bok", $"Anledning för att ta bort: {selectedItem.Title}?");
+                        if (otherReason != null)
+                        {
+                            await bookService.RemoveBook(selectedItem.Id, reason);
+                            await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
+                            await LoadBooks();
+                        }
+                        break;
+                    default:
+                        await bookService.RemoveBook(selectedItem.Id, reason);
+                        await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
+                        await LoadBooks();
+                        break;
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Misslyckades!", $"Anledning: {ex.Message}", "OK");
+                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
             }
         }
 
