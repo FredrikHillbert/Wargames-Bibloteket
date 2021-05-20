@@ -29,6 +29,8 @@ namespace WargamesGUI.Views
         public int dewymainID;
         public string deweysubID;
 
+        private string subCategoryName;
+
         List<DeweyMain> deweyMain = new List<DeweyMain>();
         List<DeweySub> deweySub = new List<DeweySub>();
 
@@ -83,7 +85,7 @@ namespace WargamesGUI.Views
             int.TryParse(EntryPrice.Text, out int Price);
             //var Placement = EntryPlacement.Text;
 
-            var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID);
+            var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID, subCategoryName);
 
             if (b)
             {
@@ -189,13 +191,13 @@ namespace WargamesGUI.Views
             switch (selectedDewey.DeweyMain_Id)
             {
                 default:
-                    var y = await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null,
+                    subCategoryName = await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null,
                         deweySub.Where(x => x.fk_DeweyMain_Id == selectedDewey.DeweyMain_Id)
                         .Select(x => x.SubCategoryName)
                         .ToArray());
                     dewymainID = selectedDewey.DeweyMain_Id;
-                    deweysubID = deweySub.Where(x => x.SubCategoryName == y).Select(x => x.DeweySub_Id).ToList().ElementAt(0).ToString();
-                    
+                    deweysubID = deweySub.Where(x => x.SubCategoryName == subCategoryName).Select(x => x.DeweySub_Id).ToList().ElementAt(0).ToString();
+          
                     break;
             }
 

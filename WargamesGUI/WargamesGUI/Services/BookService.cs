@@ -58,7 +58,7 @@ namespace WargamesGUI.Services
         /// ifall det inte gick att lägga till boken.
         /// </returns>
         public async Task<bool> AddNewBook(int item_id, string title, string ISBN, string publisher, string author,
-                                           string description, int price, string placement)
+                                           string description, int price, string placement, string category)
         {
             bool success = true;
 
@@ -79,6 +79,7 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = description;
                     insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
+                    insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = category;
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
                 }
