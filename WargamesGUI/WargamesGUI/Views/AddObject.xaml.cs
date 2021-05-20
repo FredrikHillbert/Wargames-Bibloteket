@@ -96,6 +96,7 @@ namespace WargamesGUI.Views
                 EntryAuthor.Text = string.Empty;
                 EntryDescription.Text = string.Empty;
                 EntryPrice.Text = string.Empty;
+                EntrySubCategoryName.Text = string.Empty;
                 //EntryPlacement.Text = string.Empty;
                 await DisplayAlert("Success!", "You added a book!", "OK");
                 await LoadBooks();
@@ -200,19 +201,21 @@ namespace WargamesGUI.Views
                 switch (selectedDewey.DeweyMain_Id)
                 {
                     default:
-                        var numb = categorypicker.SelectedIndex;
                         subCategoryName = await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null,
                         deweySub.Where(x => x.fk_DeweyMain_Id == selectedDewey.DeweyMain_Id)
                                 .Select(x => x.SubCategoryName)
                                 .ToArray());
                         if (subCategoryName == "Avbryt" || subCategoryName == null)
                         {
+                            EntrySubCategoryName.Text = string.Empty;
                             break;
                         }
 
                         deweysubID = deweySub.Where(x => x.SubCategoryName == subCategoryName)
                                             .Select(x => x.DeweySub_Id)
                                             .ToList().ElementAt(0).ToString();
+
+                        EntrySubCategoryName.Text = subCategoryName;
 
                         break;
                 }
