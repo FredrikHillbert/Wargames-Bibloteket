@@ -42,6 +42,7 @@
         </Frame>
         <!--EXISTING VISITORS-->
         <Frame CornerRadius="40" BorderColor="Black" Margin="50,30,50,20" BackgroundColor="LightBlue">
+            <StackLayout>
             <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected" ItemTapped="listOfVisitors_ItemTapped">
                 <ListView.Header>
                     <Grid>
@@ -66,58 +67,63 @@
 
                     </Grid>
                 </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="25"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                </Grid.ColumnDefinitions>
-                                <StackLayout Grid.Column="0" Grid.Row="0">
-                                    <Label Text="{Binding First_Name}" HorizontalOptions="Start" />
-                                </StackLayout>
-                                <StackLayout Grid.Column="1" Grid.Row="0">
-                                    <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
-                                </StackLayout>
-                                <StackLayout Grid.Column="2" Grid.Row="0">
-                                    <Label Text="{Binding Username}" HorizontalOptions="Start"/>
-                                </StackLayout>
-                                <StackLayout Grid.Column="3" Grid.Row="0">
-                                    <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
-                                </StackLayout>
-                                <StackLayout Grid.Column="4" Grid.Row="0">
-                                    <Label Text="{Binding Address}" HorizontalOptions="Start"/>
-                                </StackLayout>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.Footer>
-                    <Grid>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.Column="0" Grid.Row="0">
+                                        <Label Text="{Binding First_Name}" HorizontalOptions="Start" />
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="1" Grid.Row="0">
+                                        <Label Text="{Binding Last_Name}" HorizontalOptions="Start"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="2" Grid.Row="0">
+                                        <Label Text="{Binding Username}" HorizontalOptions="Start"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="3" Grid.Row="0">
+                                        <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="4" Grid.Row="0">
+                                        <Label Text="{Binding Address}" HorizontalOptions="Start"/>
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            <StackLayout Margin="0,10,0,0">
+                <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
-                        <StackLayout Grid.Column="0" Grid.Row="0" Margin="0,0,40,40">
+                        
                             <Button Text="Ta bort besökare" 
                                     Clicked="DeleteVisitor_Clicked" 
                                     CornerRadius="20" 
                                     BackgroundColor="#2E4159"
                                     TextColor="White"
-                                    HorizontalOptions="EndAndExpand"/>
-                        </StackLayout>
-                    </Grid>
-                </ListView.Footer>
-            </ListView>
+                                    HorizontalOptions="EndAndExpand"
+                                    Grid.Column="0" Grid.Row="0"
+                                    WidthRequest="120"
+                                    HeightRequest="100"
+                                    Margin="0,0,0,0"/>
+                        
+                </Grid>
+            </StackLayout>
+            </StackLayout>
         </Frame>
     </StackLayout>
 </ContentPage>
