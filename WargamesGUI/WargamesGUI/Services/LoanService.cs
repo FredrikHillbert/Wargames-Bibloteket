@@ -12,11 +12,38 @@ namespace WargamesGUI.Services
     {
         public string exceptionMessage;
 
+        public async Task<List<LibraryCard>> GetLibraryCardsFromDb()
+        {
+            var LibraryCards = new List<LibraryCard>();
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+                using (var command = new SqlCommand(queryForLibraryCards, con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var LibraryCard = new LibraryCard();
+
+                            LibraryCard.LibraryCard_Id = Convert.ToInt32(reader["LibraryCard_Id"]);
+                            LibraryCard.CardNumber = reader["CardNumber"].ToString();
+                            LibraryCard.fk_Status_Id = Convert.ToInt32(reader["fk_Status_Id"]);
+                            LibraryCard.Status_Level = reader["Status_Level"].ToString();
+
+                            LibraryCards.Add(LibraryCard);
+                        }
+                    }
+                }
+                return await Task.FromResult(LibraryCards);
+            }
+        }
         public async Task<List<Book>> GetBorrowedBooksFromDb(int fk_LibraryCard)
         {
             var LoanedBooks = new List<Book>();
 
-            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.Loan_Id FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id AND fk_BookLoanStatus_Id < 5";
+            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.Loan_Id, b.Category, b.Description FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id AND fk_BookLoanStatus_Id < 5";
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -34,6 +61,8 @@ namespace WargamesGUI.Services
                             LoanedBook.Placement = reader["Publisher"].ToString();
                             LoanedBook.InStock = Convert.ToInt32(reader["InStock"]);
                             LoanedBook.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
+                            LoanedBook.subCategory = reader["Category"].ToString();
+                            LoanedBook.Description = reader["Description"].ToString();
 
                             LoanedBooks.Add(LoanedBook);
                         }
@@ -51,14 +80,15 @@ namespace WargamesGUI.Services
                            $" ON b.Id = bl.fk_Book_Id" +
                            $" LEFT JOIN tblUser tu" +
                            $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard";
+
             using (SqlConnection con = new SqlConnection(theConString))
             {
-                con.Open();
+                await con.OpenAsync();
                 using (var command = new SqlCommand(query, con))
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var BorrowedBo = new Book();
                             //var user = new User();
@@ -74,22 +104,22 @@ namespace WargamesGUI.Services
                             switch (BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
                             {
                                 case 1:
-                                    BorrowedBo.Status = "Active";
+                                    BorrowedBo.Status = "Aktiv";
                                     break;
                                 case 2:
-                                    BorrowedBo.Status = "Delayed";
+                                    BorrowedBo.Status = "Försenad";
                                     break;
                                 case 3:
-                                    BorrowedBo.Status = "Lost";
+                                    BorrowedBo.Status = "Försvunnen";
                                     break;
                                 case 4:
-                                    BorrowedBo.Status = "Stolen";
+                                    BorrowedBo.Status = "Stulen";
                                     break;
                                 case 5:
-                                    BorrowedBo.Status = "Returned";
+                                    BorrowedBo.Status = "Återlämnad";
                                     break;
                                 case 6:
-                                    BorrowedBo.Status = "Handled";
+                                    BorrowedBo.Status = "Hanterad";
                                     break;
                             }
 
@@ -122,12 +152,12 @@ namespace WargamesGUI.Services
                                  $" ON b.Id = bl.fk_Book_Id";
             using (SqlConnection con = new SqlConnection(theConString))
             {
-                con.Open();
+                await con.OpenAsync();
                 using (var command = new SqlCommand(querySelect, con))
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var BorrowedBo = new Book();
 
@@ -143,7 +173,6 @@ namespace WargamesGUI.Services
 
 
                             BorrowedBooks.Add(BorrowedBo);
-
 
                         }
                     }
@@ -184,15 +213,6 @@ namespace WargamesGUI.Services
             }
         }
 
-        /// <summary>
-        /// Ändrar Status på ett Library Card.
-        /// Måste skickas med: Den nya ID:n för Status och ID för kortet det gäller.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>
-        /// Retunerar en bool som är true om det gick att ändra kortets status eller false 
-        /// ifall det inte gick att ändra.
-        /// </returns>
         public async Task<bool> ChangeCardStatus(int fk_Status_Id, int LibraryCard_Id)
         {
             bool success = true;

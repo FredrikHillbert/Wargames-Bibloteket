@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WargamesGUI.MainPage"
-             BackgroundImageSource="pexels-cottonbro.jpg">
+             BackgroundImageSource="pexels-cottonbro-with-layer.jpg">
  
     <Grid RowSpacing="10" HorizontalOptions="CenterAndExpand">
         
@@ -30,31 +30,31 @@
                Grid.Column="0" 
                Source="LIBSYS.png"
                Margin="0,30,0,0"/>
-        <Label Text="Username"
+        <Label Text="Användarnamn"
                Grid.Row="3" 
                Grid.Column="0" 
                HorizontalOptions="Start"
                Margin="55,0,0,0"/>
         <Entry x:Name="Entryusername" 
-               Placeholder="Enter your username here" 
+               Placeholder="Skriv ditt användarnamn här" 
                Grid.Row="4" 
                Grid.Column="0" 
                HorizontalOptions="Center"
                WidthRequest="200"/>
-        <Label Text="Password" 
+        <Label Text="Lösenord" 
                Grid.Row="5" 
                Grid.Column="0" 
                HorizontalOptions="Start"
                Margin="55,0,0,0"/>
         <Entry x:Name="Entrypassword" 
-               Placeholder="Enter your password here" 
+               Placeholder="Skriv ditt lösenord här" 
                Grid.Row="6" 
                Grid.Column="0" 
                HorizontalOptions="Center"
                WidthRequest="200"
                IsPassword="True"/>
         <!--Login Button-->
-        <Button Text="Login" 
+        <Button Text="Logga in" 
                 Grid.Row="7" 
                 Grid.Column="0" 
                 Clicked="SignIn_Button_Clicked" 
@@ -65,7 +65,7 @@
                 BackgroundColor="#2E4159"/>
         <!--Search Bar-->
         <SearchBar x:Name="SearchBar" 
-                   Placeholder="Search for Category, ISBN, Title or Author"  
+                   Placeholder="Sök på Kategori, ISBN, Titel eller Författare"  
                    Grid.Row="9"
                    SearchButtonPressed="SearchBar_Clicked"/>
     </Grid>

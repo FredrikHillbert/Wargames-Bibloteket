@@ -35,9 +35,19 @@ namespace WargamesGUI.Services
                             book.Publisher = reader["Publisher"].ToString();
                             book.Description = reader["Description"].ToString();
                             //book.Price = Convert.ToInt32(reader["Price"]);
-                            //book.Placement = reader["Placement"].ToString();
+                            book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
                             book.InStock = Convert.ToInt32(reader["InStock"]);
+                            book.subCategory = reader["Category"].ToString();
+
+                            if (book.fk_Item_Id == 1)
+                            {
+                                book.TypeOfBook = "Bok";
+                            }
+                            else if (book.fk_Item_Id == 2)
+                            {
+                                book.TypeOfBook = "E-bok";
+                            }
 
                             bookList.Add(book);
                         }
@@ -47,18 +57,8 @@ namespace WargamesGUI.Services
             }
         }
 
-        /// <summary>
-        /// Adderar en ny bok till table tblBook. 
-        /// Måste skickas med: Title, ISBN, Publisher, Description, Price, Placement till boken.
-        /// Item_id berättar om det är Book eller Ebook.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>
-        /// Retunerar en bool som är true om det gick att lägga till boken eller false 
-        /// ifall det inte gick att lägga till boken.
-        /// </returns>
         public async Task<bool> AddNewBook(int item_id, string title, string ISBN, string publisher, string author,
-                                           string description, int price, string placement)
+                                           string description, int price, string placement, string category)
         {
             bool success = true;
 
@@ -79,6 +79,7 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = description;
                     insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
+                    insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = category;
                     await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(success);
                 }
@@ -92,15 +93,6 @@ namespace WargamesGUI.Services
 
         }
 
-        /// <summary>
-        /// Tar bort en bok från table tblBook. 
-        /// Måste skickas med: Bokens unika ID.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>
-        /// Retunerar en bool som är true om det gick att ta bort boken eller false 
-        /// ifall det inte gick att ta bort boken.'
-        /// </returns>
         public async Task<bool> RemoveBook(int id, string reason)
         {
             bool success = true;
@@ -197,26 +189,28 @@ namespace WargamesGUI.Services
                             values.Placement = reader["Placement"].ToString();
                             values.Author = reader["Author"].ToString();
                             values.InStock = Convert.ToInt32(reader["InStock"]);
+                            values.subCategory = reader["Category"].ToString();
+                            values.Description = reader["Description"].ToString();
 
                             if (values.InStock == 0)
                             {
-                                values.Status = "Unavailable";
+                                values.Status = "Inte tillgänglig";
                             }
                             else
                             {
-                                values.Status = "Available";
+                                values.Status = "Tillgänglig";
                             }
                             
                             switch (values.fk_Item_Id)
                             {
                                 case 1:
-                                    values.Category = "Book";
+                                    values.Category = "Bok";
                                     break;
                                 case 2:
-                                    values.Category = "Ebook";
+                                    values.Category = "Ebok";
                                     break;
                                 case 3:
-                                    values.Category = "Seminar";
+                                    values.Category = "Seminarium";
                                     break;
                                 default:
                                     break;
@@ -229,29 +223,52 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(searchedValues);
             }
         }
-        public async Task<List<Dewey>> GetDeweyData(int fk_DeweyMain_Id)
+        public async Task<List<DeweySub>> GetDeweySubData()
         {
-            var deweyList = new List<Dewey>();
+            var deweyList = new List<DeweySub>();
 
-            var query = $"SELECT ds.SubCategoryName" +
-                        $" FROM tblDeweySub ds" +
-                        $" INNER JOIN tblDeweyMain dm" +
-                        $" ON ds.fk_DeweyMain_Id = dm.DeweyMain_Id" +
-                        $" WHERE ds.fk_DeweyMain_Id = {fk_DeweyMain_Id}";
             using (SqlConnection con = new SqlConnection(theConString))
             {
-                con.Open();
-                using (var command = new SqlCommand(query, con))
+                await con.OpenAsync();
+                using (var command = new SqlCommand(queryForDeweySub, con))
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
-                            var dewey = new Dewey();
+                            var dewey = new DeweySub();
 
-                            
                             dewey.SubCategoryName = reader["SubCategoryName"].ToString();
+                            dewey.fk_DeweyMain_Id = Convert.ToInt32(reader["fk_DeweyMain_Id"]);
+                            dewey.DeweySub_Id = Convert.ToInt32(reader["DeweySub_Id"]);
                                                         
+
+                            deweyList.Add(dewey);
+                        }
+                    }
+                }
+                return await Task.FromResult(deweyList);
+            }
+        }
+
+        public async Task<List<DeweyMain>> GetDeweyMainData()
+        {
+            var deweyList = new List<DeweyMain>();
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+                using (var command = new SqlCommand(queryForDeweyMain, con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var dewey = new DeweyMain();
+
+                            dewey.MainCategoryName = reader["MainCategoryName"].ToString();
+                            dewey.DeweyMain_Id = Convert.ToInt32(reader["DeweyMain_Id"]);
+
 
                             deweyList.Add(dewey);
                         }

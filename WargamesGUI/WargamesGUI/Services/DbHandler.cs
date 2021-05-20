@@ -31,12 +31,22 @@ namespace WargamesGUI.Services
         //               ||
         //===============||
 
-        // SELECT - Procedures
+        // SELECT
         public string queryForBooks = $"SELECT * FROM {theBookTableName} ORDER BY Title";
 
-        // INSERT INTO - Procedures
+        // INSERT INTO
 
-        // UPDATE - Procedures
+        // UPDATE
+
+        //===============||
+        //               ||
+        //   SQL-satser  ||
+        //   BOOKLOAN    ||
+        //               ||
+        //===============||
+
+        // SELECT
+
 
         //===============||
         //               ||
@@ -45,7 +55,7 @@ namespace WargamesGUI.Services
         //               ||
         //===============||
 
-        // SELECT - Procedures
+        // SELECT
         public string queryForEvents = $"SELECT * FROM {theEventTableName}";
 
         //===============||
@@ -55,12 +65,34 @@ namespace WargamesGUI.Services
         //               ||
         //===============||
 
-        // SELECT - Procedures
+        // SELECT
         public string queryForUserListPage = $"SELECT * FROM {theUserTableName} ORDER BY fk_PrivilegeLevel";
         public string queryForAdmins = $"SELECT * FROM {theUserTableName} WHERE fk_PrivilegeLevel = 1";
         public string queryForLibrarians = $"SELECT * FROM {theUserTableName} WHERE fk_PrivilegeLevel = 2";
         public string queryForVisitors = $"SELECT * FROM {theUserTableName} WHERE fk_PrivilegeLevel = 3";
 
+        //===============||
+        //               ||
+        //   SQL-satser  ||
+        //   DEWEY       ||
+        //               ||
+        //===============||
+
+        // SELECT
+        public string queryForDeweySub = $"SELECT DeweySub_Id, SubCategoryName, fk_DeweyMain_Id FROM tblDeweySub";
+        public string queryForDeweyMain = $"SELECT DeweyMain_Id, MainCategoryName FROM tblDeweyMain";
+
+        //===============||
+        //               ||
+        //   SQL-satser  ||
+        //   LIBRARYCARD ||
+        //               ||
+        //===============||
+
+        public string queryForLibraryCards = $"SELECT lc.LibraryCard_Id, lc.CardNumber, lc.fk_Status_Id, lcs.Status_Id, lcs.Status_Level " +
+                                             $"FROM tblLibraryCard lc " +
+                                             $"INNER JOIN tblLibraryCardStatus lcs " +
+                                             $"ON lc.fk_Status_Id = lcs.Status_Id";
 
     }
 }

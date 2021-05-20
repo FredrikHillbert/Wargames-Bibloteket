@@ -28,7 +28,7 @@ namespace WargamesGUI
         public static DbHandler handler = new DbHandler();
         public static LoanService loanService = new LoanService();
         public int StatusID;
-
+        public string statusString;
         private int privilegeLevel;
 
         public AddUserPage()
@@ -39,7 +39,15 @@ namespace WargamesGUI
 
         protected override void OnAppearing()
         {
-            MainThread.InvokeOnMainThreadAsync(async () => { await LoadUserTbl(); });
+            try
+            {
+                MainThread.InvokeOnMainThreadAsync(async () => { await LoadUserTbl(); });
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("AddUserPageOnAppearing Error", $"{ex.Message}", "OK");
+            }
+
 
         }
 
@@ -48,37 +56,37 @@ namespace WargamesGUI
         {
             if (privilegeLevel == 0)
             {
-                await DisplayAlert("TypeNotSelected", "Select a type of user.", "OK");
+                await DisplayAlert("Typ av användare inte vald", "Välj typ av användare.", "OK");
             }
 
             else if (string.IsNullOrEmpty(firstnamebox.Text) || CheckFormat.CheckIfAllLetter(firstnamebox.Text) == false)
             {
-                await DisplayAlert("InvalidFormat", "Firstname is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Förnamnfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
 
             else if (string.IsNullOrEmpty(lastnamebox.Text) || CheckFormat.CheckIfAllLetter(lastnamebox.Text) == false)
             {
-                await DisplayAlert("InvalidLastname", "Lastname is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Efternamnfältet är tomt eller så är formatet inte tållåtet", "OK");
             }
             else if (string.IsNullOrEmpty(addressbox.Text) || CheckFormat.CheckAdress(addressbox.Text) == false)
             {
-                await DisplayAlert("InvalidAddress", "Address is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Adressfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(emailbox.Text) || CheckFormat.IsValidEmail(emailbox.Text) == false)
             {
-                await DisplayAlert("EmailEmpty", "Enter a valid email.", "OK");
+                await DisplayAlert("Misslyckades", "Emailfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(phonebox.Text) || CheckFormat.CheckIfAllNumbers(phonebox.Text) == false)
             {
-                await DisplayAlert("NumberEmpty", "Enter a valid phonenumber.", "OK");
+                await DisplayAlert("Misslyckades", "Telefonnummerfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfAllLetter(userbox.Text) == false)
             {
-                await DisplayAlert("InvalidFormat", "Username is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Användarnmanfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(passbox.Text))
             {
-                await DisplayAlert("PassEmpty", "Password entry is empty.", "OK");
+                await DisplayAlert("Misslyckades", "Lösenordfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
 
             else
@@ -99,9 +107,9 @@ namespace WargamesGUI
                         await LoadUserTbl();
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    await DisplayAlert("Error!", $"Reason {userService.exceptionMessage}", "OK");
+                    await DisplayAlert("Register_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
 
                 }
             }
@@ -128,14 +136,12 @@ namespace WargamesGUI
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
+                await DisplayAlert("Delete_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             selectedItem = (User)listOfUsers.SelectedItem;
-
-
 
         }
         private void picker_SelectedIndexChanged(object sender, EventArgs e)
@@ -211,7 +217,7 @@ namespace WargamesGUI
             }
             catch (Exception ex)
             {
-                await DisplayAlert("LoadError", $"Reason for error: {ex.Message}", "OK");
+                await DisplayAlert("LoadUserTbl Error", $"Felmeddelande: {ex.Message}", "OK");
             }
 
 
@@ -223,89 +229,155 @@ namespace WargamesGUI
 
             if (selectedItem.fk_PrivilegeLevel == 3)
             {
-                var choice = await DisplayActionSheet($"Choose action for username {selectedItem.Username}: ", "Cancel", null, "User details", "Add library card", "Library card details");
+                var choice = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Detaljer för användare", "Lägg till bibliotekskort", "Ändra status för bibliotekskort");
+                try
+                {
+                    var statusnumber = await userService.GetStatusForLibraryCardFromDb(selectedItem.Cardnumber);
+                    switch (statusnumber)
+                    {
+                        case 1:
+                            statusString = "Active";
+                            break;
+                        case 2:
+                            statusString = "Delayed books";
+                            break;
+                        case 3:
+                            statusString = "Lost books";
+                            break;
+                        case 4:
+                            statusString = "Theft";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
 
+                }
                 switch (choice)
                 {
-                    case "User details":
-                        
+                    case "Detaljer för användare":
+                        await DisplayActionSheet($"Välj detalj för användare {selectedItem.Username}: ", "Avbryt", null, "Se status för bibliotekskort");
+                        await DisplayAlert("Status för bibliotekskort:", $"Användaren {selectedItem.Username} har statusen: '{statusString}' för sitt bibliotekskort", "OK");
                         break;
 
-                    case "Add library card":
-                        bool success = await loanService.ManualAddLibraryCard(selectedItem.User_ID);
-                        if (success)
+                    case "Lägg till bibliotekskort":
+                        try
                         {
-                            await DisplayAlert("Sucess", $"Library card added for {selectedItem.Username}", "OK");
+                            bool success = await loanService.ManualAddLibraryCard(selectedItem.User_ID);
+                            if (success)
+                            {
+                                await DisplayAlert("Lyckades!", $"Bibliotekskort tillagt för {selectedItem.Username}", "OK");
+                            }
+                            else
+                            {
+                                await DisplayAlert("Misslyckades!", $"Bibliotekskort kunde inte läggas till för {selectedItem.Username}", "OK");
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            await DisplayAlert("Failure", $"Library card could not be added for {selectedItem.Username}", "OK");
+                            await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
                         }
+
                         break;
 
-                    case "Library card details":
-                        var libraryCardDetails = await DisplayActionSheet($"Status for library card with username {selectedItem.Username}: ", "Cancel", null, "Active", "Delayed books", "Lost books", "Theft");
+                    case "Ändra status för bibliotekskort":
+                        var libraryCardDetails = await DisplayActionSheet($"Ny status för bibliotekskort med användarnamn {selectedItem.Username}: ", "Avbryt", null, "Aktivt", "Försenade böcker", "Borttappade böcker", "Stöld");
 
                         switch (libraryCardDetails)
                         {
-                            case "Active":
-                                if (!await loanService.ChangeCardStatus(1, selectedItem.Cardnumber))
+                            case "Aktivt":
+                                try
                                 {
-                                    await DisplayAlert("Error!", $"Status did not change.", "OK");
+                                    if (!await loanService.ChangeCardStatus(1, selectedItem.Cardnumber))
+                                    {
+                                        await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    }
+                                    else
+                                    {
+                                        await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
+                                        await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Aktivt.", "OK");
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    await loanService.ChangeCardStatus(1, selectedItem.Cardnumber);
-                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
                                 }
+
                                 break;
 
-                            case "Delayed books":
-                                if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
+                            case "Försenade böcker":
+                                try
                                 {
-                                    await DisplayAlert("Error!", $"Status did not change.", "OK");
+                                    if (!await loanService.ChangeCardStatus(2, selectedItem.Cardnumber))
+                                    {
+                                        await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    }
+                                    else
+                                    {
+                                        await loanService.ChangeCardStatus(2, selectedItem.Cardnumber);
+                                        await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Försenade böcker.", "OK");
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    await loanService.ChangeCardStatus(2, selectedItem.Cardnumber);
-                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
                                 }
+
                                 break;
 
-                            case "Lost books":
-                                if (!await loanService.ChangeCardStatus(3, selectedItem.Cardnumber))
+                            case "Borttappade böcker":
+                                try
                                 {
-                                    await DisplayAlert("Error!", $"Status did not change.", "OK");
+                                    if (!await loanService.ChangeCardStatus(3, selectedItem.Cardnumber))
+                                    {
+                                        await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    }
+                                    else
+                                    {
+                                        await loanService.ChangeCardStatus(3, selectedItem.Cardnumber);
+                                        await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Lost books.", "OK");
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    await loanService.ChangeCardStatus(3, selectedItem.Cardnumber);
-                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
                                 }
+
                                 break;
 
-                            case "Theft":
-                                if (!await loanService.ChangeCardStatus(4, selectedItem.Cardnumber))
+                            case "Stöld":
+                                try
                                 {
-                                    await DisplayAlert("Error!", $"Status did not change.", "OK");
+                                    if (!await loanService.ChangeCardStatus(4, selectedItem.Cardnumber))
+                                    {
+                                        await DisplayAlert("Misslyckades!", $"Status ändrades inte för bibliotekskortet.", "OK");
+                                    }
+                                    else
+                                    {
+                                        await loanService.ChangeCardStatus(4, selectedItem.Cardnumber);
+                                        await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: Theft.", "OK");
+                                    }
                                 }
-                                else
-                                {
-                                    await loanService.ChangeCardStatus(4, selectedItem.Cardnumber);
-                                    await DisplayAlert("Success!", $"Status for library card changed to: Active.", "OK");
+                                catch (Exception ex) 
+                                { 
+                                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK"); 
                                 }
+
                                 break;
                         }
                         break;
-                            
+
                     default:
                         break;
-                }             
+                }
             }
             else
             {
-                await DisplayActionSheet($"Choose action for username {selectedItem.Username}: ", "Cancel", null, "User details");
+                await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Detaljer för användare");
             }
         }
     }
-}   
+}

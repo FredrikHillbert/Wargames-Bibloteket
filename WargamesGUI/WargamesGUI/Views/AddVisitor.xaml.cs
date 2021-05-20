@@ -21,7 +21,7 @@ namespace WargamesGUI.Views
         public static DbHandler handler = new DbHandler();
         public static LoanService loanService = new LoanService();
         private int privilegeLevel;
-        private int StatusID;
+
         public AddVisitor()
         {
             InitializeComponent();
@@ -29,13 +29,29 @@ namespace WargamesGUI.Views
 
         protected override void OnAppearing()
         {
-            MainThread.InvokeOnMainThreadAsync(async () => { await ReadVisitorListFromDb(); });
+            try
+            {
+                MainThread.InvokeOnMainThreadAsync(async () => { await ReadVisitorListFromDb(); });
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("AddVisitorOnAppearing Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+
 
         }
 
         private async Task ReadVisitorListFromDb()
         {
-            listOfVisitors.ItemsSource = userService.ReadVisitorListFromDb();
+            try
+            {
+                listOfVisitors.ItemsSource = await userService.ReadVisitorListFromDb();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ReadVisitorListFromDb Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+
         }
 
         private async void AddVisitor_Button_Clicked(object sender, EventArgs e)
@@ -43,27 +59,27 @@ namespace WargamesGUI.Views
 
             if (string.IsNullOrEmpty(EntryFirstName.Text) || !CheckFormat.CheckIfAllLetter(EntryFirstName.Text))
             {
-                await DisplayAlert("Invalid Format", "Firstname is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Förnamnfältet är tomt eller så är formatet inte tillåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(EntryLastName.Text) || !CheckFormat.CheckIfAllLetter(EntryLastName.Text))
             {
-                await DisplayAlert("Invalid Format", "Lastname is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Efternmanfältet är tomt eller så är formatet inte tillåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(EntrySsnNumber.Text) || !CheckFormat.CheckIfAllNumbers(EntrySsnNumber.Text))
             {
-                await DisplayAlert("Invalid SSNnumber", "SSN number is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Personnummerfältet är tomt eller så är formatet inte tillåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(EntryAdress.Text) || !CheckFormat.CheckAdress(EntryAdress.Text))
             {
-                await DisplayAlert("Invalid address", "Address is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Adressfältet är tomt eller så är formatet inte tillåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(EntryEmail.Text) || !CheckFormat.IsValidEmail(EntryEmail.Text))
             {
-                await DisplayAlert("Invalid email", "Email is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Emailfältet är tomt eller så är formatet inte tillåtet.", "OK");
             }
             else if (string.IsNullOrEmpty(EntryPhoneNumber.Text) || !CheckFormat.CheckIfAllNumbers(EntryPhoneNumber.Text))
             {
-                await DisplayAlert("Invalid phonenumber", "Phonenumber is empty or format is not allowed.", "OK");
+                await DisplayAlert("Misslyckades", "Telefonnummerfältet är tomt eller så är formatet inte tillåtet.", "OK");
             }
             //else if (string.IsNullOrEmpty(EntryUserName.Text) || !CheckFormat.CheckIfAllNumbers(EntryCardNumber.Text))
             //{
@@ -84,13 +100,13 @@ namespace WargamesGUI.Views
                         EntryEmail.Text = string.Empty;
                         EntryPhoneNumber.Text = string.Empty;
                         //EntryCardNumber.Text = string.Empty;
-                        await DisplayAlert("Success!", "You added a visitor!", "OK");
+                        await DisplayAlert("Lyckades!", "Du la till en användare!", "OK");
                         await ReadVisitorListFromDb();
                     }
                 }
                 catch (Exception)
                 {
-                    await DisplayAlert("Error!", $"Reason: {userService.exceptionMessage}", "OK");
+                    await DisplayAlert("Misslyckades!", $"Anledning: {userService.exceptionMessage}", "OK");
                 }
             }
 
@@ -111,12 +127,12 @@ namespace WargamesGUI.Views
                         cmd.ExecuteNonQuery();
                     }
                 }
-                await DisplayAlert("Success!", "You removed a visitor!", "OK");
+                await DisplayAlert("Lyckades!", "Du tog bort en besökare!", "OK");
                 await ReadVisitorListFromDb();
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
+                await DisplayAlert("Misslyckades!", $"Anledning: {ex.Message}", "OK");
             }
         }
 

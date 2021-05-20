@@ -18,11 +18,21 @@ namespace WargamesGUI.Views
     public partial class AddObject : ContentPage
     {
         public Book selectedItem;
+        public DeweySub selectedDewey;
+
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
         public static BookService bookService = new BookService();
+
         private int itemID;
-        private string categoryID;
+
+        public int dewymainID;
+        public string deweysubID;
+
+        private string subCategoryName;
+
+        List<DeweyMain> deweyMain = new List<DeweyMain>();
+        List<DeweySub> deweySub = new List<DeweySub>();
 
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
 
@@ -31,10 +41,24 @@ namespace WargamesGUI.Views
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
+            try
+            {
 
-            MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+                await MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+
+                deweySub = await bookService.GetDeweySubData();
+                deweyMain = await bookService.GetDeweyMainData();
+                categorypicker.ItemsSource = deweyMain;
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("AddObject_OnAppearing", $"{ex.Message}", "OK");
+
+            }
+
 
         }
 
@@ -60,9 +84,9 @@ namespace WargamesGUI.Views
             var Author = EntryAuthor.Text;
             var Description = EntryDescription.Text;
             int.TryParse(EntryPrice.Text, out int Price);
-            var Placement = EntryPlacement.Text;
+            //var Placement = EntryPlacement.Text;
 
-            var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, Placement);
+            var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID, subCategoryName);
 
             if (b)
             {
@@ -71,12 +95,16 @@ namespace WargamesGUI.Views
                 EntryPublisher.Text = string.Empty;
                 EntryAuthor.Text = string.Empty;
                 EntryDescription.Text = string.Empty;
-                EntryPrice.Text = string.Empty;
-                EntryPlacement.Text = string.Empty;
-                await DisplayAlert("Success!", "You added a book!", "OK");
+                LabelSubCategoryName.Text = string.Empty;
+                //EntryPlacement.Text = string.Empty;
+                await DisplayAlert("Lyckades!", "Du la till en bok!", "OK");
                 await LoadBooks();
+
+
             }
-            else await DisplayAlert("Error!", "Could not add book!", "OK");
+            else await DisplayAlert("Misslyckades!", "Kunde inte lägga till boken!", "OK");
+
+
         }
 
         private void picker_SelectedIndexChanged(object sender, EventArgs e)
@@ -89,34 +117,34 @@ namespace WargamesGUI.Views
         {
             try
             {
-                string reason = await DisplayPromptAsync($"Remove book", $"Reason for removing: {selectedItem.Title}?");
+                string reason = await DisplayPromptAsync($"Ta bort bok", $"Anledning: {selectedItem.Title}?");
 
                 if (reason != null)
                 {
                     await bookService.RemoveBook(selectedItem.Id, reason);
-                    await DisplayAlert("Success!", "You removed a book!", "OK");
+                    await DisplayAlert("Lyckades!", "Du tog bort en bok!", "OK");
                     await LoadBooks();
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error!", $"Reason: {ex.Message}", "OK");
+                await DisplayAlert("Misslyckades!", $"Anledning: {ex.Message}", "OK");
             }
         }
 
         private async void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (Book)e.Item;
-            var bookDetails = await DisplayActionSheet("Choose action: ", "Cancel", null, "Details", "Change Details", "Delete Book");
+            var bookDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Ändra Detaljer", "Ta bort bok");
             switch (bookDetails)
             {
-                case "Details":
+                case "Detaljer":
                     Details(selectedItem);
                     break;
-                case "Change Details":
+                case "Ändra Detaljer":
                     Change_Details(selectedItem);
                     break;
-                case "Delete Book":
+                case "Ta bort bok":
                     Delete_Book(selectedItem);
                     break;
             }
@@ -126,13 +154,24 @@ namespace WargamesGUI.Views
         {
             try
             {
-                string reason = await DisplayPromptAsync($"Remove book", $"Reason for removing: {selectedItem.Title}?");
+                string reason = await DisplayActionSheet($"Ta bort bok", "Avbryt", null, new string[] { "Slut på lager", "Tryckning upphörd", "Dålig försäljning", "Annan anledning" });
 
-                if (reason != null)
+                switch (reason)
                 {
-                    await bookService.RemoveBook(selectedItem.Id, reason);
-                    await DisplayAlert("Success!", "You removed a book!", "OK");
-                    await LoadBooks();
+                    case "Annan anledning":
+                        string otherReason = await DisplayPromptAsync($"Ta bort bok", $"Anledning för att ta bort: {selectedItem.Title}?");
+                        if (otherReason != null)
+                        {
+                            await bookService.RemoveBook(selectedItem.Id, reason);
+                            await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
+                            await LoadBooks();
+                        }
+                        break;
+                    default:
+                        await bookService.RemoveBook(selectedItem.Id, reason);
+                        await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
+                        await LoadBooks();
+                        break;
                 }
             }
             catch (Exception ex)
@@ -148,7 +187,7 @@ namespace WargamesGUI.Views
 
         private void Details(Book selectedItem)
         {
-            App.Current.MainPage = new DetailPage();
+            //App.Current.MainPage = new DetailPage();
         }
 
         private void DetailsSelected_Clicked(object sender, EventArgs e)
@@ -163,59 +202,42 @@ namespace WargamesGUI.Views
 
         private async void categorypicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedItem = (Dewey)categorypicker.SelectedItem;
 
-            var choice = string.Empty;
-            switch (selectedItem.fk_DeweyMain_Id)
+
+            var selectedDewey = (DeweyMain)categorypicker.SelectedItem;
+            try
             {
-                case 0:
-                    var list = await bookService.GetDeweyData(selectedItem.fk_DeweyMain_Id);
-                    await DisplayActionSheet($"Välj en subkategori: {selectedItem.MainCategoryName}", "Avbryt", null,
-                        $"{list[0]}",
-                        $"{list[1]}",
-                        $"{list[2]}",
-                        $"{list[3]}",
-                        $"{list[4]}",
-                        $"{list[5]}",
-                        $"{list[6]}",
-                        $"{list[7]}",
-                        $"{list[8]}",
-                        $"{list[9]}"
-                        );
-                    switch (list)
-                    {
-                        case 0:
 
-                        default:
+                switch (selectedDewey.DeweyMain_Id)
+                {
+                    default:
+                        subCategoryName = await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null,
+                        deweySub.Where(x => x.fk_DeweyMain_Id == selectedDewey.DeweyMain_Id)
+                                .Select(x => x.SubCategoryName)
+                                .ToArray());
+                        if (subCategoryName == "Avbryt" || subCategoryName == null)
+                        {
+                            LabelSubCategoryName.Text = string.Empty;
                             break;
-                    }
+                        }
 
-                    break;
+                        deweysubID = deweySub.Where(x => x.SubCategoryName == subCategoryName)
+                                            .Select(x => x.DeweySub_Id)
+                                            .ToList().ElementAt(0).ToString();
 
+                        LabelSubCategoryName.Text = subCategoryName;
 
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
-                default:
-                    break;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");
+                throw;
             }
 
-        }
-    }
 
+        }
+
+    }
 }

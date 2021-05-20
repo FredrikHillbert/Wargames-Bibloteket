@@ -25,8 +25,7 @@ namespace WargamesGUI
         }
 
         private async void SignIn_Button_Clicked(object sender, EventArgs e)
-        {
-            Exception exception = null;
+        {            
             try
             {
 
@@ -35,43 +34,40 @@ namespace WargamesGUI
                     case 1:
                         Entryusername.Text = string.Empty;
                         Entrypassword.Text = string.Empty;
-                        await DisplayAlert("Successful", "You are now logging in as Admin", "OK");
+                        await DisplayAlert("Lyckades", "Du loggar nu in som administratör", "OK");
                         App.Current.MainPage = new FlyoutAdminPage();
                         break;
                     case 2:
                         Entryusername.Text = string.Empty;
                         Entrypassword.Text = string.Empty;
-                        await DisplayAlert("Successful", "You are now logging in as Librarian", "OK");
+                        await DisplayAlert("Lyckades", "Du loggar nu in som Bibliotekarie", "OK");
                         App.Current.MainPage = new FlyoutLibrarianPage();
                         break;
                     case 3:
                         Entryusername.Text = string.Empty;
                         Entrypassword.Text = string.Empty;
-                        await DisplayAlert("Successful", "You are now logging in as Visitor", "OK");
+                        await DisplayAlert("Lyckades", "Du loggar nu in som Besökare", "OK");
                         App.Current.MainPage = new VisitorPage();
                         break;
                     default:
-                        await DisplayAlert("Error", "Please check if username and password are correct", "Ok");
+                        await DisplayAlert("Misslyckades", "Kotrollera användarnamn och lösenord", "Ok");
                         break;
                 }
             }
             catch (Exception ex)
-            {
-                exception = ex;
-                await DisplayAlert("Error", $"{exception.Message}", "Ok");
-                throw;
+            {               
+                await DisplayAlert("SignIn_Button_Clicked Error", $"Felmeddelande: {ex.Message}", "Ok");               
             }
 
         }
 
         private async void SearchBar_Clicked(object sender, EventArgs e)
-        {
-            Exception exception = null;
+        {           
             try
             {
                 if (string.IsNullOrWhiteSpace(SearchBar.Text))
                 {
-                    await DisplayAlert("Error", "You have to type something", "OK");
+                    await DisplayAlert("Misslyckades", "Du måste skriva något", "OK");
                 }
                 else
                 {
@@ -81,16 +77,9 @@ namespace WargamesGUI
 
             }
             catch (Exception ex)
-            {
-                exception = ex;
-                await DisplayAlert("Error", $"{exception.Message}", "Ok");
-                throw;
+            {               
+                await DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");             
             }
-        }
-
-        private void CardID_Button_Clicked(object sender, EventArgs e)
-        {
-            App.Current.MainPage = new SearchCardNumber();
         }
 
     }
