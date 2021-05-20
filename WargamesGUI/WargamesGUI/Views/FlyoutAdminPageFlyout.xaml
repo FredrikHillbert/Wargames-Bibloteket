@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WargamesGUI.Views.FlyoutAdminPageFlyout"
              IconImageSource="noun_hamburger.png"
-             Title="Flyout">
-  <StackLayout BackgroundColor="DarkSlateGray">
+             Title="Admin">
+  <StackLayout BackgroundColor="LightBlue">
     <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
             <ListView.Header>
-                <Grid BackgroundColor="DarkSlateGray">
+                <Grid BackgroundColor="LightBlue">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="*"/>
@@ -25,12 +25,13 @@
           <Label
               Grid.Column="1"
               Grid.Row="1"
-              Text="Wargames Library"             
+              Text="Wargames Bilbliotek"             
               Style="{DynamicResource SubtitleStyle}"
+              FontSize="25"
               HorizontalTextAlignment="Center"
-              BackgroundColor="DarkSlateGray"/>
+              BackgroundColor="LightBlue"/>
                     <Label 
-              Text="Logged in as: Admin" 
+              Text="Inloggad som: Admin" 
               Grid.Column="1" 
               Grid.Row="2"/>
                 </Grid>
@@ -48,6 +49,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Text="Logout" FontSize="25" TextColor="Black" CornerRadius="30" Margin="20" Clicked="Logout_Button_Clicked"/>
+        <Button Text="Logga ut" FontSize="25" TextColor="Black" CornerRadius="30" Margin="20" Clicked="Logout_Button_Clicked"/>
     </StackLayout>
 </ContentPage>
