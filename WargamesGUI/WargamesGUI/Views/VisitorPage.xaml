@@ -33,6 +33,7 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="2*"/>
@@ -44,6 +45,7 @@
                                 <Label Text="Utgivare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
                                 <Label Text="I lager" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
                                 <Label Text="Placering" HorizontalOptions="Start" FontSize="Small"  FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="Kategori" HorizontalOptions="Start" FontSize="Small"  FontAttributes="Bold" Grid.Row="1" Grid.Column="5"/>
 
                             </Grid>
                         </ListView.Header>
@@ -55,6 +57,7 @@
                                             <RowDefinition Height="25"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -75,6 +78,9 @@
                                         </StackLayout>
                                         <StackLayout Grid.Column="4" Grid.Row="0">
                                             <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="5" Grid.Row="0">
+                                            <Label Text="{Binding subCategory}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>
@@ -103,6 +109,7 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -112,8 +119,9 @@
                                 <Label Text="Titel" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
                                 <Label Text="Författare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
                                 <Label Text="Utgivare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="Placering" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="I lager" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="I lager" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Placering" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="Kategori" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="5"/>
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
@@ -124,6 +132,7 @@
                                             <RowDefinition Height="25"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -140,10 +149,13 @@
                                             <Label Text="{Binding Publisher}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="3" Grid.Row="0">
-                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Instock}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding InStock}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="5" Grid.Row="0">
+                                            <Label Text="{Binding subCategory}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>

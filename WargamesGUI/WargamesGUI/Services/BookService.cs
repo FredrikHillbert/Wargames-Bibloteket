@@ -38,6 +38,7 @@ namespace WargamesGUI.Services
                             book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
                             book.InStock = Convert.ToInt32(reader["InStock"]);
+                            book.subCategory = reader["Category"].ToString();
 
                             bookList.Add(book);
                         }
@@ -198,26 +199,28 @@ namespace WargamesGUI.Services
                             values.Placement = reader["Placement"].ToString();
                             values.Author = reader["Author"].ToString();
                             values.InStock = Convert.ToInt32(reader["InStock"]);
+                            values.subCategory = reader["Category"].ToString();
+                            values.Description = reader["Description"].ToString();
 
                             if (values.InStock == 0)
                             {
-                                values.Status = "Unavailable";
+                                values.Status = "Inte tillgänglig";
                             }
                             else
                             {
-                                values.Status = "Available";
+                                values.Status = "Tillgänglig";
                             }
                             
                             switch (values.fk_Item_Id)
                             {
                                 case 1:
-                                    values.Category = "Book";
+                                    values.Category = "Bok";
                                     break;
                                 case 2:
-                                    values.Category = "Ebook";
+                                    values.Category = "Ebok";
                                     break;
                                 case 3:
-                                    values.Category = "Seminar";
+                                    values.Category = "Seminarium";
                                     break;
                                 default:
                                     break;

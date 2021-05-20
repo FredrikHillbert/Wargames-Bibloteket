@@ -48,7 +48,7 @@ namespace WargamesGUI.Services
         {
             var LoanedBooks = new List<Book>();
 
-            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.Loan_Id FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id AND fk_BookLoanStatus_Id < 5";
+            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.Loan_Id, b.Category, b.Description FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id AND fk_BookLoanStatus_Id < 5";
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -66,6 +66,8 @@ namespace WargamesGUI.Services
                             LoanedBook.Placement = reader["Publisher"].ToString();
                             LoanedBook.InStock = Convert.ToInt32(reader["InStock"]);
                             LoanedBook.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
+                            LoanedBook.subCategory = reader["Category"].ToString();
+                            LoanedBook.Description = reader["Description"].ToString();
 
                             LoanedBooks.Add(LoanedBook);
                         }
