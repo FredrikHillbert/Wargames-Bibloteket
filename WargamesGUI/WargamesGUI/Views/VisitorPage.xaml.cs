@@ -15,10 +15,10 @@ namespace WargamesGUI.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class VisitorPage : ContentPage
     {
-        
+
         private List<Book> BookCollection { get; set; } = new List<Book>();
         private List<Book> LoanCollection { get; set; } = new List<Book>();
-        
+
         public Book selectedItem;
         public User user;
         public Book itemTapped;
@@ -34,7 +34,15 @@ namespace WargamesGUI.Views
         }
         protected override void OnAppearing()
         {
-            MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+            try
+            {
+                MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("VisitorPageOnAppearing Error", $"{ex.Message}", "OK");
+            }
+
         }
 
         private async Task LoadBooks()
@@ -53,7 +61,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");
+                await DisplayAlert("Misslyckades", $"{ex.Message}", "OK");
                 throw;
             }
         }
@@ -73,29 +81,37 @@ namespace WargamesGUI.Views
             }
             else
             {
-                switch (await bookLoanService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+                try
                 {
-                    case 0:
-                        await DisplayAlert("Lyckades", "Boken är tilllagd", "OK");
-                        await LoadBooks();
-                        break;
-                    case 1:
-                        await DisplayAlert("Misslyckades", "Du har en oinlämnad bok, lämna tillbaka den och försök igen", "OK");
-                        await LoadBooks();
-                        break;
-                    case 2:
-                        await DisplayAlert("Misslyckades", "Du har tappat bort böcker. Kontakta biblioteket för att lösa problemet", "OK");
-                        await LoadBooks();
-                        break;
-                    case 3:
-                        await DisplayAlert("Misslyckdes", "Du har stulit böcker. Kontakta biblioteket för att lösa problemet", "OK");
-                        await LoadBooks();
-                        break;
-                    default:
-                        await DisplayAlert("Misslyckades", "Okänt fel. Kontakta biblioteket för att lösa problemet", "OK");
-                        await LoadBooks();
-                        break;
+                    switch (await bookLoanService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+                    {
+                        case 0:
+                            await DisplayAlert("Lyckades", "Boken är tilllagd", "OK");
+                            await LoadBooks();
+                            break;
+                        case 1:
+                            await DisplayAlert("Misslyckades", "Du har en oinlämnad bok, lämna tillbaka den och försök igen", "OK");
+                            await LoadBooks();
+                            break;
+                        case 2:
+                            await DisplayAlert("Misslyckades", "Du har tappat bort böcker. Kontakta biblioteket för att lösa problemet", "OK");
+                            await LoadBooks();
+                            break;
+                        case 3:
+                            await DisplayAlert("Misslyckdes", "Du har stulit böcker. Kontakta biblioteket för att lösa problemet", "OK");
+                            await LoadBooks();
+                            break;
+                        default:
+                            await DisplayAlert("Misslyckades", "Okänt fel. Kontakta biblioteket för att lösa problemet", "OK");
+                            await LoadBooks();
+                            break;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Loan_Button_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
+                }
+
             }
         }
 
@@ -110,22 +126,36 @@ namespace WargamesGUI.Views
         private async void HandBookBack_Button_Clicked(object sender, EventArgs e)
         {
             //LoanService.LoanedBooks.Remove(itemTapped);
-            await bookLoanService.ChangeBookLoanStatus(itemTapped.Loan_Id);
-            await DisplayAlert("Lyckades", "Din bok är tillbakalämnad", "OK");
+            try
+            {
+                await bookLoanService.ChangeBookLoanStatus(itemTapped.Loan_Id);
+                await DisplayAlert("Lyckades", "Din bok är tillbakalämnad", "OK");
+                await LoadBooks();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("HandBookBack_Button_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
 
-            await LoadBooks();
         }
 
-        private void MainSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        private async void MainSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var searchresult = BookCollection.Where(x => x.Title.Contains(MainSearchBar.Text)
-                                                      || x.Author.Contains(MainSearchBar.Text)
-                                                      || x.ISBN.Contains(MainSearchBar.Text)
-                                                      || x.Publisher.Contains(MainSearchBar.Text)
-                                                      || x.subCategory.Contains(MainSearchBar.Text));
-                                                      
+            try
+            {
+                var searchresult = BookCollection.Where(x => x.Title.Contains(MainSearchBar.Text)
+                  || x.Author.Contains(MainSearchBar.Text)
+                  || x.ISBN.Contains(MainSearchBar.Text)
+                  || x.Publisher.Contains(MainSearchBar.Text)
+                  || x.subCategory.Contains(MainSearchBar.Text));
 
-            listofbooks.ItemsSource = searchresult;
+                listofbooks.ItemsSource = searchresult;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("MainSearchBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+
         }
     }
 }

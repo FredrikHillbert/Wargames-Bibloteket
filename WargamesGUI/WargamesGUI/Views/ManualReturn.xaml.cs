@@ -17,7 +17,7 @@ namespace WargamesGUI.Views
     {
         public static BookService bookService = new BookService();
         public static LoanService loanService = new LoanService();
-        public static Book selectedBook;       
+        public static Book selectedBook;
         public ManualReturn()
         {
             InitializeComponent();
@@ -25,7 +25,15 @@ namespace WargamesGUI.Views
 
         protected override void OnAppearing()
         {
-            MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+            try
+            {
+                MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("ManualReturnOnAppearing Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+
         }
         private async Task LoadBooks()
         {
@@ -36,7 +44,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("LoadError", $"Reason for error: {ex.Message}", "OK");
+                await DisplayAlert("LoadBooks", $"Felmeddelande: {ex.Message}", "OK");
             }
 
         }
@@ -46,7 +54,7 @@ namespace WargamesGUI.Views
             {
 
                 try
-                {                   
+                {
                     await loanService.UpdateBorrowedBooksFromDbLibrarian(selectedBook.Loan_Id);
                     await DisplayAlert("Book handled!", $"You handled {selectedBook.Title}.", "OK");
                     await LoadBooks();
@@ -54,7 +62,7 @@ namespace WargamesGUI.Views
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("Error!", $"Reason for error: {ex.Message}", "OK");
+                    await DisplayAlert("Handled_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
                 }
 
             }
@@ -71,7 +79,15 @@ namespace WargamesGUI.Views
 
         private async void Refresh_Clicked(object sender, EventArgs e)
         {
-            await LoadBooks();
+            try
+            {
+                await LoadBooks();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Refresh_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+
         }
     }
 }

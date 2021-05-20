@@ -25,8 +25,7 @@ namespace WargamesGUI
         }
 
         private async void SignIn_Button_Clicked(object sender, EventArgs e)
-        {
-            Exception exception = null;
+        {            
             try
             {
 
@@ -56,17 +55,14 @@ namespace WargamesGUI
                 }
             }
             catch (Exception ex)
-            {
-                exception = ex;
-                await DisplayAlert("Ett fel uppstod", $"{exception.Message}", "Ok");
-                throw;
+            {               
+                await DisplayAlert("SignIn_Button_Clicked Error", $"Felmeddelande: {ex.Message}", "Ok");               
             }
 
         }
 
         private async void SearchBar_Clicked(object sender, EventArgs e)
-        {
-            Exception exception = null;
+        {           
             try
             {
                 if (string.IsNullOrWhiteSpace(SearchBar.Text))
@@ -81,10 +77,8 @@ namespace WargamesGUI
 
             }
             catch (Exception ex)
-            {
-                exception = ex;
-                await DisplayAlert("Ett fel uppstod", $"{exception.Message}", "Ok");
-                throw;
+            {               
+                await DisplayAlert("Ett fel uppstod", $"{ex.Message}", "Ok");             
             }
         }
 
