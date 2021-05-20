@@ -33,7 +33,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Picker x:Name="picker" BackgroundColor="#2E4159" TextColor="White" HorizontalOptions="Center"
+                    <Picker x:Name="picker" SelectedIndexChanged="picker_SelectedIndexChanged" BackgroundColor="#2E4159" TextColor="White" HorizontalOptions="Center"
                         Grid.Row="0" Grid.Column="0" WidthRequest="200">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type models:Book}">
@@ -43,13 +43,14 @@
                         </Picker.ItemsSource>
 
                     </Picker>
-                    <Entry x:Name="EntryLastName" Placeholder="Titel" BackgroundColor="White" Grid.Row="1" Grid.Column="0"/>
-                    <Entry x:Name="EntrySsnNumber" Placeholder="Författare" BackgroundColor="White" Grid.Row="2" Grid.Column="0"/>
-                    <Entry x:Name="EntryAdress" Placeholder="Utgivare" BackgroundColor="White" Grid.Row="3" Grid.Column="0"/>
-                    <Entry x:Name="EntryEmail" Placeholder="ISBN" BackgroundColor="White" Grid.Row="4" Grid.Column="0"/>
-                    <Entry x:Name="EntryPhoneNumber" Placeholder="Lager" BackgroundColor="white" Grid.Row="5" Grid.Column="0"/>
-                    <Entry x:Name="EntryCardNumber" Placeholder="Beskrivning" BackgroundColor="white" Grid.Row="6" Grid.Column="0"/>
-                    <Button Text="Uppdatera bok" 
+                    <Entry x:Name="EntryTitle" Placeholder="Titel" BackgroundColor="White" Grid.Row="1" Grid.Column="0"/>
+                    <Entry x:Name="EntryAuthor" Placeholder="Författare" BackgroundColor="White" Grid.Row="2" Grid.Column="0"/>
+                    <Entry x:Name="EntryPublisher" Placeholder="Utgivare" BackgroundColor="White" Grid.Row="3" Grid.Column="0"/>
+                    <Entry x:Name="EntryISBN" Placeholder="ISBN" BackgroundColor="White" Grid.Row="4" Grid.Column="0"/>
+                    <Entry x:Name="EntryStock" Placeholder="Lager" BackgroundColor="white" Grid.Row="5" Grid.Column="0"/>
+                    <Entry x:Name="EntryDescription" Placeholder="Beskrivning" BackgroundColor="white" Grid.Row="6" Grid.Column="0"/>
+                    <Button Text="Uppdatera bok"
+                            Clicked="UpdateBook_Clicked"
                             CornerRadius="20" 
                             BackgroundColor="#2E4159"
                             TextColor="White"
