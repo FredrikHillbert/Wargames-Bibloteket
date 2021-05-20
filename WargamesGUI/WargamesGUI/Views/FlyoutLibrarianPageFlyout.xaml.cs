@@ -33,10 +33,10 @@ namespace WargamesGUI.Views
             {
                 MenuItems = new ObservableCollection<FlyoutLibrarianPageFlyoutMenuItem>(new[]
                 {
-                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 0, Title = "Home", TargetType=typeof(FlyoutLibrarianPageDetail) },
-                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 1, Title = "Books", TargetType=typeof(AddObject) },
-                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 2, Title = "Visitors", TargetType=typeof(AddVisitor) },
-                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 3, Title = "Manual return", TargetType=typeof(ManualReturn) },
+                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 0, Title = "Hem", TargetType=typeof(FlyoutLibrarianPageDetail) },
+                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 1, Title = "Böcker", TargetType=typeof(AddObject) },
+                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 2, Title = "Besökare", TargetType=typeof(AddVisitor) },
+                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 3, Title = "Manuell retur", TargetType=typeof(ManualReturn) },
                     
                 });
             }

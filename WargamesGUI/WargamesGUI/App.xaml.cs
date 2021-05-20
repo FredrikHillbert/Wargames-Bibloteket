@@ -16,7 +16,7 @@ namespace WargamesGUI
             //MainPage = new FlyoutLibrarianPage();
             //MainPage = new FlyoutAdminPage();
             //MainPage = new VisitorPage();
-            //MainPage = new AddUserPage();
+            //MinPage = new AddUserPage();
             //MainPage = new Test();
             //MainPage = new ManualReturn();
             

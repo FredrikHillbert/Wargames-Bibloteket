@@ -25,7 +25,7 @@ namespace WargamesGUI.Views
         public static BookService bookService = new BookService();
 
         private int itemID;
-        private string categoryID;
+        
         public int dewymainID;
         public string deweysubID;
 
@@ -195,7 +195,7 @@ namespace WargamesGUI.Views
                         .ToArray());
                     dewymainID = selectedDewey.DeweyMain_Id;
                     deweysubID = deweySub.Where(x => x.SubCategoryName == y).Select(x => x.DeweySub_Id).ToList().ElementAt(0).ToString();
-
+                    
                     break;
             }
 

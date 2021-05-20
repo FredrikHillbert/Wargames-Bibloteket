@@ -21,7 +21,7 @@ namespace WargamesGUI.Views
         public static DbHandler handler = new DbHandler();
         public static LoanService loanService = new LoanService();
         private int privilegeLevel;
-        private int StatusID;
+        
         public AddVisitor()
         {
             InitializeComponent();
