@@ -61,8 +61,8 @@
                         <Label Text="Efternamn" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="1"/>
                         <Label Text="Användarnamn" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="2"/>
                         <!--<Label Text="Lösenord" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="3"/>-->
-                        <Label Text="Telefonnummer" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="4"/>
-                        <Label Text="Adress" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="5"/>
+                        <Label Text="Telefonnummer" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="3"/>
+                        <Label Text="Adress" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="4"/>
 
                     </Grid>
                 </ListView.Header>
@@ -71,7 +71,7 @@
                         <ViewCell>
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="25"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*"/>
@@ -89,10 +89,10 @@
                                 <StackLayout Grid.Column="2" Grid.Row="0">
                                     <Label Text="{Binding Username}" HorizontalOptions="Start"/>
                                 </StackLayout>
-                                <StackLayout Grid.Column="4" Grid.Row="0">
+                                <StackLayout Grid.Column="3" Grid.Row="0">
                                     <Label Text="{Binding PhoneNumber}" HorizontalOptions="Start"/>
                                 </StackLayout>
-                                <StackLayout Grid.Column="5" Grid.Row="0">
+                                <StackLayout Grid.Column="4" Grid.Row="0">
                                     <Label Text="{Binding Address}" HorizontalOptions="Start"/>
                                 </StackLayout>
                             </Grid>

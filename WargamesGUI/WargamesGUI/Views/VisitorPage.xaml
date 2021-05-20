@@ -35,15 +35,15 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="2*"/>
                                 </Grid.RowDefinitions>
-                                <Label Text="Lista av böcker" HorizontalOptions="Start" FontSize="30" FontAttributes="Italic" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                <Label Text="Titel" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
-                                <Label Text="Författare" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
-                                <Label Text="Utgivare" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="I lager" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="Placering" HorizontalOptions="Start" FontSize="20"  FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="Lista av böcker" HorizontalOptions="Start" FontSize="Medium" FontAttributes="Italic" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <Label Text="Titel" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="Författare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="Utgivare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
+                                <Label Text="I lager" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Placering" HorizontalOptions="Start" FontSize="Small"  FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
 
                             </Grid>
                         </ListView.Header>
@@ -52,7 +52,7 @@
                                 <ViewCell>
                                     <Grid>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="25"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -108,12 +108,12 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Label Text="Dina lånade böcker" HorizontalOptions="Start" FontSize="30" FontAttributes="Italic" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <Label Text="Titel" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
-                                <Label Text="Författare" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
-                                <Label Text="Utgivare" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="Placering" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="I lager" HorizontalOptions="Start" FontSize="20" FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="Dina lånade böcker" HorizontalOptions="Start" FontSize="Medium" FontAttributes="Italic" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <Label Text="Titel" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="Författare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="Utgivare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
+                                <Label Text="Placering" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="I lager" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
@@ -121,7 +121,7 @@
                                 <ViewCell>
                                     <Grid>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="25"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
