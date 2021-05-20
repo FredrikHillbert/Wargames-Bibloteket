@@ -95,8 +95,7 @@ namespace WargamesGUI.Views
                 EntryPublisher.Text = string.Empty;
                 EntryAuthor.Text = string.Empty;
                 EntryDescription.Text = string.Empty;
-                EntryPrice.Text = string.Empty;
-                EntrySubCategoryName.Text = string.Empty;
+                LabelSubCategoryName.Text = string.Empty;
                 //EntryPlacement.Text = string.Empty;
                 await DisplayAlert("Success!", "You added a book!", "OK");
                 await LoadBooks();
@@ -207,7 +206,7 @@ namespace WargamesGUI.Views
                                 .ToArray());
                         if (subCategoryName == "Avbryt" || subCategoryName == null)
                         {
-                            EntrySubCategoryName.Text = string.Empty;
+                            LabelSubCategoryName.Text = string.Empty;
                             break;
                         }
 
@@ -215,7 +214,7 @@ namespace WargamesGUI.Views
                                             .Select(x => x.DeweySub_Id)
                                             .ToList().ElementAt(0).ToString();
 
-                        EntrySubCategoryName.Text = subCategoryName;
+                        LabelSubCategoryName.Text = subCategoryName;
 
                         break;
                 }

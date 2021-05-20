@@ -31,8 +31,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Picker x:Name="picker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Center"
-                        Grid.Row="0" Grid.Column="2" WidthRequest="250" SelectedIndexChanged="picker_SelectedIndexChanged" Title="Typ av bok">
+                    <Picker x:Name="picker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
+                        Grid.Row="0" Grid.Column="2" WidthRequest="400" SelectedIndexChanged="picker_SelectedIndexChanged" Title="Typ av bok">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type models:Book}">
                                 <models:Book TypeOfBook="Bok"  fk_Item_Id="1"/>
@@ -43,12 +43,14 @@
                     </Picker>
 
 
-                    <Picker x:Name="categorypicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Center"
-                        Grid.Row="0" Grid.Column="0" WidthRequest="250" Title="Kategori" SelectedIndexChanged="categorypicker_SelectedIndexChanged">
+                    <Picker x:Name="categorypicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
+                        Grid.Row="0" Grid.Column="0" WidthRequest="400" Title="Kategori" SelectedIndexChanged="categorypicker_SelectedIndexChanged">
                     </Picker>
+                    
 
-                    <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="1" Margin="0,25,25,0" 
-                           WidthRequest="250" TextColor="Black" HorizontalOptions="Center"/>
+                    <Entry x:Name="LabelSubCategoryName" Grid.Row="0" Grid.Column="1" Margin="0,25,0,0" 
+                           WidthRequest="400" TextColor="Black" HorizontalOptions="Start" IsReadOnly="True"/>
+                    
 
                     <Entry x:Name="EntryTitle" Placeholder="Titel" Grid.Row="1" Grid.Column="0"/>
                     <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="1" Grid.Column="1"/>
