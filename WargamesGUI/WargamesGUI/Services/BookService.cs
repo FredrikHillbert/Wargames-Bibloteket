@@ -48,16 +48,6 @@ namespace WargamesGUI.Services
             }
         }
 
-        /// <summary>
-        /// Adderar en ny bok till table tblBook. 
-        /// Måste skickas med: Title, ISBN, Publisher, Description, Price, Placement till boken.
-        /// Item_id berättar om det är Book eller Ebook.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>
-        /// Retunerar en bool som är true om det gick att lägga till boken eller false 
-        /// ifall det inte gick att lägga till boken.
-        /// </returns>
         public async Task<bool> AddNewBook(int item_id, string title, string ISBN, string publisher, string author,
                                            string description, int price, string placement, string category)
         {
@@ -94,15 +84,6 @@ namespace WargamesGUI.Services
 
         }
 
-        /// <summary>
-        /// Tar bort en bok från table tblBook. 
-        /// Måste skickas med: Bokens unika ID.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>
-        /// Retunerar en bool som är true om det gick att ta bort boken eller false 
-        /// ifall det inte gick att ta bort boken.'
-        /// </returns>
         public async Task<bool> RemoveBook(int id, string reason)
         {
             bool success = true;
@@ -237,16 +218,14 @@ namespace WargamesGUI.Services
         {
             var deweyList = new List<DeweySub>();
 
-            var query = $"SELECT DeweySub_Id, SubCategoryName, fk_DeweyMain_Id FROM tblDeweySub";
-
             using (SqlConnection con = new SqlConnection(theConString))
             {
-                con.Open();
-                using (var command = new SqlCommand(query, con))
+                await con.OpenAsync();
+                using (var command = new SqlCommand(queryForDeweySub, con))
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var dewey = new DeweySub();
 
@@ -267,16 +246,14 @@ namespace WargamesGUI.Services
         {
             var deweyList = new List<DeweyMain>();
 
-            var query = $"SELECT DeweyMain_Id, MainCategoryName FROM tblDeweyMain";
-
             using (SqlConnection con = new SqlConnection(theConString))
             {
-                con.Open();
-                using (var command = new SqlCommand(query, con))
+                await con.OpenAsync();
+                using (var command = new SqlCommand(queryForDeweyMain, con))
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var dewey = new DeweyMain();
 

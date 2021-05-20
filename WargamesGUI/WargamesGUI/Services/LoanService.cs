@@ -16,19 +16,14 @@ namespace WargamesGUI.Services
         {
             var LibraryCards = new List<LibraryCard>();
 
-            string query = $"SELECT lc.LibraryCard_Id, lc.CardNumber, lc.fk_Status_Id, lcs.Status_Id, lcs.Status_Level " +
-                           $"FROM tblLibraryCard lc " +
-                           $"INNER JOIN tblLibraryCardStatus lcs " +
-                           $"ON lc.fk_Status_Id = lcs.Status_Id";
-
             using (SqlConnection con = new SqlConnection(theConString))
             {
-                con.Open();
-                using (var command = new SqlCommand(query, con))
+                await con.OpenAsync();
+                using (var command = new SqlCommand(queryForLibraryCards, con))
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var LibraryCard = new LibraryCard();
 
@@ -85,14 +80,15 @@ namespace WargamesGUI.Services
                            $" ON b.Id = bl.fk_Book_Id" +
                            $" LEFT JOIN tblUser tu" +
                            $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard";
+
             using (SqlConnection con = new SqlConnection(theConString))
             {
-                con.Open();
+                await con.OpenAsync();
                 using (var command = new SqlCommand(query, con))
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var BorrowedBo = new Book();
                             //var user = new User();
@@ -156,12 +152,12 @@ namespace WargamesGUI.Services
                                  $" ON b.Id = bl.fk_Book_Id";
             using (SqlConnection con = new SqlConnection(theConString))
             {
-                con.Open();
+                await con.OpenAsync();
                 using (var command = new SqlCommand(querySelect, con))
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var BorrowedBo = new Book();
 
@@ -177,7 +173,6 @@ namespace WargamesGUI.Services
 
 
                             BorrowedBooks.Add(BorrowedBo);
-
 
                         }
                     }
@@ -218,15 +213,6 @@ namespace WargamesGUI.Services
             }
         }
 
-        /// <summary>
-        /// Ändrar Status på ett Library Card.
-        /// Måste skickas med: Den nya ID:n för Status och ID för kortet det gäller.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>
-        /// Retunerar en bool som är true om det gick att ändra kortets status eller false 
-        /// ifall det inte gick att ändra.
-        /// </returns>
         public async Task<bool> ChangeCardStatus(int fk_Status_Id, int LibraryCard_Id)
         {
             bool success = true;
