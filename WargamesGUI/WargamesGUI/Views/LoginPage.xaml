@@ -40,7 +40,8 @@
                Grid.Row="4" 
                Grid.Column="0" 
                HorizontalOptions="Center"
-               WidthRequest="200"/>
+               WidthRequest="200"
+               Completed="SignIn_Button_Clicked"/>
         <Label Text="Lösenord" 
                Grid.Row="5" 
                Grid.Column="0" 
@@ -53,7 +54,7 @@
                HorizontalOptions="Center"
                WidthRequest="200"
                IsPassword="True"
-               Completed="Entrypassword_Completed"/>
+               Completed="SignIn_Button_Clicked"/>
         <!--Login Button-->
         <Button Text="Logga in" 
                 Grid.Row="7" 

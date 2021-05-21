@@ -84,13 +84,13 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                         <Label Text="Existerande användare" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black"/>
-                        <Label Text="Privilegium" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
-                        <Label Text="Förnnamn" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
-                        <Label Text="Efternamn" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="2" TextColor="Black"/>
-                        <Label Text="Användarnamn" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="3" TextColor="Black"/>
-                        <Label Text="Adress" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="4" TextColor="Black" />
-                        <Label Text="Email" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="5" TextColor="Black"/>
-                        <Label Text="Telefonnummer" HorizontalOptions="Start" FontSize="Micro" Grid.Row="1" Grid.Column="6" TextColor="Black"/>
+                        <Label Text="Privilegium" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
+                        <Label Text="Förnnamn" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
+                        <Label Text="Efternamn" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="2" TextColor="Black"/>
+                        <Label Text="Användarnamn" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="3" TextColor="Black"/>
+                        <Label Text="Adress" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="4" TextColor="Black" />
+                        <Label Text="Email" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="5" TextColor="Black"/>
+                        <Label Text="Telefonnummer" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="6" TextColor="Black"/>
                             </Grid>
                     <!--LIST OF EXISTING USERS-->
                     <ListView x:Name="listOfUsers" ItemSelected="listOfUsers_ItemSelected" Margin="0,0,0,10" ItemTapped="listOfUsers_ItemTapped">

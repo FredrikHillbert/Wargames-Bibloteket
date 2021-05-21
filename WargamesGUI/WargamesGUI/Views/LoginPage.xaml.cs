@@ -23,7 +23,7 @@ namespace WargamesGUI
         {
             InitializeComponent();
 
-            Entrypassword.Completed += (sender, e) => Entrypassword_Completed(sender, e);
+            //Entrypassword.Completed += (sender, e) => Entrypassword_Completed(sender, e);
         }
 
         private async void SignIn_Button_Clicked(object sender, EventArgs e)
@@ -87,9 +87,9 @@ namespace WargamesGUI
             }
         }
 
-        private async void Entrypassword_Completed(object sender, EventArgs e)
-        {
-            SignIn_Button_Clicked(sender, e);
-        }
+        //private async void Entrypassword_Completed(object sender, EventArgs e)
+        //{
+        //    SignIn_Button_Clicked(sender, e);
+        //}
     }
 }
