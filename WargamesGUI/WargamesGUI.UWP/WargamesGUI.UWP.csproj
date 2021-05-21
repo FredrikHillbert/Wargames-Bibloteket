@@ -139,7 +139,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="LIBSYS.png" />
+    <Content Include="noun_Admin.png" />
     <Content Include="noun_hamburger.png" />
+    <Content Include="noun_Librarian.png" />
     <Content Include="overlayreal.png" />
     <Content Include="pexels-cottonbro-with-layer.jpg" />
     <Content Include="pexels-cottonbro.jpg" />

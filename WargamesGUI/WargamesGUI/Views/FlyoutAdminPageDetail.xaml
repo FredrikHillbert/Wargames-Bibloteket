@@ -15,10 +15,13 @@
             
             <Label Text="Välkommen till Wargames Biblioteket!" FontAttributes="Bold" FontSize="Header"></Label>
             <Label Text="Som ADMIN kan du göra följande:" FontAttributes="Italic" FontSize="Medium"></Label>
-            <Label Text="Lägga till användare:                                              Få ut rapporter:" 
+                <Label Text="● Lägga till användare" 
                    FontAttributes="Bold" 
                    FontSize="Subtitle"></Label>
-        </StackLayout>
+                <Label Text="● Ta ut rapporter" 
+                   FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+            </StackLayout>
     </Frame> 
         
     </StackLayout>

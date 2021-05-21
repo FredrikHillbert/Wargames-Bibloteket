@@ -19,13 +19,17 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="150"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="50"/>
           </Grid.RowDefinitions>
                     <Image Source="LIBSYS.png" Grid.Row="1" Grid.Column="1" WidthRequest="200" HeightRequest="200"/>
-                    <Label 
-              Text="Inloggad som: Bibliotekarie" 
+                    
+                    <Image 
+              Source="noun_Librarian.png" 
               Grid.Column="1" 
-              Grid.Row="2"/>
+              Grid.Row="2" 
+              WidthRequest="200"
+              HeightRequest="200"/>
+                    <Label Text="Bibliotekarie" FontAttributes="Bold" FontSize="Small" Grid.Column="1" Grid.Row="3" WidthRequest="50" HeightRequest="50" Margin="50,0,60,0" HorizontalTextAlignment="Center"></Label>  
           </Grid>
       </ListView.Header>
       <ListView.ItemTemplate>
