@@ -58,7 +58,8 @@
                         HorizontalOptions="End" WidthRequest="100" 
                         BackgroundColor="#2E4159"
                         TextColor="White"
-                        Clicked="AddBook_Button_Clicked"/>
+                        Clicked="AddBook_Button_Clicked"
+                        FontAttributes="Bold"/>
                 </Grid>
             </Frame>
             <Frame CornerRadius="40" BorderColor="Black" Margin="40,0,40,-620" BackgroundColor="LightBlue">
