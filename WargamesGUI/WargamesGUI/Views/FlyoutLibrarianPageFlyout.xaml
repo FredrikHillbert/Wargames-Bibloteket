@@ -9,7 +9,7 @@
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
       <ListView.Header>
-                <Grid BackgroundColor="White">
+                <Grid BackgroundColor="LightBlue">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
@@ -17,23 +17,15 @@
           </Grid.ColumnDefinitions>
           <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="150"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
           </Grid.RowDefinitions>
-          <Label
-              Grid.Column="1"
-              Grid.Row="1"
-              Text="Wargames Biblotek"
-              FontSize="32"
-              Style="{DynamicResource SubtitleStyle}"
-              HorizontalTextAlignment="Center"
-              BackgroundColor="White"/>
-          <Label 
+                    <Image Source="LIBSYS.png" Grid.Row="1" Grid.Column="1" WidthRequest="200" HeightRequest="200"/>
+                    <Label 
               Text="Inloggad som: Bibliotekarie" 
               Grid.Column="1" 
-              Grid.Row="2"
-              BackgroundColor="White"/>
+              Grid.Row="2"/>
           </Grid>
       </ListView.Header>
       <ListView.ItemTemplate>

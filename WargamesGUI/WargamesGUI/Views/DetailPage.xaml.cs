@@ -19,8 +19,10 @@ namespace WargamesGUI.Views
         public string ISBN { get; set; }
         public string InStock { get; set; }
         public string Description { get; set; }
+        public string Category { get; set; }
+        public string Placement { get; set; }
 
-        public DetailPage(string bookType, string title, string author, string publisher, string isbn, string inStock, string description)
+        public DetailPage(string bookType, string title, string author, string publisher, string isbn, string inStock, string description, string category, string placement)
         {
             switch (bookType)
             {
@@ -38,6 +40,8 @@ namespace WargamesGUI.Views
             ISBN = isbn;
             InStock = inStock;
             Description = description;
+            Category = category;
+            Placement = placement;
             BindingContext = this;
 
             InitializeComponent();
