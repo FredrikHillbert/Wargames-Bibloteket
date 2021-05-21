@@ -211,11 +211,12 @@ namespace WargamesGUI.Views
             string author = selectedItem.Author;
             string publisher = selectedItem.Publisher;
             string isbn = selectedItem.ISBN;
-            //int inStock = selectedItem.InStock;
+            string inStock = selectedItem.InStock.ToString();
             string description = selectedItem.Description;
             string placement = selectedItem.Placement;
-            int price = (int)selectedItem.Price;
-            await Navigation.PushAsync(new ChangeDetailPage(bookType, title, author, publisher, isbn, description));
+            //int price = (int)selectedItem.Price;
+            string price = selectedItem.Price.ToString();
+            await Navigation.PushAsync(new ChangeDetailPage(idOfBook, bookType, title, author, publisher, isbn, inStock, description, placement, price));
 
         }
 

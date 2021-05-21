@@ -12,6 +12,7 @@ namespace WargamesGUI.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChangeDetailPage : ContentPage
     {
+        public int BookID { get; set; }
         public string BookType { get; set; }
         public string Titles { get; set; }
         public string Author { get; set; }
@@ -19,8 +20,11 @@ namespace WargamesGUI.Views
         public string ISBN { get; set; }
         public string InStock { get; set; }
         public string Description { get; set; }
-        public ChangeDetailPage(string bookType, string title, string author, string publisher, string isbn, string description)
+        public string Placement { get; set; }
+        public string Price { get; set; }
+        public ChangeDetailPage(int bookId, string bookType, string title, string author, string publisher, string isbn, string inStock, string description, string placement, string price)
         {
+            BookID = bookId;
             switch (bookType)
             {
                 case "1":
@@ -30,13 +34,15 @@ namespace WargamesGUI.Views
                     BookType = "E-bok";
                     break;
             }
-            //BookType = bookType;
+            BookType = bookType;
             Titles = title;
             Author = author;
             Publisher = publisher;
             ISBN = isbn;
-            //InStock = inStock;
+            InStock = inStock;
             Description = description;
+            Placement = placement;
+            Price = price;
             BindingContext = this;
 
             InitializeComponent();
