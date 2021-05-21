@@ -22,36 +22,47 @@
                 <Grid Margin="0,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
-                        <RowDefinition Height="27"/>
-                        <RowDefinition Height="27"/>
-                        <RowDefinition Height="27"/>
-                        <RowDefinition Height="27"/>
-                        <RowDefinition Height="27"/>
-                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="33"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Picker x:Name="picker" BackgroundColor="White" TextColor="Black" HorizontalOptions="End"
-                        Grid.Row="0" Grid.Column="0" WidthRequest="200">
+                        Grid.Row="0" Grid.Column="0" WidthRequest="400">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type models:Book}">
-                                <models:Book TypeOfBook="Book"  fk_Item_Id="1"/>
-                                <models:Book TypeOfBook="E-book" fk_Item_Id="2"/>
+                                <models:Book TypeOfBook="Bok"  fk_Item_Id="1"/>
+                                <models:Book TypeOfBook="E-bok" fk_Item_Id="2"/>
                             </x:Array>
                         </Picker.ItemsSource>
                     </Picker>
                     <Picker x:Name="categorypicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
                         Grid.Row="0" Grid.Column="0" WidthRequest="400" SelectedIndexChanged="categorypicker_SelectedIndexChanged">
                     </Picker>
-                    <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="0" 
+                    <Frame x:Name="SubCatName" CornerRadius="20" BackgroundColor="White" Padding="-1" HorizontalOptions="Center">
+                        <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="0" 
                            WidthRequest="400" TextColor="Black" HorizontalOptions="Center" IsReadOnly="True"/>
-                    <Entry x:Name="EntryTitle" Placeholder="Titel" BackgroundColor="White" Grid.Row="1" Grid.Column="0"/>
-                    <Entry x:Name="EntryAuthor" Placeholder="Författare" BackgroundColor="White" Grid.Row="2" Grid.Column="0"/>
-                    <Entry x:Name="EntryPublisher" Placeholder="Utgivare" BackgroundColor="White" Grid.Row="3" Grid.Column="0"/>
-                    <Entry x:Name="EntryISBN" Placeholder="ISBN" BackgroundColor="White" Grid.Row="4" Grid.Column="0"/>
-                    <Entry x:Name="EntryDescription" Placeholder="Beskrivning" BackgroundColor="white" Grid.Row="5" Grid.Column="0"/>
+                    </Frame>
+                    <Frame x:Name="titelname" CornerRadius="20" BackgroundColor="White" Padding="-1"  Grid.Row="1" Grid.Column="0">
+                        <Entry x:Name="EntryTitle" Placeholder="Titel" BackgroundColor="White"/>
+                    </Frame>
+                    <Frame x:Name="authorname" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="2" Grid.Column="0">
+                        <Entry x:Name="EntryAuthor" Placeholder="Författare" BackgroundColor="White"/>
+                    </Frame>
+                    <Frame x:Name="publishername" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="3" Grid.Column="0">
+                        <Entry x:Name="EntryPublisher" Placeholder="Utgivare" BackgroundColor="White"/>
+                    </Frame>
+                    <Frame x:Name="isbnname" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="4" Grid.Column="0">
+                        <Entry x:Name="EntryISBN" Placeholder="ISBN" BackgroundColor="White"/>
+                    </Frame>
+                    <Frame x:Name="descriptionname" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="5" Grid.Column="0">
+                        <Entry x:Name="EntryDescription" Placeholder="Beskrivning" BackgroundColor="white"/>
+                    </Frame>
                     <Button Text="Uppdatera bok"
                             Clicked="UpdateBook_Clicked"
                             CornerRadius="20" 
@@ -59,7 +70,8 @@
                             TextColor="White"
                             Margin="200,0,0,0"
                             HorizontalOptions="End"
-                            Grid.Row="7" Grid.Column="0"/>
+                            Grid.Row="6" Grid.Column="0"
+                            FontAttributes="Bold"/>
                 </Grid>
             </Frame>
             <Frame CornerRadius="40" BorderColor="Black" Margin="40,10,40,-400" BackgroundColor="LightBlue">
@@ -76,40 +88,40 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="0">
-                            <Label Text="Boktyp" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding BookType}" VerticalOptions="Center" TextColor="Black"/>
+                            <Label Text="Boktyp" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
+                            <Label Text="{Binding BookTypeName}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="0">
-                            <Label Text="Titel" VerticalOptions="Center" TextDecorations="Underline" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding Titles}" VerticalOptions="Center" TextColor="Black"/>
+                            <Label Text="Titel" VerticalOptions="Center" TextDecorations="Underline" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
+                            <Label Text="{Binding Titles}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="1">
-                            <Label Text="Författare" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding Author}" VerticalOptions="Center" TextColor="Black"/>
+                            <Label Text="Författare" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
+                            <Label Text="{Binding Author}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="1">
-                            <Label Text="Utgivare" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding Publisher}" VerticalOptions="Center" TextColor="Black"/>
+                            <Label Text="Utgivare" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
+                            <Label Text="{Binding Publisher}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="2">
-                            <Label Text="ISBN" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding ISBN}" VerticalOptions="Center" TextColor="Black"/>
+                            <Label Text="ISBN" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
+                            <Label Text="{Binding ISBN}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="2">
-                            <Label Text="Lager" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding InStock}" VerticalOptions="Center" TextColor="Black"/>
+                            <Label Text="Lager" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
+                            <Label Text="{Binding InStock}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="3">
-                            <Label Text="Placering" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding Placement}" VerticalOptions="Center" TextColor="Black"/>
+                            <Label Text="Placering" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
+                            <Label Text="{Binding Placement}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="3">
-                            <Label Text="Kategori" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding Category}" VerticalOptions="Center" TextColor="Black"/>
+                            <Label Text="Kategori" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
+                            <Label Text="{Binding Category}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                     </Grid>
-                    <Label Text="Beskrivning" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold"/>
-                    <Label Text="{Binding Description}" VerticalOptions="Center" TextColor="Black" Margin="0,0,0,50"/>
+                    <Label Text="Beskrivning" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
+                    <Label Text="{Binding Description}" VerticalOptions="Center" TextColor="Black" Margin="0,0,0,20" FontSize="16"/>
                 </StackLayout>
             </Frame>
 
