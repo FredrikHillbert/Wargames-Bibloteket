@@ -229,7 +229,9 @@ namespace WargamesGUI.Views
             string isbn = selectedItem.ISBN;
             string inStock = selectedItem.InStock.ToString();
             string description = selectedItem.Description;
-            await Navigation.PushAsync(new DetailPage(bookType, title, author, publisher, isbn, inStock, description));
+            string category = selectedItem.Category;
+            string placement = selectedItem.Placement;
+            await Navigation.PushAsync(new DetailPage(bookType, title, author, publisher, isbn, inStock, description, category, placement));
         }
 
         private void DetailsSelected_Clicked(object sender, EventArgs e)

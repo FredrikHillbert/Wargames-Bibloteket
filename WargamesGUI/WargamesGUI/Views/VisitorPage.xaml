@@ -40,12 +40,12 @@
                                     <RowDefinition Height="2*"/>
                                 </Grid.RowDefinitions>
                                 <Label Text="Lista av böcker" HorizontalOptions="Start" FontSize="Medium" FontAttributes="Italic" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                <Label Text="Titel" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
-                                <Label Text="Författare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
-                                <Label Text="Utgivare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
-                                <Label Text="I lager" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="Placering" HorizontalOptions="Start" FontSize="Small"  FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
-                                <Label Text="Kategori" HorizontalOptions="Start" FontSize="Small"  FontAttributes="Bold" Grid.Row="1" Grid.Column="5"/>
+                                <Label Text="Titel" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="Författare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="Utgivare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="2"/>
+                                <Label Text="I lager" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="3"/>
+                                <Label Text="Placering" HorizontalOptions="Start" FontSize="Small"  FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="Kategori" HorizontalOptions="Start" FontSize="Small"  FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="5"/>
 
                             </Grid>
                         </ListView.Header>
@@ -65,22 +65,22 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Grid.Column="0" Grid.Row="0">
-                                            <Label Text="{Binding Title}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Title}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="1" Grid.Row="0">
-                                            <Label Text="{Binding Author}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Author}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="2" Grid.Row="0">
-                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="3" Grid.Row="0">
-                                            <Label Text="{Binding InStock}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding InStock}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="5" Grid.Row="0">
-                                            <Label Text="{Binding Category}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Category}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>
@@ -116,12 +116,12 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Label Text="Dina lånade böcker" HorizontalOptions="Start" FontSize="Medium" FontAttributes="Italic" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <Label Text="Titel" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="0"/>
-                                <Label Text="Författare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="1"/>
-                                <Label Text="Utgivare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="2"/>
+                                <Label Text="Titel" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="Författare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="Utgivare" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" TextDecorations="Underline" Grid.Column="2"/>
                                 <!--<Label Text="I lager" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>-->
-                                <Label Text="Placering" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="3"/>
-                                <Label Text="Kategori" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="4"/>
+                                <Label Text="Placering" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" TextDecorations="Underline" Grid.Column="3"/>
+                                <Label Text="Kategori" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" Grid.Row="1" TextDecorations="Underline" Grid.Column="4"/>
                             </Grid>
                         </ListView.Header>
                         <ListView.ItemTemplate>
@@ -140,22 +140,22 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Grid.Column="0" Grid.Row="0">
-                                            <Label Text="{Binding Title}" HorizontalOptions="Start" FontSize="17" />
+                                            <Label Text="{Binding Title}" HorizontalOptions="Start" FontSize="16" />
                                         </StackLayout>
                                         <StackLayout Grid.Column="1" Grid.Row="0">
-                                            <Label Text="{Binding Author}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Author}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="2" Grid.Row="0">
-                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <!--<StackLayout Grid.Column="3" Grid.Row="0">
                                             <Label Text="{Binding Instock}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>-->
                                         <StackLayout Grid.Column="3" Grid.Row="0">
-                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding Category}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Category}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>
