@@ -236,16 +236,16 @@ namespace WargamesGUI
                     switch (statusnumber)
                     {
                         case 1:
-                            statusString = "Active";
+                            statusString = "Aktiv";
                             break;
                         case 2:
-                            statusString = "Delayed books";
+                            statusString = "Försenade böcker";
                             break;
                         case 3:
-                            statusString = "Lost books";
+                            statusString = "Förlorade böcker";
                             break;
                         case 4:
-                            statusString = "Theft";
+                            statusString = "Stöld";
                             break;
                         default:
                             break;

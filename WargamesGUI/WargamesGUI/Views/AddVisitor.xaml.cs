@@ -21,6 +21,7 @@ namespace WargamesGUI.Views
         public static DbHandler handler = new DbHandler();
         public static LoanService loanService = new LoanService();
         private int privilegeLevel;
+        public string statusString;
 
         public AddVisitor()
         {
@@ -148,11 +149,37 @@ namespace WargamesGUI.Views
             if (selectedItem.fk_PrivilegeLevel == 3)
             {
                 var choice = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Detaljer för användare", "Lägg till bibliotekskort", "Ändra status för bibliotekskort");
+                try
+                {
+                    var statusnumber = await userService.GetStatusForLibraryCardFromDb(selectedItem.Cardnumber);
+                    switch (statusnumber)
+                    {
+                        case 1:
+                            statusString = "Aktiv";
+                            break;
+                        case 2:
+                            statusString = "Försenade böcker";
+                            break;
+                        case 3:
+                            statusString = "Förlorade böcker";
+                            break;
+                        case 4:
+                            statusString = "Stöld";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
 
+                }
                 switch (choice)
                 {
                     case "Detaljer för användare":
-
+                        await DisplayActionSheet($"Välj detalj för användare {selectedItem.Username}: ", "Avbryt", null, "Se status för bibliotekskort");
+                        await DisplayAlert("Status för bibliotekskort:", $"Användaren {selectedItem.Username} har statusen: '{statusString}' för sitt bibliotekskort", "OK");
                         break;
 
                     case "Lägg till bibliotekskort":

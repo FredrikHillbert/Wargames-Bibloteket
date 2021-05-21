@@ -22,7 +22,7 @@ namespace WargamesGUI.Services
                 con.Open();
                 using (var command = new SqlCommand(queryForBooks, con))
                 {
-                    using (var reader =  command.ExecuteReader())
+                    using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -57,14 +57,9 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<bool> AddNewBook(int item_id, string title, string ISBN, string publisher, string author,
+        public async Task AddNewBook(int item_id, string title, string ISBN, string publisher, string author,
                                            string description, int price, string placement, string category)
-        {
-            bool success = true;
-
-            try
-            {
-
+        {                       
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
                     await con.OpenAsync();
@@ -80,49 +75,25 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
                     insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = category;
-                    await insertcmd.ExecuteNonQueryAsync();
-                    return await Task.FromResult(success);
+                    await insertcmd.ExecuteNonQueryAsync();                   
                 }
-            }
-
-            catch
-            {
-                success = false;
-                return await Task.FromResult(success);
-            }
-
         }
 
-        public async Task<bool> RemoveBook(int id, string reason)
+        public async Task RemoveBook(int id, string reason)
         {
-            bool success = true;
 
-            try
+            using (SqlConnection con = new SqlConnection(theConString))
             {
-                using (SqlConnection con = new SqlConnection(theConString))
-                {
-                    con.Open();
-                    //await con.OpenAsync();
+                con.Open();
 
-                    SqlCommand insertcmd = new SqlCommand("sp_RemoveBook", con);
-                    insertcmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand insertcmd = new SqlCommand("sp_RemoveBook", con);
+                insertcmd.CommandType = CommandType.StoredProcedure;
 
-                    insertcmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
-                    insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
+                insertcmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
 
-                    await insertcmd.ExecuteNonQueryAsync();
-                    return await Task.FromResult(success);
-                }
-
-                // Här ska det finnas en till SQL-sträng som tar bort objektet i alla tables där den är kopplad.
+                await insertcmd.ExecuteNonQueryAsync();
             }
-
-            catch (Exception)
-            {
-                success = false;
-                return await Task.FromResult(success);
-            }
-
         }
 
         public async Task<bool> UpdateBook(int id, int item_id, string title, string author, string publisher, string description,
@@ -240,7 +211,7 @@ namespace WargamesGUI.Services
                             dewey.SubCategoryName = reader["SubCategoryName"].ToString();
                             dewey.fk_DeweyMain_Id = Convert.ToInt32(reader["fk_DeweyMain_Id"]);
                             dewey.DeweySub_Id = Convert.ToInt32(reader["DeweySub_Id"]);
-                                                        
+
 
                             deweyList.Add(dewey);
                         }

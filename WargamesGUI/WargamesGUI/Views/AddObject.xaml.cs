@@ -95,10 +95,8 @@ namespace WargamesGUI.Views
             //var Placement = EntryPlacement.Text;
             try
             {
-                var b = await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID, subCategoryName);
-
-                if (b)
-                {
+                    await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID, subCategoryName);
+              
                     EntryTitle.Text = string.Empty;
                     EntryISBN.Text = string.Empty;
                     EntryPublisher.Text = string.Empty;
@@ -107,11 +105,7 @@ namespace WargamesGUI.Views
                     EntrySubCategoryName.Text = string.Empty;
                     //EntryPlacement.Text = string.Empty;
                     await DisplayAlert("Lyckades!", "Du la till en bok!", "OK");
-                    await LoadBooks();
-
-
-                }
-                else await DisplayAlert("Misslyckades!", "Kunde inte lägga till boken!", "OK");
+                    await LoadBooks();       
             }
             catch (Exception ex)
             {
