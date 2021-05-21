@@ -4,6 +4,22 @@
              x:Class="WargamesGUI.Views.FlyoutLibrarianPageDetail"
              Title="Librarian"
              BackgroundImageSource="pexels-cottonbro.jpg">
-    
-  
+
+    <StackLayout>
+
+
+
+        <Frame BackgroundColor="White" Margin="350,100,350,0" HeightRequest="600">
+            <StackLayout>
+
+
+                <Label Text="      Välkommen till Wargames Biblioteket!" FontAttributes="Bold" FontSize="Header"></Label>
+                <Label Text="Som BIBLIOTEKARIE kan du göra följande:" FontAttributes="Italic" FontSize="Medium"></Label>
+                <Label Text="Lägga till användare:                                         Lägga till besökare:                            Lämna tillbaka böcker:" 
+                   FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+            </StackLayout>
+        </Frame>
+
+    </StackLayout>
 </ContentPage>

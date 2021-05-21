@@ -80,7 +80,7 @@
                                             <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="5" Grid.Row="0">
-                                            <Label Text="{Binding subCategory}" HorizontalOptions="Start" FontSize="17"/>
+                                            <Label Text="{Binding Category}" HorizontalOptions="Start" FontSize="17"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>

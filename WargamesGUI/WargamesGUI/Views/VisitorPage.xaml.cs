@@ -62,15 +62,25 @@ namespace WargamesGUI.Views
             catch (Exception ex)
             {
                 await DisplayAlert("Misslyckades", $"{ex.Message}", "OK");
-                throw;
             }
         }
 
-        private void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            selectedItem = (Book)e.Item;
+            try
+            {
+                selectedItem = (Book)e.Item;
 
+                await DisplayAlert("Beskrivning", $"{selectedItem.Description}", "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Misslyckades", $"{ex.Message}", "OK");
+             
+            }
+            
         }
+
 
         private async void Loan_Button_Clicked(object sender, EventArgs e)
         {

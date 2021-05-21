@@ -21,8 +21,8 @@
                 <Grid Margin="0,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="55"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
                        
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -39,19 +39,12 @@
                                 <models:Book TypeOfBook="E-bok" fk_Item_Id="2"/>
                             </x:Array>
                         </Picker.ItemsSource>
-
                     </Picker>
-
-
                     <Picker x:Name="categorypicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
                         Grid.Row="0" Grid.Column="0" WidthRequest="400" Title="Kategori" SelectedIndexChanged="categorypicker_SelectedIndexChanged">
                     </Picker>
-                    
-
                     <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="1" Margin="0,25,0,0" 
                            WidthRequest="400" TextColor="Black" HorizontalOptions="Start" IsReadOnly="True"/>
-                    
-
                     <Entry x:Name="EntryTitle" Placeholder="Titel" Grid.Row="1" Grid.Column="0"/>
                     <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="1" Grid.Column="1"/>
                     <Entry x:Name="EntryPublisher" Placeholder="Utgivare" Grid.Row="1" Grid.Column="2"/>
@@ -127,7 +120,7 @@
                                             <Label Text="{Binding Author}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" Grid.Column="6" Grid.Row="0">
-                                            <Label Text="{Binding subCategory}" HorizontalOptions="Start" FontSize="16"/>
+                                            <Label Text="{Binding Category}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>
