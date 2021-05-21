@@ -52,7 +52,8 @@
                Grid.Column="0" 
                HorizontalOptions="Center"
                WidthRequest="200"
-               IsPassword="True"/>
+               IsPassword="True"
+               Completed="Entrypassword_Completed"/>
         <!--Login Button-->
         <Button Text="Logga in" 
                 Grid.Row="7" 
@@ -62,7 +63,8 @@
                 TextColor="White"
                 WidthRequest="150"
                 CornerRadius="15"
-                BackgroundColor="#2E4159"/>
+                BackgroundColor="#2E4159"
+                />
         <!--Search Bar-->
         <SearchBar x:Name="SearchBar" 
                    Placeholder="Sök på Kategori, ISBN, Titel eller Författare"  

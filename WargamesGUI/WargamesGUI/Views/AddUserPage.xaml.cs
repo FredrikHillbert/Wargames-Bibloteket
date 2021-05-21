@@ -376,7 +376,11 @@ namespace WargamesGUI
             }
             else
             {
-                await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Detaljer för användare");
+                //var answer = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Detaljer för användare");
+                //switch (answer)
+                //{
+                //    default:
+                //}
             }
         }
     }

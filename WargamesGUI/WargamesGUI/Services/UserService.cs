@@ -15,6 +15,7 @@ namespace WargamesGUI.Services
     {
         public string exceptionMessage;
         public static int fk_LibraryCard;
+        
         public async Task<ObservableCollection<User>> ReadUserListFromDb()
         {
             ObservableCollection<User> obsList = new ObservableCollection<User>();
@@ -42,6 +43,19 @@ namespace WargamesGUI.Services
                             if (int.TryParse(reader["fk_LibraryCard"].ToString(), out int cardnumber))
                             {
                                 users.Cardnumber = cardnumber;
+                            }
+                            switch (users.fk_PrivilegeLevel)
+                            {
+                                case 1:
+                                    users.privilegeName = "Admin";
+                                    break;
+                                case 2:
+                                    users.privilegeName = "Bibliotekarie";
+                                    break;
+                                case 3:
+                                    users.privilegeName = "Besökare";
+                                    break;
+                                
                             }
 
                             obsList.Add(users);
