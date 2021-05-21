@@ -206,7 +206,8 @@ namespace WargamesGUI.Views
         private async void Change_Details(Book selectedItem)
         {
             int idOfBook = selectedItem.Id;
-            string bookType = selectedItem.fk_Item_Id.ToString();
+            //string bookType = selectedItem.fk_Item_Id.ToString();
+            int bookType = selectedItem.fk_Item_Id;
             string title = selectedItem.Title;
             string author = selectedItem.Author;
             string publisher = selectedItem.Publisher;
@@ -215,8 +216,9 @@ namespace WargamesGUI.Views
             string description = selectedItem.Description;
             string placement = selectedItem.Placement;
             //int price = (int)selectedItem.Price;
-            string price = selectedItem.Price.ToString();
-            await Navigation.PushAsync(new ChangeDetailPage(idOfBook, bookType, title, author, publisher, isbn, inStock, description, placement, price));
+            string category = selectedItem.Category;
+            int price = selectedItem.Price;
+            await Navigation.PushAsync(new ChangeDetailPage(idOfBook, bookType, title, author, publisher, isbn, inStock, description,category, placement, price));
 
         }
 

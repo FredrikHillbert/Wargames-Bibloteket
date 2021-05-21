@@ -125,8 +125,8 @@ namespace WargamesGUI.Services
 
         }
 
-        public async Task<bool> UpdateBook(int id, string title, string author, string publisher, string description,
-                                           int price, string ISBN, string placement, int inStock)
+        public async Task<bool> UpdateBook(int id, int item_id, string title, string author, string publisher, string description,
+                                           string ISBN, string placement, string category)
         {
             bool success = true;
 
@@ -139,15 +139,17 @@ namespace WargamesGUI.Services
                     SqlCommand insertcmd = new SqlCommand("sp_UpdateBook", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
 
-                    insertcmd.Parameters.Add("@Id", SqlDbType.VarChar).Value = id;
+                    insertcmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                    insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = item_id;
                     insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = title;
                     insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = author;
                     insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = publisher;
                     insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = description;
-                    insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
+                    //insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
                     insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = ISBN;
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
-                    insertcmd.Parameters.Add("@InStock", SqlDbType.Int).Value = inStock;
+                    insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = category;
+                    //insertcmd.Parameters.Add("@InStock", SqlDbType.Int).Value = inStock;
 
                     // Här ska det finnas en till SQL-sträng som uppdaterar objektet i alla tables där den finns.
 
@@ -156,8 +158,9 @@ namespace WargamesGUI.Services
                 }
             }
 
-            catch
+            catch (Exception ex)
             {
+                string a = ex.Message;
                 success = false;
                 return await Task.FromResult(success);
             }
