@@ -50,7 +50,7 @@ namespace WargamesGUI.Views
         }
         private async void Handled_Clicked(object sender, EventArgs e)
         {
-            if (selectedBook.Status == "Returned")
+            if (selectedBook.Status == "Återlämnad")
             {
 
                 try
