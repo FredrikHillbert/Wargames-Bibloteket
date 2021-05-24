@@ -256,6 +256,7 @@ namespace WargamesGUI.Views
                         deweySub.Where(x => x.fk_DeweyMain_Id == selectedDewey.DeweyMain_Id)
                                 .Select(x => x.SubCategoryName)
                                 .ToArray());
+
                         if (subCategoryName == "Avbryt" || subCategoryName == null)
                         {
                             EntrySubCategoryName.Text = string.Empty;

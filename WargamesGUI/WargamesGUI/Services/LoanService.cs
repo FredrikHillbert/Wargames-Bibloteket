@@ -74,7 +74,7 @@ namespace WargamesGUI.Services
         public async Task<List<Book>> GetBorrowedBooksFromDbLibrarian()
         {
             var BorrowedBooks = new List<Book>();
-            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate, bl.ReturnedDate, bl.fk_BookLoanStatus_Id, bl.Loan_Id" +
+            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate,  bl.ReturnedDate, bl.fk_BookLoanStatus_Id, bl.Loan_Id" +
                            $" FROM tblBookLoan bl" +
                            $" LEFT JOIN tblBook b" +
                            $" ON b.Id = bl.fk_Book_Id" +
