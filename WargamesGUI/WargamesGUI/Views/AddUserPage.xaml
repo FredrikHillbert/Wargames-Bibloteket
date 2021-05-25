@@ -84,6 +84,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                         <Label Text="Existerande användare" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black"/>
+                        <SearchBar x:Name="SearchUserBar" WidthRequest="150" Placeholder="Sök" Grid.Column="1" TextChanged="SearchUserBar_TextChanged" Margin="15,0,0,0" />
                         <Label Text="Privilegium" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
                         <Label Text="Förnnamn" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
                         <Label Text="Efternamn" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="2" TextColor="Black"/>

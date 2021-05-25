@@ -21,6 +21,7 @@ namespace WargamesGUI
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddUserPage : ContentPage
     {
+        private List<User> UserCollection { get; set; } = new List<User>();
         public User selectedItem;
         public Color color;
         public static AddUserPage addUser = new AddUserPage();
@@ -213,6 +214,13 @@ namespace WargamesGUI
         {
             try
             {
+                if (UserCollection != null)
+                {
+                    UserCollection.Clear();
+                }
+
+                UserCollection.AddRange(await userService.ReadUserListFromDb());
+
                 listOfUsers.ItemsSource = await userService.ReadUserListFromDb();
             }
             catch (Exception ex)
@@ -381,6 +389,26 @@ namespace WargamesGUI
                 //{
                 //    default:
                 //}
+            }
+        }
+
+        private async void SearchUserBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                var searchresult = UserCollection.Where(x => x.privilegeName.Contains(SearchUserBar.Text)
+                                                             || x.First_Name.Contains(SearchUserBar.Text)
+                                                             || x.Last_Name.Contains(SearchUserBar.Text)
+                                                             || x.Username.Contains(SearchUserBar.Text)
+                                                             || x.Address.Contains(SearchUserBar.Text)
+                                                             || x.Email.Contains(SearchUserBar.Text)
+                                                             || x.PhoneNumber.Contains(SearchUserBar.Text));
+                listOfUsers.ItemsSource = searchresult;
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("UserListSearchBar", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
     }

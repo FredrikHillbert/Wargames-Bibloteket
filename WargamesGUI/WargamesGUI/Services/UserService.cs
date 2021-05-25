@@ -16,9 +16,9 @@ namespace WargamesGUI.Services
         public string exceptionMessage;
         public static int fk_LibraryCard;
         
-        public async Task<ObservableCollection<User>> ReadUserListFromDb()
+        public async Task<List<User>> ReadUserListFromDb()
         {
-            ObservableCollection<User> obsList = new ObservableCollection<User>();
+            List<User> UserList = new List<User>();
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -58,11 +58,11 @@ namespace WargamesGUI.Services
                                 
                             }
 
-                            obsList.Add(users);
+                            UserList.Add(users);
                         }
                     }
                 }
-                return await Task.FromResult(obsList);
+                return await Task.FromResult(UserList);
 
             }
         }
