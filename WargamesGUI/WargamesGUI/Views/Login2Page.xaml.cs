@@ -1,32 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
-using WargamesGUI.Views;
-using Xamarin.Forms;
 using WargamesGUI.Services;
-using static WargamesGUI.AddUserPage;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
-namespace WargamesGUI
+namespace WargamesGUI.Views
 {
-
-    public partial class MainPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class Login2Page : ContentPage
     {
         public static UserService service = new UserService();
         public static User user;
-        public MainPage()
+        public Login2Page()
         {
             InitializeComponent();
-
-            //Entrypassword.Completed += (sender, e) => Entrypassword_Completed(sender, e);
         }
 
-        private async void SignIn_Button_Clicked(object sender, EventArgs e)
+        private async void Login_Button_Clicked(object sender, EventArgs e)
         {
             if (Entryusername.Text != "" & Entrypassword.Text != "")
             {
@@ -65,36 +59,14 @@ namespace WargamesGUI
             }
         }
 
-        private async void SearchBar_Clicked(object sender, EventArgs e)
-        {
-
-            try
-            {
-                if (string.IsNullOrWhiteSpace(SearchBar.Text))
-                {
-                    await DisplayAlert("Misslyckades", "Du måste skriva något", "OK");
-                }
-                else
-                {
-                    SearchValuePage.GetValues(SearchBar.Text);
-                    App.Current.MainPage = new SearchValuePage();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");
-            }
-        }
-
         private void Button_Clicked(object sender, EventArgs e)
         {
 
         }
 
-        //private async void Entrypassword_Completed(object sender, EventArgs e)
-        //{
-        //    SignIn_Button_Clicked(sender, e);
-        //}
+        private void Back_Button_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new SearchValuePage();
+        }
     }
 }

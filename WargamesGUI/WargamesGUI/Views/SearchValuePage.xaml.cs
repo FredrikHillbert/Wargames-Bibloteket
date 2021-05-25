@@ -62,7 +62,23 @@ namespace WargamesGUI.Views
         {
             selecteditem = (Book)e.Item;
 
-            await DisplayAlert("Beskrivning", $"{selecteditem.Description}", "OK");
+            //await DisplayAlert("Beskrivning", $"{selecteditem.Description}", "OK");
+
+            var answer = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Logga in för att låna boken");
+
+            switch (answer)
+            {
+                case "Detaljer":
+                    await DisplayAlert("Beskrivning", $"{selecteditem.Description}", "OK");
+                    break;
+                case "Logga in för att låna boken":
+                    App.Current.MainPage = new Login2Page();
+                    break;
+            }
+            
+
+            
+
         }
 
     }

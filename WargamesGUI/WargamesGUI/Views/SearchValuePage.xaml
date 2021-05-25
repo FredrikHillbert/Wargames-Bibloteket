@@ -37,8 +37,6 @@
                         <Label Text="Placering" TextColor="Black" Grid.Column="2" Grid.Row="1" FontAttributes="Bold"  TextDecorations="Underline" FontSize="Small"/>
                         <Label Text="Status" TextColor="Black" Grid.Column="3" Grid.Row="1" FontAttributes="Bold"  TextDecorations="Underline" FontSize="Small"/>
                         <Label Text="Kategori" TextColor="Black" Grid.Column="4" Grid.Row="1" FontAttributes="Bold"  TextDecorations="Underline" FontSize="Small"/>
-                        <!--<Label Text="Category" TextColor="Black" Grid.Column="4" Grid.Row="1" FontAttributes="Bold"/>-->
-                        <!--<Button Text="Loan book" TextColor="Black" Grid.Column="1" Grid.Row="0" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" />-->
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
