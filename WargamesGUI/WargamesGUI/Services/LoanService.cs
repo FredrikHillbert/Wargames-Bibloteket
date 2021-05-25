@@ -39,6 +39,38 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(LibraryCards);
             }
         }
+
+        public async Task<List<BookLoan>> GetBookLoans()
+        {
+            var BookLoans = new List<BookLoan>();
+
+            string query = $"SELECT * FROM tblBookLoan";
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+                using (var command = new SqlCommand(query, con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var BookLoan = new BookLoan();
+
+                            BookLoan.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
+                            BookLoan.fk_Book_Id = Convert.ToInt32(reader["fk_Book_Id"]);
+                            BookLoan.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]);
+                            BookLoan.fk_LibraryCard_Id = Convert.ToInt32(reader["fk_LibraryCard_Id"]);
+                            BookLoan.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
+                            BookLoan.ReturnedDate = Convert.ToDateTime(reader["ReturnDate"]);
+
+                            BookLoans.Add(BookLoan);
+                        }
+                        return await Task.FromResult(BookLoans);
+                    }
+                }
+            }
+        }
         public async Task<List<Book>> GetBorrowedBooksFromDb(int fk_LibraryCard)
         {
             var LoanedBooks = new List<Book>();
@@ -160,7 +192,6 @@ namespace WargamesGUI.Services
                         while (await reader.ReadAsync())
                         {
                             var BorrowedBo = new Book();
-
 
                             BorrowedBo.Title = reader["Title"].ToString();
                             BorrowedBo.Author = reader["Author"].ToString();
