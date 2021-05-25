@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WargamesGUI.MainPage"
+             x:Class="WargamesGUI.Views.Login2Page"
              BackgroundImageSource="pexels-cottonbro-with-layer.jpg">
- 
+             
     <Grid RowSpacing="10" HorizontalOptions="CenterAndExpand">
         
         <Grid.RowDefinitions>
@@ -15,62 +15,63 @@
            <!--5--><RowDefinition Height="20"/>
            <!--6--><RowDefinition Height="40"/>
            <!--7--><RowDefinition Height="40"/>
-           <!--8--><RowDefinition Height="40"/>
-           <!--9--><RowDefinition Height="40"/>
-           <!--10--><RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Frame CornerRadius="15" Margin="-40,-170,-40,-200" BackgroundColor="LightBlue" Grid.RowSpan="4" Grid.Row="3">
-            
-        </Frame>
-        <!--Image-->
-        <Image Grid.Row="2" 
+            <ColumnDefinition Width="250"/>
+    </Grid.ColumnDefinitions>
+    <Frame CornerRadius="15" Margin="-40,-170,-40,-100" BackgroundColor="LightBlue" Grid.RowSpan="4" Grid.Row="3">
+
+    </Frame>
+    <!--Image-->
+    <Image Grid.Row="2" 
                Grid.Column="0" 
                Source="LIBSYS.png"
                Margin="0,30,0,0"/>
-        <Label Text="Användarnamn"
+    <Label Text="Användarnamn"
                Grid.Row="3" 
                Grid.Column="0" 
                HorizontalOptions="Start"
                Margin="55,0,0,0"/>
-        <Entry x:Name="Entryusername" 
+    <Entry x:Name="Entryusername" 
                Placeholder="Skriv ditt användarnamn här" 
                Grid.Row="4" 
                Grid.Column="0" 
                HorizontalOptions="Center"
                WidthRequest="200"
-               Completed="SignIn_Button_Clicked"/>
-        <Label Text="Lösenord" 
+               Completed="Login_Button_Clicked"/>
+    <Label Text="Lösenord" 
                Grid.Row="5" 
                Grid.Column="0" 
                HorizontalOptions="Start"
                Margin="55,0,0,0"/>
-        <Entry x:Name="Entrypassword" 
+    <Entry x:Name="Entrypassword" 
                Placeholder="Skriv ditt lösenord här" 
                Grid.Row="6" 
                Grid.Column="0" 
                HorizontalOptions="Center"
                WidthRequest="200"
                IsPassword="True"
-               Completed="SignIn_Button_Clicked"/>
-        <!--Login Button-->
-        <Button Text="Logga in" 
+               Completed="Login_Button_Clicked"/>
+    <!--Login Button-->
+    <Button Text="Logga in" 
                 Grid.Row="7" 
                 Grid.Column="0" 
-                Clicked="Button_Clicked" 
+                Clicked="Login_Button_Clicked" 
                 HorizontalOptions="Center"
                 TextColor="White"
-                WidthRequest="150"
+                WidthRequest="100"
                 CornerRadius="15"
                 BackgroundColor="#2E4159"
-                />
-        <!--Search Bar-->
-        <SearchBar x:Name="SearchBar" 
-                   Placeholder="Sök på Kategori, ISBN, Titel eller Författare"  
-                   Grid.Row="9"
-                   SearchButtonPressed="SearchBar_Clicked"/>
+                Margin="140,0,0,0"/>
+    <Button Text="Tillbaka" 
+               Grid.Row="7" 
+               Grid.Column="0" 
+               Clicked="Back_Button_Clicked" 
+               HorizontalOptions="Center"
+               TextColor="White"
+               WidthRequest="100"
+               CornerRadius="15"
+               BackgroundColor="#2E4159"
+               Margin="0,0,140,0"/>
     </Grid>
-
 </ContentPage>
