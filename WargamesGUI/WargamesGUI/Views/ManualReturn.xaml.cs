@@ -17,6 +17,7 @@ namespace WargamesGUI.Views
     {
         public static BookService bookService = new BookService();
         public static LoanService loanService = new LoanService();
+        private List<Book> LoanCollection { get; set; } = new List<Book>();
         public static Book selectedBook;
         public ManualReturn()
         {
@@ -39,6 +40,13 @@ namespace WargamesGUI.Views
         {
             try
             {
+                if (LoanCollection != null)
+                {
+                    LoanCollection.Clear();
+                }
+                
+                LoanCollection.AddRange(await loanService.GetBorrowedBooksFromDbLibrarian());
+
                 listOfBooks.ItemsSource = await loanService.GetBorrowedBooksFromDbLibrarian();
 
             }
@@ -88,6 +96,22 @@ namespace WargamesGUI.Views
                 await DisplayAlert("Refresh_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
 
+        }
+
+        private async void BookReturnSeachBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                var searchresult = LoanCollection.Where(x => x.Username.Contains(BookReturnSeachBar.Text)
+                  || x.Author.Contains(BookReturnSeachBar.Text)
+                  || x.Title.Contains(BookReturnSeachBar.Text));
+
+                listOfBooks.ItemsSource = searchresult;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("MainSearchBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
         }
     }
 }

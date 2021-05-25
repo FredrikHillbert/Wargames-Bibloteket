@@ -36,10 +36,11 @@
                             
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="35"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Text="Befintliga lån" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" FontAttributes="Italic"/>
+                        <Label Text="Befintliga lån" FontSize="Medium" TextColor="Black" FontAttributes="Italic" WidthRequest="150" />
+                        <SearchBar x:Name="BookReturnSeachBar" WidthRequest="150" Placeholder="Skrin in ID" Grid.Column="1" TextChanged="BookReturnSeachBar_TextChanged" />
                         <Label Text="Titel" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
                         <Label Text="Författare" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
                         <Label Text="Användarnamn" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="2" TextColor="Black" />
