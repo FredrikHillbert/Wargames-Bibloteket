@@ -114,7 +114,7 @@ namespace WargamesGUI.Services
                            $" ON b.Id in(select tbc.fk_Book_Id from tblBookCopy WHERE tbc.fk_Book_Id = b.Id)" +
                            $" LEFT JOIN tblUser tu" +
                            $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard" +
-                           $" WHERE fk_BookLoanStatus_Id < 5" +
+                           $" WHERE Checked_In = 1" +
                            $" ORDER BY Title";
 
             using (SqlConnection con = new SqlConnection(theConString))
@@ -142,7 +142,7 @@ namespace WargamesGUI.Services
                             switch (BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
                             {
                                 case 1:
-                                    BorrowedBo.Status = "Aktiv";
+                                    BorrowedBo.Status = "Utlånad";
                                     break;
                                 case 2:
                                     BorrowedBo.Status = "Försenad";
@@ -153,9 +153,7 @@ namespace WargamesGUI.Services
                                 case 4:
                                     BorrowedBo.Status = "Stulen";
                                     break;
-                                case 5:
-                                    BorrowedBo.Status = "Återlämnad";
-                                    break;
+                                
 
                             }
 
@@ -341,7 +339,7 @@ namespace WargamesGUI.Services
                            $" ON b.Id in(select tbc.fk_Book_Id from tblBookCopy WHERE tbc.fk_Book_Id = b.Id)" +
                            $" LEFT JOIN tblUser tu" +
                            $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard" +
-                           $" WHERE fk_BookLoanStatus_Id > 1" +
+                           $" WHERE Checked_In = 2" +
                            $" ORDER BY Title";
 
             using (SqlConnection con = new SqlConnection(theConString))
@@ -386,9 +384,7 @@ namespace WargamesGUI.Services
                             }
                             switch (HandledBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
                             {
-                                case 1:
-                                    HandledBo.Status = "Aktiv";
-                                    break;
+                                
                                 case 2:
                                     HandledBo.Status = "Försenad";
                                     break;
@@ -399,7 +395,7 @@ namespace WargamesGUI.Services
                                     HandledBo.Status = "Stulen";
                                     break;
                                 case 5:
-                                    HandledBo.Status = "Återlämnad";
+                                    HandledBo.Status = "Inskannad";
                                     break;
 
 
