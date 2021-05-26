@@ -20,6 +20,7 @@ namespace WargamesGUI.Services
         public const string theDeweyMainTableName = "tblDeweyMain";
         public const string theDeweySubTableName = "tblDeweySub";
         public const string theBorrowedItemTableName = "tblBookLoan";
+        public const string theBookCopyTableName = "tblBookCopy";
 
 
         // Alla olika SQL-satser som vi behöver.
@@ -33,6 +34,7 @@ namespace WargamesGUI.Services
 
         // SELECT
         public string queryForBooks = $"SELECT * FROM {theBookTableName} ORDER BY Title";
+        public string queryForBookCopies = $"SELECT * FROM {theBookCopyTableName}";
 
         // INSERT INTO
 

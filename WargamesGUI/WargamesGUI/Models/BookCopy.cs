@@ -12,6 +12,5 @@ namespace WargamesGUI.Models
         public int fk_Condition_Id { get; set; }
         public int fk_Book_Id { get; set; }
         public int fk_Availability { get; set; }
-
     }
 }
