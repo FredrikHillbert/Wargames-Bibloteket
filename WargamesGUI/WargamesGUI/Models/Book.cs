@@ -44,6 +44,7 @@ namespace WargamesGUI.Models
         public int Loan_Id { get; set; }
         public DateTime? ReturnDate { get; set; }
         public DateTime? ReturnedDate { get; set; }
+        public int Available_copies { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

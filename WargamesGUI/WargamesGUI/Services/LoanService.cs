@@ -106,12 +106,15 @@ namespace WargamesGUI.Services
         public async Task<List<Book>> GetBorrowedBooksFromDbLibrarian()
         {
             var BorrowedBooks = new List<Book>();
-            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate,  bl.ReturnedDate, bl.fk_BookLoanStatus_Id, bl.Loan_Id" +
+            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate,  bl.ReturnedDate, bl.fk_BookLoanStatus_Id, b.Available_copies, b.ISBN" +
                            $" FROM tblBookLoan bl" +
+                           $" LEFT JOIN tblBookCopy tbc" +
+                           $" ON tbc.Copy_Id = bl.fk_BookCopy_Id" +
                            $" LEFT JOIN tblBook b" +
-                           $" ON b.Id = bl.fk_Book_Id" +
+                           $" ON b.Id in(select tbc.fk_Book_Id from tblBookCopy WHERE tbc.fk_Book_Id = b.Id)" +
                            $" LEFT JOIN tblUser tu" +
-                           $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard";
+                           $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard" +
+                           $" ORDER BY Title";
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
@@ -132,7 +135,9 @@ namespace WargamesGUI.Services
                             //BorrowedBo.Publisher = reader["Publisher"].ToString();
                             BorrowedBo.Placement = reader["Placement"].ToString();
                             BorrowedBo.InStock = Convert.ToInt32(reader["InStock"]);
-                            BorrowedBo.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
+                            //BorrowedBo.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
+                            BorrowedBo.ISBN = reader["ISBN"].ToString();
+                            BorrowedBo.Available_copies = Convert.ToInt32(reader["Available_copies"]);
                             switch (BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
                             {
                                 case 1:

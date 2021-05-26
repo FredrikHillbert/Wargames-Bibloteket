@@ -104,6 +104,7 @@ namespace WargamesGUI.Views
             {
                 var searchresult = LoanCollection.Where(x => x.Username.Contains(BookReturnSeachBar.Text)
                   || x.Author.Contains(BookReturnSeachBar.Text)
+                  || x.ISBN.Contains(BookReturnSeachBar.Text)
                   || x.Title.Contains(BookReturnSeachBar.Text));
 
                 listOfBooks.ItemsSource = searchresult;
