@@ -64,7 +64,7 @@ namespace WargamesGUI.Services
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
-                using (var command = new SqlCommand(queryForBookCopies, con))
+                using (var command = new SqlCommand(queryForBookCopiesExtra, con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -73,9 +73,11 @@ namespace WargamesGUI.Services
                             var book = new BookCopy();
 
                             book.Copy_Id = Convert.ToInt32(reader["Copy_Id"]);
-                            book.fk_Condition_Id = Convert.ToInt32(reader["fk_Condition_Id"]);
                             book.fk_Book_Id = Convert.ToInt32(reader["fk_Book_Id"]);
+                            book.fk_Condition_Id = Convert.ToInt32(reader["fk_Condition_Id"]);
                             book.fk_Availability = Convert.ToInt32(reader["fk_Availability"]);
+                            book.Condition = reader["ConditionType"].ToString();
+                            book.Availability = reader["Status"].ToString();
 
                             bookCopies.Add(book);
                         }

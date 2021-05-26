@@ -26,6 +26,7 @@ namespace WargamesGUI.Views
 
         private int itemID;
 
+        public int bookCopyID;
         public int dewymainID;
         public string deweysubID;
 
@@ -33,6 +34,7 @@ namespace WargamesGUI.Views
 
         List<DeweyMain> deweyMain = new List<DeweyMain>();
         List<DeweySub> deweySub = new List<DeweySub>();
+        List<BookCopy> bookCopies = new List<BookCopy>();
 
         private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
 
@@ -48,6 +50,7 @@ namespace WargamesGUI.Views
 
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadDeweyData(); });
+                await MainThread.InvokeOnMainThreadAsync(async () => { await LoadBookCopies(); });
 
             }
             catch (Exception ex)
@@ -56,7 +59,10 @@ namespace WargamesGUI.Views
 
             }
         }
-
+        private async Task LoadBookCopies()
+        {
+            bookCopies = await bookService.GetBookCopiesFromDb();
+        }
         private async Task LoadDeweyData()
         {
             deweySub = await bookService.GetDeweySubData();
@@ -111,9 +117,6 @@ namespace WargamesGUI.Views
             {
                 await DisplayAlert("AddBook_Button_Clicked", $"Anledning: {ex.Message}", "OK");
             }
-
-
-
         }
 
         private void picker_SelectedIndexChanged(object sender, EventArgs e)
@@ -144,7 +147,7 @@ namespace WargamesGUI.Views
         private async void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (Book)e.Item;
-            var bookDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Ändra Detaljer", "Ta bort bok");
+            var bookDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Ändra Detaljer", "Ta bort exemplar av boken");
             try
             {
                 switch (bookDetails)
@@ -155,7 +158,7 @@ namespace WargamesGUI.Views
                     case "Ändra Detaljer":
                         Change_Details(selectedItem);
                         break;
-                    case "Ta bort bok":
+                    case "Ta bort exemplar av boken":
                         Delete_Book(selectedItem);
                         break;
                 }
@@ -169,32 +172,118 @@ namespace WargamesGUI.Views
 
         private async void Delete_Book(Book selectedItem)
         {
+            //var selectedBookCopy = new BookCopy() { fk_Book_Id = selectedItem.Id };
+
             try
             {
-                string reason = await DisplayActionSheet($"Ta bort bok", "Avbryt", null, new string[] { "Slut på lager", "Tryckning upphörd", "Tillfälligt stopp", "Annan anledning" });
-
-                switch (reason)
+                var check = bookCopies.Where(x => x.fk_Book_Id == selectedItem.Id).Select(x => x).ToList();
+                if (check.Count == 0)
                 {
-                    case "Annan anledning":
-                        string otherReason = await DisplayPromptAsync($"Ta bort bok", $"Anledning för att ta bort: {selectedItem.Title}?");
-                        if (otherReason != null)
-                        {
-                            await bookService.RemoveBookCopy(selectedItem.Id, reason);
-                            await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
-                            await LoadBooks();
-                        }
-                        break;
-                    default:
-                        await bookService.RemoveBookCopy(selectedItem.Id, reason);
-                        await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
-                        await LoadBooks();
-                        break;
+                    await DisplayAlert("Misslyckades!", $"Denna bok har inga exemplar tillgängliga!", "OK");
+                    
+                }
+                else
+                {
+                    switch (selectedItem.Id)
+                    {
+                        default:
+
+                            string bookCopy = await DisplayActionSheet($"Ta bort bok", "Avbryt", null, bookCopies
+                                                                                                            .Where(x => x.fk_Book_Id == selectedItem.Id)
+                                                                                                            .Select(x => x.ToString())
+                                                                                                            .ToArray());
+
+                            if (subCategoryName == "Avbryt" || bookCopy == null)
+                            {
+                                break;
+                            }
+                            else if (bookCopy != null)
+                            {
+                                bookCopyID = bookCopies
+                                    .Where(x => x.fk_Book_Id == selectedItem.Id)
+                                    .Select(x => x)
+                                    .ToList()
+                                    .Where(x => x.ToString() == bookCopy)
+                                    .Select(x => x.Copy_Id)
+                                    .ElementAt(0);
+
+                                var reason = await DisplayActionSheet($"Anledning för att ta bort", "Avbryt", null, "Dåligt skick", "Borttappad", "Stulen", "Annan anledning");
+                                switch (reason)
+                                {
+                                    case "Dåligt skick":
+                                        await bookService.RemoveBookCopy(bookCopyID, reason);
+                                        await DisplayAlert("Lyckades!", $"Du har tagit bort ett exemplar av {selectedItem.Title} \n{bookCopy} \nAnledning: {reason}!", "OK");
+                                        await LoadBooks();
+                                        await LoadBookCopies();
+                                        break;
+                                    case "Borttappad":
+                                        await bookService.RemoveBookCopy(bookCopyID, reason);
+                                        await DisplayAlert("Lyckades!", $"Du har tagit bort ett exemplar av {selectedItem.Title} \n{bookCopy} \nAnledning: {reason}!", "OK");
+                                        await LoadBooks();
+                                        await LoadBookCopies();
+                                        break;
+                                    case "Stulen":
+                                        await bookService.RemoveBookCopy(bookCopyID, reason);
+                                        await DisplayAlert("Lyckades!", $"Du har tagit bort ett exemplar av {selectedItem.Title} \n{bookCopy} \nAnledning: {reason}!", "OK");
+                                        await LoadBooks();
+                                        await LoadBookCopies();
+                                        break;
+                                    case "Annan anledning":
+                                        string otherReason = await DisplayPromptAsync($"Ta bort exemplar", $"Anledning för att ta bort exemplar av {selectedItem.Title}: \n{bookCopy}");
+                                        if (otherReason != null)
+                                        {
+                                            await bookService.RemoveBookCopy(bookCopyID, otherReason);
+                                            await DisplayAlert("Lyckades!", $"Du har tagit bort ett exemplar av {selectedItem.Title} \n{bookCopy} \nAnledning: {otherReason}!", "OK");
+                                            await LoadBooks();
+                                            await LoadBookCopies();
+                                        }
+                                        break;
+                                    case "Avbryt":
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Delete_Book", $"{ex.Message}", "OK");
+
+                await DisplayAlert("Ta bort exemplar", $"{ex.Message}", "OK");
             }
+
+
+            //bookCopies = bookCopies.Where(x => x.fk_Book_Id == selectedItem.Id).ToList();
+
+            //try
+            //{
+            //    string book = await DisplayActionSheet($"Ta bort bok", "Avbryt", null, bookCopies.Select(x => x.ToString()).ToArray());
+
+            //    switch (reason)
+            //    {
+            //        case "Annan anledning":
+            //            string otherReason = await DisplayPromptAsync($"Ta bort bok", $"Anledning för att ta bort: {selectedItem.Title}?");
+            //            if (otherReason != null)
+            //            {
+            //                await bookService.RemoveBookCopy(selectedItem.Id, reason);
+            //                await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
+            //                await LoadBooks();
+            //            }
+            //            break;
+            //        default:
+            //            await bookService.RemoveBookCopy(selectedItem.Id, reason);
+            //            await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
+            //            await LoadBooks();
+            //            break;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    await DisplayAlert("Delete_Book", $"{ex.Message}", "OK");
+            //}
         }
 
         private async void Change_Details(Book selectedItem)
