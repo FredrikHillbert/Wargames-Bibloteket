@@ -58,7 +58,7 @@ namespace WargamesGUI.Services
                             var BookLoan = new BookLoan();
 
                             BookLoan.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
-                            BookLoan.fk_Book_Id = Convert.ToInt32(reader["fk_Book_Id"]);
+                            BookLoan.fk_BookCopy_Id = Convert.ToInt32(reader["fk_BookCopy_Id"]);
                             BookLoan.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]);
                             BookLoan.fk_LibraryCard_Id = Convert.ToInt32(reader["fk_LibraryCard_Id"]);
                             BookLoan.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
