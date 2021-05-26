@@ -176,46 +176,29 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task<List<Book>> UpdateBorrowedBooksFromDbLibrarian(int loanID)
-        {
-            var BorrowedBooks = new List<Book>();
-
+        public async Task UpdateBorrowedBooksFromDbLibrarian(int loanID)
+        {          
             string querySelect = $"UPDATE tblBookLoan" +
-                                 $" SET fk_BookLoanStatus_Id = 1, ReturnedDate = GETDATE()" +
-                                 $" WHERE Loan_Id = {loanID}" +
-                                 $" SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.ReturnDate, bl.ReturnedDate, bl.fk_BookLoanStatus_Id" +
-                                 $" FROM tblBookLoan bl" +
-                                 $" LEFT JOIN tblBook b" +
-                                 $" ON b.Id = bl.fk_Book_Id";
-
-
+                                 $" SET Checked_In = 2, ReturnedDate = GETDATE()" +
+                                 $" WHERE Loan_Id = {loanID}";
+                                
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
-                using (var command = new SqlCommand(querySelect, con))
-                {
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var BorrowedBo = new Book();
 
-                            BorrowedBo.Title = reader["Title"].ToString();
-                            BorrowedBo.Author = reader["Author"].ToString();
-                            BorrowedBo.Publisher = reader["Publisher"].ToString();
-                            BorrowedBo.Placement = reader["Placement"].ToString();
-                            BorrowedBo.InStock = Convert.ToInt32(reader["InStock"]);
-                            BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]);
-                            BorrowedBo.Status = "Handled";
-                            BorrowedBo.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
+                // FIXA STORED PROCEDURE 26-05-21
 
 
-                            BorrowedBooks.Add(BorrowedBo);
+                //SqlCommand insertcmd = new SqlCommand("sp_LoanBook", con);
+                //insertcmd.CommandType = CommandType.StoredProcedure;
 
-                        }
-                    }
-                }
-                return await Task.FromResult(BorrowedBooks);
+                //insertcmd.Parameters.Add("@fk_Book_Id", SqlDbType.Int).Value = book_id;
+                //insertcmd.Parameters.Add("@fk_LibraryCard", SqlDbType.Int).Value = fk_LibraryCard;
+                //insertcmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
+
+
+                //await insertcmd.ExecuteNonQueryAsync();
+
             }
         }
 
