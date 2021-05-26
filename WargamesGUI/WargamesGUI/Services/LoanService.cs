@@ -75,7 +75,10 @@ namespace WargamesGUI.Services
         {
             var LoanedBooks = new List<Book>();
 
-            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.Loan_Id, b.Category, b.Description FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id AND fk_BookLoanStatus_Id < 5";
+            string query = $"SELECT * FROM tblBookLoan bl LEFT JOIN tblBookCopy bc ON bc.Copy_Id = bl.fk_BookCopy_Id " +
+                           $"LEFT JOIN tblBook b ON b.Id in(select bc.fk_Book_Id from tblBookCopy " +
+                           $"WHERE bc.fk_Book_Id = b.Id) WHERE bl.fk_LibraryCard_Id = 18 " +
+                           $"AND fk_BookLoanStatus_Id< 5; ";
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -114,7 +117,7 @@ namespace WargamesGUI.Services
                            $" ON b.Id in(select tbc.fk_Book_Id from tblBookCopy WHERE tbc.fk_Book_Id = b.Id)" +
                            $" LEFT JOIN tblUser tu" +
                            $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard" +
-                           $" WHERE fk_BookLoanStatus_Id < 5" +
+                           $" WHERE Checked_In = 1" +
                            $" ORDER BY Title";
 
             using (SqlConnection con = new SqlConnection(theConString))
@@ -142,7 +145,7 @@ namespace WargamesGUI.Services
                             switch (BorrowedBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
                             {
                                 case 1:
-                                    BorrowedBo.Status = "Aktiv";
+                                    BorrowedBo.Status = "Utlånad";
                                     break;
                                 case 2:
                                     BorrowedBo.Status = "Försenad";
@@ -153,9 +156,7 @@ namespace WargamesGUI.Services
                                 case 4:
                                     BorrowedBo.Status = "Stulen";
                                     break;
-                                case 5:
-                                    BorrowedBo.Status = "Återlämnad";
-                                    break;
+                                
 
                             }
 
@@ -231,7 +232,7 @@ namespace WargamesGUI.Services
                     SqlCommand insertcmd = new SqlCommand("sp_LoanBook", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
 
-                    insertcmd.Parameters.Add("@fk_Book_Id", SqlDbType.Int).Value = book_id;
+                    insertcmd.Parameters.Add("@bookId", SqlDbType.Int).Value = book_id;
                     insertcmd.Parameters.Add("@fk_LibraryCard", SqlDbType.Int).Value = fk_LibraryCard;
                     insertcmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
 
@@ -341,7 +342,7 @@ namespace WargamesGUI.Services
                            $" ON b.Id in(select tbc.fk_Book_Id from tblBookCopy WHERE tbc.fk_Book_Id = b.Id)" +
                            $" LEFT JOIN tblUser tu" +
                            $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard" +
-                           $" WHERE fk_BookLoanStatus_Id > 1" +
+                           $" WHERE Checked_In = 2" +
                            $" ORDER BY Title";
 
             using (SqlConnection con = new SqlConnection(theConString))
@@ -386,9 +387,7 @@ namespace WargamesGUI.Services
                             }
                             switch (HandledBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
                             {
-                                case 1:
-                                    HandledBo.Status = "Aktiv";
-                                    break;
+                                
                                 case 2:
                                     HandledBo.Status = "Försenad";
                                     break;
@@ -399,7 +398,7 @@ namespace WargamesGUI.Services
                                     HandledBo.Status = "Stulen";
                                     break;
                                 case 5:
-                                    HandledBo.Status = "Återlämnad";
+                                    HandledBo.Status = "Inskannad";
                                     break;
 
 

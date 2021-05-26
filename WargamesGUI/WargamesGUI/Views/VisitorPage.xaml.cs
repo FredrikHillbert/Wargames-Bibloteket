@@ -71,7 +71,47 @@ namespace WargamesGUI.Views
             {
                 selectedItem = (Book)e.Item;
 
-                await DisplayAlert("Beskrivning", $"{selectedItem.Description}", "OK");
+                var answer = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Låna Boken");
+
+                switch (answer)
+                {
+                    case "Detaljer":
+                        await DisplayAlert("Beskrivning", $"{selectedItem.Description}", "OK");
+                        break;
+                    case "Låna Boken":
+                        if (selectedItem.InStock == 0)
+                        {
+                            await DisplayAlert("Misslyckades", "Boken är inte tillgänglig", "OK");
+
+                        }
+                        else
+                        {
+                            switch (await bookLoanService.LoanBook(selectedItem.Id, UserService.fk_LibraryCard))
+                            {
+                                case 0:
+                                    await DisplayAlert("Lyckades", "Boken är tilllagd", "OK");
+                                    await LoadBooks();
+                                    break;
+                                case 1:
+                                    await DisplayAlert("Misslyckades", "Du har en oinlämnad bok, lämna tillbaka den och försök igen", "OK");
+                                    await LoadBooks();
+                                    break;
+                                case 2:
+                                    await DisplayAlert("Misslyckades", "Du har tappat bort böcker. Kontakta biblioteket för att lösa problemet", "OK");
+                                    await LoadBooks();
+                                    break;
+                                case 3:
+                                    await DisplayAlert("Misslyckdes", "Du har stulit böcker. Kontakta biblioteket för att lösa problemet", "OK");
+                                    await LoadBooks();
+                                    break;
+                                default:
+                                    await DisplayAlert("Misslyckades", "Okänt fel. Kontakta biblioteket för att lösa problemet", "OK");
+                                    await LoadBooks();
+                                    break;
+                            }
+                        }
+                        break;
+                }
             }
             catch (Exception ex)
             {

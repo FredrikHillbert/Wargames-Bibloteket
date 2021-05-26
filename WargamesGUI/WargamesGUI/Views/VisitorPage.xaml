@@ -88,9 +88,9 @@
                         </ListView.ItemTemplate>
                     </ListView>
                     <!--LOAN BOOK BUTTON -->
-                    <StackLayout>
+                    <!--<StackLayout>
                         <Button Text="Låna bok" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="Loan_Button_Clicked"/>
-                    </StackLayout>
+                    </StackLayout>-->
                 </StackLayout>
             </Frame>
         </StackLayout>
@@ -104,7 +104,6 @@
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
@@ -137,7 +136,7 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
+                                           
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Grid.Column="0" Grid.Row="0">
                                             <Label Text="{Binding Title}" HorizontalOptions="Start" FontSize="16" />
@@ -163,9 +162,9 @@
                         </ListView.ItemTemplate>
                     </ListView>
                     <!-- HAND BOOK BACK BUTTON-->
-                    <StackLayout>
+                    <!--<StackLayout>
                         <Button Text="Lämna tillbaka bok" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="End" WidthRequest="150" Clicked="HandBookBack_Button_Clicked"/>
-                    </StackLayout>
+                    </StackLayout>-->
                 </StackLayout>
             </Frame>
         </StackLayout>
