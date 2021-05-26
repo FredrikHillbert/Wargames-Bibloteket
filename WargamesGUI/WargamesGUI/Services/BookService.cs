@@ -76,6 +76,7 @@ namespace WargamesGUI.Services
                             book.fk_Book_Id = Convert.ToInt32(reader["fk_Book_Id"]);
                             book.fk_Condition_Id = Convert.ToInt32(reader["fk_Condition_Id"]);
                             book.fk_Availability = Convert.ToInt32(reader["fk_Availability"]);
+
                             book.Condition = reader["ConditionType"].ToString();
                             book.Availability = reader["Status"].ToString();
 
@@ -109,20 +110,29 @@ namespace WargamesGUI.Services
                 }
         }
 
-        public async Task RemoveBookCopy(int id, string reason)
+        public async Task<bool> RemoveBookCopy(int id, string reason)
         {
-
-            using (SqlConnection con = new SqlConnection(theConString))
+            bool success = true;
+            try
             {
-                await con.OpenAsync();
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
 
-                SqlCommand insertcmd = new SqlCommand("sp_RemoveBookCopy", con);
-                insertcmd.CommandType = CommandType.StoredProcedure;
+                    SqlCommand insertcmd = new SqlCommand("sp_RemoveBookCopy", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
 
-                insertcmd.Parameters.Add("@Copy_Id", SqlDbType.Int).Value = id;
-                insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
+                    insertcmd.Parameters.Add("@Copy_Id", SqlDbType.Int).Value = id;
+                    insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
 
-                await insertcmd.ExecuteNonQueryAsync();
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return success;
+                }
+            }
+            catch (Exception)
+            {
+                success = false;
+                return success;
             }
         }
 
