@@ -254,36 +254,6 @@ namespace WargamesGUI.Views
 
                 await DisplayAlert("Ta bort exemplar", $"{ex.Message}", "OK");
             }
-
-
-            //bookCopies = bookCopies.Where(x => x.fk_Book_Id == selectedItem.Id).ToList();
-
-            //try
-            //{
-            //    string book = await DisplayActionSheet($"Ta bort bok", "Avbryt", null, bookCopies.Select(x => x.ToString()).ToArray());
-
-            //    switch (reason)
-            //    {
-            //        case "Annan anledning":
-            //            string otherReason = await DisplayPromptAsync($"Ta bort bok", $"Anledning för att ta bort: {selectedItem.Title}?");
-            //            if (otherReason != null)
-            //            {
-            //                await bookService.RemoveBookCopy(selectedItem.Id, reason);
-            //                await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
-            //                await LoadBooks();
-            //            }
-            //            break;
-            //        default:
-            //            await bookService.RemoveBookCopy(selectedItem.Id, reason);
-            //            await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
-            //            await LoadBooks();
-            //            break;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    await DisplayAlert("Delete_Book", $"{ex.Message}", "OK");
-            //}
         }
 
         private async void Change_Details(Book selectedItem)
