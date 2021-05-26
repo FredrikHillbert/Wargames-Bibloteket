@@ -57,6 +57,34 @@ namespace WargamesGUI.Services
             }
         }
 
+        public async Task<List<BookCopy>> GetBookCopiesFromDb()
+        {
+            var bookCopies = new List<BookCopy>();
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+                using (var command = new SqlCommand(queryForBooks, con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var book = new BookCopy();
+                            
+                            book.Copy_Id = Convert.ToInt32(reader["Copy_Id"]);
+                            book.fk_Condition_Id = Convert.ToInt32(reader["fk_Condition_Id"]);
+                            book.fk_Book_Id = Convert.ToInt32(reader["fk_Book_Id"]);
+                            book.fk_Availability = Convert.ToInt32(reader["Copy_Id"]);
+
+                            bookCopies.Add(book);
+                        }
+                    }
+                }
+                return await Task.FromResult(bookCopies);
+            }
+        }
+
         public async Task AddNewBook(int item_id, string title, string ISBN, string publisher, string author,
                                            string description, int price, string placement, string category)
         {                       
