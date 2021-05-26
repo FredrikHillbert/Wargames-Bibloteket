@@ -5,9 +5,10 @@
              BackgroundImageSource="pexels-cottonbro-with-layer.jpg">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="350"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="350"/>
+            
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -18,38 +19,35 @@
 
         <StackLayout Grid.Row="0" VerticalOptions="Start" Margin="0,0,0,0">
 
-            <Frame CornerRadius="40" BorderColor="Black" Margin="50,20,50,-505" BackgroundColor="LightBlue">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,20,50,0" BackgroundColor="LightBlue">
 
                 <StackLayout>
 
                     <Grid>
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+
+
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Text="Befintliga lån" FontSize="Medium" TextColor="Black" FontAttributes="Italic" WidthRequest="150" />
-                        <SearchBar x:Name="BookReturnSeachBar" WidthRequest="150" Placeholder="Skrin in ID" Grid.Column="1" TextChanged="BookReturnSeachBar_TextChanged" />
+                        <Label Text="Utlånade böcker" FontSize="Medium" TextColor="Black" FontAttributes="Italic" WidthRequest="250" Margin="0,0,-50,0" />
+                        <SearchBar x:Name="BookReturnSeachBar" WidthRequest="300" Placeholder="Sök på ISBN, titel, författare eller användarnamn" Grid.Column="2" TextChanged="BookReturnSeachBar_TextChanged" Margin="0,0,-10,0" Grid.ColumnSpan="2"/>
                         <Label Text="Titel" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
                         <Label Text="Författare" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
                         <Label Text="Användarnamn" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="2" TextColor="Black" />
                         <Label Text="Placering" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="3" TextColor="Black" />
-                        <Label Text="I lager" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="4" TextColor="Black"/>
-                        <Label Text="Återlämna" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="5" TextColor="Black"/>
-                        <Label Text="Återlämningsdatum" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="6" TextColor="Black"/>
-                        <Label Text="Status" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="7" TextColor="Black"/>
-                        
+                        <Label Text="Återlämnas" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="4" TextColor="Black"/>
+                        <Label Text="Status" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="5" TextColor="Black"/>
+
                     </Grid>
 
                     <ListView x:Name="listOfBooks" Margin="0,0,0,10" ItemTapped="listOfBooks_ItemTapped">
@@ -65,15 +63,14 @@
                                             <RowDefinition Height="25"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="3*"/>
-                                            
+
+
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Grid.Column="0" Grid.Row="0">
                                             <Label Text="{Binding Title}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
@@ -88,18 +85,14 @@
                                             <Label Text="{Binding Placement}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding InStock}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="5" Grid.Row="0">
                                             <Label Text="{Binding ReturnDate}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
-                                        <StackLayout Grid.Column="6" Grid.Row="0">
-                                            <Label Text="{Binding ReturnedDate}" FontSize="16" HorizontalOptions="Start" TextColor="Black" x:Name="returnedDateLabel"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="7" Grid.Row="0">
+                                        <StackLayout Grid.Column="5" Grid.Row="0">
                                             <Label Text="{Binding Status}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
-                                       
+
+
+
 
                                     </Grid>
                                 </ViewCell>
@@ -114,8 +107,8 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Text="Hantera"
-                            WidthRequest="100"
+                        <Button Text="Skanna in bok"
+                            WidthRequest="120"
                             Clicked="Handled_Clicked"
                             BackgroundColor="#2E4159" 
                             TextColor="White" 
@@ -128,10 +121,123 @@
                             TextColor="White" 
                             CornerRadius="20"                            
                             HorizontalOptions="Center"></Button>
-                </Grid>
+                    </Grid>
                 </StackLayout>
             </Frame>
-
         </StackLayout>
+        <StackLayout Grid.Row="2" VerticalOptions="Start" Margin="0,0,0,0">
+                <Frame CornerRadius="40" BorderColor="Black" Margin="50,0,50,20" BackgroundColor="LightBlue">
+
+                <StackLayout>
+
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+
+
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Text="Hantering av böcker" FontSize="Medium" TextColor="Black" FontAttributes="Italic" WidthRequest="250" Margin="0,0,-50,0" />
+                        <SearchBar x:Name="BookHandledSeachBar" WidthRequest="300" Placeholder="Sök på ISBN, titel, författare eller användarnamn" Grid.Column="2" TextChanged="BookHandledSeachBar_TextChanged" Margin="0,0,-10,0" Grid.ColumnSpan="2"/>
+                        <Label Text="Titel" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
+                        <Label Text="Författare" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
+                        <Label Text="Placering" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="2" TextColor="Black" />
+                        <Label Text="I lager" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="3" TextColor="Black" />
+                        <Label Text="Återlämningsdatum" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="4" TextColor="Black" Margin="-50,0,0,0"/>
+                        <Label Text="Skick" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="5" TextColor="Black"/>
+                        <Label Text="Status" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="6" TextColor="Black"/>
+
+                    </Grid>
+
+                    <ListView x:Name="listOfHandledBooks" Margin="0,0,0,10" ItemTapped="listOfBooks_ItemTapped">
+
+
+                        <ListView.ItemTemplate>
+
+                            <DataTemplate>
+                                <ViewCell>
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="25"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+
+
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Column="0" Grid.Row="0">
+                                            <Label Text="{Binding Title}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="1" Grid.Row="0">
+                                            <Label Text="{Binding Author}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="2" Grid.Row="0">
+                                            <Label Text="{Binding Placement}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="3" Grid.Row="0">
+                                            <Label Text="{Binding InStock}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="4" Grid.Row="0">
+                                            <Label Text="{Binding ReturnedDate}" FontSize="16" HorizontalOptions="Start" TextColor="Black" Margin="-50,0,0,0"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="5" Grid.Row="0">
+                                            <Label Text="{Binding BookConditionString}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="6" Grid.Row="0">
+                                            <Label Text="{Binding Status}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
+                                        </StackLayout>
+
+
+
+
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Text="Skanna in bok"
+                            WidthRequest="120"
+                            Clicked="Handled_Clicked"
+                            BackgroundColor="#2E4159" 
+                            TextColor="White" 
+                            CornerRadius="20" 
+                            HorizontalOptions="End"></Button>
+                        <Button Text="Uppdatera" 
+                            WidthRequest="100"
+                            Clicked="Refresh_Clicked"
+                            BackgroundColor="#2E4159" 
+                            TextColor="White" 
+                            CornerRadius="20"                            
+                            HorizontalOptions="Center"></Button>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+               
+            </StackLayout>
     </Grid>
 </ContentPage>

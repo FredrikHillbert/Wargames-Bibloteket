@@ -155,9 +155,7 @@ namespace WargamesGUI.Services
                                 case 5:
                                     BorrowedBo.Status = "Återlämnad";
                                     break;
-                                case 6:
-                                    BorrowedBo.Status = "Hanterad";
-                                    break;
+
                             }
 
                             BorrowedBo.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
@@ -181,7 +179,7 @@ namespace WargamesGUI.Services
             var BorrowedBooks = new List<Book>();
 
             string querySelect = $"UPDATE tblBookLoan" +
-                                 $" SET fk_BookLoanStatus_Id = 6, ReturnedDate = GETDATE()" +
+                                 $" SET fk_BookLoanStatus_Id = 1, ReturnedDate = GETDATE()" +
                                  $" WHERE Loan_Id = {loanID}" +
                                  $" SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.ReturnDate, bl.ReturnedDate, bl.fk_BookLoanStatus_Id" +
                                  $" FROM tblBookLoan bl" +
@@ -327,6 +325,93 @@ namespace WargamesGUI.Services
             {
                 success = false;
                 return await Task.FromResult(success);
+            }
+        }
+        public async Task<List<Book>> GetHandledBooksFromLibrarianDb()
+        {
+            var HandledBooks = new List<Book>();
+            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate,  bl.ReturnedDate, bl.fk_BookLoanStatus_Id, b.Available_copies, b.ISBN, tbc.fk_Condition_Id" +
+                           $" FROM tblBookLoan bl" +
+                           $" LEFT JOIN tblBookCopy tbc" +
+                           $" ON tbc.Copy_Id = bl.fk_BookCopy_Id" +
+                           $" LEFT JOIN tblBook b" +
+                           $" ON b.Id in(select tbc.fk_Book_Id from tblBookCopy WHERE tbc.fk_Book_Id = b.Id)" +
+                           $" LEFT JOIN tblUser tu" +
+                           $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard" +
+                           $" ORDER BY Title";
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+                using (var command = new SqlCommand(query, con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var HandledBo = new Book();   
+                            HandledBo.Title = reader["Title"].ToString();
+                            HandledBo.Author = reader["Author"].ToString();                            
+                            HandledBo.Placement = reader["Placement"].ToString();
+                            HandledBo.InStock = Convert.ToInt32(reader["InStock"]);                          
+                            HandledBo.ISBN = reader["ISBN"].ToString();
+                            
+                            switch (HandledBo.BookCondition = Convert.ToInt32(reader["fk_Condition_Id"]))
+                            {
+                                case 1:
+                                    HandledBo.BookConditionString = "Ny";
+                                    break;
+                                case 2:
+                                    HandledBo.BookConditionString = "Som ny";
+                                    break;
+                                case 3:
+                                    HandledBo.BookConditionString = "Väldigt bra";
+                                    break;
+                                case 4:
+                                    HandledBo.BookConditionString = "Bra";
+                                    break;
+                                case 5:
+                                    HandledBo.BookConditionString = "Acceptabel";
+                                    break;
+                                case 6:
+                                    HandledBo.BookConditionString = "Sliten";
+                                    break;
+                                case 7:
+                                    HandledBo.BookConditionString = "Förstörd";
+                                    break;
+                            }
+                            switch (HandledBo.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]))
+                            {
+                                case 1:
+                                    HandledBo.Status = "Aktiv";
+                                    break;
+                                case 2:
+                                    HandledBo.Status = "Försenad";
+                                    break;
+                                case 3:
+                                    HandledBo.Status = "Försvunnen";
+                                    break;
+                                case 4:
+                                    HandledBo.Status = "Stulen";
+                                    break;
+                                case 5:
+                                    HandledBo.Status = "Återlämnad";
+                                    break;
+
+
+                            }                         
+
+                            bool a = DateTime.TryParse(reader["ReturnedDate"].ToString(), out DateTime dateTime);
+                            if (a == true)
+                            {
+                                HandledBo.ReturnedDate = Convert.ToDateTime(reader["ReturnedDate"]);
+                            }
+
+                            HandledBooks.Add(HandledBo);
+                        }
+                    }
+                }
+                return await Task.FromResult(HandledBooks);
             }
         }
     }

@@ -18,6 +18,7 @@ namespace WargamesGUI.Views
         public static BookService bookService = new BookService();
         public static LoanService loanService = new LoanService();
         private List<Book> LoanCollection { get; set; } = new List<Book>();
+        private List<Book> HandledCollection { get; set; } = new List<Book>();
         public static Book selectedBook;
         public ManualReturn()
         {
@@ -40,14 +41,17 @@ namespace WargamesGUI.Views
         {
             try
             {
-                if (LoanCollection != null)
+                if (LoanCollection != null || HandledCollection != null)
                 {
                     LoanCollection.Clear();
+                    HandledCollection.Clear();
                 }
-                
+
                 LoanCollection.AddRange(await loanService.GetBorrowedBooksFromDbLibrarian());
+                HandledCollection.AddRange(await loanService.GetHandledBooksFromLibrarianDb());
 
                 listOfBooks.ItemsSource = await loanService.GetBorrowedBooksFromDbLibrarian();
+                listOfHandledBooks.ItemsSource = await loanService.GetHandledBooksFromLibrarianDb();
 
             }
             catch (Exception ex)
@@ -58,13 +62,15 @@ namespace WargamesGUI.Views
         }
         private async void Handled_Clicked(object sender, EventArgs e)
         {
+
             if (selectedBook.Status == "Återlämnad")
             {
+
 
                 try
                 {
                     await loanService.UpdateBorrowedBooksFromDbLibrarian(selectedBook.Loan_Id);
-                    await DisplayAlert("Bok Hanterad!", $"Du hanterade {selectedBook.Title}.", "OK");
+                    await DisplayAlert("Bok skannad!", $"Du skannade {selectedBook.Title}.", "OK");
                     await LoadBooks();
 
                 }
@@ -72,12 +78,12 @@ namespace WargamesGUI.Views
                 {
                     await DisplayAlert("Handled_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
                 }
-
             }
             else
             {
-                await DisplayAlert("BookNotReturned", "Boken du försöker hantera är inte återlämnad. Statusen på boken måste vara 'återlämnad' för att kunna hanteras.", "OK");
+                await DisplayAlert("Ej återlämnad", $"Boken du försöker skanna är inte återlämnad.", "OK");
             }
+
         }
 
         private void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -108,6 +114,25 @@ namespace WargamesGUI.Views
                   || x.Title.Contains(BookReturnSeachBar.Text));
 
                 listOfBooks.ItemsSource = searchresult;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("MainSearchBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+        }
+
+        private async void BookHandledSeachBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                var searchresult = HandledCollection.Where(x => x.Placement.Contains(BookHandledSeachBar.Text)
+                  || x.Author.Contains(BookHandledSeachBar.Text)
+                  || x.ISBN.Contains(BookHandledSeachBar.Text)
+                  || x.Title.Contains(BookHandledSeachBar.Text)
+                  || x.BookConditionString.Contains(BookHandledSeachBar.Text)
+                  || x.Status.Contains(BookHandledSeachBar.Text));
+
+                listOfHandledBooks.ItemsSource = searchresult;
             }
             catch (Exception ex)
             {

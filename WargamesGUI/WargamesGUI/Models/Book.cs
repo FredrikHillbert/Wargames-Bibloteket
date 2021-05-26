@@ -45,6 +45,8 @@ namespace WargamesGUI.Models
         public DateTime? ReturnDate { get; set; }
         public DateTime? ReturnedDate { get; set; }
         public int Available_copies { get; set; }
+        public int BookCondition { get; set; }
+        public string BookConditionString { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
