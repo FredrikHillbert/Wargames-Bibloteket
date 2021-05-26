@@ -130,7 +130,7 @@ namespace WargamesGUI.Views
 
                 if (reason != null)
                 {
-                    await bookService.RemoveBook(selectedItem.Id, reason);
+                    await bookService.RemoveBookCopy(selectedItem.Id, reason);
                     await DisplayAlert("Lyckades!", "Du tog bort en bok!", "OK");
                     await LoadBooks();
                 }
@@ -179,13 +179,13 @@ namespace WargamesGUI.Views
                         string otherReason = await DisplayPromptAsync($"Ta bort bok", $"Anledning för att ta bort: {selectedItem.Title}?");
                         if (otherReason != null)
                         {
-                            await bookService.RemoveBook(selectedItem.Id, reason);
+                            await bookService.RemoveBookCopy(selectedItem.Id, reason);
                             await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
                             await LoadBooks();
                         }
                         break;
                     default:
-                        await bookService.RemoveBook(selectedItem.Id, reason);
+                        await bookService.RemoveBookCopy(selectedItem.Id, reason);
                         await DisplayAlert("Lyckades!", $"Du har tagit bort {selectedItem.Title}!", "OK");
                         await LoadBooks();
                         break;

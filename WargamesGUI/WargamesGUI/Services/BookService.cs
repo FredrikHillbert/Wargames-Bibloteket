@@ -64,18 +64,18 @@ namespace WargamesGUI.Services
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
-                using (var command = new SqlCommand(queryForBooks, con))
+                using (var command = new SqlCommand(queryForBookCopies, con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
                             var book = new BookCopy();
-                            
+
                             book.Copy_Id = Convert.ToInt32(reader["Copy_Id"]);
                             book.fk_Condition_Id = Convert.ToInt32(reader["fk_Condition_Id"]);
                             book.fk_Book_Id = Convert.ToInt32(reader["fk_Book_Id"]);
-                            book.fk_Availability = Convert.ToInt32(reader["Copy_Id"]);
+                            book.fk_Availability = Convert.ToInt32(reader["fk_Availability"]);
 
                             bookCopies.Add(book);
                         }
@@ -107,17 +107,17 @@ namespace WargamesGUI.Services
                 }
         }
 
-        public async Task RemoveBook(int id, string reason)
+        public async Task RemoveBookCopy(int id, string reason)
         {
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
-                con.Open();
+                await con.OpenAsync();
 
-                SqlCommand insertcmd = new SqlCommand("sp_RemoveBook", con);
+                SqlCommand insertcmd = new SqlCommand("sp_RemoveBookCopy", con);
                 insertcmd.CommandType = CommandType.StoredProcedure;
 
-                insertcmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                insertcmd.Parameters.Add("@Copy_Id", SqlDbType.Int).Value = id;
                 insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
 
                 await insertcmd.ExecuteNonQueryAsync();

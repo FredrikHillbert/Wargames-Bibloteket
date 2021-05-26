@@ -75,7 +75,10 @@ namespace WargamesGUI.Services
         {
             var LoanedBooks = new List<Book>();
 
-            string query = $"SELECT b.Title, b.Author, b.Publisher, b.Placement, b.InStock, bl.Loan_Id, b.Category, b.Description FROM tblBookLoan bl LEFT JOIN tblBook b ON b.Id = bl.fk_Book_Id WHERE {fk_LibraryCard} = bl.fk_LibraryCard_Id AND fk_BookLoanStatus_Id < 5";
+            string query = $"SELECT * FROM tblBookLoan bl LEFT JOIN tblBookCopy bc ON bc.Copy_Id = bl.fk_BookCopy_Id " +
+                           $"LEFT JOIN tblBook b ON b.Id in(select bc.fk_Book_Id from tblBookCopy " +
+                           $"WHERE bc.fk_Book_Id = b.Id) WHERE bl.fk_LibraryCard_Id = 18 " +
+                           $"AND fk_BookLoanStatus_Id< 5; ";
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
@@ -212,7 +215,7 @@ namespace WargamesGUI.Services
                     SqlCommand insertcmd = new SqlCommand("sp_LoanBook", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
 
-                    insertcmd.Parameters.Add("@fk_Book_Id", SqlDbType.Int).Value = book_id;
+                    insertcmd.Parameters.Add("@bookId", SqlDbType.Int).Value = book_id;
                     insertcmd.Parameters.Add("@fk_LibraryCard", SqlDbType.Int).Value = fk_LibraryCard;
                     insertcmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
 
