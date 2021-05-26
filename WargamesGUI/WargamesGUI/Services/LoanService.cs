@@ -58,7 +58,7 @@ namespace WargamesGUI.Services
                             var BookLoan = new BookLoan();
 
                             BookLoan.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
-                            BookLoan.fk_BookCopy_Id = Convert.ToInt32(reader["fk_BookCopy_Id"]);
+                            //BookLoan.fk_BookCopy_Id = Convert.ToInt32(reader["fk_BookCopy_Id"]);
                             BookLoan.fk_BookLoanStatus_Id = Convert.ToInt32(reader["fk_BookLoanStatus_Id"]);
                             BookLoan.fk_LibraryCard_Id = Convert.ToInt32(reader["fk_LibraryCard_Id"]);
                             BookLoan.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
@@ -114,6 +114,7 @@ namespace WargamesGUI.Services
                            $" ON b.Id in(select tbc.fk_Book_Id from tblBookCopy WHERE tbc.fk_Book_Id = b.Id)" +
                            $" LEFT JOIN tblUser tu" +
                            $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard" +
+                           $" WHERE fk_BookLoanStatus_Id < 5" +
                            $" ORDER BY Title";
 
             using (SqlConnection con = new SqlConnection(theConString))
@@ -185,6 +186,8 @@ namespace WargamesGUI.Services
                                  $" FROM tblBookLoan bl" +
                                  $" LEFT JOIN tblBook b" +
                                  $" ON b.Id = bl.fk_Book_Id";
+
+
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
@@ -338,6 +341,7 @@ namespace WargamesGUI.Services
                            $" ON b.Id in(select tbc.fk_Book_Id from tblBookCopy WHERE tbc.fk_Book_Id = b.Id)" +
                            $" LEFT JOIN tblUser tu" +
                            $" ON bl.fk_LibraryCard_Id = tu.fk_LibraryCard" +
+                           $" WHERE fk_BookLoanStatus_Id > 1" +
                            $" ORDER BY Title";
 
             using (SqlConnection con = new SqlConnection(theConString))

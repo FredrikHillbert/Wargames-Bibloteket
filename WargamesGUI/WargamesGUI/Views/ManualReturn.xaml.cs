@@ -63,9 +63,6 @@ namespace WargamesGUI.Views
         private async void Handled_Clicked(object sender, EventArgs e)
         {
 
-            if (selectedBook.Status == "Återlämnad")
-            {
-
 
                 try
                 {
@@ -78,11 +75,7 @@ namespace WargamesGUI.Views
                 {
                     await DisplayAlert("Handled_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
                 }
-            }
-            else
-            {
-                await DisplayAlert("Ej återlämnad", $"Boken du försöker skanna är inte återlämnad.", "OK");
-            }
+           
 
         }
 
