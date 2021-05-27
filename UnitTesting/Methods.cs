@@ -11,33 +11,40 @@ namespace UnitTesting
 {
     public class Methods
     {
-        public static bool AddNewUserReal(string username, string password, int privilegeLevel)
+        public static bool SignInTest(string username, string password, int privilegeLevel)
         {
-            bool usernameAnswer = CheckIfAllLetter(username);
-            //bool passwordAnswer = AddPassword();
-            //bool privilegeLevelAnswer = AddPrivilegeLevel();
-            bool canAddNewUser = true;
-            try
-            {
-                using (SqlConnection con = new SqlConnection(DbHandler.theConString))
-                {
-                    string sql = $"INSERT INTO {DbHandler.theUserTableName}(Username, Password, fk_PrivilegeLevel) VALUES('{username}',HASHBYTES('SHA1','{password}'), '{privilegeLevel}')";
+            var user = new User();
 
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+            SqlConnection Connection = new SqlConnection(theConStringTest);
+            Connection.Open();
+            string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
+
+            string query2 = $"SELECT fk_PrivilegeLevel, Username, fk_LibraryCard, Password, CardNumber FROM tblUser LEFT JOIN tblLibraryCard ON fk_LibraryCard = LibraryCard_Id WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
+
+            using (SqlCommand command = new SqlCommand(query2, Connection))
+            {
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
                     {
-                        cmd.ExecuteNonQuery();
+                        user.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                        if (user.fk_PrivilegeLevel == 3 || user.fk_PrivilegeLevel == 1 || user.fk_PrivilegeLevel == 2)
+                        {
+                            fk_LibraryCard = Convert.ToInt32(reader["fk_LibraryCard"]);
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+
                     }
                 }
-                canAddNewUser = true;
-                return canAddNewUser;
             }
-            catch (Exception)
-            {
 
-                canAddNewUser = false;
-                return canAddNewUser;
-            }
+            
+
 
         }
 

@@ -8,10 +8,10 @@ namespace UnitTesting
     {
 
         [Theory]
-        [InlineData(false, "&%¤#", "asda", 4 )]
+        [InlineData(true, "Lib", "Lib123", 2 )]
         public void AddNewUserTest(bool expected, string username, string password, int privilege)
         {
-            bool actual = Methods.AddNewUserReal(username, password, privilege);
+            bool actual = Methods.SignInTest(username, password, privilege);
 
             Assert.Equal(expected, actual);
         }

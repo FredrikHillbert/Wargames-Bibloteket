@@ -118,11 +118,11 @@ namespace WargamesGUI.Services
             }
 
         }
-        public int SignIn(string username, string password)
+        public int SignIn(string username, string password, string connectionString)
         {
             var user = new User();
 
-            SqlConnection Connection = new SqlConnection(theConString);
+            SqlConnection Connection = new SqlConnection(connectionString);
             Connection.Open();
             string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
 
