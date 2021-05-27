@@ -41,6 +41,14 @@ namespace WargamesGUI.Services
         // SELECT
         public string queryForBooks = $"SELECT * FROM {theBookTableName} ORDER BY Title";
         public string queryForBookCopies = $"SELECT * FROM {theBookCopyTableName}";
+        public string queryForBookCopiesExtra = $"SELECT bc.Copy_Id, bc.fk_Book_Id, bc.fk_Condition_Id, bc.fk_Availability, " +
+                                                $"a.Id, a.Status, " +
+                                                $"cs.Condition_Id, cs.ConditionType " +
+                                                $"FROM tblBookCopy bc " +
+                                                $"INNER JOIN tblAvailability a " +
+                                                $"ON a.Id = bc.fk_Availability " +
+                                                $"INNER JOIN tblConditionStatus cs " +
+                                                $"ON cs.Condition_Id = bc.fk_Condition_Id;";
 
         // INSERT INTO
 
