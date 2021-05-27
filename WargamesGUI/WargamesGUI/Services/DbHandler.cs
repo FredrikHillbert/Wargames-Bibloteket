@@ -12,7 +12,7 @@ namespace WargamesGUI.Services
     {
         public string theConString;
         public string theConStringTest;
-        public static string theConStringTest2 = ConfigurationManager.ConnectionStrings[2].ConnectionString;
+        //public static string theConStringTest2 = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         public DbHandler()
         {
             //theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;

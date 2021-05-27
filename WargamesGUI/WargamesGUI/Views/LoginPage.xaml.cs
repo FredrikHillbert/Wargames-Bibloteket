@@ -33,7 +33,7 @@ namespace WargamesGUI
                 try
                 {
 
-                    switch (service.SignIn(Entryusername.Text, Entrypassword.Text, DbHandler.theConStringTest2))
+                    switch (service.SignIn(Entryusername.Text, Entrypassword.Text))
                     {
                         case 1:
                             Entryusername.Text = string.Empty;

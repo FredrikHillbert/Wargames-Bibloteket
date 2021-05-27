@@ -88,15 +88,18 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task AddNewBook(int item_id, string title, string ISBN, string publisher, string author,
+        public async Task<bool> AddNewBook(int item_id, string title, string ISBN, string publisher, string author,
                                            string description, int price, string placement, string category)
-        {                       
-                using (SqlConnection con = new SqlConnection(theConString))
+        {
+            bool success = true;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConStringTest))
                 {
                     await con.OpenAsync();
 
-                    SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
-                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);                   
+                    insertcmd.CommandType = CommandType.StoredProcedure;                    
                     insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = item_id;
                     insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = title;
                     insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = ISBN;
@@ -106,16 +109,25 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
                     insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = category;
-                    await insertcmd.ExecuteNonQueryAsync();                   
+                    await insertcmd.ExecuteNonQueryAsync();
+                    
+                    return success;
                 }
+            }
+            catch 
+            {
+                success = false;
+                return success;
+            }
+
+            
         }
 
         public async Task<bool> RemoveBookCopy(int id, string reason)
         {
             bool success = true;
-            try
-            {
-                using (SqlConnection con = new SqlConnection(theConString))
+            
+                using (SqlConnection con = new SqlConnection(theConStringTest))
                 {
                     await con.OpenAsync();
 
@@ -125,15 +137,19 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Copy_Id", SqlDbType.Int).Value = id;
                     insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
 
-                    await insertcmd.ExecuteNonQueryAsync();
-                    return success;
+                    var a = await insertcmd.ExecuteNonQueryAsync();
+                    if (a == 0)
+                    {
+                        return success;
+                    }
+                    else
+                    {
+                        success = false;
+                        return success;
+                    }
+                    
                 }
-            }
-            catch (Exception)
-            {
-                success = false;
-                return success;
-            }
+                       
         }
 
         public async Task<bool> UpdateBook(int id, int item_id, string title, string author, string publisher, string description,
