@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
-
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Threading;
+
 
 namespace WargamesGUI.Views
 {
@@ -60,9 +61,22 @@ namespace WargamesGUI.Views
         }
         public async Task LoadAllData()
         {
+            // Fixar snart - Alex
+
+            //DisplayProgressGrid.IsVisible = true;
+            //DisplayProgress.IsVisible = true;
+            //popupStackLayout.IsVisible = true;
+            //progressBar1.IsVisible = true;
+            //await progressBar1.ProgressTo(0.75, 500, Easing.Linear);
             await LoadDeweyData();
             await LoadBooks();
             await LoadBookCopies();
+
+            // Fixar snart - Alex
+
+            //progressBar1.IsVisible = false;
+            //DisplayProgress.IsVisible = false;
+            //DisplayProgressGrid.IsVisible = false;
         }
         private async Task LoadBookCopies()
         {
@@ -160,14 +174,13 @@ namespace WargamesGUI.Views
             }
 
         }
-
         private async void Delete_Book(Book selectedItem)
         {
             //var selectedBookCopy = new BookCopy() { fk_Book_Id = selectedItem.Id };
 
             try
             {
-                var check = bookCopies.Where(x => x.fk_Book_Id == selectedItem.Id).Select(x => x).ToList();
+                var check = bookCopies.Where(x => x.fk_Book_Id == selectedItem.Id).Select(x => x).Where(x => x.fk_Availability == 1).ToList();
                 if (check.Count == 0)
                 {
                     await DisplayAlert("Misslyckades!", $"Denna bok har inga exemplar tillgängliga!", "OK");
@@ -179,8 +192,9 @@ namespace WargamesGUI.Views
                     {
                         default:
 
-                            string bookCopy = await DisplayActionSheet($"Ta bort exemplar av {selectedItem.Title}", "Avbryt", null, bookCopies
+                            string bookCopy = await DisplayActionSheet($"Ta bort exemplar av: \n{selectedItem.Title}", "Avbryt", null, bookCopies
                                                                                                         .Where(x => x.fk_Book_Id == selectedItem.Id)
+                                                                                                        .Where(x => x.fk_Availability == 1)
                                                                                                         .Select(x => x.ToString())
                                                                                                         .ToArray());
 
@@ -199,29 +213,20 @@ namespace WargamesGUI.Views
                                     .Select(x => x.Copy_Id)
                                     .ElementAt(0);
 
-                                var reason = await DisplayActionSheet($"Anledning för att ta bort", "Avbryt", null, "Dåligt skick", "Borttappad", "Stulen", "Annan anledning");
+                                var reason = await DisplayActionSheet($"Anledning för att ta bort exemplar av: \n{selectedItem.Title}", "Avbryt", null, "Dåligt skick", "Borttappad", "Stulen", "Annan anledning");
                                 switch (reason)
                                 {
-                                    case "Dåligt skick":
-                                        await TryRemoveBookCopy(selectedItem, bookCopy, reason);
-                                        await LoadAllData();
-                                        break;
-                                    case "Borttappad":
-                                        await TryRemoveBookCopy(selectedItem, bookCopy, reason);
-                                        await LoadAllData();
-                                        break;
-                                    case "Stulen":
-                                        await TryRemoveBookCopy (selectedItem, bookCopy, reason);
-                                        await LoadAllData();
-                                        break;
+                                    
                                     case "Annan anledning":
-                                        string otherReason = await DisplayPromptAsync($"Ta bort exemplar", $"Anledning för att ta bort exemplar av {selectedItem.Title}: \n{bookCopy}");
+                                        string otherReason = await DisplayPromptAsync($"Ta bort exemplar", $"Anledning för att ta bort exemplar av: \n{selectedItem.Title} \n\n{bookCopy}", maxLength: 20);
                                         await TryRemoveBookCopy(selectedItem, bookCopy, otherReason);
                                         await LoadAllData();
                                         break;
                                     case "Avbryt":
                                         break;
                                     default:
+                                        await TryRemoveBookCopy(selectedItem, bookCopy, reason);
+                                        await LoadAllData();
                                         break;
                                 }
                             }
@@ -246,7 +251,7 @@ namespace WargamesGUI.Views
                 }
                 else if (await bookService.RemoveBookCopy(bookCopyID, reason))
                 {
-                    await DisplayAlert("Exemplar borttaget!", $"Du har tagit bort ett exemplar av {selectedItem.Title} \n{bookCopy} \nAnledning: {reason}.", "OK");
+                    await DisplayAlert("Exemplar borttaget!", $"Du har tagit bort ett exemplar av {selectedItem.Title}\n\n{bookCopy} \nAnledning: {reason}.", "OK");
                 }
             }
             catch (Exception ex)

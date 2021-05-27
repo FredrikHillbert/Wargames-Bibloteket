@@ -146,6 +146,7 @@
     <Content Include="pexels-cottonbro-with-layer.jpg" />
     <Content Include="pexels-cottonbro.jpg" />
     <Content Include="Properties\Default.rd.xml" />
+    <Content Include="running.png" />
     <Content Include="wargames-logo.png" />
   </ItemGroup>
   <ItemGroup>
