@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:models="clr-namespace:WargamesGUI.Models"
+             xmlns:models="clr-namespace:WargamesGUI.Models" 
              x:Class="WargamesGUI.Views.AddObject"
              BackgroundImageSource="pexels-cottonbro.jpg">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -84,6 +85,7 @@
                         <Label Text="Placering" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="4" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
                         <Label Text="Föfattare" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
                         <Label Text="Kategori" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="6" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
+                        
                     </Grid>
                     <ListView x:Name="listOfBooks" ItemTapped="listOfBooks_ItemTapped" ItemSelected="listOfBooks_ItemSelected">
                         <ListView.ItemTemplate>
@@ -130,6 +132,31 @@
                     </ListView>
                 </StackLayout>
             </Frame>
+            
         </StackLayout>
+
+        <!-- Fixar snart! - Alex -->
+        
+        <!--<Grid x:Name="DisplayProgressGrid" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" IsVisible="False">
+            <Image Source="pexels-cottonbro-with-layer.jpg" Aspect="AspectFill" IsVisible="true"/>
+            <Frame x:Name="DisplayProgress" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" CornerRadius="20"
+                   Margin="0" Padding="15" HeightRequest="280" WidthRequest="300" BackgroundColor="Transparent" BorderColor="Black" IsVisible="True" >
+                <StackLayout x:Name="popupStackLayout" Margin="20" VerticalOptions="CenterAndExpand" IsVisible="True" Padding="10">
+                    <Label x:Name="ProgressLabel" Text="Laddar böcker..." FontSize="Large" FontAttributes="Bold"/>
+                    <ProgressBar x:Name="progressBar1" 
+                                     WidthRequest="200" HeightRequest="30" 
+                                     FlowDirection="LeftToRight" 
+                                     Grid.Row="0" Grid.Column="3" Margin="10"
+                                     Progress="0.5"
+                                     ProgressColor="DarkGreen"
+                                     IsVisible="True"/>
+                    <Label Text="20" TextColor="Black" HorizontalOptions="CenterAndExpand" x:Name="progressLabel" FontAttributes="Bold" FontSize="Medium" Margin="0,0,0,0"/>
+                    <Image Source="running.png" Aspect="AspectFit" IsVisible="True" HeightRequest="100"/>
+                </StackLayout>
+            </Frame>
+            <StackLayout x:Name="myMainPage" Grid.Row="0" Grid.Column="0">
+            </StackLayout>
+        </Grid>-->
+        
     </Grid>
 </ContentPage>
