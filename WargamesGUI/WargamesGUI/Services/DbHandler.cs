@@ -4,14 +4,20 @@ using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
+using System.Configuration;
 
 namespace WargamesGUI.Services
 {
     public class DbHandler
     {
+        public string theConString;
+        public DbHandler()
+        {
+            theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
+        }
         // Connection-string to Database
-        public const string theConString = "Server=tcp:wargameslibrary.database.windows.net,1433;Initial Catalog=Wargames Library;Persist Security Info=False;User ID=adminwargames;Password=Admin123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        
+       
+
         // Table-names
         public const string theUserTableName = "tblUser";
         public const string theBookTableName = "tblBook";
