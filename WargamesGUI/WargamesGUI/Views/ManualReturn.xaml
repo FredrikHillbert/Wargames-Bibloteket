@@ -109,7 +109,7 @@
                         </Grid.ColumnDefinitions>
                         <Button Text="Skanna in bok"
                             WidthRequest="120"
-                            Clicked="Handled_Clicked"
+                            Clicked="Button_Clicked"
                             BackgroundColor="#2E4159" 
                             TextColor="White" 
                             CornerRadius="20" 
@@ -220,7 +220,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Text="Skanna in bok"
+                        <Button Text="Godkänn"
                             WidthRequest="120"
                             Clicked="Handled_Clicked"
                             BackgroundColor="#2E4159" 

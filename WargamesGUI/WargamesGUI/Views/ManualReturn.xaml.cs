@@ -63,19 +63,11 @@ namespace WargamesGUI.Views
         private async void Handled_Clicked(object sender, EventArgs e)
         {
 
+            await loanService.RegisterReturnedBook(selectedBook.Book_Copy);
+            await DisplayAlert("Bok skannad!", $"Du skannade {selectedBook.Title}.", "OK");
+            await LoadBooks();
 
-                try
-                {
-                    await loanService.UpdateBorrowedBooksFromDbLibrarian(selectedBook.Loan_Id);
-                    await DisplayAlert("Bok skannad!", $"Du skannade {selectedBook.Title}.", "OK");
-                    await LoadBooks();
 
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Handled_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
-                }
-           
 
         }
 
@@ -94,7 +86,6 @@ namespace WargamesGUI.Views
             {
                 await DisplayAlert("Refresh_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
-
         }
 
         private async void BookReturnSeachBar_TextChanged(object sender, TextChangedEventArgs e)
@@ -130,6 +121,22 @@ namespace WargamesGUI.Views
             catch (Exception ex)
             {
                 await DisplayAlert("MainSearchBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+           
+            try
+            {
+                await loanService.ReturnBookLoan(selectedBook.Loan_Id);
+                await DisplayAlert("Bok skannad!", $"Du skannade {selectedBook.Title}.", "OK");
+                await LoadBooks();
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Handled_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
     }

@@ -15,7 +15,7 @@ namespace WargamesGUI.Services
         //public static string theConStringTest2 = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         public DbHandler()
         {
-            //theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
+            theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
             theConStringTest = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         }
         // Connection-string to Database      
