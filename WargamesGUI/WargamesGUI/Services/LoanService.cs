@@ -16,7 +16,7 @@ namespace WargamesGUI.Services
         {
             var LibraryCards = new List<LibraryCard>();
 
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 await con.OpenAsync();
                 using (var command = new SqlCommand(queryForLibraryCards, con))
@@ -46,7 +46,7 @@ namespace WargamesGUI.Services
 
             string query = $"SELECT * FROM tblBookLoan";
 
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 await con.OpenAsync();
                 using (var command = new SqlCommand(query, con))
@@ -79,7 +79,7 @@ namespace WargamesGUI.Services
                            $"LEFT JOIN tblBook b ON b.Id in(select bc.fk_Book_Id from tblBookCopy " +
                            $"WHERE bc.fk_Book_Id = b.Id) WHERE bl.fk_LibraryCard_Id = 18 " +
                            $"AND fk_BookLoanStatus_Id< 5; ";
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 con.Open();
                 using (var command = new SqlCommand(query, con))
@@ -120,7 +120,7 @@ namespace WargamesGUI.Services
                            $" WHERE Checked_In = 1" +
                            $" ORDER BY Title";
 
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 await con.OpenAsync();
                 using (var command = new SqlCommand(query, con))
@@ -182,7 +182,7 @@ namespace WargamesGUI.Services
                                  $" SET Checked_In = 2, ReturnedDate = GETDATE()" +
                                  $" WHERE Loan_Id = {loanID}";
                                 
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 await con.OpenAsync();
 
@@ -208,7 +208,7 @@ namespace WargamesGUI.Services
 
             try
             {
-                using (SqlConnection con = new SqlConnection(theConString))
+                using (SqlConnection con = new SqlConnection(theConStringTest))
                 {
                     await con.OpenAsync();
 
@@ -240,7 +240,7 @@ namespace WargamesGUI.Services
 
             try
             {
-                using (SqlConnection con = new SqlConnection(theConString))
+                using (SqlConnection con = new SqlConnection(theConStringTest))
                 {
                     await con.OpenAsync();
 
@@ -267,7 +267,7 @@ namespace WargamesGUI.Services
 
             try
             {
-                using (SqlConnection con = new SqlConnection(theConString))
+                using (SqlConnection con = new SqlConnection(theConStringTest))
                 {
                     await con.OpenAsync();
 
@@ -293,7 +293,7 @@ namespace WargamesGUI.Services
 
             try
             {
-                using (SqlConnection con = new SqlConnection(theConString))
+                using (SqlConnection con = new SqlConnection(theConStringTest))
                 {
                     await con.OpenAsync();
 
@@ -328,7 +328,7 @@ namespace WargamesGUI.Services
                            $" WHERE Checked_In = 2" +
                            $" ORDER BY Title";
 
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 await con.OpenAsync();
                 using (var command = new SqlCommand(query, con))

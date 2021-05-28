@@ -10,7 +10,7 @@ namespace WargamesGUI.Services
 {
     public class DbHandler
     {
-        public string theConString;
+        //public string theConString;
         public string theConStringTest;
         //public static string theConStringTest2 = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         public DbHandler()
