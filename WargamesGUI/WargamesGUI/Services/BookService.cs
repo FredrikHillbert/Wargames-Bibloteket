@@ -17,7 +17,7 @@ namespace WargamesGUI.Services
         {
             var bookList = new List<Book>();
 
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 con.Open();
                 using (var command = new SqlCommand(queryForBooks, con))
@@ -61,7 +61,7 @@ namespace WargamesGUI.Services
         {
             var bookCopies = new List<BookCopy>();
 
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 await con.OpenAsync();
                 using (var command = new SqlCommand(queryForBookCopiesExtra, con))
@@ -98,8 +98,8 @@ namespace WargamesGUI.Services
                 {
                     await con.OpenAsync();
 
-                    SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);                   
-                    insertcmd.CommandType = CommandType.StoredProcedure;                    
+                    SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
                     insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = item_id;
                     insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = title;
                     insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = ISBN;
@@ -110,46 +110,49 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
                     insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = category;
                     await insertcmd.ExecuteNonQueryAsync();
-                    
+
                     return success;
                 }
             }
-            catch 
+            catch
             {
                 success = false;
                 return success;
             }
 
-            
+
         }
 
         public async Task<bool> RemoveBookCopy(int id, string reason)
         {
             bool success = true;
-            
-                using (SqlConnection con = new SqlConnection(theConStringTest))
+
+            using (SqlConnection con = new SqlConnection(theConStringTest))
+            {
+                await con.OpenAsync();
+
+                SqlCommand insertcmd = new SqlCommand("sp_RemoveBookCopy", con);
+                insertcmd.CommandType = CommandType.StoredProcedure;
+
+                insertcmd.Parameters.Add("@Copy_Id", SqlDbType.Int).Value = id;
+                insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
+                insertcmd.Parameters.Add("@returnValue", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                await insertcmd.ExecuteNonQueryAsync();
+
+                var retval = (int)insertcmd.Parameters["@returnValue"].Value;
+                if (retval == 0)
                 {
-                    await con.OpenAsync();
-
-                    SqlCommand insertcmd = new SqlCommand("sp_RemoveBookCopy", con);
-                    insertcmd.CommandType = CommandType.StoredProcedure;
-
-                    insertcmd.Parameters.Add("@Copy_Id", SqlDbType.Int).Value = id;
-                    insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
-
-                    var a = await insertcmd.ExecuteNonQueryAsync();
-                    if (a == 0)
-                    {
-                        return success;
-                    }
-                    else
-                    {
-                        success = false;
-                        return success;
-                    }
-                    
+                    return success;
                 }
-                       
+                else
+                {
+                    success = false;
+                    return success;
+                }
+
+            }
+
         }
 
         public async Task<bool> UpdateBook(int id, int item_id, string title, string author, string publisher, string description,
@@ -159,7 +162,7 @@ namespace WargamesGUI.Services
 
             try
             {
-                using (SqlConnection con = new SqlConnection(theConString))
+                using (SqlConnection con = new SqlConnection(theConStringTest))
                 {
                     await con.OpenAsync();
 
@@ -197,7 +200,7 @@ namespace WargamesGUI.Services
         {
             List<Book> searchedValues = new List<Book>();
 
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 await con.OpenAsync();
                 using (SqlCommand cmd = new SqlCommand("Search_Value", con))
@@ -253,7 +256,7 @@ namespace WargamesGUI.Services
         {
             var deweyList = new List<DeweySub>();
 
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 await con.OpenAsync();
                 using (var command = new SqlCommand(queryForDeweySub, con))
@@ -281,7 +284,7 @@ namespace WargamesGUI.Services
         {
             var deweyList = new List<DeweyMain>();
 
-            using (SqlConnection con = new SqlConnection(theConString))
+            using (SqlConnection con = new SqlConnection(theConStringTest))
             {
                 await con.OpenAsync();
                 using (var command = new SqlCommand(queryForDeweyMain, con))

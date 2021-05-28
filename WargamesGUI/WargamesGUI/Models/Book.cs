@@ -11,6 +11,7 @@ namespace WargamesGUI.Models
         public string TypeOfBook { get; set; } // Används i "AddObject" - ej i databasen.
         public int fk_Item_Id { get; set; }
         public string Title { get; set; }
+        public int Book_Copy { get; set; }
         public string Author { get; set; }
         public string Username { get; set; }
         public string Publisher { get; set; }
