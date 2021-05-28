@@ -117,7 +117,7 @@ namespace WargamesGUI.Views
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(handler.theConStringTest))
+                using (SqlConnection con = new SqlConnection(handler.theConString))
                 {
                     string sql =
                         $"DELETE FROM {DbHandler.theUserTableName} WHERE First_Name = '{selectedItem.First_Name}'";

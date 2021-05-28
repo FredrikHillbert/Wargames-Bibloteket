@@ -10,13 +10,13 @@ namespace WargamesGUI.Services
 {
     public class DbHandler
     {
-        //public string theConString;
-        public string theConStringTest;
+        public string theConString;
+        //public string theConStringTest;
         //public static string theConStringTest2 = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         public DbHandler()
         {
             theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
-            theConStringTest = ConfigurationManager.ConnectionStrings[2].ConnectionString;
+            //theConStringTest = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         }
         // Connection-string to Database      
 

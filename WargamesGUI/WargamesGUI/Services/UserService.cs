@@ -19,7 +19,7 @@ namespace WargamesGUI.Services
         public async Task<List<User>> ReadUserListFromDb()
         {
             List<User> UserList = new List<User>();
-            using (SqlConnection con = new SqlConnection(theConStringTest))
+            using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
                 using (var commad = new SqlCommand(queryForUserListPage, con))
@@ -72,7 +72,7 @@ namespace WargamesGUI.Services
             bool isWorking;
             try
             {
-                using (SqlConnection con = new SqlConnection(theConStringTest))
+                using (SqlConnection con = new SqlConnection(theConString))
                 {
                     con.Open();
                     SqlCommand deletecmd = new SqlCommand("sp_DeleteUser", con);
@@ -99,7 +99,7 @@ namespace WargamesGUI.Services
             string query = $"Update dbo.{theUserTableName} SET First_Name = '{firstName}', Last_Name = '{lastName}', SSN = '{SSN}', Username = '{newUserName}' WHERE T0100_USER_ID = {userId}";
             try
             {
-                using (SqlConnection con = new SqlConnection(theConStringTest))
+                using (SqlConnection con = new SqlConnection(theConString))
                 {
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -122,7 +122,7 @@ namespace WargamesGUI.Services
         {
             var user = new User();
 
-            SqlConnection Connection = new SqlConnection(theConStringTest);
+            SqlConnection Connection = new SqlConnection(theConString);
             Connection.Open();
             string query = $"SELECT fk_PrivilegeLevel FROM tblUser WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
 
@@ -156,7 +156,7 @@ namespace WargamesGUI.Services
         public async Task<List<User>> ReadVisitorListFromDb()
         {
             List<User> listOfvisitors = new List<User>();
-            using (SqlConnection con = new SqlConnection(theConStringTest))
+            using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
                 using (var commad = new SqlCommand(queryForVisitors, con))
@@ -195,7 +195,7 @@ namespace WargamesGUI.Services
             bool success = true;
             try
             {
-                using (SqlConnection con = new SqlConnection(theConStringTest))
+                using (SqlConnection con = new SqlConnection(theConString))
                 {
                     await con.OpenAsync();
                     SqlCommand insertcmd = new SqlCommand("sp_AddNewUser", con);
@@ -230,7 +230,7 @@ namespace WargamesGUI.Services
                               $" FROM tblLibraryCard" +
                               $" WHERE LibraryCard_Id = {LibraryCard_Id}";
 
-            SqlConnection Connection = new SqlConnection(theConStringTest);
+            SqlConnection Connection = new SqlConnection(theConString);
             Connection.Open();
             using (SqlCommand command = new SqlCommand(statusquery, Connection))
             {

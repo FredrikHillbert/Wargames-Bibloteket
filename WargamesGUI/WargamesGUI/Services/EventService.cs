@@ -15,7 +15,7 @@ namespace WargamesGUI.Services
         {
             var eventList = new List<Event>();
 
-            using (SqlConnection con = new SqlConnection(theConStringTest))
+            using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
                 using (var commad = new SqlCommand(queryForEvents, con))
@@ -55,7 +55,7 @@ namespace WargamesGUI.Services
 
             try
             {
-                using (SqlConnection con = new SqlConnection(theConStringTest))
+                using (SqlConnection con = new SqlConnection(theConString))
                 {
                     string query =
                         $"INSERT INTO {theEventTableName}" +
@@ -94,7 +94,7 @@ namespace WargamesGUI.Services
 
             try
             {
-                using (SqlConnection con = new SqlConnection(theConStringTest))
+                using (SqlConnection con = new SqlConnection(theConString))
                 {
                     string query =
                         $"DELETE FROM {theEventTableName} WHERE Id = @id";
@@ -133,7 +133,7 @@ namespace WargamesGUI.Services
 
             try
             {
-                using (SqlConnection con = new SqlConnection(theConStringTest))
+                using (SqlConnection con = new SqlConnection(theConString))
                 {
                     string query =
                         $"UPDATE {theEventTableName} " +

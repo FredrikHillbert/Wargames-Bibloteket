@@ -77,7 +77,7 @@ namespace WargamesGUI.Services
 
             string query = $"SELECT * FROM tblBookLoan bl LEFT JOIN tblBookCopy bc ON bc.Copy_Id = bl.fk_BookCopy_Id " +
                            $"LEFT JOIN tblBook b ON b.Id in(select bc.fk_Book_Id from tblBookCopy " +
-                           $"WHERE bc.fk_Book_Id = b.Id) WHERE bl.fk_LibraryCard_Id = 18 " +
+                           $"WHERE bc.fk_Book_Id = b.Id) WHERE bl.fk_LibraryCard_Id = {fk_LibraryCard} " +
                            $"AND fk_BookLoanStatus_Id< 5; ";
             using (SqlConnection con = new SqlConnection(theConString))
             {

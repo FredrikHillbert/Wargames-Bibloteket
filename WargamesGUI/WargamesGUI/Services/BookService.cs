@@ -17,7 +17,7 @@ namespace WargamesGUI.Services
         {
             var bookList = new List<Book>();
 
-            using (SqlConnection con = new SqlConnection(theConStringTest))
+            using (SqlConnection con = new SqlConnection(theConString))
             {
                 con.Open();
                 using (var command = new SqlCommand(queryForBooks, con))
@@ -61,7 +61,7 @@ namespace WargamesGUI.Services
         {
             var bookCopies = new List<BookCopy>();
 
-            using (SqlConnection con = new SqlConnection(theConStringTest))
+            using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
                 using (var command = new SqlCommand(queryForBookCopiesExtra, con))
@@ -94,7 +94,7 @@ namespace WargamesGUI.Services
             bool success = true;
             try
             {
-                using (SqlConnection con = new SqlConnection(theConStringTest))
+                using (SqlConnection con = new SqlConnection(theConString))
                 {
                     await con.OpenAsync();
 
@@ -127,7 +127,7 @@ namespace WargamesGUI.Services
         {
             bool success = true;
 
-            using (SqlConnection con = new SqlConnection(theConStringTest))
+            using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
 
@@ -162,7 +162,7 @@ namespace WargamesGUI.Services
 
             try
             {
-                using (SqlConnection con = new SqlConnection(theConStringTest))
+                using (SqlConnection con = new SqlConnection(theConString))
                 {
                     await con.OpenAsync();
 
@@ -200,7 +200,7 @@ namespace WargamesGUI.Services
         {
             List<Book> searchedValues = new List<Book>();
 
-            using (SqlConnection con = new SqlConnection(theConStringTest))
+            using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
                 using (SqlCommand cmd = new SqlCommand("Search_Value", con))
@@ -256,7 +256,7 @@ namespace WargamesGUI.Services
         {
             var deweyList = new List<DeweySub>();
 
-            using (SqlConnection con = new SqlConnection(theConStringTest))
+            using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
                 using (var command = new SqlCommand(queryForDeweySub, con))
@@ -284,7 +284,7 @@ namespace WargamesGUI.Services
         {
             var deweyList = new List<DeweyMain>();
 
-            using (SqlConnection con = new SqlConnection(theConStringTest))
+            using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
                 using (var command = new SqlCommand(queryForDeweyMain, con))
