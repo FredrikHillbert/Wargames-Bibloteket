@@ -16,7 +16,7 @@ namespace WargamesGUI.Models
         public string Username { get; set; }
         public string Publisher { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; }
+        public string Price { get; set; }
         public string ISBN { get; set; }
         public string Placement { get; set; }
         private int _inStock;
@@ -45,6 +45,7 @@ namespace WargamesGUI.Models
         public int Loan_Id { get; set; }
         public DateTime? ReturnDate { get; set; }
         public DateTime? ReturnedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public int Available_copies { get; set; }
         public int BookCondition { get; set; }
         public string BookConditionString { get; set; }

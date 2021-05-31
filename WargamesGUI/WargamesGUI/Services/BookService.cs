@@ -34,7 +34,7 @@ namespace WargamesGUI.Services
                             book.ISBN = reader["ISBN"].ToString();
                             book.Publisher = reader["Publisher"].ToString();
                             book.Description = reader["Description"].ToString();
-                            //book.Price = Convert.ToInt32(reader["Price"]);
+                            book.Price = (reader["Price"]).ToString();
                             book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
                             book.InStock = Convert.ToInt32(reader["InStock"]);
@@ -304,6 +304,32 @@ namespace WargamesGUI.Services
                     }
                 }
                 return await Task.FromResult(deweyList);
+            }
+        }
+        public async Task<List<RemovedItem>> GetRemovedBooksFromDB()
+        {
+            var removedbooksfromDB = new List<RemovedItem>();
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+                using (var command = new SqlCommand(queryForDeletedBooks, con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var removedbooks = new RemovedItem();
+
+                            removedbooks.Condition = reader["Condition"].ToString();
+                            removedbooks.Title = reader["Title"].ToString();
+                            removedbooks.Reason = reader["Reason"].ToString();
+
+                            removedbooksfromDB.Add(removedbooks);
+                        }
+                    }
+                }
+                return await Task.FromResult(removedbooksfromDB);
             }
         }
     }

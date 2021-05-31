@@ -14,9 +14,6 @@
             <StackLayout>
 
                 <StackLayout>
-                <Label Text="                Coming soon! 10th of June" 
-                       FontAttributes="Bold" 
-                       FontSize="Header"></Label>
                     <Picker x:Name="picker" 
                             Title="Typ av rapport" 
                             BackgroundColor="White" 
@@ -50,20 +47,35 @@
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Label Text="Utlånade böcker" 
+                    <Label x:Name="BorrowedBooks"
+                           Text="Utlånade böcker" 
+                           FontSize="Medium" 
+                           TextColor="Black" 
+                           FontAttributes="Italic" 
+                           WidthRequest="250" 
+                           Margin="0,0,-50,0" />
+                    <Label x:Name="AddedBooks"
+                           Text="Tillagda böcker" 
+                           FontSize="Medium" 
+                           TextColor="Black" 
+                           FontAttributes="Italic" 
+                           WidthRequest="250" 
+                           Margin="0,0,-50,0" />
+                    <Label x:Name="removedBooks"
+                           Text="Borttagna böcker" 
                            FontSize="Medium" 
                            TextColor="Black" 
                            FontAttributes="Italic" 
                            WidthRequest="250" 
                            Margin="0,0,-50,0" />
                     <SearchBar x:Name="FindUserSearchBar" 
-                               WidthRequest="300" 
-                               Placeholder="Sök på användarnamn" 
+                               WidthRequest="300"                                
                                Grid.Column="2" 
                                TextChanged="FindUserSearchBar_TextChanged" 
-                               Margin="0,0,130,0" 
+                               Margin="0,0,50,0" 
                                Grid.ColumnSpan="2"/>
-                    <Label Text="Titel" 
+                    <Label x:Name="Title"
+                           Text="Titel" 
                            HorizontalOptions="Start" 
                            TextDecorations="Underline" 
                            FontAttributes="Bold" 
@@ -71,7 +83,8 @@
                            Grid.Row="1" 
                            Grid.Column="0" 
                            TextColor="Black"/>
-                    <Label Text="Författare" 
+                    <Label x:Name="Author"
+                           Text="Författare" 
                            HorizontalOptions="Start" 
                            TextDecorations="Underline" 
                            FontAttributes="Bold" 
@@ -79,7 +92,8 @@
                            Grid.Row="1" 
                            Grid.Column="1" 
                            TextColor="Black"/>
-                    <Label Text="Användarnamn" 
+                    <Label x:Name="Username"
+                           Text="Användarnamn" 
                            HorizontalOptions="Start" 
                            TextDecorations="Underline" 
                            FontAttributes="Bold" 
@@ -87,7 +101,8 @@
                            Grid.Row="1" 
                            Grid.Column="2" 
                            TextColor="Black" />
-                    <Label Text="Placering" 
+                    <Label x:Name="Placement"
+                           Text="Placering" 
                            HorizontalOptions="Start" 
                            TextDecorations="Underline" 
                            FontAttributes="Bold" 
@@ -95,7 +110,8 @@
                            Grid.Row="1" 
                            Grid.Column="3" 
                            TextColor="Black" />
-                    <Label Text="Återlämnas" 
+                    <Label x:Name="RetrnedDate"
+                           Text="Återlämnas" 
                            HorizontalOptions="Start"
                            TextDecorations="Underline" 
                            FontAttributes="Bold" 
@@ -103,7 +119,8 @@
                            Grid.Row="1" 
                            Grid.Column="4" 
                            TextColor="Black"/>
-                    <Label Text="Status" 
+                    <Label x:Name="Status"
+                           Text="Status" 
                            HorizontalOptions="Start" 
                            TextDecorations="Underline" 
                            FontAttributes="Bold" 
@@ -111,6 +128,52 @@
                            Grid.Row="1" 
                            Grid.Column="5" 
                            TextColor="Black"/>
+                    <Label x:Name="Category"
+                           Text="Kategori" 
+                           HorizontalOptions="Start" 
+                           TextDecorations="Underline" 
+                           FontAttributes="Bold" 
+                           FontSize="Small" 
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           TextColor="Black"/>
+                    <Label x:Name="Reason"
+                           Text="Anledning" 
+                           HorizontalOptions="Start" 
+                           TextDecorations="Underline" 
+                           FontAttributes="Bold" 
+                           FontSize="Small" 
+                           Grid.Row="1" 
+                           Grid.Column="1" 
+                           TextColor="Black"/>
+                    <Label x:Name="Condition"
+                           Text="Skick" 
+                           HorizontalOptions="Start" 
+                           TextDecorations="Underline" 
+                           FontAttributes="Bold" 
+                           FontSize="Small" 
+                           Grid.Row="1" 
+                           Grid.Column="2" 
+                           TextColor="Black"/>
+                    <Label x:Name="Price"
+                           Text="Pris" 
+                           HorizontalOptions="Start" 
+                           TextDecorations="Underline" 
+                           FontAttributes="Bold" 
+                           FontSize="Small" 
+                           Grid.Row="1" 
+                           Grid.Column="1" 
+                           TextColor="Black"/>
+                    <Label x:Name="Created"
+                           Text="Skapades"
+                           HorizontalOptions="Start" 
+                           TextDecorations="Underline" 
+                           FontAttributes="Bold" 
+                           FontSize="Small" 
+                           Grid.Row="1" 
+                           Grid.Column="2" 
+                           TextColor="Black"/>
+
 
                 </Grid>
                 <ListView x:Name="listOfVisitorsReport" 
@@ -174,6 +237,108 @@
                                     <StackLayout Grid.Column="5" 
                                                  Grid.Row="0">
                                         <Label Text="{Binding Status}" 
+                                               FontSize="16" 
+                                               HorizontalOptions="Start" 
+                                               TextColor="Black"/>
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+                <ListView x:Name="listofBooks" 
+                          ItemSelected="listOfVisitorsReport_ItemSelected"
+                          Margin="0,0,0,10" 
+                          ItemTapped="listOfVisitorsReport_ItemTapped">
+                    <ListView.ItemTemplate>
+
+                        <DataTemplate>
+                            <ViewCell>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        
+
+
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.Column="0" 
+                                                 Grid.Row="0">
+                                        <Label Text="{Binding Category}" 
+                                               FontSize="16" 
+                                               HorizontalOptions="Start" 
+                                               TextColor="Black"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="1" 
+                                                 Grid.Row="0">
+                                        <Label Text="{Binding Price}" 
+                                               FontSize="16" 
+                                               HorizontalOptions="Start" 
+                                               TextColor="Black"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="2" 
+                                                 Grid.Row="0">
+                                        <Label Text="{Binding CreatedDate}"
+                                               FontSize="16" 
+                                               HorizontalOptions="Start" 
+                                               TextColor="Black"/>
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+                <ListView x:Name="listofremovedBooks" 
+                          ItemSelected="listOfVisitorsReport_ItemSelected"
+                          Margin="0,0,0,10" 
+                          ItemTapped="listOfVisitorsReport_ItemTapped">
+                    <ListView.ItemTemplate>
+
+                        <DataTemplate>
+                            <ViewCell>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="3*"/>
+
+
+
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.Column="0" 
+                                                 Grid.Row="0">
+                                        <Label Text="{Binding Title}" 
+                                               FontSize="16" 
+                                               HorizontalOptions="Start" 
+                                               TextColor="Black"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="1" 
+                                                 Grid.Row="0">
+                                        <Label Text="{Binding Reason}" 
+                                               FontSize="16" 
+                                               HorizontalOptions="Start" 
+                                               TextColor="Black"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="2" 
+                                                 Grid.Row="0">
+                                        <Label Text="{Binding Condition}" 
                                                FontSize="16" 
                                                HorizontalOptions="Start" 
                                                TextColor="Black"/>

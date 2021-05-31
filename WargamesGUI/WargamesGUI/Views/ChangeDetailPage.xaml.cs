@@ -38,9 +38,9 @@ namespace WargamesGUI.Views
         public string InStock { get; set; }
         public string Description { get; set; }
         public string Placement { get; set; }
-        public int Price { get; set; }
+        public string Price { get; set; }
         public string Category { get; set; }
-        public ChangeDetailPage(int bookId, int bookType, string title, string author, string publisher, string isbn, string inStock, string description, string category, string placement, int price)
+        public ChangeDetailPage(int bookId, int bookType, string title, string author, string publisher, string isbn, string inStock, string description, string category, string placement, string price)
         {
             BookID = bookId;
             switch (bookType)

@@ -51,6 +51,7 @@ namespace WargamesGUI.Services
                                                 $"ON a.Id = bc.fk_Availability " +
                                                 $"INNER JOIN tblConditionStatus cs " +
                                                 $"ON cs.Condition_Id = bc.fk_Condition_Id;";
+        public string queryForDeletedBooks = $"SELECT * FROM {theRemovedItemTableName}";
 
         // INSERT INTO
 

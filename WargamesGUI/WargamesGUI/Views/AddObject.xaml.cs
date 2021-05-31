@@ -275,7 +275,7 @@ namespace WargamesGUI.Views
             string placement = selectedItem.Placement;
             //int price = (int)selectedItem.Price;
             string category = selectedItem.Category;
-            int price = selectedItem.Price;
+            string price = selectedItem.Price;
             await Navigation.PushAsync(new ChangeDetailPage(idOfBook, bookType, title, author, publisher, isbn, inStock, description,category, placement, price));
 
         }
