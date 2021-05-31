@@ -12,11 +12,13 @@ namespace WargamesGUI.Services
     public class LoanService2
     {
         private DbService dbService = new DbService();
-        private BookService2 bookService = new BookService2();
+        private BookService2 bookService;
 
         //Bookloan
         public async Task<List<BookLoan2>> GetAllBookLoans()
         {
+            bookService = new BookService2();
+
             var bookLoans = await dbService.GetBookLoansFromDb();
             var loanStatuses = await dbService.GetBookLoanStatusFromDb();
             var libraryCards = await GetAllLibraryCards();
@@ -30,7 +32,8 @@ namespace WargamesGUI.Services
                 fk_BookLoanStatus_Id = x.fk_BookLoanStatus_Id,
                 ReturnDate = x.ReturnDate,
                 ReturnedDate = x.ReturnedDate,
-                LibraryCard = libraryCards.Select(y => y).Where(y => y.LibraryCard_Id == x.fk_LibraryCard_Id).ElementAtOrDefault(0),
+                LibraryCard = libraryCards.Select(y => y).Where(y => y.LibraryCard_Id == x.fk_LibraryCard_Id)
+                .ElementAtOrDefault(0),
                 Book = bookCopies.Where(y => y.Copy_Id == x.fk_BookCopy_Id)
                 .Select(y => y.Book)
                 .ElementAtOrDefault(0),

@@ -27,6 +27,7 @@ namespace WargamesGUI.Services
             var listOfBooks = books.Select(x => new Book2
             {
                 Id = x.Id,
+                fk_Item_Id = x.fk_Item_Id,
                 Title = x.Title,
                 ISBN = x.ISBN,
                 Publisher = x.Publisher,
@@ -51,6 +52,17 @@ namespace WargamesGUI.Services
             if (bookCopy != null && string.IsNullOrEmpty(reason) && string.IsNullOrWhiteSpace(reason))
             {
                 return await dbService.RemoveBookCopyFromDb(bookCopy.Copy_Id, reason);
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public async Task<bool> RemoveBookCopy(int bookCopy_Id, string reason)
+        {
+            if (bookCopy_Id != 0 && string.IsNullOrEmpty(reason) && string.IsNullOrWhiteSpace(reason))
+            {
+                return await dbService.RemoveBookCopyFromDb(bookCopy_Id, reason);
             }
             else
             {
@@ -96,7 +108,7 @@ namespace WargamesGUI.Services
 
             }).ToList();
 
-            return result.ToList() ?? null;
+            return result ?? null;
         }
         public async Task<List<BookCopy>> GetAvailableBookCopies()
         {
@@ -104,7 +116,7 @@ namespace WargamesGUI.Services
             return bookCopies.Where(x => x.fk_Availability == 1).ToList() ?? null;
             
         }
-        public async Task<List<BookCopy>> GetAvailableBookCopies(Book book)
+        public async Task<List<BookCopy>> GetAvailableBookCopies(Book2 book)
         {
             var bookCopies = await GetAllBookCopies();
             if (bookCopies.Where(x => x.fk_Book_Id == book.Id).Any(x => x.BookAvailability.Id == 1 && x.BookAvailability.Status == "Tillgänglig"))
@@ -169,6 +181,14 @@ namespace WargamesGUI.Services
                                       ).Select(x => x)
                                       .ToList();
             }
+        public async Task<List<DeweyMain>> GetDeweyMain()
+        {
+            return await dbService.GetDeweyMainFromDb();
+        }
+        public async Task<List<DeweySub>> GetDeweySub()
+        {
+            return await dbService.GetDeweySubFromDb();
+        }
 
     }
 }

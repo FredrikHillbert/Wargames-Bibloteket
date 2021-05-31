@@ -15,6 +15,7 @@ namespace WargamesGUI.Views
     public partial class SearchValuePage : ContentPage
     {
         public static BookService bookService = new BookService();
+        public static UserService userService = new UserService();
         public static string text;
         public Book selecteditem;
         public static string cardnumber;
@@ -72,14 +73,78 @@ namespace WargamesGUI.Views
                     await DisplayAlert("Beskrivning", $"{selecteditem.Description}", "OK");
                     break;
                 case "Logga in för att låna boken":
-                    App.Current.MainPage = new Login2Page();
+                    ShowLoginPopup();
                     break;
-            }
-            
-
-            
+            }          
 
         }
 
+        private async void SignIn_Button_Clicked(object sender, EventArgs e)
+        {
+            if (EntryUsername.Text != "" & EntryPassword.Text != "")
+            {
+                HideLoginPopup();
+                try
+                {
+                    switch (userService.SignIn(EntryUsername.Text, EntryPassword.Text))
+                    {
+                        case 1:
+                            EntryUsername.Text = string.Empty;
+                            EntryPassword.Text = string.Empty;
+                            MainStackLayout.IsVisible = false;
+                            await DisplayAlert("Lyckades", "Du loggar nu in som administratör", "OK");
+                            App.Current.MainPage = new FlyoutAdminPage();
+                            break;
+                        case 2:
+                            EntryUsername.Text = string.Empty;
+                            EntryPassword.Text = string.Empty;
+                            MainStackLayout.IsVisible = false;
+                            await DisplayAlert("Lyckades", "Du loggar nu in som Bibliotekarie", "OK");
+                            App.Current.MainPage = new FlyoutLibrarianPage();
+                            break;
+                        case 3:
+                            EntryUsername.Text = string.Empty;
+                            EntryPassword.Text = string.Empty;
+                            MainStackLayout.IsVisible = false;
+                            await DisplayAlert("Lyckades", "Du loggar nu in som Besökare", "OK");
+                            App.Current.MainPage = new VisitorPage();
+                            break;
+                        default:
+                            EntryUsername.Text = string.Empty;
+                            EntryPassword.Text = string.Empty;
+                            MainStackLayout.IsVisible = false;
+                            await DisplayAlert("Misslyckades", "Kotrollera användarnamn och lösenord", "Ok");
+                            MainStackLayout.IsVisible = true;
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("SignIn_Button_Clicked Error", $"Felmeddelande: {ex.Message}", "Ok");
+                }
+            }
+        }
+        public void ShowLoginPopup()
+        {
+            DisplayLoginFrame.IsVisible = true;
+            popupStackLayout.IsVisible = true;
+            UsernameLabel.IsVisible = true;
+            PasswordLabel.IsVisible = true;
+            EntryUsername.IsVisible = true;
+            EntryPassword.IsVisible = true;
+            LoginButton.IsVisible = true;
+            RunningImage.IsVisible = true;
+        }
+        public void HideLoginPopup()
+        {
+            DisplayLoginFrame.IsVisible = false;
+            popupStackLayout.IsVisible = false;
+            UsernameLabel.IsVisible = false;
+            PasswordLabel.IsVisible = false;
+            EntryUsername.IsVisible = false;
+            EntryPassword.IsVisible = false;
+            LoginButton.IsVisible = false;
+            RunningImage.IsVisible = false;
+        }
     }
 }

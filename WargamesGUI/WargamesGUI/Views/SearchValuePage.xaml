@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WargamesGUI.Views.SearchValuePage"
              BackgroundImageSource="pexels-cottonbro.jpg">
-    <StackLayout>
+    <StackLayout x:Name="MainStackLayout" IsVisible="True">
         <Grid Margin="20,20,15,15">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -15,6 +15,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
         </Grid>
+
         <Frame CornerRadius="15" Margin="50,20,50,40" BackgroundColor="LightBlue">
             <ListView x:Name="listOfBook" HorizontalOptions="Center" ItemTapped="listOfBook_ItemTapped">
                 <ListView.Header>
@@ -30,6 +31,7 @@
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+
                         <!--Back Button-->
                         <Button Text="Tillbaka" TextColor="White" Grid.Column="0" Grid.Row="0" FontAttributes="Bold" Clicked="Back_Button_Clicked" CornerRadius="15" BackgroundColor="#2E4159"/>
                         <Label Text="Titel" TextColor="Black" Grid.Column="0" Grid.Row="1" FontAttributes="Bold" TextDecorations="Underline" FontSize="Small"/>
@@ -68,14 +70,100 @@
                                 <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
                                     <Label Text="{Binding Category}" HorizontalOptions="Start" FontSize="16"/>
                                 </StackLayout>
-
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-
             </ListView>
-            
+        </Frame>
+
+        <Frame x:Name="DisplayLoginFrame" 
+               VerticalOptions="Center" 
+               HorizontalOptions="Center"
+               Grid.Row="0" Grid.Column="0" 
+               CornerRadius="20"
+               Margin="20" 
+               Padding="15" 
+               HeightRequest="2000" 
+               WidthRequest="500" 
+               BackgroundColor="LightBlue" 
+               BorderColor="White" 
+               IsVisible="False">
+            <StackLayout x:Name="popupStackLayout" 
+                         Margin="20" 
+                         VerticalOptions="FillAndExpand" 
+                         HorizontalOptions="FillAndExpand" 
+                         Padding="10" 
+                         IsVisible="False">
+                <Label Text="Snabb-login till mina sidor"
+                       TextColor="Black"
+                       FontAttributes="Bold"
+                       TextDecorations="None"
+                       FontSize="Small"
+                       Margin="0,-20,0,0"
+                       HorizontalOptions="Start"    
+                       VerticalOptions="Start"
+                       />
+                <Label x:Name="UsernameLabel" 
+                       Text="Användarnamn"
+                       HorizontalOptions="Start"
+                       TextDecorations="None"
+                       FontAttributes="Bold"
+                       Margin="120,0,0,0" 
+                       TextColor="White" 
+                       FontSize="Small"
+                       Grid.Row="1" 
+                       IsVisible="False"/>
+                <Entry x:Name="EntryUsername"
+                       VerticalOptions="CenterAndExpand" 
+                       HorizontalOptions="CenterAndExpand"
+                       WidthRequest="200" 
+                       HeightRequest="30"
+                       Placeholder="Skriv ditt användarnamn här" 
+                       Completed="SignIn_Button_Clicked" 
+                       Margin="0,0,0,0" 
+                       Grid.Row="2" 
+                       IsVisible="False"/>
+                <Label x:Name="PasswordLabel" 
+                       Text="Lösenord" 
+                       FontAttributes="Bold"
+                       TextDecorations="None"
+                       IsVisible="False"  
+                       HorizontalOptions="Start"
+                       FontSize="Small"
+                       Margin="120,0,0,0"
+                       TextColor="White" 
+                       Grid.Row="3"/>
+                <Entry x:Name="EntryPassword" 
+                       VerticalOptions="CenterAndExpand" 
+                       HorizontalOptions="CenterAndExpand" 
+                       WidthRequest="200" 
+                       HeightRequest="30"
+                       Placeholder="Skriv ditt lösenord här" 
+                       IsPassword="True" 
+                       Completed="SignIn_Button_Clicked" 
+                       Margin="0,0,0,0" 
+                       Grid.Row="4" 
+                       IsVisible="False"/>
+                <Button x:Name="LoginButton"
+                        Text="Logga in" 
+                        Clicked="SignIn_Button_Clicked" 
+                        HorizontalOptions="Center"
+                        TextColor="White"
+                        WidthRequest="150"
+                        HeightRequest="40"
+                        CornerRadius="15"
+                        Margin="0,20,0,0"
+                        BackgroundColor="#2E4159"
+                        IsVisible="False"
+                        />
+                <Image x:Name="RunningImage" 
+                       Source="running.png" 
+                       Aspect="AspectFit" 
+                       HeightRequest="100"
+                       Margin="300,-50,0,0" 
+                       IsVisible="False"/>
+            </StackLayout>
         </Frame>
     </StackLayout>
 </ContentPage>

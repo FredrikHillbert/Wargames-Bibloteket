@@ -35,7 +35,7 @@ namespace WargamesGUI.Services
         public DbService()
         {
             theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
-            theConStringTest = ConfigurationManager.ConnectionStrings[2].ConnectionString;
+            //theConStringTest = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         }
         //===============||
         //               ||
@@ -104,8 +104,9 @@ namespace WargamesGUI.Services
                     //insertcmd.Parameters.Add("@InStock", SqlDbType.Int).Value = book.InStock ?? null
 
                     await insertcmd.ExecuteNonQueryAsync();
-                    return await Task.FromResult(success);
                 }
+
+                return await Task.FromResult(success);
             }
 
             catch (Exception ex)
