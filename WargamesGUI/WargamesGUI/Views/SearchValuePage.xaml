@@ -16,7 +16,7 @@
             </Grid.ColumnDefinitions>
         </Grid>
 
-        <Frame CornerRadius="15" Margin="50,20,50,40" BackgroundColor="LightBlue">
+        <Frame x:Name="MainFrame" CornerRadius="15" Margin="50,20,50,40" BackgroundColor="LightBlue" IsVisible="True">
             <ListView x:Name="listOfBook" HorizontalOptions="Center" ItemTapped="listOfBook_ItemTapped">
                 <ListView.Header>
                     <Grid>
@@ -82,9 +82,9 @@
                HorizontalOptions="Center"
                Grid.Row="0" Grid.Column="0" 
                CornerRadius="20"
-               Margin="20" 
+               Margin="20,200,20,50" 
                Padding="15" 
-               HeightRequest="2000" 
+               HeightRequest="300"
                WidthRequest="500" 
                BackgroundColor="LightBlue" 
                BorderColor="White" 
@@ -95,12 +95,12 @@
                          HorizontalOptions="FillAndExpand" 
                          Padding="10" 
                          IsVisible="False">
-                <Label Text="Snabb-login till mina sidor"
+                <Label Text="Logga in - Mina sidor"
                        TextColor="Black"
                        FontAttributes="Bold"
                        TextDecorations="None"
                        FontSize="Small"
-                       Margin="0,-20,0,0"
+                       Margin="-30,-35,0,20"
                        HorizontalOptions="Start"    
                        VerticalOptions="Start"
                        />
@@ -110,7 +110,7 @@
                        TextDecorations="None"
                        FontAttributes="Bold"
                        Margin="120,0,0,0" 
-                       TextColor="White" 
+                       TextColor="Black" 
                        FontSize="Small"
                        Grid.Row="1" 
                        IsVisible="False"/>
@@ -132,7 +132,7 @@
                        HorizontalOptions="Start"
                        FontSize="Small"
                        Margin="120,0,0,0"
-                       TextColor="White" 
+                       TextColor="Black" 
                        Grid.Row="3"/>
                 <Entry x:Name="EntryPassword" 
                        VerticalOptions="CenterAndExpand" 

@@ -84,6 +84,7 @@ namespace WargamesGUI.Views
             if (EntryUsername.Text != "" & EntryPassword.Text != "")
             {
                 HideLoginPopup();
+
                 try
                 {
                     switch (userService.SignIn(EntryUsername.Text, EntryPassword.Text))
@@ -115,6 +116,7 @@ namespace WargamesGUI.Views
                             MainStackLayout.IsVisible = false;
                             await DisplayAlert("Misslyckades", "Kotrollera användarnamn och lösenord", "Ok");
                             MainStackLayout.IsVisible = true;
+                            HideLoginPopup();
                             break;
                     }
                 }
@@ -126,6 +128,7 @@ namespace WargamesGUI.Views
         }
         public void ShowLoginPopup()
         {
+            MainFrame.IsVisible = false;
             DisplayLoginFrame.IsVisible = true;
             popupStackLayout.IsVisible = true;
             UsernameLabel.IsVisible = true;
@@ -137,6 +140,7 @@ namespace WargamesGUI.Views
         }
         public void HideLoginPopup()
         {
+            MainFrame.IsVisible = true;
             DisplayLoginFrame.IsVisible = false;
             popupStackLayout.IsVisible = false;
             UsernameLabel.IsVisible = false;
