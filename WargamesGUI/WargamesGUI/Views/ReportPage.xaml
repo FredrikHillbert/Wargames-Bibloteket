@@ -69,11 +69,10 @@
                            WidthRequest="250" 
                            Margin="0,0,-50,0" />
                     <SearchBar x:Name="FindUserSearchBar" 
-                               WidthRequest="300" 
-                               Placeholder="Sök på användarnamn" 
+                               WidthRequest="300"                                
                                Grid.Column="2" 
                                TextChanged="FindUserSearchBar_TextChanged" 
-                               Margin="0,0,130,0" 
+                               Margin="0,0,50,0" 
                                Grid.ColumnSpan="2"/>
                     <Label x:Name="Title"
                            Text="Titel" 

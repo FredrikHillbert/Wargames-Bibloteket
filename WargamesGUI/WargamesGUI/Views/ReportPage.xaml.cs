@@ -22,6 +22,7 @@ namespace WargamesGUI.Views
         public ReportPage()
         {
             InitializeComponent();
+            FindUserSearchBar.Placeholder = "";
             BorrowedBooks.IsVisible = false; ;
             AddedBooks.IsVisible = false;
             removedBooks.IsVisible = false;
@@ -49,6 +50,7 @@ namespace WargamesGUI.Views
                 switch (_itemID)
                 {
                     case 1:
+                        FindUserSearchBar.Placeholder = "Sök på användarnamn";
                         listOfVisitorsReport.IsVisible = true;
                         listofBooks.IsVisible = false;
                         listofremovedBooks.IsVisible = false;
@@ -70,6 +72,7 @@ namespace WargamesGUI.Views
                         listOfVisitorsReport.ItemsSource = dataList;
                         break;
                     case 2:
+                        FindUserSearchBar.Placeholder = "Sök på kategori, pris eller inläggningsdatum";                        
                         BorrowedBooks.IsVisible = false;
                         AddedBooks.IsVisible = true;
                         removedBooks.IsVisible = false;
@@ -91,6 +94,7 @@ namespace WargamesGUI.Views
                         listofBooks.ItemsSource = dataList;
                         break;
                     case 3:
+                        FindUserSearchBar.Placeholder = "";
                         BorrowedBooks.IsVisible = false;
                         AddedBooks.IsVisible = false;
                         removedBooks.IsVisible = true;
@@ -175,7 +179,7 @@ namespace WargamesGUI.Views
                         var searchresult = UserCollection.Where(x => x.Username.Contains(FindUserSearchBar.Text));
                         listOfVisitorsReport.ItemsSource = searchresult;
                         break;
-                    case 2:
+                    case 2:                        
                         var result = BookCollection.Where(x => x.Category.Contains(FindUserSearchBar.Text)
                         || x.Price.Contains(FindUserSearchBar.Text)
                         || x.CreatedDate.ToString().Contains(FindUserSearchBar.Text));
