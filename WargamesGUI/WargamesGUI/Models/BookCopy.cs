@@ -15,6 +15,7 @@ namespace WargamesGUI.Models
 
         public BookCondition BookCondition { get; set; }
         public BookAvailability BookAvailability { get; set; }
+        public Book2 Book { get; set; }
 
         // String reps
         public string Condition { get; set; } // Speglar fk_Condition_Id

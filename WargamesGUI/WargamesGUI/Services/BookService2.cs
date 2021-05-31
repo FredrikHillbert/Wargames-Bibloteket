@@ -13,6 +13,7 @@ namespace WargamesGUI.Services
     public class BookService2
     {
         private DbService dbService = new DbService();
+        private LoanService2 loanService = new LoanService2();
 
         // Books
         public async Task<List<Book2>> GetAllBooks()
@@ -32,7 +33,6 @@ namespace WargamesGUI.Services
                 Description = x.Description,
                 Placement = x.Placement,
                 Author = x.Author,
-                InStock = x.InStock,
                 BookType = items.Select(i => i).Where(i => i.Item_Id == x.fk_Item_Id).ToList().ElementAtOrDefault(0),
                 DeweySub = deweySub.Select(y => y)
                 .Where(y => y.DeweySub_Id == x.Placement)
@@ -78,6 +78,7 @@ namespace WargamesGUI.Services
             var bookCopies = await dbService.GetBookCopiesFromDb();
             var bookConditions = await dbService.GetBookCopyConditionsFromDb();
             var bookAvailability = await dbService.GetBookCopyAvailabilityFromDb();
+            var books = await dbService.GetBooksFromDb();
 
             var result = bookCopies.Select(x => new BookCopy
             {
@@ -85,6 +86,7 @@ namespace WargamesGUI.Services
                 fk_Book_Id = x.fk_Book_Id,
                 fk_Availability = x.fk_Availability,
                 fk_Condition_Id = x.fk_Condition_Id,
+                Book = books.Select(y => y).Where(y => y.Id == x.fk_Book_Id).ElementAtOrDefault(0),
                 BookCondition = bookConditions.Select(y => y)
                 .Where(y => y.Condition_Id == x.fk_Condition_Id)
                 .ElementAtOrDefault(0),
@@ -161,10 +163,9 @@ namespace WargamesGUI.Services
                                       x.ISBN != null && x.ISBN.ToUpper().Contains(text.ToUpper()) ||
                                       x.Title != null && x.Title.ToUpper().Contains(text.ToUpper()) ||
                                       x.Description != null && x.Description.ToUpper().Contains(text.ToUpper()) ||
-                                      x.InStock.ToString().ToUpper().Contains(text.ToUpper())
+                                      x.DeweyMain != null && x.DeweyMain.ToString().ToUpper().Contains(text.ToUpper()) ||
+                                      x.DeweySub != null && x.DeweySub.ToString().ToUpper().Contains(text.ToUpper())
                                       //x.Category != null && x.Category.ToUpper().Contains(text.ToUpper()) ||
-
-
                                       ).Select(x => x)
                                       .ToList();
             }

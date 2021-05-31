@@ -37,7 +37,11 @@ namespace WargamesGUI.Services
             theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
             theConStringTest = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         }
-
+        //===============||
+        //               ||
+        //     BOOK      ||
+        //               ||
+        //===============||
         public async Task<List<Book2>> GetBooksFromDb()
         {
 
@@ -62,7 +66,6 @@ namespace WargamesGUI.Services
                             book.Description = reader["Description"].ToString();
                             book.Placement = Convert.ToInt32(reader["Placement"]);
                             book.Author = reader["Author"].ToString();
-                            book.InStock = Convert.ToInt32(reader["InStock"]);
                             //book.Price = Convert.ToInt32(reader["Price"]);
 
                             bookList.Add(book);
@@ -72,6 +75,114 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(bookList);
             }
         }
+        // !!
+        // Behöver uppdatera mer än såhär i "UpdateBookInDb" - de nya objekten/listan som ligger till "Book2" ska också kunna ändras.
+        // !!
+        public async Task<bool> UpdateBookInDb(Book2 book)
+        {
+            bool success = true;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_UpdateBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+
+                    insertcmd.Parameters.Add("@Id", SqlDbType.Int).Value = book.Id;
+                    insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = book.fk_Item_Id;
+                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = book.Title ?? null;
+                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = book.Author ?? null;
+                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = book.Publisher ?? null;
+                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = book.Description ?? null;
+                    //insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = book.Price ?? null;
+                    insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = book.ISBN ?? null;
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.Placement;
+                    //insertcmd.Parameters.Add("@InStock", SqlDbType.Int).Value = book.InStock ?? null
+
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                string a = ex.Message;
+                success = false;
+                return await Task.FromResult(success);
+            }
+        }
+
+        // !!
+        // Behöver lägga till mer än såhär i "AddBookToDb" - de nya objekten/listan som ligger till "Book2" ska också läggas till.
+        // !!
+        public async Task<bool> AddBookToDb(Book2 book)
+        {
+            bool success = true;
+            try
+            {
+
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = book.fk_Item_Id;
+                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = book.Title;
+                    insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = book.ISBN;
+                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = book.Publisher;
+                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = book.Author;
+                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = book.Description;
+                    insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = book.Price;
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.Placement;
+                    //insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = book.Category;
+                    await insertcmd.ExecuteNonQueryAsync();
+
+                    return success;
+                }
+            }
+            catch
+            {
+                success = false;
+                return success;
+            }
+        }
+        public async Task<List<Item>> GetItemTypeFromDb()
+        {
+            var items = new List<Item>();
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+
+                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblItem}", con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var item = new Item();
+
+                            item.Item_Id = Convert.ToInt32(reader["Item_Id"]);
+                            item.TypeOfItem = reader["TypeOfItem"].ToString();
+
+                            items.Add(item);
+                        }
+                    }
+                }
+                return await Task.FromResult(items);
+            }
+        }
+
+        //===============||
+        //               ||
+        //  BOOK-COPIES  ||
+        //               ||
+        //===============||
         public async Task<List<BookCopy>> GetBookCopiesFromDb()
         {
             var bookCopies = new List<BookCopy>();
@@ -100,9 +211,94 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(bookCopies);
             }
         }
-        public async Task<List<BookLoan>> GetBookLoansFromDb()
+        public async Task<List<BookCondition>> GetBookCopyConditionsFromDb()
         {
-            var bookLoans = new List<BookLoan>();
+            var bookConditions = new List<BookCondition>();
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+
+                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblConditionStatus}", con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var bookCondition = new BookCondition();
+                            bookCondition.Condition_Id = Convert.ToInt32(reader["Condition_Id"]);
+                            bookCondition.ConditionType = reader["ConditionType"].ToString();
+
+                            bookConditions.Add(bookCondition);
+                        }
+                    }
+                }
+                return await Task.FromResult(bookConditions);
+            }
+        }
+        public async Task<List<BookAvailability>> GetBookCopyAvailabilityFromDb()
+        {
+            var bookAvailability = new List<BookAvailability>();
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+
+                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblAvailability}", con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var bookAvailable = new BookAvailability();
+                            bookAvailable.Id = Convert.ToInt32(reader["Id"]);
+                            bookAvailable.Status = reader["Status"].ToString();
+
+                            bookAvailability.Add(bookAvailable);
+                        }
+                    }
+                }
+                return await Task.FromResult(bookAvailability);
+            }
+        }
+        public async Task<bool> RemoveBookCopyFromDb(int id, string reason)
+        {
+            bool success = true;
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+
+                SqlCommand insertcmd = new SqlCommand("sp_RemoveBookCopy", con);
+                insertcmd.CommandType = CommandType.StoredProcedure;
+
+                insertcmd.Parameters.Add("@Copy_Id", SqlDbType.Int).Value = id;
+                insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
+                insertcmd.Parameters.Add("@returnValue", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                await insertcmd.ExecuteNonQueryAsync();
+
+                var retval = (int)insertcmd.Parameters["@returnValue"].Value;
+                if (retval == 0)
+                {
+                    return success;
+                }
+                else
+                {
+                    success = false;
+                    return success;
+                }
+            }
+        }
+
+        //===============||
+        //               ||
+        //  BOOK-LOANS   ||
+        //               ||
+        //===============||
+        public async Task<List<BookLoan2>> GetBookLoansFromDb()
+        {
+            var bookLoans = new List<BookLoan2>();
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
@@ -114,7 +310,7 @@ namespace WargamesGUI.Services
                     {
                         while (await reader.ReadAsync())
                         {
-                            var bookLoan = new BookLoan();
+                            var bookLoan = new BookLoan2();
 
                             bookLoan.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
                             bookLoan.fk_BookCopy_Id = Convert.ToInt32(reader["fk_BookCopy_Id"]);
@@ -132,6 +328,38 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(bookLoans);
             }
         }
+        public async Task<List<BookLoanStatus>> GetBookLoanStatusFromDb()
+        {
+            var loanStatuses = new List<BookLoanStatus>();
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+
+                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblBookLoanStatus}", con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var loanStatus = new BookLoanStatus();
+
+                            loanStatus.BookLoanStatus_Id = Convert.ToInt32(reader["BookLoanStatus_Id"]);
+                            loanStatus.BookLoan_Status = reader["BookLoan_Status"].ToString();
+
+                            loanStatuses.Add(loanStatus);
+                        }
+                    }
+                }
+                return await Task.FromResult(loanStatuses);
+            }
+        }
+
+        //===============||
+        //               ||
+        //     DEWEY     ||
+        //               ||
+        //===============||
         public async Task<List<DeweyMain>> GetDeweyMainFromDb()
         {
             var deweyMain = new List<DeweyMain>();
@@ -185,63 +413,12 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(deweySub);
             }
         }
-        public async Task<List<LibraryCard>> GetLibraryCardsFromDb()
-        {
-            var libraryCards = new List<LibraryCard>();
 
-            using (SqlConnection con = new SqlConnection(theConString))
-            {
-                await con.OpenAsync();
-
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblLibraryCard}", con))
-                {
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var libraryCard = new LibraryCard();
-
-                            libraryCard.LibraryCard_Id = Convert.ToInt32(reader["LibraryCard_Id"]);
-                            libraryCard.CardNumber = reader["CardNumber"].ToString();
-                            libraryCard.fk_Status_Id = Convert.ToInt32(reader["fk_Status_Id"]);
-                            libraryCard.Status_Level = reader["Status_Level"].ToString();
-
-                            libraryCards.Add(libraryCard);
-                        }
-                    }
-                }
-                return await Task.FromResult(libraryCards);
-            }
-        }
-        public async Task<List<RemovedItem>> GetRemovedItemsFromDb()
-        {
-            var removedItems = new List<RemovedItem>();
-
-            using (SqlConnection con = new SqlConnection(theConString))
-            {
-                await con.OpenAsync();
-
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblRemovedItem}", con))
-                {
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var removedItem = new RemovedItem();
-
-                            removedItem.Id = Convert.ToInt32(reader["Id"]);
-                            removedItem.Title = reader["Title"].ToString();
-                            removedItem.Reason = reader["Reason"].ToString();
-                            removedItem.Condition = reader["Condition"].ToString();
-                            removedItem.Date = Convert.ToDateTime(reader["Date"]);
-
-                            removedItems.Add(removedItem);
-                        }
-                    }
-                }
-                return await Task.FromResult(removedItems);
-            }
-        }
+        //===============||
+        //               ||
+        //     USERS     ||
+        //               ||
+        //===============||
         public async Task<List<User>> GetUsersFromDb()
         {
             var users = new List<User>();
@@ -290,87 +467,47 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(users);
             }
         }
+
+        //===============||
+        //               ||
+        //     EVENTS    ||
+        //               ||
+        //===============||
         public async Task<List<Event>> GetEventsFromDb()
         {
             throw new NotImplementedException();
         }
-        public async Task<bool> RemoveBookCopyFromDb(int id, string reason)
+
+        //===============||
+        //               ||
+        // LIBRARY-CARDS ||
+        //               ||
+        //===============||
+        public async Task<List<LibraryCard2>> GetLibraryCardsFromDb()
         {
-            bool success = true;
+            var libraryCards = new List<LibraryCard2>();
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
 
-                SqlCommand insertcmd = new SqlCommand("sp_RemoveBookCopy", con);
-                insertcmd.CommandType = CommandType.StoredProcedure;
-
-                insertcmd.Parameters.Add("@Copy_Id", SqlDbType.Int).Value = id;
-                insertcmd.Parameters.Add("@Reason", SqlDbType.VarChar).Value = reason;
-                insertcmd.Parameters.Add("@returnValue", SqlDbType.Int).Direction = ParameterDirection.Output;
-
-                await insertcmd.ExecuteNonQueryAsync();
-
-                var retval = (int)insertcmd.Parameters["@returnValue"].Value;
-                if (retval == 0)
-                {
-                    return success;
-                }
-                else
-                {
-                    success = false;
-                    return success;
-                }
-            }
-        }
-        public async Task<List<BookCondition>> GetBookCopyConditionsFromDb()
-        {
-            var bookConditions = new List<BookCondition>();
-
-            using (SqlConnection con = new SqlConnection(theConString))
-            {
-                await con.OpenAsync();
-
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblConditionStatus}", con))
+                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblLibraryCard}", con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            var bookCondition = new BookCondition();
-                            bookCondition.Condition_Id = Convert.ToInt32(reader["Condition_Id"]);
-                            bookCondition.ConditionType = reader["ConditionType"].ToString();
+                            var libraryCard = new LibraryCard2();
 
-                            bookConditions.Add(bookCondition);
+                            libraryCard.LibraryCard_Id = Convert.ToInt32(reader["LibraryCard_Id"]);
+                            libraryCard.CardNumber = reader["CardNumber"].ToString();
+                            libraryCard.fk_Status_Id = Convert.ToInt32(reader["fk_Status_Id"]);
+
+                            libraryCards.Add(libraryCard);
                         }
                     }
                 }
-                return await Task.FromResult(bookConditions);
-            }
-        }
-        public async Task<List<BookAvailability>> GetBookCopyAvailabilityFromDb()
-        {
-            var bookAvailability = new List<BookAvailability>();
-
-            using (SqlConnection con = new SqlConnection(theConString))
-            {
-                await con.OpenAsync();
-
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblAvailability}", con))
-                {
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var bookAvailable = new BookAvailability();
-                            bookAvailable.Id = Convert.ToInt32(reader["Id"]);
-                            bookAvailable.Status = reader["Status"].ToString();
-
-                            bookAvailability.Add(bookAvailable);
-                        }
-                    }
-                }
-                return await Task.FromResult(bookAvailability);
+                return await Task.FromResult(libraryCards);
             }
         }
         public async Task<List<LibraryCardStatus>> GetLibraryCardStatusFromDb()
@@ -399,132 +536,39 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(cardStatuses);
             }
         }
-        public async Task<List<Item>> GetItemTypeFromDb()
+
+        //===============||
+        //               ||
+        //    REPORTS    ||
+        //               ||
+        //===============||
+        public async Task<List<RemovedItem>> GetRemovedItemsFromDb()
         {
-            var items = new List<Item>();
+            var removedItems = new List<RemovedItem>();
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblItem}", con))
+                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblRemovedItem}", con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            var item = new Item();
+                            var removedItem = new RemovedItem();
 
-                            item.Item_Id = Convert.ToInt32(reader["Item_Id"]);
-                            item.TypeOfItem = reader["TypeOfItem"].ToString();
+                            removedItem.Id = Convert.ToInt32(reader["Id"]);
+                            removedItem.Title = reader["Title"].ToString();
+                            removedItem.Reason = reader["Reason"].ToString();
+                            removedItem.Condition = reader["Condition"].ToString();
+                            removedItem.Date = Convert.ToDateTime(reader["Date"]);
 
-                            items.Add(item);
+                            removedItems.Add(removedItem);
                         }
                     }
                 }
-                return await Task.FromResult(items);
-            }
-        }
-        public async Task<List<BookLoanStatus>> GetBookLoanStatusFromDb()
-        {
-            var loanStatuses = new List<BookLoanStatus>();
-
-            using (SqlConnection con = new SqlConnection(theConString))
-            {
-                await con.OpenAsync();
-
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblBookLoanStatus}", con))
-                {
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var loanStatus = new BookLoanStatus();
-
-                            loanStatus.BookLoanStatus_Id = Convert.ToInt32(reader["BookLoanStatus_Id"]);
-                            loanStatus.BookLoan_Status = reader["BookLoan_Status"].ToString();
-
-                            loanStatuses.Add(loanStatus);
-                        }
-                    }
-                }
-                return await Task.FromResult(loanStatuses);
-            }
-        }
-        // !!
-        // Behöver uppdatera mer än såhär i "UpdateBookInDb" - de nya objekten/listan som ligger till "Book2" ska också kunna ändras.
-        // !!
-        public async Task<bool> UpdateBookInDb(Book2 book)
-            {
-                bool success = true;
-
-                try
-                {
-                    using (SqlConnection con = new SqlConnection(theConString))
-                    {
-
-                        await con.OpenAsync();
-
-                        SqlCommand insertcmd = new SqlCommand("sp_UpdateBook", con);
-                        insertcmd.CommandType = CommandType.StoredProcedure;
-
-                        insertcmd.Parameters.Add("@Id", SqlDbType.Int).Value = book.Id;
-                        insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = book.fk_Item_Id;
-                        insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = book.Title ?? null;
-                        insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = book.Author ?? null;
-                        insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = book.Publisher ?? null;
-                        insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = book.Description ?? null;
-                        //insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = book.Price ?? null;
-                        insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = book.ISBN ?? null;
-                        insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.Placement;
-                        //insertcmd.Parameters.Add("@InStock", SqlDbType.Int).Value = book.InStock ?? null
-
-                        await insertcmd.ExecuteNonQueryAsync();
-                        return await Task.FromResult(success);
-                    }
-                }
-
-                catch (Exception ex)
-                {
-                    string a = ex.Message;
-                    success = false;
-                    return await Task.FromResult(success);
-                }
-            }
-
-        // !!
-        // Behöver lägga till mer än såhär i "AddBookToDb" - de nya objekten/listan som ligger till "Book2" ska också läggas till.
-        // !!
-        public async Task<bool> AddBookToDb(Book2 book)
-        {
-            bool success = true;
-            try
-            {
-
-                using (SqlConnection con = new SqlConnection(theConString))
-                {
-                    await con.OpenAsync();
-
-                    SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
-                    insertcmd.CommandType = CommandType.StoredProcedure;
-                    insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = book.fk_Item_Id;
-                    insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = book.Title;
-                    insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = book.ISBN;
-                    insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = book.Publisher;
-                    insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = book.Author;
-                    insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = book.Description;
-                    insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = book.Price;
-                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.Placement;
-                    //insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = book.Category;
-                    await insertcmd.ExecuteNonQueryAsync();
-
-                    return success;
-                }
-            }
-            catch
-            {
-                success = false;
-                return success;
+                return await Task.FromResult(removedItems);
             }
         }
     }

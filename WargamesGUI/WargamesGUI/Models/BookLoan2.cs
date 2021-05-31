@@ -14,8 +14,9 @@ namespace WargamesGUI.Models
         public DateTime ReturnedDate { get; set; }
 
         // ??
-        public LibraryCard LibraryCard { get; set; }
+        public LibraryCard2 LibraryCard { get; set; }
         public Book2 Book { get; set; }
+        public BookCopy BookCopy { get; set; }
         public BookLoanStatus BookLoanStatus { get; set; }
 
     }

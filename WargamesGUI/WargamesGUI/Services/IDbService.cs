@@ -11,11 +11,11 @@ namespace WargamesGUI.Services
     {
         Task<List<Book2>> GetBooksFromDb();
         Task<List<BookCopy>> GetBookCopiesFromDb();
-        Task<List<BookLoan>> GetBookLoansFromDb();
+        Task<List<BookLoan2>> GetBookLoansFromDb();
         Task<List<DeweyMain>> GetDeweyMainFromDb();
         Task<List<DeweySub>> GetDeweySubFromDb();
         Task<List<Event>> GetEventsFromDb();
-        Task<List<LibraryCard>> GetLibraryCardsFromDb();
+        Task<List<LibraryCard2>> GetLibraryCardsFromDb();
         Task<List<RemovedItem>> GetRemovedItemsFromDb();
         Task<List<User>> GetUsersFromDb();
         Task<List<BookCondition>> GetBookCopyConditionsFromDb();

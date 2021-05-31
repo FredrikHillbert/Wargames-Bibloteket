@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WargamesGUI.Models
 {
-    public class Book2 : INotifyPropertyChanged
+    public class Book2
     {
         public int Id { get; set; }
         public int fk_Item_Id { get; set; }
@@ -20,19 +20,5 @@ namespace WargamesGUI.Models
         public DeweySub DeweySub { get; set; }
         public DeweyMain DeweyMain { get; set; }
         public List<BookCopy> BookCopies { get; set; }
-
-        private int _inStock;
-        public int InStock 
-        {
-            get => _inStock;
-            set
-            {
-                _inStock = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(InStock)));
-            }   
-        }   
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
     }
 }
