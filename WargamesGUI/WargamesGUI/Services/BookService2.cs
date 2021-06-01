@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
+using WargamesGUI.DAL;
 
 
 namespace WargamesGUI.Services

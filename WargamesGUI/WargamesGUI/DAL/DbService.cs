@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using WargamesGUI.Models;
 using System.Configuration;
 using System.Data;
+using WargamesGUI.Services;
 
-namespace WargamesGUI.Services
+namespace WargamesGUI.DAL
 {
     public class DbService : IDbService
     {
@@ -19,11 +20,15 @@ namespace WargamesGUI.Services
             theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
             //theConStringTest = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         }
-        //===============||
-        //               ||
-        //     BOOK      ||
-        //               ||
-        //===============||
+        public string SelectAllFromQuery(TableName tableName)
+        {
+            return $"SELECT * FROM {tableName}";
+        }
+        //========================================================================================||
+        //                                                                                        ||
+        //  BOOKS                                                                                 ||
+        //                                                                                        ||
+        //========================================================================================||
         public async Task<List<Book2>> GetBooksFromDb()
         {
 
@@ -32,7 +37,7 @@ namespace WargamesGUI.Services
             using (SqlConnection con = new SqlConnection(theConString))
             {
                 await con.OpenAsync();
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblBook}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblBook), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -142,7 +147,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblItem}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblItem), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -161,11 +166,11 @@ namespace WargamesGUI.Services
             }
         }
 
-        //===============||
-        //               ||
-        //  BOOK-COPIES  ||
-        //               ||
-        //===============||
+        //========================================================================================||
+        //                                                                                        ||
+        //  BOOK-COPIES                                                                           ||
+        //                                                                                        ||
+        //========================================================================================||
         public async Task<List<BookCopy>> GetBookCopiesFromDb()
         {
             var bookCopies = new List<BookCopy>();
@@ -174,7 +179,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblBookCopy}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblBookCopy), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -202,7 +207,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblConditionStatus}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblConditionStatus), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -227,7 +232,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblAvailability}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblAvailability), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -304,11 +309,11 @@ namespace WargamesGUI.Services
             }
         }
 
-        //===============||
-        //               ||
-        //  BOOK-LOANS   ||
-        //               ||
-        //===============||
+        //========================================================================================||
+        //                                                                                        ||
+        //  BOOK-LOANS                                                                            ||
+        //                                                                                        ||
+        //========================================================================================||
         public async Task<List<BookLoan2>> GetBookLoansFromDb()
         {
             var bookLoans = new List<BookLoan2>();
@@ -317,7 +322,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblBookLoan}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblBookLoan), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -369,7 +374,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblBookLoanStatus}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblBookLoanStatus), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -433,11 +438,11 @@ namespace WargamesGUI.Services
         }
 
 
-        //===============||
-        //               ||
-        //     DEWEY     ||
-        //               ||
-        //===============||
+        //========================================================================================||
+        //                                                                                        ||
+        //  DEWEY                                                                                 ||
+        //                                                                                        ||
+        //========================================================================================||
         public async Task<List<DeweyMain>> GetDeweyMainFromDb()
         {
             var deweyMain = new List<DeweyMain>();
@@ -446,7 +451,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblDeweyMain}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblDeweyMain), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -472,7 +477,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblDeweySub}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblDeweySub), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -492,11 +497,11 @@ namespace WargamesGUI.Services
             }
         }
 
-        //===============||
-        //               ||
-        //     USERS     ||
-        //               ||
-        //===============||
+        //========================================================================================||
+        //                                                                                        ||
+        //  USERS                                                                                 ||
+        //                                                                                        ||
+        //========================================================================================||
         public async Task<List<User>> GetUsersFromDb()
         {
             var users = new List<User>();
@@ -665,21 +670,21 @@ namespace WargamesGUI.Services
             return await Task.FromResult(user.fk_PrivilegeLevel);
         }
 
-        //===============||
-        //               ||
-        //     EVENTS    ||
-        //               ||
-        //===============||
+        //========================================================================================||
+        //                                                                                        ||
+        //  EVENTS                                                                                ||
+        //                                                                                        ||
+        //========================================================================================||
         public async Task<List<Event>> GetEventsFromDb()
         {
             throw new NotImplementedException();
         }
 
-        //===============||
-        //               ||
-        // LIBRARY-CARDS ||
-        //               ||
-        //===============||
+        //========================================================================================||
+        //                                                                                        ||
+        //  LIBRARY-CARDS                                                                         ||
+        //                                                                                        ||
+        //========================================================================================||
         public async Task<List<LibraryCard2>> GetLibraryCardsFromDb()
         {
             var libraryCards = new List<LibraryCard2>();
@@ -688,7 +693,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblLibraryCard}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblLibraryCard), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -715,7 +720,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblLibraryCardStatus}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblLibraryCardStatus), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -757,11 +762,11 @@ namespace WargamesGUI.Services
             }
         }
 
-        //===============||
-        //               ||
-        //    REPORTS    ||
-        //               ||
-        //===============||
+        //========================================================================================||
+        //                                                                                        ||
+        //  REPORTS                                                                               ||
+        //                                                                                        ||
+        //========================================================================================||
         public async Task<List<RemovedItem>> GetRemovedItemsFromDb()
         {
             var removedItems = new List<RemovedItem>();
@@ -770,7 +775,7 @@ namespace WargamesGUI.Services
             {
                 await con.OpenAsync();
 
-                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblRemovedItem}", con))
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblRemovedItem), con))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -791,7 +796,34 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(removedItems);
             }
         }
-        
+        public async Task<List<HandledBookLoan>> GetArchivedBookLoansFromDb()
+        {
+            var handledLoans = new List<HandledBookLoan>();
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                using (var command = new SqlCommand(SelectAllFromQuery(TableName.tblHandledBookLoan), con))
+                {
+                    await con.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var handledLoan = new HandledBookLoan();
+
+                            handledLoan.handled_Loan_Id = Convert.ToInt32(reader["handled_Loan_Id"]);
+                            handledLoan.handled_BookCopy_Id = Convert.ToInt32(reader["handled_BookCopy_Id"]);
+                            handledLoan.ReturnedDate = Convert.ToDateTime(reader["ReturnedDate"]);
+
+                            handledLoans.Add(handledLoan);
+                        }
+                    }
+                }
+
+                return await Task.FromResult(handledLoans);
+            }
+        }
     }
 }
 

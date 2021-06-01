@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using System.Linq;
+using WargamesGUI.DAL;
 
 namespace WargamesGUI.Services
 {

@@ -21,6 +21,7 @@ namespace WargamesGUI.Services
         tblLibraryCard,
         tblLibraryCardStatus,
         tblItem,
+        tblHandledBookLoan,
     }
     public enum tblBookLoan
     {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using WargamesGUI.Models;
 
 
-namespace WargamesGUI.Services
+namespace WargamesGUI.DAL
 {
     public interface IDbService
     {

@@ -95,5 +95,9 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\Librarian\" />
+    <Folder Include="Views\Visitor\" />
   </ItemGroup>
 </Project>
