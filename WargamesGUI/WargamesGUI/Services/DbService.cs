@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WargamesGUI.Models;
 using System.Configuration;
 using System.Data;
+using System.Linq;
 
 namespace WargamesGUI.Services
 {
@@ -31,9 +32,10 @@ namespace WargamesGUI.Services
     {
         public string theConString;
         public string theConStringTest;
-
+        public DbService dbService;
         public DbService()
         {
+           dbService = new DbService();
             theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
             //theConStringTest = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         }
@@ -420,6 +422,12 @@ namespace WargamesGUI.Services
         //     USERS     ||
         //               ||
         //===============||
+
+
+        /// <summary>
+        /// Hämtar alla användare från databasen. 
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<User>> GetUsersFromDb()
         {
             var users = new List<User>();
@@ -435,21 +443,8 @@ namespace WargamesGUI.Services
                         while (await reader.ReadAsync())
                         {
                             var user = new User();
-
                             user.User_ID = Convert.ToInt32(reader["User_ID"]);
                             user.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
-                            switch (user.fk_PrivilegeLevel)
-                            {
-                                case 1:
-                                    user.privilegeName = "Admin";
-                                    break;
-                                case 2:
-                                    user.privilegeName = "Bibliotekarie";
-                                    break;
-                                case 3:
-                                    user.privilegeName = "Besökare";
-                                    break;
-                            }
                             user.First_Name = reader["First_Name"].ToString();
                             user.Last_Name = reader["Last_Name"].ToString();
                             user.Username = reader["Username"].ToString();
@@ -469,6 +464,133 @@ namespace WargamesGUI.Services
             }
         }
 
+        /// <summary>
+        /// Tar bort en specifik användare med hjälp av userID
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<bool> RemoveUserFromDb(int userId)
+        {
+            bool isWorking;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    con.Open();
+                    SqlCommand deletecmd = new SqlCommand("sp_DeleteUser", con);
+                    deletecmd.CommandType = CommandType.StoredProcedure;
+                    deletecmd.CommandText = "sp_DeleteUser";
+                    deletecmd.Parameters.Add("@Id", SqlDbType.Int).Value = userId;
+                    deletecmd.ExecuteNonQuery();
+                    isWorking = true;
+                    return await Task.FromResult(isWorking);
+                }
+            }
+            catch (Exception)
+            {
+
+                isWorking = false;
+                return await Task.FromResult(isWorking);
+            }
+
+           
+        }
+
+        /// <summary>
+        /// Adderar en ny användare
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <returns></returns>
+        public async Task<bool> AddNewUser(User2 newUser)
+        {
+            bool success = true;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+                    SqlCommand insertcmd = new SqlCommand("sp_AddNewUser", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.Parameters.Add("@fk_PL", SqlDbType.Int).Value = newUser.fk_PrivilegeLevel;
+                    insertcmd.Parameters.Add("@firstName", SqlDbType.VarChar).Value = newUser.First_Name;
+                    insertcmd.Parameters.Add("@lastName", SqlDbType.VarChar).Value = newUser.Last_Name;
+                    insertcmd.Parameters.Add("@sSN", SqlDbType.VarChar).Value = newUser.SSN;
+                    insertcmd.Parameters.Add("@address", SqlDbType.VarChar).Value = newUser.Address;
+                    insertcmd.Parameters.Add("@email", SqlDbType.VarChar).Value = newUser.Email;
+                    insertcmd.Parameters.Add("@phoneNumber", SqlDbType.VarChar).Value = newUser.PhoneNumber;
+                    insertcmd.Parameters.Add("@username", SqlDbType.VarChar).Value = newUser.Username;
+                    insertcmd.Parameters.Add("@password", SqlDbType.VarChar).Value = newUser.Password;
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return await Task.FromResult(success);
+                }
+            }
+
+            catch (Exception)
+            {
+                success = false;
+                return await Task.FromResult(success);
+            }
+
+        }
+
+        
+
+        /// <summary>
+        /// Hämtar alla olika privilege levels som finns i databasen så att det sedan kan kopplas till en specifik användare med linq. 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Privilege>> GetPrivilegeFromDb() 
+        {
+            var privilegeList = new List<Privilege>();
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+
+                using (var command = new SqlCommand($"SELECT * FROM {TableName.tblPrivilegeLevel}", con))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var privilege  = new Privilege();
+                            privilege.PrivilegeLevel = Convert.ToInt32(reader["PrivilegeLevel_Id"]);
+                            privilege.TypeOfUser = reader["TypeOfPrivilegeLevel"].ToString();
+                            privilegeList.Add(privilege);
+                        }
+                    }
+                }
+                return await Task.FromResult(privilegeList);
+            }
+        }
+
+        /// <summary>
+        /// Kollar ifall en användare finns genom att man har skrivit in korrekt användarnamn och lösenord
+        /// </summary>
+        /// <param name="loginUser"></param>
+        /// <returns>retunerar en INT som motsvarar vilken privilege level personen tillhör</returns>
+        public async Task<int> SignIn(User2 loginUser)
+        {
+            var user = new User2();
+
+            SqlConnection Connection = new SqlConnection(theConString);
+            Connection.Open();
+            var login = $"SELECT fk_PrivilegeLevel FROM {TableName.tblUser} WHERE Username = '{loginUser.Username} AND Password = HASHBYTES('SHA1','{loginUser.Password}')'";
+
+         // string query2 = $"SELECT fk_PrivilegeLevel, Username, fk_LibraryCard, Password, CardNumber FROM tblUser LEFT JOIN tblLibraryCard ON fk_LibraryCard = LibraryCard_Id WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
+
+            using (SqlCommand command = new SqlCommand(login, Connection))
+            {
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        user.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                    }
+                }
+            }
+            return await Task.FromResult(user.fk_PrivilegeLevel);
+        }
+
         //===============||
         //               ||
         //     EVENTS    ||
@@ -484,6 +606,10 @@ namespace WargamesGUI.Services
         // LIBRARY-CARDS ||
         //               ||
         //===============||
+        /// <summary>
+        /// Hämtar alla Lånekort i databasen
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<LibraryCard2>> GetLibraryCardsFromDb()
         {
             var libraryCards = new List<LibraryCard2>();
@@ -511,6 +637,10 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(libraryCards);
             }
         }
+        /// <summary>
+        /// Hämtar alla kortstatus i databasen
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<LibraryCardStatus>> GetLibraryCardStatusFromDb()
         {
             var cardStatuses = new List<LibraryCardStatus>();
@@ -537,6 +667,7 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(cardStatuses);
             }
         }
+        
 
         //===============||
         //               ||

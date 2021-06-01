@@ -93,31 +93,31 @@ namespace WargamesGUI.Services
             }
         }
 
-        public bool ChangeExistingUser(int userId, string firstName, string lastName, string SSN, string newUserName)
-        {
-            bool canChangeUser = true;
-            string query = $"Update dbo.{theUserTableName} SET First_Name = '{firstName}', Last_Name = '{lastName}', SSN = '{SSN}', Username = '{newUserName}' WHERE T0100_USER_ID = {userId}";
-            try
-            {
-                using (SqlConnection con = new SqlConnection(theConString))
-                {
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
+        //public bool ChangeExistingUser(int userId, string firstName, string lastName, string SSN, string newUserName)
+        //{
+        //    bool canChangeUser = true;
+        //    string query = $"Update dbo.{theUserTableName} SET First_Name = '{firstName}', Last_Name = '{lastName}', SSN = '{SSN}', Username = '{newUserName}' WHERE T0100_USER_ID = {userId}";
+        //    try
+        //    {
+        //        using (SqlConnection con = new SqlConnection(theConString))
+        //        {
+        //            con.Open();
+        //            using (SqlCommand cmd = new SqlCommand(query, con))
+        //            {
+        //                cmd.ExecuteNonQuery();
+        //            }
 
-                }
-                canChangeUser = true;
-                return canChangeUser;
-            }
-            catch (Exception)
-            {
-                canChangeUser = false;
-                return canChangeUser;
-            }
+        //        }
+        //        canChangeUser = true;
+        //        return canChangeUser;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        canChangeUser = false;
+        //        return canChangeUser;
+        //    }
 
-        }
+        //}
         public int SignIn(string username, string password)
         {
             var user = new User();

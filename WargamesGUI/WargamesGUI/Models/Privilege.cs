@@ -4,10 +4,9 @@ using System.Text;
 
 namespace WargamesGUI.Models
 {
-    class Privilege
+   public class Privilege
     {
         public int PrivilegeLevel { get; set; }
         public string TypeOfUser { get; set; }
-
     }
 }

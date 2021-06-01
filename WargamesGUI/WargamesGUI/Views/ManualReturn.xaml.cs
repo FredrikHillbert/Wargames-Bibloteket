@@ -20,6 +20,8 @@ namespace WargamesGUI.Views
         private List<Book> LoanCollection { get; set; } = new List<Book>();
         private List<Book> HandledCollection { get; set; } = new List<Book>();
         public static Book selectedBook;
+
+        public LoanService2 loanService2 = new LoanService2();
         public ManualReturn()
         {
             InitializeComponent();
@@ -62,7 +64,7 @@ namespace WargamesGUI.Views
         }
         private async void Handled_Clicked(object sender, EventArgs e)
         {
-
+            await loanService2.GetAllBookLoans();
             await loanService.RegisterReturnedBook(selectedBook.Book_Copy);
             await DisplayAlert("Bok skannad!", $"Du skannade {selectedBook.Title}.", "OK");
             await LoadBooks();
