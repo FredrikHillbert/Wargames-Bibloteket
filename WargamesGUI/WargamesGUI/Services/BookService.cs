@@ -154,7 +154,35 @@ namespace WargamesGUI.Services
             }
 
         }
+        public async Task<bool> UpdateBookCopy(int Copy_Id, int fk_Condition_Id)
+        {
+            bool success = true;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
 
+                    SqlCommand insertcmd = new SqlCommand("sp_UpdateBookCopy", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+
+                    insertcmd.Parameters.Add("@Copy_Id", SqlDbType.Int).Value = Copy_Id;
+                    insertcmd.Parameters.Add("@newCondition_Id", SqlDbType.VarChar).Value = fk_Condition_Id;
+
+                    await insertcmd.ExecuteNonQueryAsync();
+                    return success;
+
+                }
+            }
+            catch (Exception ex )
+            {
+                var messege = ex.Message;
+                success = false;
+                return success;
+            }
+            
+
+        }
         public async Task<bool> UpdateBook(int id, int item_id, string title, string author, string publisher, string description,
                                            string ISBN, string placement, string category)
         {
