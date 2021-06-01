@@ -6,36 +6,16 @@ using System.Threading.Tasks;
 using WargamesGUI.Models;
 using System.Configuration;
 using System.Data;
-using System.Linq;
 
 namespace WargamesGUI.Services
 {
-    public enum TableName
-    {
-        tblUser,
-        tblPrivilegeLevel,
-        tblBook,
-        tblEvent,
-        tblRemovedItem,
-        tblDeweyMain,
-        tblDeweySub,
-        tblBookLoan,
-        tblBookLoanStatus,
-        tblBookCopy,
-        tblAvailability,
-        tblConditionStatus,
-        tblLibraryCard,
-        tblLibraryCardStatus,
-        tblItem,
-    }
     public class DbService : IDbService
     {
         public string theConString;
         public string theConStringTest;
-        public DbService dbService;
+
         public DbService()
         {
-           dbService = new DbService();
             theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
             //theConStringTest = ConfigurationManager.ConnectionStrings[2].ConnectionString;
         }
@@ -80,7 +60,7 @@ namespace WargamesGUI.Services
         // !!
         // Behöver uppdatera mer än såhär i "UpdateBookInDb" - de nya objekten/listan som ligger till "Book2" ska också kunna ändras.
         // !!
-        public async Task<bool> UpdateBookInDb(Book2 book)
+        public async Task<bool> ProcedureUpdateBookInDb(Book2 book)
         {
             bool success = true;
 
@@ -122,7 +102,7 @@ namespace WargamesGUI.Services
         // !!
         // Behöver lägga till mer än såhär i "AddBookToDb" - de nya objekten/listan som ligger till "Book2" ska också läggas till.
         // !!
-        public async Task<bool> AddBookToDb(Book2 book)
+        public async Task<bool> ProcedureAddBookToDb(Book2 book)
         {
             bool success = true;
             try
@@ -264,7 +244,7 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(bookAvailability);
             }
         }
-        public async Task<bool> RemoveBookCopyFromDb(int id, string reason)
+        public async Task<bool> ProcedureRemoveBookCopyFromDb(int id, string reason)
         {
             bool success = true;
 
@@ -291,6 +271,36 @@ namespace WargamesGUI.Services
                     success = false;
                     return success;
                 }
+            }
+        }
+        public async Task<bool> ProcedureUpdateBookCopyConditionInDb(int id, int new_id)
+        {
+            bool success = true;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_UpdateBookCopy", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+
+                    insertcmd.Parameters.Add("@Copy_Id", SqlDbType.Int).Value = id;
+                    insertcmd.Parameters.Add("@newCondition_Id", SqlDbType.Int).Value = new_id;
+
+                    await insertcmd.ExecuteNonQueryAsync();
+                }
+
+                return await Task.FromResult(success);
+            }
+
+            catch (Exception ex)
+            {
+                string a = ex.Message;
+                success = false;
+                return await Task.FromResult(success);
             }
         }
 
@@ -331,6 +341,26 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(bookLoans);
             }
         }
+        public async Task<bool> UpdateBookLoanInDb(int id, int status)
+        {
+            var bookList = new List<Book2>();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+                    using (var command = new SqlCommand($"UPDATE {TableName.tblBookLoan} SET {tblBookLoan.fk_BookLoanStatus_Id} = {status} WHERE {tblBookLoan.Loan_Id} = {id}", con))
+                    {
+                        await command.ExecuteNonQueryAsync();
+                        return await Task.FromResult(true);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(false);
+            }
+        }
         public async Task<List<BookLoanStatus>> GetBookLoanStatusFromDb()
         {
             var loanStatuses = new List<BookLoanStatus>();
@@ -357,6 +387,51 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(loanStatuses);
             }
         }
+        public async Task<bool> ProcedureBookLoanReturn(int loanID)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+                    SqlCommand insertcmd = new SqlCommand("sp_ReturnBookLoan", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+                    insertcmd.Parameters.Add("@loanID", SqlDbType.Int).Value = loanID;
+                    insertcmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
+                    await insertcmd.ExecuteNonQueryAsync();
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public async Task<bool> ProcedureRegisterReturnedBookCopy(int copy_Id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand cmd = new SqlCommand("sp_ReturnBookToLibrary", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@copyId", SqlDbType.Int).Value = copy_Id;
+                    cmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
 
         //===============||
         //               ||
@@ -422,12 +497,6 @@ namespace WargamesGUI.Services
         //     USERS     ||
         //               ||
         //===============||
-
-
-        /// <summary>
-        /// Hämtar alla användare från databasen. 
-        /// </summary>
-        /// <returns></returns>
         public async Task<List<User>> GetUsersFromDb()
         {
             var users = new List<User>();
@@ -443,8 +512,21 @@ namespace WargamesGUI.Services
                         while (await reader.ReadAsync())
                         {
                             var user = new User();
+
                             user.User_ID = Convert.ToInt32(reader["User_ID"]);
                             user.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                            switch (user.fk_PrivilegeLevel)
+                            {
+                                case 1:
+                                    user.privilegeName = "Admin";
+                                    break;
+                                case 2:
+                                    user.privilegeName = "Bibliotekarie";
+                                    break;
+                                case 3:
+                                    user.privilegeName = "Besökare";
+                                    break;
+                            }
                             user.First_Name = reader["First_Name"].ToString();
                             user.Last_Name = reader["Last_Name"].ToString();
                             user.Username = reader["Username"].ToString();
@@ -463,7 +545,6 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(users);
             }
         }
-
         /// <summary>
         /// Tar bort en specifik användare med hjälp av userID
         /// </summary>
@@ -492,10 +573,7 @@ namespace WargamesGUI.Services
                 isWorking = false;
                 return await Task.FromResult(isWorking);
             }
-
-           
         }
-
         /// <summary>
         /// Adderar en ny användare
         /// </summary>
@@ -532,14 +610,11 @@ namespace WargamesGUI.Services
             }
 
         }
-
-        
-
         /// <summary>
         /// Hämtar alla olika privilege levels som finns i databasen så att det sedan kan kopplas till en specifik användare med linq. 
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Privilege>> GetPrivilegeFromDb() 
+        public async Task<List<Privilege>> GetPrivilegeFromDb()
         {
             var privilegeList = new List<Privilege>();
             using (SqlConnection con = new SqlConnection(theConString))
@@ -552,7 +627,7 @@ namespace WargamesGUI.Services
                     {
                         while (await reader.ReadAsync())
                         {
-                            var privilege  = new Privilege();
+                            var privilege = new Privilege();
                             privilege.PrivilegeLevel = Convert.ToInt32(reader["PrivilegeLevel_Id"]);
                             privilege.TypeOfUser = reader["TypeOfPrivilegeLevel"].ToString();
                             privilegeList.Add(privilege);
@@ -562,7 +637,6 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(privilegeList);
             }
         }
-
         /// <summary>
         /// Kollar ifall en användare finns genom att man har skrivit in korrekt användarnamn och lösenord
         /// </summary>
@@ -576,7 +650,7 @@ namespace WargamesGUI.Services
             Connection.Open();
             var login = $"SELECT fk_PrivilegeLevel FROM {TableName.tblUser} WHERE Username = '{loginUser.Username} AND Password = HASHBYTES('SHA1','{loginUser.Password}')'";
 
-         // string query2 = $"SELECT fk_PrivilegeLevel, Username, fk_LibraryCard, Password, CardNumber FROM tblUser LEFT JOIN tblLibraryCard ON fk_LibraryCard = LibraryCard_Id WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
+            // string query2 = $"SELECT fk_PrivilegeLevel, Username, fk_LibraryCard, Password, CardNumber FROM tblUser LEFT JOIN tblLibraryCard ON fk_LibraryCard = LibraryCard_Id WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
 
             using (SqlCommand command = new SqlCommand(login, Connection))
             {
@@ -606,10 +680,6 @@ namespace WargamesGUI.Services
         // LIBRARY-CARDS ||
         //               ||
         //===============||
-        /// <summary>
-        /// Hämtar alla Lånekort i databasen
-        /// </summary>
-        /// <returns></returns>
         public async Task<List<LibraryCard2>> GetLibraryCardsFromDb()
         {
             var libraryCards = new List<LibraryCard2>();
@@ -637,10 +707,6 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(libraryCards);
             }
         }
-        /// <summary>
-        /// Hämtar alla kortstatus i databasen
-        /// </summary>
-        /// <returns></returns>
         public async Task<List<LibraryCardStatus>> GetLibraryCardStatusFromDb()
         {
             var cardStatuses = new List<LibraryCardStatus>();
@@ -667,7 +733,29 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(cardStatuses);
             }
         }
-        
+        public async Task<bool> ProcedureAddLibraryCard(int user_id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_ManualAddLibraryCard", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+
+                    insertcmd.Parameters.Add("@User_Id", SqlDbType.Int).Value = user_id;
+                    await insertcmd.ExecuteNonQueryAsync();
+
+                    return await Task.FromResult(true);
+                }
+            }
+
+            catch (Exception)
+            {
+                return await Task.FromResult(false);
+            }
+        }
 
         //===============||
         //               ||
@@ -703,6 +791,7 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(removedItems);
             }
         }
+        
     }
-    }
+}
 

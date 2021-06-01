@@ -76,9 +76,7 @@ namespace WargamesGUI.Views
                     ShowLoginPopup();
                     break;
             }          
-
         }
-
         private async void SignIn_Button_Clicked(object sender, EventArgs e)
         {
             if (EntryUsername.Text != "" & EntryPassword.Text != "")

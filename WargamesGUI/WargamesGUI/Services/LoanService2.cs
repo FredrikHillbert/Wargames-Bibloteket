@@ -32,39 +32,66 @@ namespace WargamesGUI.Services
                 fk_BookLoanStatus_Id = x.fk_BookLoanStatus_Id,
                 ReturnDate = x.ReturnDate,
                 ReturnedDate = x.ReturnedDate,
-                LibraryCard = libraryCards.Select(y => y).Where(y => y.LibraryCard_Id == x.fk_LibraryCard_Id)
+                LibraryCard = libraryCards.Select(y => y)
+                .Where(y => y.LibraryCard_Id == x.fk_LibraryCard_Id)
                 .ElementAtOrDefault(0),
                 Book = bookCopies.Where(y => y.Copy_Id == x.fk_BookCopy_Id)
                 .Select(y => y.Book)
                 .ElementAtOrDefault(0),
-                BookCopy = bookCopies.Select(y => y).Where(y => y.Copy_Id == x.fk_BookCopy_Id).ElementAtOrDefault(0),
+                BookCopy = bookCopies.Select(y => y)
+                .Where(y => y.Copy_Id == x.fk_BookCopy_Id)
+                .ElementAtOrDefault(0),
                 BookLoanStatus = loanStatuses.Select(y => y)
                 .Where(y => y.BookLoanStatus_Id == x.fk_BookLoanStatus_Id)
                 .ElementAtOrDefault(0),
-
-                
-            }).ToList();
-            
+            }).ToList();            
 
             return listOfBookLoans ?? null;
         }
-        public async Task<List<BookLoan>> GetAllBookLoans(User user)
+        public async Task<List<BookLoan2>> GetAllBookLoans(User user)
         {
+            // GetUserData
             return null;
         }
-        public async Task<List<BookLoan>> GetAllBookLoans(LibraryCard libraryCard)
+        public async Task<List<BookLoan2>> GetAllBookLoans(LibraryCard2 libraryCard)
         {
-            return null;
+            var bookLoans = await GetAllBookLoans();
+            return bookLoans.Where(x => x.fk_LibraryCard_Id == libraryCard.LibraryCard_Id).Select(x => x).ToList() ?? null;
         }
-        public async Task<bool> ChangeBookLoanStatus()
+        public async Task<List<BookLoan2>> GetHandledBookLoans()
         {
-            return true;
+            var bookLoans = await GetAllBookLoans();
+            return bookLoans.Where(x => x.BookLoanStatus.BookLoanStatus_Id > 1 && x.BookCopy.fk_Availability == 2).Select(x => x).ToList() ?? null;
+            
         }
-        public async Task<bool> LoanBook()
+        public async Task<(bool, string)> ChangeBookLoanStatus(BookLoan bookLoan)
         {
-            return true;
+            bool success = await dbService.UpdateBookLoanInDb(bookLoan.Loan_Id, bookLoan.fk_BookLoanStatus_Id);
+            if (success) return (success, "Success, returned true.");
+            else return (success, $"Error {nameof(this.ChangeBookLoanStatus)} - returned false.");
         }
-
+        public async Task<(bool, string)> ChangeBookLoanStatus(int bookLoan_Id, int status)
+        {
+            bool success = await dbService.UpdateBookLoanInDb(bookLoan_Id, status);
+            if (success) return (success, "Success, returned true.");
+            else return (success, $"Error {nameof(this.ChangeBookLoanStatus)} - returned false.");
+        }
+        public async Task<(bool, string)> LoanBook()
+        {
+            return (true, "message");
+        }
+        public async Task<(bool, string)> BookLoanReturned(BookLoan bookLoan)
+        {
+            bool success = await dbService.ProcedureBookLoanReturn(bookLoan.Loan_Id);
+            if (success) return (success, "Success, returned true.");
+            else return (success, $"Error {nameof(this.BookLoanReturned)} - returned false.");
+        }
+        public async Task<(bool, string)> BookCopyReturnedCheck(BookCopy bookCopy)
+        {
+            bool success = await dbService.ProcedureRegisterReturnedBookCopy(bookCopy.Copy_Id);
+            if (success) return (success, "Success, returned true.");
+            else return (success, $"Error {nameof(this.BookCopyReturnedCheck)} - returned false.");
+        }
         //Librarycard
         public async Task<List<LibraryCard2>> GetAllLibraryCards()
         {
@@ -83,13 +110,15 @@ namespace WargamesGUI.Services
 
             return listOfLibraryCards ?? null;
         }
-        public async Task<bool> AddNewLibraryCard()
+        public async Task<(bool, string)> AddLibraryCardToUser(User user)
         {
-            return true;
+            bool success = await dbService.ProcedureAddLibraryCard(user.User_ID);
+            if (success) return (success, "Success, returned true.");
+            else return (success, $"Error {nameof(this.AddLibraryCardToUser)} - returned false.");
         }
-        public async Task<bool> ChangeLibraryCardStatus()
+        public async Task<(bool, string)> ChangeLibraryCardStatus(LibraryCard2 libraryCard)
         {
-            return true;
+            return (true, "message");
         }
     }
 }

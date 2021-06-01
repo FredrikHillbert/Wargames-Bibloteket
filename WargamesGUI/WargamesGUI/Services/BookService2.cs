@@ -39,8 +39,10 @@ namespace WargamesGUI.Services
                 .Where(y => y.DeweySub_Id == x.Placement)
                 .ElementAtOrDefault(0),
                 DeweyMain = deweyMain.Select(y => y)
-                .Where(y => y.DeweyMain_Id == deweySub.Where(s => s.DeweySub_Id == x.Placement).Select(s => s.fk_DeweyMain_Id).ToList().ElementAtOrDefault(0)).ElementAtOrDefault(0),
-
+                .Where(y => y.DeweyMain_Id == deweySub.Where(s => s.DeweySub_Id == x.Placement)
+                .Select(s => s.fk_DeweyMain_Id)
+                .ToList()
+                 .ElementAtOrDefault(0)).ElementAtOrDefault(0),
                 BookCopies = bookCopies.Select(c => c).Where(c => c.fk_Book_Id == x.Id).ToList(),
 
             }).ToList();
@@ -51,7 +53,7 @@ namespace WargamesGUI.Services
         {
             if (bookCopy != null && string.IsNullOrEmpty(reason) && string.IsNullOrWhiteSpace(reason))
             {
-                return await dbService.RemoveBookCopyFromDb(bookCopy.Copy_Id, reason);
+                return await dbService.ProcedureRemoveBookCopyFromDb(bookCopy.Copy_Id, reason);
             }
             else
             {
@@ -62,27 +64,22 @@ namespace WargamesGUI.Services
         {
             if (bookCopy_Id != 0 && string.IsNullOrEmpty(reason) && string.IsNullOrWhiteSpace(reason))
             {
-                return await dbService.RemoveBookCopyFromDb(bookCopy_Id, reason);
+                return await dbService.ProcedureRemoveBookCopyFromDb(bookCopy_Id, reason);
             }
             else
             {
                 return false;
             }
         }
-        public async Task<bool> UpdateBook(Book2 book)
+        public async Task<(bool, string)> UpdateBook(Book2 book)
         {
-            if (book != null)
-            {
-                return await dbService.UpdateBookInDb(book);
-            }
-            else
-            {
-                return false;
-            }
+            bool success = await dbService.ProcedureUpdateBookInDb(book);
+            if (success) return (success, "Success, returned true.");
+            else return (success, $"Error {nameof(this.UpdateBook)}, - returned false.");
         }
         public async Task<bool> AddNewBook(Book2 book)
         {
-            return await dbService.AddBookToDb(book);
+            return await dbService.ProcedureAddBookToDb(book);
         }
         //BookCopy
         public async Task<List<BookCopy>> GetAllBookCopies()
@@ -109,6 +106,18 @@ namespace WargamesGUI.Services
             }).ToList();
 
             return result ?? null;
+        }
+        public async Task<(bool, string)> ChangeBookCopyCondition(BookCopy bookCopy)
+        {
+            bool success = await dbService.ProcedureUpdateBookCopyConditionInDb(bookCopy.Copy_Id, bookCopy.BookCondition.Condition_Id);
+            if (success) return (success, "Success, returned true.");
+            else return (success, $"Error {nameof(this.ChangeBookCopyCondition)}, - returned false.");
+        }
+        public async Task<(bool, string)> ChangeBookCopyCondition(int bookCopy_Id, int new_Id)
+        {
+            bool success = await dbService.ProcedureUpdateBookCopyConditionInDb(bookCopy_Id, new_Id);
+            if (success) return (success, "Success, returned true.");
+            else return (success, $"Error {nameof(this.ChangeBookCopyCondition)}, - returned false.");
         }
         public async Task<List<BookCopy>> GetAvailableBookCopies()
         {
