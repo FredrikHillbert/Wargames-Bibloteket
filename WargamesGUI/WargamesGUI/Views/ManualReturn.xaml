@@ -159,7 +159,7 @@
 
                     </Grid>
 
-                    <ListView x:Name="listOfHandledBooks" Margin="0,0,0,10" ItemTapped="listOfBooks_ItemTapped">
+                    <ListView x:Name="listOfHandledBooks" Margin="0,0,0,10" ItemTapped="listOfHandledBooks_ItemTapped">
 
 
                         <ListView.ItemTemplate>

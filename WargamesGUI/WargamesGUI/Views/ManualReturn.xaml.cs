@@ -20,6 +20,7 @@ namespace WargamesGUI.Views
         private List<Book> LoanCollection { get; set; } = new List<Book>();
         private List<Book> HandledCollection { get; set; } = new List<Book>();
         public static Book selectedBook;
+        public static Book HandledbookSelected;
         public ManualReturn()
         {
             InitializeComponent();
@@ -75,6 +76,62 @@ namespace WargamesGUI.Views
         {
             selectedBook = (Book)e.Item;
         }
+        private async void listOfHandledBooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            HandledbookSelected = (Book)e.Item;
+            try
+            {
+                var selected = await DisplayActionSheet("Vilket skick är boken?", "Avbryt", null, "Ny", "Som ny", "Väldigt bra", "Bra", "Acceptabel", "Sliten", "Förstörd");
+
+                switch (selected)
+                {
+                    case "Ny":
+                        await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 1);
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Ny", "Ok");
+                        await LoadBooks();
+                        break;
+                    case "Som ny":
+                        await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 2);
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Som ny", "Ok");
+                        await LoadBooks();
+                        break;
+                    case "Väldigt bra":
+                        await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 3);
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Väldigt bra", "Ok");
+                        await LoadBooks();
+                        break;
+                    case "Bra":
+                        await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 4);
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Bra", "Ok");
+                        await LoadBooks();
+                        break;
+                    case "Acceptabel":
+                        await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 5);
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Acceptabel", "Ok");
+                        await LoadBooks();
+                        break;
+                    case "Sliten":
+                        await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 6);
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Sliten", "Ok");
+                        await LoadBooks();
+                        break;
+                    case "Förstörd":
+                        await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 7);
+                        string otherReason = await DisplayPromptAsync($"Ta bort exemplar", $"Anledning för att ta bort exemplar av: \n{HandledbookSelected.Title} \n\n BookCopyID:{HandledbookSelected.Book_Copy}", maxLength: 20);
+                        await bookService.RemoveBookCopy(HandledbookSelected.Book_Copy, otherReason);
+                        //await DisplayAlert("Ajdå", "Skicket ändrades till Förstörd", "Ok");
+                        await LoadBooks();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"{ex.Message}", "Ok");
+            }
+            
+        }
 
         private async void Refresh_Clicked(object sender, EventArgs e)
         {
@@ -120,7 +177,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("MainSearchBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
+                await DisplayAlert("BookHandledSeachBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
 
@@ -139,5 +196,6 @@ namespace WargamesGUI.Views
                 await DisplayAlert("Handled_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
+
     }
 }
