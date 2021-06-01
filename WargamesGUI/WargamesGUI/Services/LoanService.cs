@@ -196,24 +196,19 @@ namespace WargamesGUI.Services
             }
         }
 
-        public async Task RegisterReturnedBook(int copy_Id) 
+        public async Task RegisterReturnedBook(int copy_Id, int loan_Id) 
         {
 
             using (SqlConnection con = new SqlConnection(theConString)) 
             {
                 await con.OpenAsync();
-
                 SqlCommand cmd = new SqlCommand("sp_ReturnBookToLibrary", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@copyId", SqlDbType.Int).Value = copy_Id;
-                cmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
+                cmd.Parameters.Add("@loanId", SqlDbType.Int).Value = loan_Id;
+               // cmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
                 await cmd.ExecuteNonQueryAsync();
-
             }
-
-
-
-
         }
 
         public async Task<int> LoanBook(int book_id, int fk_LibraryCard)
@@ -331,7 +326,7 @@ namespace WargamesGUI.Services
         public async Task<List<Book>> GetHandledBooksFromLibrarianDb()
         {
             var HandledBooks = new List<Book>();
-            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate,  bl.ReturnedDate, bl.fk_BookLoanStatus_Id, b.Available_copies, b.ISBN, tbc.fk_Condition_Id, tbc.Copy_Id, tbc.fk_Availability" +
+            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate,  bl.ReturnedDate, bl.fk_BookLoanStatus_Id, b.Available_copies, b.ISBN, tbc.fk_Condition_Id, tbc.Copy_Id, tbc.fk_Availability, Loan_Id" +
                            $" FROM tblBookLoan bl" +
                            $" LEFT JOIN tblBookCopy tbc" +
                            $" ON tbc.Copy_Id = bl.fk_BookCopy_Id" +
@@ -358,7 +353,7 @@ namespace WargamesGUI.Services
                             HandledBo.InStock = Convert.ToInt32(reader["InStock"]);
                             HandledBo.ISBN = reader["ISBN"].ToString();
                             HandledBo.Book_Copy = Convert.ToInt32(reader["Copy_Id"]);
-
+                            HandledBo.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
                             switch (HandledBo.BookCondition = Convert.ToInt32(reader["fk_Condition_Id"]))
                             {
                                 case 1:

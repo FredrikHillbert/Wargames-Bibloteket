@@ -23,7 +23,7 @@ namespace WargamesGUI.Models
 
         public override string ToString()
         {
-            return $"Exemplar ID: {Copy_Id}\nSkick: {BookCondition.ConditionType}\nStatus: {BookAvailability.Status}\n";
+            return $"Exemplar ID: {Copy_Id}\nSkick: {Condition}\nStatus: {Availability}\n";
         }
     }
 }

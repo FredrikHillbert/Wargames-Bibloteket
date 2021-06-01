@@ -63,13 +63,9 @@ namespace WargamesGUI.Views
         }
         private async void Handled_Clicked(object sender, EventArgs e)
         {
-
-            await loanService.RegisterReturnedBook(selectedBook.Book_Copy);
-            await DisplayAlert("Bok skannad!", $"Du skannade {selectedBook.Title}.", "OK");
+            await loanService.RegisterReturnedBook(HandledbookSelected.Book_Copy, HandledbookSelected.Loan_Id);
+            await DisplayAlert("Bok skannad!", $"Du skannade {HandledbookSelected.Title}.", "OK");
             await LoadBooks();
-
-
-
         }
 
         private void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -117,9 +113,6 @@ namespace WargamesGUI.Views
                         break;
                     case "Förstörd":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 7);
-                        string otherReason = await DisplayPromptAsync($"Ta bort exemplar", $"Anledning för att ta bort exemplar av: \n{HandledbookSelected.Title} \n\n BookCopyID:{HandledbookSelected.Book_Copy}", maxLength: 20);
-                        await bookService.RemoveBookCopy(HandledbookSelected.Book_Copy, otherReason);
-                        //await DisplayAlert("Ajdå", "Skicket ändrades till Förstörd", "Ok");
                         await LoadBooks();
                         break;
                     default:
