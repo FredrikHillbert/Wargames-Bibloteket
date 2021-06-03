@@ -37,7 +37,7 @@ namespace WargamesGUI.Services
                             book.Price = (reader["Price"]).ToString();
                             book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
-                            book.InStock = Convert.ToInt32(reader["InStock"]);
+                            book.Available_copies = Convert.ToInt32(reader["Available_copies"]);
                             book.Category = reader["Category"].ToString();
 
                             if (book.fk_Item_Id == 1)

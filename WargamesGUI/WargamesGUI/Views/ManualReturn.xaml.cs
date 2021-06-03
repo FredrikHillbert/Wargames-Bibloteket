@@ -180,7 +180,7 @@ namespace WargamesGUI.Views
             try
             {
                 await loanService.ReturnBookLoan(selectedBook.Loan_Id);
-                await DisplayAlert("Bok skannad!", $"Du skannade {selectedBook.Title}.", "OK");
+                await DisplayAlert("Bok återlämnad!", $"Du lade till {selectedBook.Title} som tillgänglig i biblioteket.", "OK");
                 await LoadBooks();
 
             }
