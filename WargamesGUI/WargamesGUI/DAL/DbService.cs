@@ -112,7 +112,6 @@ namespace WargamesGUI.DAL
             bool success = true;
             try
             {
-
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
                     await con.OpenAsync();
@@ -392,6 +391,35 @@ namespace WargamesGUI.DAL
                 return await Task.FromResult(loanStatuses);
             }
         }
+        public async Task<int> ProcedureLoanBook(int book_id, int fk_LibraryCard)
+        {
+            int returnValue = 0;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_LoanBook", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+
+                    insertcmd.Parameters.Add("@bookId", SqlDbType.Int).Value = book_id;
+                    insertcmd.Parameters.Add("@fk_LibraryCard", SqlDbType.Int).Value = fk_LibraryCard;
+                    insertcmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
+
+
+                    await insertcmd.ExecuteNonQueryAsync();
+                    returnValue = (int)insertcmd.Parameters["@returnValue"].Value;
+
+                    return await Task.FromResult(returnValue);
+                }
+            }
+
+            catch (Exception)
+            {
+                return await Task.FromResult(returnValue);
+            }
+        }
         public async Task<bool> ProcedureBookLoanReturn(int loanID)
         {
             try
@@ -502,9 +530,9 @@ namespace WargamesGUI.DAL
         //  USERS                                                                                 ||
         //                                                                                        ||
         //========================================================================================||
-        public async Task<List<User>> GetUsersFromDb()
+        public async Task<List<User2>> GetUsersFromDb()
         {
-            var users = new List<User>();
+            var users = new List<User2>();
 
             using (SqlConnection con = new SqlConnection(theConString))
             {
@@ -516,33 +544,18 @@ namespace WargamesGUI.DAL
                     {
                         while (await reader.ReadAsync())
                         {
-                            var user = new User();
+                            var user = new User2();
 
                             user.User_ID = Convert.ToInt32(reader["User_ID"]);
                             user.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
-                            switch (user.fk_PrivilegeLevel)
-                            {
-                                case 1:
-                                    user.privilegeName = "Admin";
-                                    break;
-                                case 2:
-                                    user.privilegeName = "Bibliotekarie";
-                                    break;
-                                case 3:
-                                    user.privilegeName = "Besökare";
-                                    break;
-                            }
                             user.First_Name = reader["First_Name"].ToString();
                             user.Last_Name = reader["Last_Name"].ToString();
                             user.Username = reader["Username"].ToString();
                             user.Address = reader["Address"].ToString();
                             user.Email = reader["E-mail"].ToString();
                             user.PhoneNumber = reader["PhoneNumber"].ToString();
-                            if (int.TryParse(reader["fk_LibraryCard"].ToString(), out int cardnumber))
-                            {
-                                user.Cardnumber = cardnumber;
-                            }
-
+                            user.fk_LibraryCard = Convert.ToInt32(reader["fk_LibraryCard"]);
+                            
                             users.Add(user);
                         }
                     }
@@ -752,6 +765,30 @@ namespace WargamesGUI.DAL
                     insertcmd.Parameters.Add("@User_Id", SqlDbType.Int).Value = user_id;
                     await insertcmd.ExecuteNonQueryAsync();
 
+                    return await Task.FromResult(true);
+                }
+            }
+
+            catch (Exception)
+            {
+                return await Task.FromResult(false);
+            }
+        }
+        public async Task<bool> ProcedureChangeLibraryCardStatus(int libraryCard_id, int libraryCardStatus_Id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand insertcmd = new SqlCommand("sp_ChangeCardStatus", con);
+                    insertcmd.CommandType = CommandType.StoredProcedure;
+
+                    insertcmd.Parameters.Add("@fk_Status_Id", SqlDbType.Int).Value = libraryCardStatus_Id;
+                    insertcmd.Parameters.Add("@LibraryCard_Id", SqlDbType.Int).Value = libraryCard_id;
+
+                    await insertcmd.ExecuteNonQueryAsync();
                     return await Task.FromResult(true);
                 }
             }

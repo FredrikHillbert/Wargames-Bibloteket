@@ -49,15 +49,31 @@ namespace WargamesGUI.Services
 
             return listOfBookLoans ?? null;
         }
-        public async Task<List<BookLoan2>> GetAllBookLoans(User user)
+        public async Task<List<BookLoan2>> GetAllBookLoans(User2 user)
         {
-            // GetUserData
-            return null;
+            bookService = new BookService2();
+            var bookLoans = await GetAllBookLoans();
+            return bookLoans.Where(x => x.fk_LibraryCard_Id == user.LibraryCard.LibraryCard_Id).ToList() ?? null;                   
         }
         public async Task<List<BookLoan2>> GetAllBookLoans(LibraryCard2 libraryCard)
         {
             var bookLoans = await GetAllBookLoans();
-            return bookLoans.Where(x => x.fk_LibraryCard_Id == libraryCard.LibraryCard_Id).Select(x => x).ToList() ?? null;
+            return bookLoans.Where(x => x.fk_LibraryCard_Id == libraryCard.LibraryCard_Id).ToList() ?? null;
+        }
+        public async Task<int> LoanBook(Book2 book, LibraryCard2 libraryCard)
+        {
+            var result = await dbService.ProcedureLoanBook(book.Id, libraryCard.LibraryCard_Id);
+            return result;
+        }
+        public async Task<int> LoanBook(BookLoan bookLoan, LibraryCard2 libraryCard)
+        {
+            var result = await dbService.ProcedureLoanBook(bookLoan.fk_BookCopy_Id, libraryCard.LibraryCard_Id);
+            return result;
+        }
+        public async Task<int> LoanBook(BookLoan bookLoan, User2 user)
+        {
+            var result = await dbService.ProcedureLoanBook(bookLoan.fk_BookCopy_Id, user.LibraryCard.LibraryCard_Id);
+            return result;
         }
         public async Task<List<BookLoan2>> GetHandledBookLoans()
         {
@@ -122,7 +138,7 @@ namespace WargamesGUI.Services
 
             return listOfLibraryCards ?? null;
         }
-        public async Task<(bool, string)> AddLibraryCardToUser(User user)
+        public async Task<(bool, string)> AddLibraryCardToUser(User2 user)
         {
             bool success = await dbService.ProcedureAddLibraryCard(user.User_ID);
             if (success) return (success, "Success, returned true.");
@@ -130,7 +146,10 @@ namespace WargamesGUI.Services
         }
         public async Task<(bool, string)> ChangeLibraryCardStatus(LibraryCard2 libraryCard)
         {
-            return (true, "message");
+            bool success = await dbService.ProcedureChangeLibraryCardStatus(libraryCard.LibraryCard_Id, libraryCard.fk_Status_Id);
+            if (success) return (success, "Success, returned true.");
+            else return (success, $"Error: {nameof(this.ChangeLibraryCardStatus)} - returned false.");
+            
         }
     }
 }
