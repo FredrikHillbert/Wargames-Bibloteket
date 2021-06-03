@@ -14,7 +14,7 @@ namespace WargamesGUI.DAL
     {
         public string theConString;
         public string theConStringTest;
-
+        
         public DbService()
         {
             theConString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
@@ -554,7 +554,8 @@ namespace WargamesGUI.DAL
                             user.Address = reader["Address"].ToString();
                             user.Email = reader["E-mail"].ToString();
                             user.PhoneNumber = reader["PhoneNumber"].ToString();
-                            user.fk_LibraryCard = Convert.ToInt32(reader["fk_LibraryCard"]);
+                            if (user.fk_PrivilegeLevel == 3) { user.fk_LibraryCard = Convert.ToInt32(reader["fk_LibraryCard"]); }
+                            
                             
                             users.Add(user);
                         }
@@ -717,7 +718,6 @@ namespace WargamesGUI.DAL
                             libraryCard.LibraryCard_Id = Convert.ToInt32(reader["LibraryCard_Id"]);
                             libraryCard.CardNumber = reader["CardNumber"].ToString();
                             libraryCard.fk_Status_Id = Convert.ToInt32(reader["fk_Status_Id"]);
-
                             libraryCards.Add(libraryCard);
                         }
                     }

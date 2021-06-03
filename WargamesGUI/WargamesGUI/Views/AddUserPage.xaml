@@ -112,7 +112,7 @@
                                             <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Grid.Column="0" Grid.Row="0">
-                                            <Label Text="{Binding privilegeName}" HorizontalOptions="Start" TextColor="Black" FontSize="16"/>
+                                            <Label Text="{Binding TypeOfUser}" HorizontalOptions="Start" TextColor="Black" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="1" Grid.Row="0">
                                             <Label Text="{Binding First_Name}" HorizontalOptions="Start" TextColor="Black" FontSize="16"/>
