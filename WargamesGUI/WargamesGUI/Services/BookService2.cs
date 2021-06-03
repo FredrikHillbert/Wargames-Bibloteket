@@ -185,8 +185,8 @@ namespace WargamesGUI.Services
                                       x.ISBN != null && x.ISBN.ToUpper().Contains(text.ToUpper()) ||
                                       x.Title != null && x.Title.ToUpper().Contains(text.ToUpper()) ||
                                       x.Description != null && x.Description.ToUpper().Contains(text.ToUpper()) ||
-                                      x.DeweyMain != null && x.DeweyMain.ToString().ToUpper().Contains(text.ToUpper()) ||
-                                      x.DeweySub != null && x.DeweySub.ToString().ToUpper().Contains(text.ToUpper())
+                                      x.DeweyMain != null && x.DeweyMain.MainCategoryName.ToString().ToUpper().Contains(text.ToUpper()) ||
+                                      x.DeweySub != null && x.DeweySub.SubCategoryName.ToString().ToUpper().Contains(text.ToUpper())
                                       //x.Category != null && x.Category.ToUpper().Contains(text.ToUpper()) ||
                                       ).Select(x => x)
                                       .ToList();

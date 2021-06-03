@@ -11,6 +11,8 @@ using WargamesGUI.Views;
 using Xamarin.Forms;
 using WargamesGUI.Services;
 using static WargamesGUI.AddUserPage;
+using Xamarin.Essentials;
+using WargamesGUI.ViewModels;
 
 namespace WargamesGUI
 {
@@ -19,13 +21,21 @@ namespace WargamesGUI
     {
         public static UserService service = new UserService();
         public static User user;
+        public static BookService2 bookService2 = new BookService2();
+
+        public List<Book2> bookList;
         public MainPage()
         {
             InitializeComponent();
-
+            MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
             //Entrypassword.Completed += (sender, e) => Entrypassword_Completed(sender, e);
         }
 
+        public async Task<List<Book2>> LoadBooks()
+        {
+            bookList = await bookService2.GetAllBooks();
+            return bookList;
+        }
         private async void SignIn_Button_Clicked(object sender, EventArgs e)
         {
             if (Entryusername.Text != "" & Entrypassword.Text != "")
@@ -67,7 +77,6 @@ namespace WargamesGUI
 
         private async void SearchBar_Clicked(object sender, EventArgs e)
         {
-
             try
             {
                 if (string.IsNullOrWhiteSpace(SearchBar.Text))
@@ -79,7 +88,6 @@ namespace WargamesGUI
                     SearchValuePage.GetValues(SearchBar.Text);
                     App.Current.MainPage = new SearchValuePage();
                 }
-
             }
             catch (Exception ex)
             {
@@ -90,6 +98,41 @@ namespace WargamesGUI
         private void Button_Clicked(object sender, EventArgs e)
         {
 
+        }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            AutoCompleteList.IsVisible = true;
+            AutoCompleteList.BeginRefresh();
+
+            try
+            {
+                var result = bookList.FilterSearchBookList(SearchBar.Text);
+
+                if (string.IsNullOrWhiteSpace(SearchBar.Text))
+                {
+                    AutoCompleteList.IsVisible = false;
+                }
+                else
+                {
+                    AutoCompleteList.ItemsSource = result;
+
+                }
+
+            }
+            catch (Exception)
+            {
+                //AutoCompleteList.IsVisible = false;
+            }      
+        }
+
+        private void AutoCompleteList_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            string listsd = e.Item as string;
+            SearchBar.Text = listsd;
+            AutoCompleteList.IsVisible = false;
+            ((ListView)sender).SelectedItem = null;
+            SearchBar_Clicked(sender, e);
         }
 
         //private async void Entrypassword_Completed(object sender, EventArgs e)

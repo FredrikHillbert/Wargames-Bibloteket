@@ -67,10 +67,43 @@
                 BackgroundColor="#2E4159"
                 />
         <!--Search Bar-->
-        <SearchBar x:Name="SearchBar" 
+        <StackLayout Grid.Row="9" WidthRequest="350">
+            <SearchBar x:Name="SearchBar" 
                    Placeholder="Sök på Kategori, ISBN, Titel eller Författare"  
                    Grid.Row="9"
-                   SearchButtonPressed="SearchBar_Clicked"/>
+                   SearchButtonPressed="SearchBar_Clicked"
+                   Text=""
+                   TextChanged="SearchBar_TextChanged"/>
+            <ListView x:Name="AutoCompleteList" ItemTapped="AutoCompleteList_ItemTapped"/>
+        </StackLayout>
+        
+        <!--<StackLayout Grid.Row="8" WidthRequest="350">
+            <SearchBar x:Name="SearchBar" 
+                   Placeholder="Sök på Kategori, ISBN, Titel eller Författare"  
+                   Grid.Row="9"
+                   SearchButtonPressed="SearchBar_Clicked"
+                   Text=""
+                   TextChanged="SearchBar_TextChanged"/>
+            <ListView x:Name="GroupedList" IsGroupingEnabled="true">
+            <ListView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <ViewCell Height="10">
+                        <StackLayout HorizontalOptions="FillAndExpand" HeightRequest="17"
+                                     Padding="5" Orientation="Horizontal">
+                            <Label FontSize="12" TextColor="Black" VerticalOptions="Center" Text="{Binding Key}"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.GroupHeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                        <TextCell Text="{Binding FormattedText}" Detail="{Binding .}"/>
+                    </DataTemplate>
+                
+            </ListView.ItemTemplate>
+        </ListView>
+        </StackLayout>-->
+
     </Grid>
 
 </ContentPage>
