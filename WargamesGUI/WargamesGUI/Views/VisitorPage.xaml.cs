@@ -79,7 +79,7 @@ namespace WargamesGUI.Views
                         await DisplayAlert("Beskrivning", $"{selectedItem.Description}", "OK");
                         break;
                     case "Låna Boken":
-                        if (selectedItem.InStock == 0)
+                        if (selectedItem.Available_copies <= 0)
                         {
                             await DisplayAlert("Misslyckades", "Boken är inte tillgänglig", "OK");
 

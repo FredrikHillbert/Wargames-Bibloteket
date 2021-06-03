@@ -82,17 +82,21 @@ namespace WargamesGUI.Views
             {
                 await DisplayAlert("Misslyckades", "Telefonnummerfältet är tomt eller så är formatet inte tillåtet.", "OK");
             }
-            //else if (string.IsNullOrEmpty(EntryUserName.Text) || !CheckFormat.CheckIfAllNumbers(EntryCardNumber.Text))
-            //{
-            //    await DisplayAlert("InvalidSSNnumber", "SSN number is empty or format is not allowed.", "OK");
-            //}
+            else if (string.IsNullOrEmpty(EntryUserName.Text))
+            {
+                await DisplayAlert("Misslyckades", "Användarnamnfältet är tomt eller formatet är inte tillåtet.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryPassword.Text))
+            {
+                await DisplayAlert("Misslyckades", "Lösenordsfältet är tomt eller formatet är inte tillåtet.", "OK");
+            }
 
             else
             {
                 privilegeLevel = 3;
                 try
                 {
-                    if (await userService.AddNewUser(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, "11", "11"))
+                    if (await userService.AddNewUser(privilegeLevel, EntryFirstName.Text, EntryLastName.Text, EntrySsnNumber.Text, EntryAdress.Text, EntryEmail.Text, EntryPhoneNumber.Text, EntryUserName.Text, EntryPassword.Text))
                     {
                         EntryFirstName.Text = string.Empty;
                         EntryLastName.Text = string.Empty;
@@ -100,7 +104,9 @@ namespace WargamesGUI.Views
                         EntryAdress.Text = string.Empty;
                         EntryEmail.Text = string.Empty;
                         EntryPhoneNumber.Text = string.Empty;
-                        //EntryCardNumber.Text = string.Empty;
+                        EntryUserName.Text = string.Empty;
+                        EntryPassword.Text = string.Empty;
+                        
                         await DisplayAlert("Lyckades!", "Du la till en användare!", "OK");
                         await ReadVisitorListFromDb();
                     }
