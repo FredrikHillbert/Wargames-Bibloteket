@@ -77,7 +77,6 @@ namespace WargamesGUI
 
         private async void SearchBar_Clicked(object sender, EventArgs e)
         {
-
             try
             {
                 if (string.IsNullOrWhiteSpace(SearchBar.Text))
@@ -89,7 +88,6 @@ namespace WargamesGUI
                     SearchValuePage.GetValues(SearchBar.Text);
                     App.Current.MainPage = new SearchValuePage();
                 }
-
             }
             catch (Exception ex)
             {
@@ -109,14 +107,7 @@ namespace WargamesGUI
 
             try
             {
-                var titleResult = bookList.Select(x => x.Title).Where(x => x != null && x.ToUpper().Contains(SearchBar.Text.ToUpper())).ToList();
-                var publisherResult = bookList.Select(x => x.Publisher).Where(x => x != null && x.ToUpper().Contains(SearchBar.Text.ToUpper())).ToList();
-                var authorResult = bookList.Select(x => x.Author).Where(x => x != null && x.ToUpper().Contains(SearchBar.Text.ToUpper())).ToList();
-                var isbnResult = bookList.Select(x => x.ISBN).Where(x => x != null && x.ToUpper().Contains(SearchBar.Text.ToUpper())).ToList();
-                var subCategoryResult = bookList.Select(x => x.DeweySub.SubCategoryName).Where(x => x != null && x.ToUpper().Contains(SearchBar.Text.ToUpper())).ToList();
-                var mainCategoryResult = bookList.Select(x => x.DeweyMain.MainCategoryName).Where(x => x != null && x.ToString().ToUpper().Contains(SearchBar.Text.ToUpper())).ToList();
-
-                var allResults = titleResult.Concat(publisherResult).Concat(authorResult).Concat(isbnResult).Concat(subCategoryResult).Concat(mainCategoryResult).Distinct().ToList();
+                var result = bookList.FilterSearchBookList(SearchBar.Text);
 
                 if (string.IsNullOrWhiteSpace(SearchBar.Text))
                 {
@@ -124,17 +115,15 @@ namespace WargamesGUI
                 }
                 else
                 {
-                    AutoCompleteList.ItemsSource = allResults;
+                    AutoCompleteList.ItemsSource = result;
 
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //AutoCompleteList.IsVisible = false;
-            }
-
-          
+            }      
         }
 
         private void AutoCompleteList_ItemTapped(object sender, ItemTappedEventArgs e)
