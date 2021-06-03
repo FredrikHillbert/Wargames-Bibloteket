@@ -60,13 +60,7 @@ namespace WargamesGUI.Views
                 await DisplayAlert("LoadBooks", $"Felmeddelande: {ex.Message}", "OK");
             }
 
-        }
-        private async void Handled_Clicked(object sender, EventArgs e)
-        {
-            await loanService.RegisterReturnedBook(HandledbookSelected.Book_Copy, HandledbookSelected.Loan_Id);
-            await DisplayAlert("Bok skannad!", $"Du skannade {HandledbookSelected.Title}.", "OK");
-            await LoadBooks();
-        }
+        }       
 
         private void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
@@ -77,10 +71,34 @@ namespace WargamesGUI.Views
             HandledbookSelected = (Book)e.Item;
             try
             {
-                var selected = await DisplayActionSheet("Vilket skick är boken?", "Avbryt", null, "Ny", "Som ny", "Väldigt bra", "Bra", "Acceptabel", "Sliten", "Förstörd");
+                var selected = await DisplayActionSheet("Vilket skick är boken?", "Godkänn", "Avbryt", null, "Ny", "Som ny", "Väldigt bra", "Bra", "Acceptabel", "Sliten", "Förstörd");
 
                 switch (selected)
                 {
+                    case "Godkänn":
+                        try
+                        {
+                            if (HandledbookSelected.BookCondition == 7)
+                            {
+                                string reason = await DisplayPromptAsync("Förstörd", "Anledning", "Ok", "Cancel");
+                                await loanService.RegisterReturnedBookDestroyedBook(HandledbookSelected.Book_Copy, HandledbookSelected.Loan_Id, reason);
+                                await DisplayAlert("Förstörd bok!", $"Du lade till {HandledbookSelected.Title} som förstörd i historiken.", "OK");
+                                await LoadBooks();
+                            }
+                            else
+                            {
+                                await loanService.RegisterReturnedBook(HandledbookSelected.Book_Copy, HandledbookSelected.Loan_Id);
+                                await DisplayAlert("Bok återlämad!", $"Du lade till {HandledbookSelected.Title} som tillgänglig i biblioteket.", "OK");
+                                await LoadBooks();
+                            }
+
+
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("Godkänn Error", $"Felmeddelande: {ex.Message}", "OK");
+                        }
+                        break;
                     case "Ny":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 1);
                         await DisplayAlert("Lyckades", "Skicket ändrades till Ny", "Ok");
@@ -121,9 +139,9 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", $"{ex.Message}", "Ok");
+                await DisplayAlert("listOfHandledBooks_ItemTapped Error", $"{ex.Message}", "Ok");
             }
-            
+
         }
 
         private async void Refresh_Clicked(object sender, EventArgs e)
@@ -151,7 +169,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("MainSearchBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
+                await DisplayAlert("BookReturnSeachBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
 
@@ -174,19 +192,19 @@ namespace WargamesGUI.Views
             }
         }
 
-        private async void Button_Clicked(object sender, EventArgs e)
+        private async void Skanna_Clicked(object sender, EventArgs e)
         {
-           
+
             try
             {
                 await loanService.ReturnBookLoan(selectedBook.Loan_Id);
-                await DisplayAlert("Bok återlämnad!", $"Du lade till {selectedBook.Title} som tillgänglig i biblioteket.", "OK");
+                await DisplayAlert("Bok skannad!", $"Du skannade {selectedBook.Title}.", "OK");
                 await LoadBooks();
 
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Handled_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
+                await DisplayAlert("Skanna_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
 

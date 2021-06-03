@@ -205,8 +205,23 @@ namespace WargamesGUI.Services
                 SqlCommand cmd = new SqlCommand("sp_ReturnBookToLibrary", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@copyId", SqlDbType.Int).Value = copy_Id;
-                cmd.Parameters.Add("@loanId", SqlDbType.Int).Value = loan_Id;
+                cmd.Parameters.Add("@loanId", SqlDbType.Int).Value = loan_Id;                
                // cmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
+                await cmd.ExecuteNonQueryAsync();
+            }
+        }
+        public async Task RegisterReturnedBookDestroyedBook(int copy_Id, int loan_Id, string reason)
+        {
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+                SqlCommand cmd = new SqlCommand("sp_ReturnBookToLibraryDestroyed", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@copyId", SqlDbType.Int).Value = copy_Id;
+                cmd.Parameters.Add("@loanId", SqlDbType.Int).Value = loan_Id;
+                cmd.Parameters.Add("@reason", SqlDbType.VarChar).Value = reason;
+                // cmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
                 await cmd.ExecuteNonQueryAsync();
             }
         }
