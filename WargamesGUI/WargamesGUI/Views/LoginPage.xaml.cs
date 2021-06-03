@@ -22,6 +22,7 @@ namespace WargamesGUI
         public static UserService service = new UserService();
         public static User user;
         public static BookService2 bookService2 = new BookService2();
+        public static LoanService2 loanService2 = new LoanService2();
 
         public List<Book2> bookList;
         public MainPage()
@@ -34,7 +35,7 @@ namespace WargamesGUI
         public async Task<List<Book2>> LoadBooks()
         {
             bookList = await bookService2.GetAllBooks();
-            return bookList;
+            return bookList ?? null;
         }
         private async void SignIn_Button_Clicked(object sender, EventArgs e)
         {

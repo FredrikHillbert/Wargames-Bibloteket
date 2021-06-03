@@ -8,6 +8,8 @@ namespace WargamesGUI.Models
     {
 
         public Privilege TypeOfUser { get; set; }
+        public LibraryCard2 LibraryCard { get; set; }
+        public int fk_LibraryCard { get; set; }
         public string First_Name { get; set; }
         public string Last_Name { get; set; }
         public int SSN { get; set; }

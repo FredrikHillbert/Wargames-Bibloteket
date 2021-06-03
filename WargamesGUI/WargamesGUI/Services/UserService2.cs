@@ -14,10 +14,10 @@ namespace WargamesGUI.Services
         public async Task<List<User2>> ReadAllUsersFromDbAsync()
         {
             var userService = await GetUsersFromDb();
-            //var privilegeLevel = await GetPrivilegeFromDb();
+            var privilegeLevel = await GetPrivilegeFromDb();
+            var libraryCards = await GetLibraryCardsFromDb();
             var listOfUsers = userService.Select(x => new User2
             {
-
                 First_Name = x.First_Name,
                 Last_Name = x.Last_Name,
                 Address = x.Address,
@@ -26,8 +26,9 @@ namespace WargamesGUI.Services
                 User_ID = x.User_ID,
                 Username = x.Username,
                 Password = x.Password,
-                //TypeOfUser = privilegeLevel.Select(p => p).Where(p => p.PrivilegeLevel == x.fk_PrivilegeLevel).ElementAtOrDefault(0),
                 SSN = x.SSN,
+                TypeOfUser = privilegeLevel.Select(y => y).Where(y => y.PrivilegeLevel == x.fk_PrivilegeLevel).FirstOrDefault(),
+                LibraryCard = libraryCards.Select(y => y).Where(y => y.LibraryCard_Id == x.fk_LibraryCard).FirstOrDefault(),
             }).ToList();
 
             return listOfUsers ?? null;
