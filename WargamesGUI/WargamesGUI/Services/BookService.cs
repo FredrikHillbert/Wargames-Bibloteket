@@ -109,6 +109,7 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
                     insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = category;
+                    
                     await insertcmd.ExecuteNonQueryAsync();
 
                     return success;

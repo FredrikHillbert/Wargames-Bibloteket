@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WargamesGUI.Views.FlyoutLibrarianPageDetail"
              Title="Librarian"
-             BackgroundImageSource="pexels-cottonbro.jpg">
+             BackgroundImageSource="pexels-cottonbro-with-layer.jpg">
 
     <StackLayout>
 
@@ -22,6 +22,9 @@
                    FontAttributes="Bold" 
                    FontSize="Subtitle"></Label>
                 <Label Text="● Hantera återlämnade böcker" 
+                   FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+                <Label Text="● Se historik" 
                    FontAttributes="Bold" 
                    FontSize="Subtitle"></Label>
             </StackLayout>

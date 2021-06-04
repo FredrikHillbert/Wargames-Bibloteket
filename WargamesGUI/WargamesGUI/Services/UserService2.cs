@@ -38,7 +38,7 @@ namespace WargamesGUI.Services
         public async Task<List<User2>> ReadOnlyVisitorFromDbAsync() 
         {
             var listOfVisitors = await ReadAllUsersFromDbAsync();
-            return listOfVisitors.Where(x => x.fk_PrivilegeLevel == 3).ToList();
+            return listOfVisitors.Where(x => x.TypeOfUser.PrivilegeLevel == 3).ToList();
         }
 
 

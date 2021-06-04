@@ -116,6 +116,26 @@ namespace WargamesGUI.Views
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
         {
             //picker = fk_Item_Id;
+            if (string.IsNullOrEmpty(EntryISBN.Text) || CheckFormat.CheckIfAllNumbers(EntryISBN.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "ISBN-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if(string.IsNullOrEmpty(EntryPublisher.Text) || CheckFormat.CheckIfAllLetter(EntryPublisher.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Förlag-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryAuthor.Text) || CheckFormat.CheckIfAllLetter(EntryAuthor.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Författare-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryDescription.Text) || CheckFormat.CheckIfAllLetter(EntryDescription.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Beskrivning-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryPrice.Text) || CheckFormat.CheckIfAllNumbers(EntryPrice.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Pris-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
             var Title = EntryTitle.Text;
             var ISBN = EntryISBN.Text;
             var Publisher = EntryPublisher.Text;
@@ -133,7 +153,7 @@ namespace WargamesGUI.Views
                     EntryAuthor.Text = string.Empty;
                     EntryDescription.Text = string.Empty;
                     EntrySubCategoryName.Text = string.Empty;
-                    //EntryPlacement.Text = string.Empty;
+                    EntryPrice.Text = string.Empty;
                     await DisplayAlert("Lyckades!", "Du la till en bok!", "OK");
                     await LoadAllData();      
             }
@@ -270,13 +290,13 @@ namespace WargamesGUI.Views
             string author = selectedItem.Author;
             string publisher = selectedItem.Publisher;
             string isbn = selectedItem.ISBN;
-            string inStock = selectedItem.InStock.ToString();
+            int copies = selectedItem.Available_copies;
             string description = selectedItem.Description;
             string placement = selectedItem.Placement;
             //int price = (int)selectedItem.Price;
             string category = selectedItem.Category;
             string price = selectedItem.Price;
-            await Navigation.PushAsync(new ChangeDetailPage(idOfBook, bookType, title, author, publisher, isbn, inStock, description,category, placement, price));
+            await Navigation.PushAsync(new ChangeDetailPage(idOfBook, bookType, title, author, publisher, isbn, copies, description,category, placement, price));
 
         }
 
@@ -288,11 +308,11 @@ namespace WargamesGUI.Views
             string author = selectedItem.Author;
             string publisher = selectedItem.Publisher;
             string isbn = selectedItem.ISBN;
-            string inStock = selectedItem.InStock.ToString();
+            int copies = selectedItem.Available_copies;
             string description = selectedItem.Description;
             string category = selectedItem.Category;
             string placement = selectedItem.Placement;
-            await Navigation.PushAsync(new DetailPage(bookType, title, author, publisher, isbn, inStock, description, category, placement));
+            await Navigation.PushAsync(new DetailPage(bookType, title, author, publisher, isbn, copies, description, category, placement));
         }
 
         private void DetailsSelected_Clicked(object sender, EventArgs e)

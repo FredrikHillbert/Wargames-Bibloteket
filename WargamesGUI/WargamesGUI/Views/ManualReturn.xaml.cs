@@ -101,36 +101,37 @@ namespace WargamesGUI.Views
                         break;
                     case "Ny":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 1);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till Ny", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Ny'", "Ok");
                         await LoadBooks();
                         break;
                     case "Som ny":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 2);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till Som ny", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Som ny'", "Ok");
                         await LoadBooks();
                         break;
                     case "Väldigt bra":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 3);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till Väldigt bra", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Väldigt bra'", "Ok");
                         await LoadBooks();
                         break;
                     case "Bra":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 4);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till Bra", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Bra'", "Ok");
                         await LoadBooks();
                         break;
                     case "Acceptabel":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 5);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till Acceptabel", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Acceptabel'", "Ok");
                         await LoadBooks();
                         break;
                     case "Sliten":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 6);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till Sliten", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Sliten'", "Ok");
                         await LoadBooks();
                         break;
                     case "Förstörd":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 7);
+                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Förstörd'", "Ok");
                         await LoadBooks();
                         break;
                     default:
