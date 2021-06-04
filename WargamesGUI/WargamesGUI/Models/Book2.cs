@@ -16,6 +16,8 @@ namespace WargamesGUI.Models
         public int Price { get; set; }
         public string ISBN { get; set; }
         public int Placement { get; set; }
+        public int Available_copies { get; set; }
+        public int InStock { get; set; }
         public Item BookType { get; set; }
         public DeweySub DeweySub { get; set; }
         public DeweyMain DeweyMain { get; set; }

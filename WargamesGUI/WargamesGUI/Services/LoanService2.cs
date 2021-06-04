@@ -121,6 +121,11 @@ namespace WargamesGUI.Services
             if (success) return (success, "Success, returned true.");
             else return (success, $"Error: {nameof(this.BookCopyReturnedCheck)} - returned false.");
         }
+        // Fixa
+        //public async Task<(bool, string)> Register()
+        //{
+        //    dbService.RegisterReturnedBook();
+        //}
         //Librarycard
         public async Task<List<LibraryCard2>> GetAllLibraryCards()
         {

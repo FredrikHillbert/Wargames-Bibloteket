@@ -25,11 +25,11 @@
                         </Grid.RowDefinitions>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="0">
                             <Label Text="Boktyp" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding BookType}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding TypeOfBook}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="0">
                             <Label Text="Titel" VerticalOptions="Center" TextDecorations="Underline" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding Titles}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding Title}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="1">
                             <Label Text="Författare" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
@@ -53,7 +53,7 @@
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="3">
                             <Label Text="Kategori" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding Category}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding SubCategory}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                     </Grid>
                     <Label Text="Beskrivning" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>

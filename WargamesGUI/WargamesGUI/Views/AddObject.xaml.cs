@@ -18,12 +18,13 @@ namespace WargamesGUI.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddObject : ContentPage
     {
-        public Book selectedItem;
+        public Book2 selectedItem;
         public DeweySub selectedDewey;
 
         public static AddUserPage addUser = new AddUserPage();
         public static UserService userService = new UserService();
-        public static BookService bookService = new BookService();
+        //public static BookService bookService = new BookService();
+        public static BookService2 bookService = new BookService2();
 
         private int itemID;
 
@@ -37,7 +38,7 @@ namespace WargamesGUI.Views
         List<DeweySub> deweySub = new List<DeweySub>();
         List<BookCopy> bookCopies = new List<BookCopy>();
 
-        private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
+        private ObservableRangeCollection<Book2> collection { get; set; } = new ObservableRangeCollection<Book2>();
 
         public AddObject()
         {
@@ -48,15 +49,11 @@ namespace WargamesGUI.Views
         {
             try
             {
-
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAllData(); });
-
-
             }
             catch (Exception ex)
             {
                 await DisplayAlert("AddObject_OnAppearing", $"{ex.Message}", "OK");
-
             }
         }
         public async Task LoadAllData()
@@ -82,7 +79,7 @@ namespace WargamesGUI.Views
         {
             try
             {
-                bookCopies = await bookService.GetBookCopiesFromDb();
+                bookCopies = await bookService.GetAllBookCopies();
             }
             catch (Exception ex)
             {
@@ -91,8 +88,8 @@ namespace WargamesGUI.Views
         }
         private async Task LoadDeweyData()
         {
-            deweySub = await bookService.GetDeweySubData();
-            deweyMain = await bookService.GetDeweyMainData();
+            deweySub = await bookService.GetDeweySub();
+            deweyMain = await bookService.GetDeweyMain();
             categorypicker.ItemsSource = deweyMain;
         }
         private async Task LoadBooks()
@@ -103,7 +100,7 @@ namespace WargamesGUI.Views
             }
             try
             {
-                collection.AddRange(await bookService.GetBooksFromDb());
+                collection.AddRange(await bookService.GetAllBooks());
 
                 listOfBooks.ItemsSource = collection;
 
@@ -115,27 +112,22 @@ namespace WargamesGUI.Views
         }
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
         {
-            //picker = fk_Item_Id;
-            var Title = EntryTitle.Text;
-            var ISBN = EntryISBN.Text;
-            var Publisher = EntryPublisher.Text;
-            var Author = EntryAuthor.Text;
-            var Description = EntryDescription.Text;
-            int.TryParse(EntryPrice.Text, out int Price);
-            //var Placement = EntryPlacement.Text;
             try
             {
-                    await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID, subCategoryName);
-              
-                    EntryTitle.Text = string.Empty;
-                    EntryISBN.Text = string.Empty;
-                    EntryPublisher.Text = string.Empty;
-                    EntryAuthor.Text = string.Empty;
-                    EntryDescription.Text = string.Empty;
-                    EntrySubCategoryName.Text = string.Empty;
-                    //EntryPlacement.Text = string.Empty;
-                    await DisplayAlert("Lyckades!", "Du la till en bok!", "OK");
-                    await LoadAllData();      
+                await bookService.AddNewBook
+                    (new Book2 
+                    { Title = EntryTitle.Text,
+                        Author = EntryAuthor.Text, 
+                        Price = Convert.ToInt32(EntryPrice.Text), 
+                        DeweySub = deweySub.Where(x => x.SubCategoryName == EntrySubCategoryName.Text).FirstOrDefault(),
+                        Publisher = EntryPublisher.Text, 
+                        ISBN = EntryISBN.Text, 
+                        Description = EntryDescription.Text, 
+                        DeweyMain = (DeweyMain)categorypicker.SelectedItem});
+
+                ClearNewBookEntries();
+                await DisplayAlert("Lyckades!", "Du la till en bok!", "OK");
+                await LoadAllData();      
             }
             catch (Exception ex)
             {
@@ -151,21 +143,21 @@ namespace WargamesGUI.Views
 
         private async void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            selectedItem = (Book)e.Item;
+            selectedItem = (Book2)e.Item;
             var bookDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Ändra Detaljer", "Ta bort exemplar av boken");
             try
             {
                 switch (bookDetails)
                 {
-                    case "Detaljer":
-                        Details(selectedItem);
-                        break;
+                    //case "Detaljer":
+                    //    Details(selectedItem);
+                    //    break;
                     case "Ändra Detaljer":
                         Change_Details(selectedItem);
                         break;
-                    case "Ta bort exemplar av boken":
-                        Delete_Book(selectedItem);
-                        break;
+                    //case "Ta bort exemplar av boken":
+                    //    Delete_Book(selectedItem);
+                    //    break;
                 }
             }
             catch (Exception ex)
@@ -257,44 +249,26 @@ namespace WargamesGUI.Views
             catch (Exception ex)
             {
                 await DisplayAlert("TryRemoveBookCopy", $"Anledning: {ex.Message}", "OK");
-            }
-            
+            }         
         }
-
-        private async void Change_Details(Book selectedItem)
+        private async void Change_Details(Book2 selectedItem)
         {
-            int idOfBook = selectedItem.Id;
-            //string bookType = selectedItem.fk_Item_Id.ToString();
-            int bookType = selectedItem.fk_Item_Id;
-            string title = selectedItem.Title;
-            string author = selectedItem.Author;
-            string publisher = selectedItem.Publisher;
-            string isbn = selectedItem.ISBN;
-            string inStock = selectedItem.InStock.ToString();
-            string description = selectedItem.Description;
-            string placement = selectedItem.Placement;
-            //int price = (int)selectedItem.Price;
-            string category = selectedItem.Category;
-            string price = selectedItem.Price;
-            await Navigation.PushAsync(new ChangeDetailPage(idOfBook, bookType, title, author, publisher, isbn, inStock, description,category, placement, price));
-
+            await Navigation.PushAsync(new ChangeDetailPage(selectedItem));
         }
 
-        private async void Details(Book selectedItem)
+        private async void Details(Book2 selectedItem)
         {
-            //App.Current.MainPage = new DetailPage();
-            string bookType = selectedItem.fk_Item_Id.ToString();
-            string title = selectedItem.Title;
-            string author = selectedItem.Author;
-            string publisher = selectedItem.Publisher;
-            string isbn = selectedItem.ISBN;
-            string inStock = selectedItem.InStock.ToString();
-            string description = selectedItem.Description;
-            string category = selectedItem.Category;
-            string placement = selectedItem.Placement;
-            await Navigation.PushAsync(new DetailPage(bookType, title, author, publisher, isbn, inStock, description, category, placement));
+            await Navigation.PushAsync(new DetailPage(selectedItem));
         }
-
+        private void ClearNewBookEntries()
+        {
+            EntryTitle.Text = string.Empty;
+            EntryISBN.Text = string.Empty;
+            EntryPublisher.Text = string.Empty;
+            EntryAuthor.Text = string.Empty;
+            EntryDescription.Text = string.Empty;
+            EntrySubCategoryName.Text = string.Empty;
+        }
         private void DetailsSelected_Clicked(object sender, EventArgs e)
         {
 
@@ -313,7 +287,6 @@ namespace WargamesGUI.Views
             {
                 try
                 {
-
                     switch (selectedDewey.DeweyMain_Id)
                     {
                         default:
