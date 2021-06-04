@@ -169,5 +169,15 @@ namespace WargamesGUI.Views
                 await DisplayAlert("MainSearchBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
+
+        private void listOfVisitorsReport_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+
+        }
+
+        private void listOfVisitorsReport_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+
+        }
     }
 }
