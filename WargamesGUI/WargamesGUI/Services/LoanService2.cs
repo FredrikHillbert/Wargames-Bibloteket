@@ -152,7 +152,9 @@ namespace WargamesGUI.Services
         public async Task<(bool, string)> ChangeLibraryCardStatus(LibraryCard2 libraryCard)
         {
             bool success = await dbService.ProcedureChangeLibraryCardStatus(libraryCard.LibraryCard_Id, libraryCard.fk_Status_Id);
-            if (success) return (success, $"Kortet har ändras till {libraryCard.CardStatus}.");
+            var getAllCards = await GetAllLibraryCards();
+            var message = getAllCards.Where(x => x.LibraryCard_Id == libraryCard.LibraryCard_Id).Select(x => x.CardStatus.Status_Level).FirstOrDefault();
+            if (success) return (success, message);
             else return (success, $"Error: {nameof(this.ChangeLibraryCardStatus)} - returned false.");
             
         }

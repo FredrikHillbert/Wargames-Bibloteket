@@ -109,6 +109,7 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
                     insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = category;
+                    
                     await insertcmd.ExecuteNonQueryAsync();
 
                     return success;
@@ -249,11 +250,11 @@ namespace WargamesGUI.Services
                             values.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
                             values.Placement = reader["Placement"].ToString();
                             values.Author = reader["Author"].ToString();
-                            values.InStock = Convert.ToInt32(reader["InStock"]);
+                            values.Available_copies = Convert.ToInt32(reader["Available_copies"]);
                             values.Category = reader["Category"].ToString();
                             values.Description = reader["Description"].ToString();
 
-                            if (values.InStock == 0)
+                            if (values.Available_copies == 0)
                             {
                                 values.Status = "Inte tillgänglig";
                             }

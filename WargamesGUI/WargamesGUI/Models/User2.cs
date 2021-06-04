@@ -4,10 +4,10 @@ using System.Text;
 
 namespace WargamesGUI.Models
 {
-   public  class User2
+    public class User2
     {
 
-        public Privilege TypeOfUser { get; set; }
+        public Privilege TypeOfUser { get; set; } 
         public LibraryCard2 LibraryCard { get; set; }
         public int fk_LibraryCard { get; set; }
         public string First_Name { get; set; }

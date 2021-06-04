@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:models="clr-namespace:WargamesGUI.Models" 
              x:Class="WargamesGUI.Views.AddObject"
-             BackgroundImageSource="pexels-cottonbro.jpg">
+             BackgroundImageSource="pexels-cottonbro-with-layer.jpg">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -63,17 +63,17 @@
                         FontAttributes="Bold"/>
                 </Grid>
             </Frame>
-            <Frame CornerRadius="40" BorderColor="Black" Margin="40,0,40,-620" BackgroundColor="LightBlue">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="40,0,40,-500" BackgroundColor="LightBlue">
                 <StackLayout>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="5*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -83,7 +83,7 @@
                         <Label Text="ISBN" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="2" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
                         <Label Text="Utgivare" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="3" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
                         <Label Text="Placering" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="4" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
-                        <Label Text="Föfattare" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
+                        <Label Text="Författare" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
                         <Label Text="Kategori" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="6" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
                         
                     </Grid>
@@ -94,12 +94,12 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="5*"/>
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="5*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="30"/>
