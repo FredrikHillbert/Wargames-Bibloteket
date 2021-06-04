@@ -116,6 +116,26 @@ namespace WargamesGUI.Views
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
         {
             //picker = fk_Item_Id;
+            if (string.IsNullOrEmpty(EntryISBN.Text) || CheckFormat.CheckIfAllNumbers(EntryISBN.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "ISBN-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if(string.IsNullOrEmpty(EntryPublisher.Text) || CheckFormat.CheckIfAllLetter(EntryPublisher.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Förlag-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryAuthor.Text) || CheckFormat.CheckIfAllLetter(EntryAuthor.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Författare-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryDescription.Text) || CheckFormat.CheckIfAllLetter(EntryDescription.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Beskrivning-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryPrice.Text) || CheckFormat.CheckIfAllNumbers(EntryPrice.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Pris-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
             var Title = EntryTitle.Text;
             var ISBN = EntryISBN.Text;
             var Publisher = EntryPublisher.Text;
