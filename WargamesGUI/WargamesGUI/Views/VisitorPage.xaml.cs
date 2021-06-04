@@ -175,7 +175,6 @@ namespace WargamesGUI.Views
         }
         private async void HandBookBack_Button_Clicked(object sender, EventArgs e)
         {
-            //LoanService.LoanedBooks.Remove(itemTapped);
             try
             {
                 await bookLoanService.ChangeBookLoanStatus(itemTapped.Loan_Id);

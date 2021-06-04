@@ -59,7 +59,7 @@
         <Button Text="Logga in" 
                 Grid.Row="7" 
                 Grid.Column="0" 
-                Clicked="Button_Clicked" 
+                Clicked="SignIn_Button_Clicked" 
                 HorizontalOptions="Center"
                 TextColor="White"
                 WidthRequest="150"
