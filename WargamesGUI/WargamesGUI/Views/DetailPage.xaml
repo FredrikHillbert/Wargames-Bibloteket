@@ -44,7 +44,7 @@
                             <Label Text="{Binding ISBN}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="2">
-                            <Label Text="Lager" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
+                            <Label Text="Tillgängliga exemplar" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
                             <Label Text="{Binding InStock}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="3">
