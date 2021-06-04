@@ -133,7 +133,7 @@ namespace WargamesGUI.Views
                     EntryAuthor.Text = string.Empty;
                     EntryDescription.Text = string.Empty;
                     EntrySubCategoryName.Text = string.Empty;
-                    //EntryPlacement.Text = string.Empty;
+                    EntryPrice.Text = string.Empty;
                     await DisplayAlert("Lyckades!", "Du la till en bok!", "OK");
                     await LoadAllData();      
             }
@@ -270,13 +270,13 @@ namespace WargamesGUI.Views
             string author = selectedItem.Author;
             string publisher = selectedItem.Publisher;
             string isbn = selectedItem.ISBN;
-            string inStock = selectedItem.InStock.ToString();
+            int copies = selectedItem.Available_copies;
             string description = selectedItem.Description;
             string placement = selectedItem.Placement;
             //int price = (int)selectedItem.Price;
             string category = selectedItem.Category;
             string price = selectedItem.Price;
-            await Navigation.PushAsync(new ChangeDetailPage(idOfBook, bookType, title, author, publisher, isbn, inStock, description,category, placement, price));
+            await Navigation.PushAsync(new ChangeDetailPage(idOfBook, bookType, title, author, publisher, isbn, copies, description,category, placement, price));
 
         }
 
@@ -288,11 +288,11 @@ namespace WargamesGUI.Views
             string author = selectedItem.Author;
             string publisher = selectedItem.Publisher;
             string isbn = selectedItem.ISBN;
-            string inStock = selectedItem.InStock.ToString();
+            int copies = selectedItem.Available_copies;
             string description = selectedItem.Description;
             string category = selectedItem.Category;
             string placement = selectedItem.Placement;
-            await Navigation.PushAsync(new DetailPage(bookType, title, author, publisher, isbn, inStock, description, category, placement));
+            await Navigation.PushAsync(new DetailPage(bookType, title, author, publisher, isbn, copies, description, category, placement));
         }
 
         private void DetailsSelected_Clicked(object sender, EventArgs e)

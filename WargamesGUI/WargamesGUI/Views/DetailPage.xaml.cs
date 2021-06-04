@@ -17,12 +17,12 @@ namespace WargamesGUI.Views
         public string Author { get; set; }
         public string Publisher { get; set; }
         public string ISBN { get; set; }
-        public string InStock { get; set; }
+        public int Available_copies { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }
         public string Placement { get; set; }
 
-        public DetailPage(string bookType, string title, string author, string publisher, string isbn, string inStock, string description, string category, string placement)
+        public DetailPage(string bookType, string title, string author, string publisher, string isbn, int copies, string description, string category, string placement)
         {
             switch (bookType)
             {
@@ -38,7 +38,7 @@ namespace WargamesGUI.Views
             Author = author;
             Publisher = publisher;
             ISBN = isbn;
-            InStock = inStock;
+            Available_copies = copies;
             Description = description;
             Category = category;
             Placement = placement;
