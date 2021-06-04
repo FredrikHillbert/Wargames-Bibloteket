@@ -59,30 +59,30 @@
         <!--EXISTING VISITORS-->
         <Frame CornerRadius="40" BorderColor="Black" Margin="50,30,50,20" BackgroundColor="LightBlue">
             <StackLayout>
-            <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected" ItemTapped="listOfVisitors_ItemTapped">
-                <ListView.Header>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="2*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Label Text="Befintliga användare" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-                        <Label Text="Förnamn" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="0"/>
+                <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected">
+                    <ListView.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label Text="Befintliga användare" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                            <Label Text="Förnamn" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="0"/>
                             <Label Text="Efternamn" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="1"/>
                             <Label Text="Användarnamn" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="2"/>
-                        <!--<Label Text="Lösenord" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="3"/>-->
+                            <!--<Label Text="Lösenord" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="3"/>-->
                             <Label Text="Telefonnummer" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="3"/>
                             <Label Text="Adress" TextDecorations="Underline" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Small" Grid.Row="1" Grid.Column="4"/>
 
-                    </Grid>
-                </ListView.Header>
+                        </Grid>
+                    </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -117,28 +117,23 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            <StackLayout Margin="0,10,0,0">
-                <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                        </Grid.RowDefinitions>
-                        
-                            <Button Text="Ta bort besökare" 
+                <StackLayout Margin="0,10,0,0">
+                    
+                    <Button Text="Ta bort besökare" 
                                     Clicked="DeleteVisitor_Clicked" 
+                                    BackgroundColor="#2E4159" 
+                                    TextColor="White" 
                                     CornerRadius="20" 
-                                    BackgroundColor="#2E4159"
-                                    TextColor="White"
-                                    HorizontalOptions="EndAndExpand"
-                                    Grid.Column="0" Grid.Row="0"
-                                    WidthRequest="120"
-                                    HeightRequest="100"
-                                    Margin="200,5,0,-10"/>
-                        
-                </Grid>
-            </StackLayout>
+                                    HorizontalOptions="End"/>
+                    <Button Text="Ändra en besökare"
+                                    Clicked="AlterVisitor_Button_Clicked"
+                                      BackgroundColor="#2E4159" 
+                                    TextColor="White" 
+                                    CornerRadius="20" 
+                                 HorizontalOptions="End" />
+
+
+                </StackLayout>
             </StackLayout>
         </Frame>
     </StackLayout>
