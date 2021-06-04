@@ -24,6 +24,9 @@
                 <Label Text="● Hantera återlämnade böcker" 
                    FontAttributes="Bold" 
                    FontSize="Subtitle"></Label>
+                <Label Text="● Se historik" 
+                   FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
             </StackLayout>
         </Frame>
 
