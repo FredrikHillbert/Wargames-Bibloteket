@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WargamesGUI.Views.FlyoutLibrarianPageDetail"
              Title="Librarian"
-             BackgroundImageSource="pexels-cottonbro.jpg">
+             BackgroundImageSource="pexels-cottonbro-with-layer.jpg">
 
     <StackLayout>
 

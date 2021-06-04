@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:models="clr-namespace:WargamesGUI.Models" 
              x:Class="WargamesGUI.Views.AddObject"
-             BackgroundImageSource="pexels-cottonbro.jpg">
+             BackgroundImageSource="pexels-cottonbro-with-layer.jpg">
 
     <Grid>
         <Grid.RowDefinitions>

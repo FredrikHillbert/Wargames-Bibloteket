@@ -34,7 +34,7 @@
                Grid.Row="3" 
                Grid.Column="0" 
                HorizontalOptions="Start"
-               Margin="55,0,0,0"/>
+               Margin="75,0,0,0"/>
         <Entry x:Name="Entryusername" 
                Placeholder="Skriv ditt användarnamn här" 
                Grid.Row="4" 
@@ -46,7 +46,7 @@
                Grid.Row="5" 
                Grid.Column="0" 
                HorizontalOptions="Start"
-               Margin="55,0,0,0"/>
+               Margin="75,0,0,0"/>
         <Entry x:Name="Entrypassword" 
                Placeholder="Skriv ditt lösenord här" 
                Grid.Row="6" 
