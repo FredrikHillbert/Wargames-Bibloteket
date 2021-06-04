@@ -43,7 +43,7 @@
         <!--EXISTING VISITORS-->
         <Frame CornerRadius="40" BorderColor="Black" Margin="50,30,50,20" BackgroundColor="LightBlue">
             <StackLayout>
-            <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected" ItemTapped="listOfVisitors_ItemTapped">
+            <ListView x:Name="listOfVisitors" ItemSelected="listOfVisitors_ItemSelected">
                 <ListView.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -102,27 +102,21 @@
                     </ListView.ItemTemplate>
                 </ListView>
             <StackLayout Margin="0,10,0,0">
-                <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                        </Grid.RowDefinitions>
-                        
-                            <Button Text="Ta bort besökare" 
+     
+                    <Button Text="Ta bort besökare" 
                                     Clicked="DeleteVisitor_Clicked" 
-                                    CornerRadius="20" 
-                                    BackgroundColor="#2E4159"
-                                    TextColor="White"
-                                    HorizontalOptions="EndAndExpand"
-                                    Grid.Column="0" Grid.Row="0"
-                                    WidthRequest="120"
-                                    HeightRequest="100"
-                                    Margin="0,0,0,0"/>
-                        
-                </Grid>
-            </StackLayout>
+                                    BackgroundColor="#2E4159" 
+                            TextColor="White" 
+                            CornerRadius="20" 
+                            HorizontalOptions="End"/>
+                    <Button Text="Ändra en besökare"
+                                    Clicked="AlterVisitor_Button_Clicked"
+                                    BackgroundColor="#2E4159" 
+                            TextColor="White" 
+                            CornerRadius="20" 
+                            HorizontalOptions="End"/>
+
+                </StackLayout>
             </StackLayout>
         </Frame>
     </StackLayout>

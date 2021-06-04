@@ -87,6 +87,8 @@ namespace WargamesGUI
                 await DisplayAlert("Misslyckades", "Lösenordfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
 
+           
+
             else
             {
                 try
