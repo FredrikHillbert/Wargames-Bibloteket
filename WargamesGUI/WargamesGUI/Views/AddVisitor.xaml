@@ -22,20 +22,36 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Entry x:Name="EntryFirstName" Placeholder="Skriv in förnamn" BackgroundColor="White" Grid.Row="0" Grid.Column="0"/>
-                <Entry x:Name="EntryLastName" Placeholder="Skriv in efternamn" BackgroundColor="White" Grid.Row="1" Grid.Column="0"/>
-                <Entry x:Name="EntrySsnNumber" Placeholder="Skriv in personnummer" BackgroundColor="White" Grid.Row="2" Grid.Column="0"/>
-                <Entry x:Name="EntryAdress" Placeholder="Skriv in adress" BackgroundColor="White" Grid.Row="3" Grid.Column="0"/>
-                <Entry x:Name="EntryEmail" Placeholder="Skriv in email" BackgroundColor="White" Grid.Row="4" Grid.Column="0"/>
-                <Entry x:Name="EntryPhoneNumber" Placeholder="Skriv in telefonnummer" BackgroundColor="white" Grid.Row="5" Grid.Column="0"/>
-                <Entry x:Name="EntryUserName" Placeholder="Skriv in användarnamn" BackgroundColor="white" Grid.Row="6" Grid.Column="0"/>
-                <Entry x:Name="EntryPassword" Placeholder="Skriv in lösenord" BackgroundColor="white" Grid.Row="7" Grid.Column="0"/>
+                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="0" Grid.Column="0">
+                    <Entry x:Name="EntryFirstName" Placeholder="Skriv in förnamn" BackgroundColor="White" Grid.Row="0" Grid.Column="0"/>
+                </Frame>
+                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="1" Grid.Column="0">
+                    <Entry x:Name="EntryLastName" Placeholder="Skriv in efternamn" BackgroundColor="White" Grid.Row="1" Grid.Column="0"/>
+                </Frame>
+                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="2" Grid.Column="0">
+                    <Entry x:Name="EntrySsnNumber" Placeholder="Skriv in personnummer" BackgroundColor="White" Grid.Row="2" Grid.Column="0"/>
+                </Frame>
+                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="3" Grid.Column="0">
+                    <Entry x:Name="EntryAdress" Placeholder="Skriv in adress" BackgroundColor="White" Grid.Row="3" Grid.Column="0"/>
+                </Frame>
+                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="4" Grid.Column="0">
+                    <Entry x:Name="EntryEmail" Placeholder="Skriv in email" BackgroundColor="White" Grid.Row="4" Grid.Column="0"/>
+                </Frame>
+                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1"  Grid.Row="5" Grid.Column="0">
+                    <Entry x:Name="EntryPhoneNumber" Placeholder="Skriv in telefonnummer" BackgroundColor="white" Grid.Row="5" Grid.Column="0"/>
+                </Frame>
+                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="6" Grid.Column="0">
+                    <Entry x:Name="EntryUserName" Placeholder="Skriv in användarnamn" BackgroundColor="white" Grid.Row="6" Grid.Column="0"/>
+                </Frame>
+                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="7" Grid.Column="0">
+                    <Entry x:Name="EntryPassword" Placeholder="Skriv in lösenord" BackgroundColor="white" Grid.Row="7" Grid.Column="0"/>
+                </Frame>
                 <Button Text="Registrera besökare" 
                             Clicked="AddVisitor_Button_Clicked" 
                             CornerRadius="20" 
                             BackgroundColor="#2E4159"
                             TextColor="White"
-                            Margin="200,0,0,0"
+                            Margin="200,5,0,-10"
                             HorizontalOptions="End"
                             Grid.Row="8" Grid.Column="0"/>
             </Grid>
@@ -119,7 +135,7 @@
                                     Grid.Column="0" Grid.Row="0"
                                     WidthRequest="120"
                                     HeightRequest="100"
-                                    Margin="0,0,0,0"/>
+                                    Margin="200,5,0,-10"/>
                         
                 </Grid>
             </StackLayout>
