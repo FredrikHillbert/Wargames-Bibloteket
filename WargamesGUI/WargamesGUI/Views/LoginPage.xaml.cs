@@ -29,7 +29,6 @@ namespace WargamesGUI
         {
             InitializeComponent();
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
-            //Entrypassword.Completed += (sender, e) => Entrypassword_Completed(sender, e);
         }
 
         public async Task<List<Book2>> LoadBooks()
@@ -96,11 +95,6 @@ namespace WargamesGUI
             }
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-
-        }
-
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             AutoCompleteList.IsVisible = true;
@@ -121,9 +115,9 @@ namespace WargamesGUI
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //AutoCompleteList.IsVisible = false;
+                DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");
             }      
         }
 
@@ -136,9 +130,5 @@ namespace WargamesGUI
             SearchBar_Clicked(sender, e);
         }
 
-        //private async void Entrypassword_Completed(object sender, EventArgs e)
-        //{
-        //    SignIn_Button_Clicked(sender, e);
-        //}
     }
 }
