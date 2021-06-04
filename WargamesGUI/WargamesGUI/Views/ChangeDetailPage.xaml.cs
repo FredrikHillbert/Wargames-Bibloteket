@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
@@ -15,31 +14,22 @@ namespace WargamesGUI.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChangeDetailPage : ContentPage
     {
-        public DeweySub selectedDeweySub;
         public BookService2 bookService;
-        UpdateBookViewModel bookViewModel;
-       
-        public int selectedBookType;
-        public int dewymainID;
-        public string deweysubID;
-
+        AddUpdateDetailBookViewModel bookViewModel;
         List<DeweyMain> deweyMain = new List<DeweyMain>();
         List<DeweySub> deweySub = new List<DeweySub>();
 
         public ChangeDetailPage(Book2 book)
         {
             bookService = new BookService2();
-            BindingContext = bookViewModel = new UpdateBookViewModel(book);
+            BindingContext = bookViewModel = new AddUpdateDetailBookViewModel(book);
             InitializeComponent();
-
         }
-
         protected async override void OnAppearing()
         {
             try
             {
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadDeweyData(); });
-
             }
             catch (Exception ex)
             {
@@ -51,6 +41,7 @@ namespace WargamesGUI.Views
             deweySub = await bookService.GetDeweySub();
             deweyMain = await bookService.GetDeweyMain();
             categoryPicker.ItemsSource = deweyMain;
+            
         }
         private async void categorypicker_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -63,16 +54,18 @@ namespace WargamesGUI.Views
                         deweySub.Where(x => x.fk_DeweyMain_Id == selectedDeweyMain.DeweyMain_Id)
                                 .Select(x => x.SubCategoryName).ToArray());
 
-                    if (subCategoryName == "Avbryt" || subCategoryName == null)
+                    if (subCategoryName != "Avbryt" || subCategoryName != null)
+                    {
+                        var selectedDeweySub = deweySub.Select(x => x).Where(x => x.SubCategoryName == subCategoryName).ToList().FirstOrDefault();
+                        await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.DeweyMain = selectedDeweyMain; });
+                        await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.DeweySub = selectedDeweySub; });
+                        break;
+                    }
+                    else
                     {
                         EntrySubCategoryName.Text = string.Empty;
                         break;
                     }
-
-                    selectedDeweySub = deweySub.Select(x => x).Where(x => x.SubCategoryName == subCategoryName).ToList().FirstOrDefault();
-                    await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.DeweyMain = selectedDeweyMain; });
-                    await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.DeweySub = selectedDeweySub; });
-                    break;
             }
         }
         private async void UpdateBook_Clicked(object sender, EventArgs e)

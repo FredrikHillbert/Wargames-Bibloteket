@@ -5,7 +5,6 @@
              BackgroundImageSource="pexels-cottonbro.jpg">
 
     <Grid>
-
         <Image Source="pexels-cottonbro.jpg" Aspect="AspectFill" Opacity="0.5" Grid.RowSpan="3"></Image>
         <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
 
@@ -25,7 +24,7 @@
                         </Grid.RowDefinitions>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="0">
                             <Label Text="Boktyp" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding TypeOfBook}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding BookType.TypeOfItem}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="0">
                             <Label Text="Titel" VerticalOptions="Center" TextDecorations="Underline" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
@@ -53,7 +52,7 @@
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="3">
                             <Label Text="Kategori" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding SubCategory}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding DeweySub.SubCategoryName}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                     </Grid>
                     <Label Text="Beskrivning" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>

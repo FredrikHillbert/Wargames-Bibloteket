@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Data;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
-using WargamesGUI.Models;
 using WargamesGUI.DAL;
+using WargamesGUI.Models;
 
 
 namespace WargamesGUI.Services
@@ -35,7 +31,7 @@ namespace WargamesGUI.Services
                 Description = x.Description,
                 Placement = x.Placement,
                 Author = x.Author,
-                Available_copies = x.Available_copies,
+                Available_copies = x.Available_copies ?? 0,
                 Price = x.Price,
                 InStock = x.InStock,
                 BookType = items.Select(i => i).Where(i => i.Item_Id == x.fk_Item_Id).ToList().ElementAtOrDefault(0),

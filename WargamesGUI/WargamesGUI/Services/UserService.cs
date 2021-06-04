@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
-using WargamesGUI.Models;
-using System.Linq;
-using WargamesGUI.Views;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
+using WargamesGUI.Models;
 
 namespace WargamesGUI.Services
 {

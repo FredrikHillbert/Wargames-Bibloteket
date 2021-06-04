@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.ViewModels;
 using Xamarin.Forms;
@@ -15,7 +11,7 @@ namespace WargamesGUI.Views
     {
         public DetailPage(Book2 book)
         {
-            BindingContext = new UpdateBookViewModel(book);
+            BindingContext = new AddUpdateDetailBookViewModel(book);
             InitializeComponent();
         }
 

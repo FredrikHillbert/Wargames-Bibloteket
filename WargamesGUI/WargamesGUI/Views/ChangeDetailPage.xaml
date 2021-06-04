@@ -45,7 +45,7 @@
                     <Frame x:Name="SubCatName" CornerRadius="20" BackgroundColor="White" Padding="-1" HorizontalOptions="Center">
                         <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="0" 
                            WidthRequest="400" TextColor="Black" HorizontalOptions="Center" IsReadOnly="True"
-                               Text="{Binding DeweySub.SubCategoryName, Mode=TwoWay}"/>
+                               Text="{Binding DeweySub.SubCategoryName, Mode=TwoWay}" />
                     </Frame>
                     <Frame x:Name="titelname" CornerRadius="20" BackgroundColor="White" Padding="-1"  Grid.Row="1" Grid.Column="0">
                         <Entry x:Name="EntryTitle" Placeholder="Titel" BackgroundColor="White"
@@ -126,7 +126,7 @@
                         </StackLayout>
                     </Grid>
                     <Label Text="Beskrivning" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                    <Label Text="{Binding Description, Mode=OneWay}" VerticalOptions="Center" TextColor="Black" Margin="0,0,0,20" FontSize="16"/>
+                    <Label Text="{Binding Description, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" Margin="0,0,0,20" FontSize="16"/>
                 </StackLayout>
             </Frame>
 

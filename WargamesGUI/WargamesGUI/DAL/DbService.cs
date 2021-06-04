@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 using System.Threading.Tasks;
-using WargamesGUI.Models;
 using System.Configuration;
 using System.Data;
+
+using WargamesGUI.Models;
 using WargamesGUI.Services;
 
 namespace WargamesGUI.DAL
@@ -121,15 +121,15 @@ namespace WargamesGUI.DAL
 
                     SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
-                    insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = book.fk_Item_Id;
+                    insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = book.BookType.Item_Id;
                     insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = book.Title;
                     insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = book.ISBN;
                     insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = book.Publisher;
                     insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = book.Author;
                     insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = book.Description;
                     insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = book.Price;
-                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.Placement;
-                    //insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = book.Category;
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.DeweySub.DeweySub_Id;
+                    insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = book.DeweySub.SubCategoryName;
                     await insertcmd.ExecuteNonQueryAsync();
 
                     return success;

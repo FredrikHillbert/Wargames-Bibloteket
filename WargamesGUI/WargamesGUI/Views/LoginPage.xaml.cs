@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
-using WargamesGUI.Views;
-using Xamarin.Forms;
 using WargamesGUI.Services;
-using static WargamesGUI.AddUserPage;
+using WargamesGUI.Views;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 
 namespace WargamesGUI

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WargamesGUI.Services;
-using WargamesGUI.Models;
-
-namespace WargamesGUI.Models
+﻿namespace WargamesGUI.Models
 {
     public class BookCopy
     {

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using WargamesGUI.Models;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
 using WargamesGUI.DAL;
+using WargamesGUI.Models;
 
 namespace WargamesGUI.Services
 {
