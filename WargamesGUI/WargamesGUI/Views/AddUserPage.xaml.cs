@@ -70,6 +70,10 @@ namespace WargamesGUI
             {
                 await DisplayAlert("Misslyckades", "Adressfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
+            else if (string.IsNullOrEmpty(ssnbox.Text) || CheckFormat.CheckIfAllNumbers(ssnbox.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Personnummerfältet är tomt eller så är formatet inte tållåtet.", "OK");
+            }
             else if (string.IsNullOrEmpty(emailbox.Text) || CheckFormat.IsValidEmail(emailbox.Text) == false)
             {
                 await DisplayAlert("Misslyckades", "Emailfältet är tomt eller så är formatet inte tållåtet.", "OK");
@@ -91,6 +95,7 @@ namespace WargamesGUI
 
             else
             {
+                firstnameframe.BorderColor = Color.ForestGreen;
                 try
                 {
                     User2 user = new User2()
@@ -128,6 +133,20 @@ namespace WargamesGUI
                 }
             }
         }
+
+        private async void Delete_User_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                bool canRemove = await userService.RemoveUserFromDbAsync(selectedItem.User_ID);
+                await DisplayAlert("Godkänt", $"Du har tagit bort användare {selectedItem.First_Name} {selectedItem.Last_Name}", "OK");
+                await LoadUserTbl();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Delete_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+        }
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             selectedItem = (User2)listOfUsers.SelectedItem;
@@ -145,7 +164,7 @@ namespace WargamesGUI
                     firstnamebox.IsVisible = true;
                     lastnameframe.IsVisible = true;
                     lastnamebox.IsVisible = true;
-                    adressframe.IsVisible = true;
+                    addressframe.IsVisible = true;
                     addressbox.IsVisible = true;
                     ssnframe.IsVisible = true;
                     ssnbox.IsVisible = true;
@@ -163,7 +182,7 @@ namespace WargamesGUI
                     firstnamebox.IsVisible = true;
                     lastnameframe.IsVisible = true;
                     lastnamebox.IsVisible = true;
-                    adressframe.IsVisible = true;
+                    addressframe.IsVisible = true;
                     addressbox.IsVisible = true;
                     ssnframe.IsVisible = true;
                     ssnbox.IsVisible = true;
@@ -181,7 +200,7 @@ namespace WargamesGUI
                     firstnamebox.IsVisible = true;
                     lastnameframe.IsVisible = true;
                     lastnamebox.IsVisible = true;
-                    adressframe.IsVisible = true;
+                    addressframe.IsVisible = true;
                     addressbox.IsVisible = true;
                     ssnframe.IsVisible = true;
                     ssnbox.IsVisible = true;
@@ -229,66 +248,12 @@ namespace WargamesGUI
                 await DisplayAlert("UserListSearchBar", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
-        private async void ChangingCardStatus()
-        {
-            try
-            {
-                var result = await loanService.ChangeLibraryCardStatus(selectedItem.LibraryCard);
-                if (!result.Item1)
-                {
-                    await DisplayAlert("Misslyckades!", "Status ändrades inte för bibliotekskortet.", "OK");
-                }
-                else if (result.Item1)
-                {
-                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: {result.Item2}.", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
-            }
-        }
 
-        private async void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void AlterUser_Button_Clicked(object sender, EventArgs e)
         {
-            selectedItem = (User2)e.Item;
-            var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Ändra användare", "Ta bort användare");
-            try
-            {
-                switch (userDetails)
-                {
-                    case "Ändra användare":
-                        ChangeUser(userDetails);
-                        break;
-                    case "Ta bort användare":
-                        RemoveUser(userDetails);
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("listOfVisitors_ItemTapped", $"Anledning: {ex.Message}", "OK");
-            }
-        }
 
-        private async void RemoveUser(string userDetails)
-        {
-            //throw new NotImplementedException();
-            try
-            {
-                bool canRemove = await userService.RemoveUserFromDbAsync(selectedItem.User_ID);
-                await DisplayAlert("Godkänt", $"Du har tagit bort användare {selectedItem.First_Name} {selectedItem.Last_Name}", "OK");
-                await LoadUserTbl();
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Delete_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
-            }
-        }
+            selectedItem = (User2)listOfUsers.SelectedItem;
 
-        private async void ChangeUser(string userDetails)
-        {
-            //throw new NotImplementedException();
             if (selectedItem.TypeOfUser.PrivilegeLevel == 3)
             {
                 var choice = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort");
@@ -340,6 +305,135 @@ namespace WargamesGUI
                         }
                         break;
                 }
+            }
+        }
+
+        private async void ChangingCardStatus()
+        {
+            try
+            {
+                var result = await loanService.ChangeLibraryCardStatus(selectedItem.LibraryCard);
+                if (!result.Item1)
+                {
+                    await DisplayAlert("Misslyckades!", "Status ändrades inte för bibliotekskortet.", "OK");
+                }
+                else if (result.Item1)
+                {
+                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: {result.Item2}.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+        }
+
+        private void firstnamebox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            if (string.IsNullOrEmpty(firstnamebox.Text) || CheckFormat.CheckIfAllLetter(firstnamebox.Text) == false)
+            {
+                firstnameframe.BorderColor = Color.Red;
+                firstnamebox.Placeholder = "Fel format. Skriv in förnamn.";
+                firstnamebox.PlaceholderColor = Color.Red;
+                firstnamewrongcross.IsVisible = true;
+                firstnamecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                firstnameframe.BorderColor = Color.Green;
+                firstnamewrongcross.IsVisible = false;
+                firstnamecorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void lastnamebox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(lastnamebox.Text) || CheckFormat.CheckIfAllLetter(lastnamebox.Text) == false)
+            {
+                lastnameframe.BorderColor = Color.Red;
+                lastnamebox.Placeholder = "Fel format. Skriv in efternamn.";
+                lastnamebox.PlaceholderColor = Color.Red;
+                lastnamewrongcross.IsVisible = true;
+                lastnamecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                lastnameframe.BorderColor = Color.Green;
+                lastnamewrongcross.IsVisible = false;
+                lastnamecorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void addressbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(addressbox.Text) || CheckFormat.CheckAdress(addressbox.Text) == false)
+            {
+                addressframe.BorderColor = Color.Red;
+                addressbox.Placeholder = "Fel format. Skriv in adress.";
+                addressbox.PlaceholderColor = Color.Red;
+                addresswrongcross.IsVisible = true;
+                addresscorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                addressframe.BorderColor = Color.Green;
+                addresswrongcross.IsVisible = false;
+                addresscorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void ssnbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(ssnbox.Text) || CheckFormat.CheckIfAllNumbers(ssnbox.Text) == false)
+            {
+                ssnframe.BorderColor = Color.Red;
+                ssnbox.Placeholder = "Fel format. Skriv in personnummer.";
+                ssnbox.PlaceholderColor = Color.Red;
+                ssnwrongcross.IsVisible = true;
+                ssncorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                ssnframe.BorderColor = Color.Green;
+                ssnwrongcross.IsVisible = false;
+                ssncorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void emailbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(emailbox.Text) || CheckFormat.IsValidEmail(emailbox.Text) == false)
+            {
+                emailframe.BorderColor = Color.Red;
+                emailbox.Placeholder = "Fel format. Skriv in email.";
+                emailbox.PlaceholderColor = Color.Red;
+                emailwrongcross.IsVisible = true;
+                emailcorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                emailframe.BorderColor = Color.Green;
+                emailwrongcross.IsVisible = false;
+                emailcorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void phonebox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(phonebox.Text) || CheckFormat.CheckIfAllNumbers(phonebox.Text) == false)
+            {
+                phoneframe.BorderColor = Color.Red;
+                phonebox.Placeholder = "Fel format. Skriv in telefonnummer.";
+                phonebox.PlaceholderColor = Color.Red;
+                phonewrongcross.IsVisible = true;
+                phonecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                phoneframe.BorderColor = Color.Green;
+                phonewrongcross.IsVisible = false;
+                phonecorrectcheck.IsVisible = true;
             }
         }
     }
