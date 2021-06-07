@@ -69,7 +69,7 @@
 
 
         <StackLayout Grid.Row="2" VerticalOptions="Start">
-            <Frame CornerRadius="40" BorderColor="Black" Margin="50,-50,50,20" BackgroundColor="LightBlue">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,-15,50,20" BackgroundColor="LightBlue">
                 <StackLayout>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -94,7 +94,7 @@
                         <Label Text="Telefonnummer" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="6" TextColor="Black"/>
                             </Grid>
                     <!--LIST OF EXISTING USERS-->
-                    <ListView x:Name="listOfUsers" ItemSelected="listOfUsers_ItemSelected" Margin="0,0,0,0">
+                    <ListView x:Name="listOfUsers" ItemTapped="listOfUsers_ItemTapped" ItemSelected="listOfUsers_ItemSelected" Margin="0,0,0,0">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -139,21 +139,6 @@
                         </ListView.ItemTemplate>
 
                     </ListView>
-                    <Button Text="Ta bort användare" 
-                            Clicked="Delete_User_Clicked"
-                            BackgroundColor="#2E4159" 
-                            TextColor="White" 
-                            CornerRadius="20" 
-                            HorizontalOptions="End"></Button>
-
-                    <Button Text="Ändra användare"
-                            Clicked="AlterUser_Button_Clicked"
-                            BackgroundColor="#2E4159"
-                            TextColor="White"
-                            CornerRadius="20"
-                            
-                            HorizontalOptions="End"/>
-
                 </StackLayout>
 
                 

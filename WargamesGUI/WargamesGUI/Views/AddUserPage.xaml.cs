@@ -26,7 +26,7 @@ namespace WargamesGUI
         public User2 selectedItem;
         public static UserService2 userService = new UserService2();
         public static LoanService2 loanService = new LoanService2();
-        
+
         public string statusString;
         private int privilegeLevel;
         private List<User2> UserCollection;
@@ -87,7 +87,7 @@ namespace WargamesGUI
                 await DisplayAlert("Misslyckades", "Lösenordfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
 
-           
+
 
             else
             {
@@ -126,20 +126,6 @@ namespace WargamesGUI
                     await DisplayAlert("Register_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
 
                 }
-            }
-        }
-
-        private async void Delete_User_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                bool canRemove = await userService.RemoveUserFromDbAsync(selectedItem.User_ID);
-                await DisplayAlert("Godkänt", $"Du har tagit bort användare {selectedItem.First_Name} {selectedItem.Last_Name}", "OK");
-                await LoadUserTbl();
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Delete_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -243,12 +229,66 @@ namespace WargamesGUI
                 await DisplayAlert("UserListSearchBar", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
-
-        private async void AlterUser_Button_Clicked(object sender, EventArgs e)
+        private async void ChangingCardStatus()
         {
+            try
+            {
+                var result = await loanService.ChangeLibraryCardStatus(selectedItem.LibraryCard);
+                if (!result.Item1)
+                {
+                    await DisplayAlert("Misslyckades!", "Status ändrades inte för bibliotekskortet.", "OK");
+                }
+                else if (result.Item1)
+                {
+                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: {result.Item2}.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+        }
 
-            selectedItem = (User2)listOfUsers.SelectedItem;
+        private async void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            selectedItem = (User2)e.Item;
+            var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Ändra användare", "Ta bort användare");
+            try
+            {
+                switch (userDetails)
+                {
+                    case "Ändra användare":
+                        ChangeUser(userDetails);
+                        break;
+                    case "Ta bort användare":
+                        RemoveUser(userDetails);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("listOfVisitors_ItemTapped", $"Anledning: {ex.Message}", "OK");
+            }
+        }
 
+        private async void RemoveUser(string userDetails)
+        {
+            //throw new NotImplementedException();
+            try
+            {
+                bool canRemove = await userService.RemoveUserFromDbAsync(selectedItem.User_ID);
+                await DisplayAlert("Godkänt", $"Du har tagit bort användare {selectedItem.First_Name} {selectedItem.Last_Name}", "OK");
+                await LoadUserTbl();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Delete_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+        }
+
+        private async void ChangeUser(string userDetails)
+        {
+            //throw new NotImplementedException();
             if (selectedItem.TypeOfUser.PrivilegeLevel == 3)
             {
                 var choice = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort");
@@ -266,7 +306,7 @@ namespace WargamesGUI
                 switch (choice)
                 {
                     case "Status på bibliotekskort":
-                       
+
                         await DisplayAlert("Status för bibliotekskort:", $"Användaren {selectedItem.First_Name} {selectedItem.Last_Name} har statusen: '{statusString}' för sitt bibliotekskort", "OK");
                         break;
 
@@ -302,26 +342,5 @@ namespace WargamesGUI
                 }
             }
         }
-
-        private async void ChangingCardStatus()
-        {
-            try
-            {
-                var result = await loanService.ChangeLibraryCardStatus(selectedItem.LibraryCard);
-                if (!result.Item1)
-                {
-                    await DisplayAlert("Misslyckades!", "Status ändrades inte för bibliotekskortet.", "OK");
-                }
-                else if (result.Item1)
-                {
-                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: {result.Item2}.", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
-            }
-        }
-
-        }
     }
+}
