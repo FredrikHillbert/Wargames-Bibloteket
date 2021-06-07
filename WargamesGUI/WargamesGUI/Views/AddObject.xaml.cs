@@ -1,24 +1,29 @@
 ﻿using MvvmHelpers;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
-using WargamesGUI.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Threading;
+
 
 namespace WargamesGUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddObject : ContentPage
     {
-        public Book2 selectedItem;
-        public Book2 newBook = new Book2();
+        public Book selectedItem;
         public DeweySub selectedDewey;
-        public static BookService2 bookService = new BookService2();
+
+        public static AddUserPage addUser = new AddUserPage();
+        public static UserService userService = new UserService();
+        public static BookService bookService = new BookService();
 
         private int itemID;
 
@@ -27,40 +32,57 @@ namespace WargamesGUI.Views
         public string deweysubID;
 
         private string subCategoryName;
-        AddUpdateDetailBookViewModel bookViewModel;
+
         List<DeweyMain> deweyMain = new List<DeweyMain>();
         List<DeweySub> deweySub = new List<DeweySub>();
         List<BookCopy> bookCopies = new List<BookCopy>();
 
-        private ObservableRangeCollection<Book2> collection { get; set; } = new ObservableRangeCollection<Book2>();
+        private ObservableRangeCollection<Book> collection { get; set; } = new ObservableRangeCollection<Book>();
 
         public AddObject()
         {
-            BindingContext = bookViewModel = new AddUpdateDetailBookViewModel(new Book2() { BookType = new Item(), DeweySub = new DeweySub(), DeweyMain = new DeweyMain() });
             InitializeComponent();
         }
+
         protected async override void OnAppearing()
         {
             try
             {
-                await MainThread.InvokeOnMainThreadAsync(async () => { await LoadDeweyData(); });
-                await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAllBooks(); });
-            } 
+
+                await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAllData(); });
+
+
+            }
             catch (Exception ex)
             {
                 await DisplayAlert("AddObject_OnAppearing", $"{ex.Message}", "OK");
+
             }
         }
-        public async Task LoadAllBooks()
+        public async Task LoadAllData()
         {
+            // Fixar snart - Alex
+
+            //DisplayProgressGrid.IsVisible = true;
+            //DisplayProgress.IsVisible = true;
+            //popupStackLayout.IsVisible = true;
+            //progressBar1.IsVisible = true;
+            //await progressBar1.ProgressTo(0.75, 500, Easing.Linear);
+            await LoadDeweyData();
             await LoadBooks();
             await LoadBookCopies();
+
+            // Fixar snart - Alex
+
+            //progressBar1.IsVisible = false;
+            //DisplayProgress.IsVisible = false;
+            //DisplayProgressGrid.IsVisible = false;
         }
         private async Task LoadBookCopies()
         {
             try
             {
-                bookCopies = await bookService.GetAllBookCopies();
+                bookCopies = await bookService.GetBookCopiesFromDb();
             }
             catch (Exception ex)
             {
@@ -69,9 +91,9 @@ namespace WargamesGUI.Views
         }
         private async Task LoadDeweyData()
         {
-            deweySub = await bookService.GetDeweySub();
-            deweyMain = await bookService.GetDeweyMain();
-            categoryPicker.ItemsSource = deweyMain;
+            deweySub = await bookService.GetDeweySubData();
+            deweyMain = await bookService.GetDeweyMainData();
+            categorypicker.ItemsSource = deweyMain;
         }
         private async Task LoadBooks()
         {
@@ -81,7 +103,7 @@ namespace WargamesGUI.Views
             }
             try
             {
-                collection.AddRange(await bookService.GetAllBooks());
+                collection.AddRange(await bookService.GetBooksFromDb());
 
                 listOfBooks.ItemsSource = collection;
 
@@ -93,36 +115,63 @@ namespace WargamesGUI.Views
         }
         private async void AddBook_Button_Clicked(object sender, EventArgs e)
         {
-            BindingContext = bookViewModel;
-            var result = await bookViewModel.AddNewBook();
+            //picker = fk_Item_Id;
+            if (string.IsNullOrEmpty(EntryISBN.Text) || CheckFormat.CheckIfAllNumbers(EntryISBN.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "ISBN-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if(string.IsNullOrEmpty(EntryPublisher.Text) || CheckFormat.CheckIfAllLetter(EntryPublisher.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Förlag-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryAuthor.Text) || CheckFormat.CheckIfAllLetter(EntryAuthor.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Författare-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryDescription.Text) || CheckFormat.CheckIfAllLetter(EntryDescription.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Beskrivning-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            else if (string.IsNullOrEmpty(EntryPrice.Text) || CheckFormat.CheckIfAllNumbers(EntryPrice.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Pris-rutan är tom eller så är formatet inte tållåtet.", "OK");
+            }
+            var Title = EntryTitle.Text;
+            var ISBN = EntryISBN.Text;
+            var Publisher = EntryPublisher.Text;
+            var Author = EntryAuthor.Text;
+            var Description = EntryDescription.Text;
+            int.TryParse(EntryPrice.Text, out int Price);
+            //var Placement = EntryPlacement.Text;
             try
             {
-                if (result.Item1) await DisplayAlert($"Lyckades!", $"Du har lagt till en ny bok!", "OK");
-                else await DisplayAlert("Misslyckades!", $"Kunde inte uppdatera boken!", "OK");
+                    await bookService.AddNewBook(itemID, Title, ISBN, Publisher, Author, Description, Price, deweysubID, subCategoryName);
+              
+                    EntryTitle.Text = string.Empty;
+                    EntryISBN.Text = string.Empty;
+                    EntryPublisher.Text = string.Empty;
+                    EntryAuthor.Text = string.Empty;
+                    EntryDescription.Text = string.Empty;
+                    EntrySubCategoryName.Text = string.Empty;
+                    EntryPrice.Text = string.Empty;
+                    await DisplayAlert("Lyckades!", "Du la till en bok!", "OK");
+                    await LoadAllData();      
             }
             catch (Exception ex)
             {
-                await DisplayAlert("AddBook_Button_Clicked", $"Anledning: {ex.Message} - {result.Item2}", "OK");
+                await DisplayAlert("AddBook_Button_Clicked", $"Anledning: {ex.Message}", "OK");
             }
         }
 
-        private async void picker_SelectedIndexChanged(object sender, EventArgs e)
+        private void picker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (typePicker.SelectedIndex == 0)
-            {
-                await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.BookType.Item_Id = 1; });
-                await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.BookType.TypeOfItem = "Bok"; });
-            }
-            else if (typePicker.SelectedIndex == 1)
-            {
-                await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.BookType.Item_Id = 2; });
-                await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.BookType.TypeOfItem = "E-Bok"; });
-            }
+            var selectedItem = (Book)picker.SelectedItem;
+            itemID = selectedItem.fk_Item_Id;
         }
 
         private async void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            selectedItem = (Book2)e.Item;
+            selectedItem = (Book)e.Item;
             var bookDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Ändra Detaljer", "Ta bort exemplar av boken");
             try
             {
@@ -134,9 +183,9 @@ namespace WargamesGUI.Views
                     case "Ändra Detaljer":
                         Change_Details(selectedItem);
                         break;
-                    //case "Ta bort exemplar av boken":
-                    //    Delete_Book(selectedItem);
-                    //    break;
+                    case "Ta bort exemplar av boken":
+                        Delete_Book(selectedItem);
+                        break;
                 }
             }
             catch (Exception ex)
@@ -171,7 +220,7 @@ namespace WargamesGUI.Views
 
                             if (bookCopy == "Avbryt" || string.IsNullOrEmpty(bookCopy))
                             {
-                                await LoadAllBooks();
+                                await LoadAllData();
                                 break;
                             }
                             else if (bookCopy != null)
@@ -191,13 +240,13 @@ namespace WargamesGUI.Views
                                     case "Annan anledning":
                                         string otherReason = await DisplayPromptAsync($"Ta bort exemplar", $"Anledning för att ta bort exemplar av: \n{selectedItem.Title} \n\n{bookCopy}", maxLength: 20);
                                         await TryRemoveBookCopy(selectedItem, bookCopy, otherReason);
-                                        await LoadAllBooks();
+                                        await LoadAllData();
                                         break;
                                     case "Avbryt":
                                         break;
                                     default:
                                         await TryRemoveBookCopy(selectedItem, bookCopy, reason);
-                                        await LoadAllBooks();
+                                        await LoadAllData();
                                         break;
                                 }
                             }
@@ -228,26 +277,44 @@ namespace WargamesGUI.Views
             catch (Exception ex)
             {
                 await DisplayAlert("TryRemoveBookCopy", $"Anledning: {ex.Message}", "OK");
-            }         
-        }
-        private async void Change_Details(Book2 selectedItem)
-        {
-            await Navigation.PushAsync(new ChangeDetailPage(selectedItem));
+            }
+            
         }
 
-        private async void Details(Book2 selectedItem)
+        private async void Change_Details(Book selectedItem)
         {
-            await Navigation.PushAsync(new DetailPage(selectedItem));
+            int idOfBook = selectedItem.Id;
+            //string bookType = selectedItem.fk_Item_Id.ToString();
+            int bookType = selectedItem.fk_Item_Id;
+            string title = selectedItem.Title;
+            string author = selectedItem.Author;
+            string publisher = selectedItem.Publisher;
+            string isbn = selectedItem.ISBN;
+            int copies = selectedItem.Available_copies;
+            string description = selectedItem.Description;
+            string placement = selectedItem.Placement;
+            //int price = (int)selectedItem.Price;
+            string category = selectedItem.Category;
+            string price = selectedItem.Price;
+            await Navigation.PushAsync(new ChangeDetailPage(idOfBook, bookType, title, author, publisher, isbn, copies, description,category, placement, price));
+
         }
-        private void ClearNewBookEntries()
+
+        private async void Details(Book selectedItem)
         {
-            EntryTitle.Text = string.Empty;
-            EntryISBN.Text = string.Empty;
-            EntryPublisher.Text = string.Empty;
-            EntryAuthor.Text = string.Empty;
-            EntryDescription.Text = string.Empty;
-            EntrySubCategoryName.Text = string.Empty;
+            //App.Current.MainPage = new DetailPage();
+            string bookType = selectedItem.fk_Item_Id.ToString();
+            string title = selectedItem.Title;
+            string author = selectedItem.Author;
+            string publisher = selectedItem.Publisher;
+            string isbn = selectedItem.ISBN;
+            int copies = selectedItem.Available_copies;
+            string description = selectedItem.Description;
+            string category = selectedItem.Category;
+            string placement = selectedItem.Placement;
+            await Navigation.PushAsync(new DetailPage(bookType, title, author, publisher, isbn, copies, description, category, placement));
         }
+
         private void DetailsSelected_Clicked(object sender, EventArgs e)
         {
 
@@ -260,31 +327,40 @@ namespace WargamesGUI.Views
 
         private async void categorypicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedDewey = (DeweyMain)categoryPicker.SelectedItem;
+            var selectedDewey = (DeweyMain)categorypicker.SelectedItem;
 
             if (selectedDewey != null)
             {
-                var selectedDeweyMain = (DeweyMain)categoryPicker.SelectedItem;
-
-                switch (selectedDeweyMain.DeweyMain_Id)
+                try
                 {
-                    default:
-                        var subCategoryName = await DisplayActionSheet($"Välj underkategori för {selectedDeweyMain.MainCategoryName}", "Avbryt", null,
-                            deweySub.Where(x => x.fk_DeweyMain_Id == selectedDeweyMain.DeweyMain_Id)
-                                    .Select(x => x.SubCategoryName).ToArray());
 
-                        if (subCategoryName != "Avbryt" || subCategoryName != null)
-                        {
-                            var selectedDeweySub = deweySub.Select(x => x).Where(x => x.SubCategoryName == subCategoryName).ToList().FirstOrDefault();
-                            await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.DeweyMain = selectedDeweyMain; });
-                            await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.DeweySub = selectedDeweySub; });
+                    switch (selectedDewey.DeweyMain_Id)
+                    {
+                        default:
+                            subCategoryName = await DisplayActionSheet($"Välj underkategori för {selectedDewey.MainCategoryName}", "Avbryt", null,
+                            deweySub.Where(x => x.fk_DeweyMain_Id == selectedDewey.DeweyMain_Id)
+                                    .Select(x => x.SubCategoryName)
+                                    .ToArray());
+
+                            if (subCategoryName == "Avbryt" || subCategoryName == null)
+                            {
+                                EntrySubCategoryName.Text = string.Empty;
+                                break;
+                            }
+
+                            deweysubID = deweySub.Where(x => x.SubCategoryName == subCategoryName)
+                                                .Select(x => x.DeweySub_Id)
+                                                .ToList().ElementAt(0).ToString();
+
+                            EntrySubCategoryName.Text = subCategoryName;
+
                             break;
-                        }
-                        else
-                        {
-                            EntrySubCategoryName.Text = string.Empty;
-                            break;
-                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");
+
                 }
             }
         }

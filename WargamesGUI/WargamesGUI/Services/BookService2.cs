@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Linq;
+using System.Data;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
-using WargamesGUI.DAL;
 using WargamesGUI.Models;
+using WargamesGUI.DAL;
 
 
 namespace WargamesGUI.Services
@@ -31,9 +35,6 @@ namespace WargamesGUI.Services
                 Description = x.Description,
                 Placement = x.Placement,
                 Author = x.Author,
-                Available_copies = x.Available_copies ?? 0,
-                Price = x.Price,
-                InStock = x.InStock,
                 BookType = items.Select(i => i).Where(i => i.Item_Id == x.fk_Item_Id).ToList().ElementAtOrDefault(0),
                 DeweySub = deweySub.Select(y => y)
                 .Where(y => y.DeweySub_Id == x.Placement)
@@ -74,7 +75,7 @@ namespace WargamesGUI.Services
         public async Task<(bool, string)> UpdateBook(Book2 book)
         {
             bool success = await dbService.ProcedureUpdateBookInDb(book);
-            if (success) return (success, "Lyckades, boken har uppdaterats!");
+            if (success) return (success, "Success, returned true.");
             else return (success, $"Error {nameof(this.UpdateBook)}, - returned false.");
         }
         public async Task<bool> AddNewBook(Book2 book)
