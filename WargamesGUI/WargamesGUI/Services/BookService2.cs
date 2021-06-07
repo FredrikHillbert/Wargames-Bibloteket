@@ -49,6 +49,20 @@ namespace WargamesGUI.Services
 
             return listOfBooks ?? null;
         }
+
+        public async Task<bool> RemoveBookObject(Book2 removeBook) 
+        {
+            if (removeBook != null)
+            {
+                return await dbService.ProcedureDeleteBookFromDb(removeBook);
+
+            }
+            else { return false; }
+        
+        }
+
+
+
         public async Task<bool> RemoveBookCopy(BookCopy bookCopy, string reason)
         {
             if (bookCopy != null && string.IsNullOrEmpty(reason) && string.IsNullOrWhiteSpace(reason))
