@@ -69,7 +69,7 @@
 
 
         <StackLayout Grid.Row="2" VerticalOptions="Start">
-            <Frame CornerRadius="40" BorderColor="Black" Margin="50,-200,50,20" BackgroundColor="LightBlue">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,-50,50,20" BackgroundColor="LightBlue">
                 <StackLayout>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -84,7 +84,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                         <Label Text="Existerande användare" HorizontalOptions="Start" FontSize="Medium" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black"/>
-                        <SearchBar x:Name="SearchUserBar" WidthRequest="150" Placeholder="Sök" Grid.Column="1" TextChanged="SearchUserBar_TextChanged" Margin="15,0,0,0" />
+                        <SearchBar x:Name="SearchUserBar" WidthRequest="150" Placeholder="Sök" Grid.Column="1" TextChanged="SearchUserBar_TextChanged" Margin="25,0,0,0" />
                         <Label Text="Privilegium" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
                         <Label Text="Förnamn" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
                         <Label Text="Efternamn" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" TextDecorations="Underline" Grid.Row="1" Grid.Column="2" TextColor="Black"/>

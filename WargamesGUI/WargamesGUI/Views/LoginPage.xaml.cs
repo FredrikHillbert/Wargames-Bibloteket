@@ -137,7 +137,7 @@ namespace WargamesGUI
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            //SignIn_Button_Clicked(sender, e);
+
         }
     }
 }

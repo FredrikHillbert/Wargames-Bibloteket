@@ -32,51 +32,46 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Picker x:Name="typePicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="End"
-                        Grid.Row="0" Grid.Column="0" WidthRequest="400"
-                        SelectedIndexChanged="typePicker_SelectedIndexChanged"
-                        ItemsSource="{Binding PickerList, Mode=TwoWay}" ItemDisplayBinding="{Binding ., Mode=TwoWay}"
-                        SelectedItem="{Binding ., Mode=TwoWay}">
-                        
+                    <Picker x:Name="picker" BackgroundColor="White" TextColor="Black" HorizontalOptions="End"
+                        Grid.Row="0" Grid.Column="0" WidthRequest="400">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type models:Book}">
+                                <models:Book TypeOfBook="Bok"  fk_Item_Id="1"/>
+                                <models:Book TypeOfBook="E-bok" fk_Item_Id="2"/>
+                            </x:Array>
+                        </Picker.ItemsSource>
                     </Picker>
-                    <Picker x:Name="categoryPicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
+                    <Picker x:Name="categorypicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
                         Grid.Row="0" Grid.Column="0" WidthRequest="400" SelectedIndexChanged="categorypicker_SelectedIndexChanged">
                     </Picker>
                     <Frame x:Name="SubCatName" CornerRadius="20" BackgroundColor="White" Padding="-1" HorizontalOptions="Center">
                         <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="0" 
-                           WidthRequest="400" TextColor="Black" HorizontalOptions="Center" IsReadOnly="True"
-                               Text="{Binding DeweySub.SubCategoryName, Mode=TwoWay}" />
+                           WidthRequest="400" TextColor="Black" HorizontalOptions="Center" IsReadOnly="True"/>
                     </Frame>
                     <Frame x:Name="titelname" CornerRadius="20" BackgroundColor="White" Padding="-1"  Grid.Row="1" Grid.Column="0">
-                        <Entry x:Name="EntryTitle" Placeholder="Titel" BackgroundColor="White"
-                               Text="{Binding Title, Mode=TwoWay}"/>
+                        <Entry x:Name="EntryTitle" Placeholder="Titel" BackgroundColor="White"/>
                     </Frame>
                     <Frame x:Name="authorname" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="2" Grid.Column="0">
-                        <Entry x:Name="EntryAuthor" Placeholder="Författare" BackgroundColor="White"
-                               Text="{Binding Author, Mode=TwoWay}"/>
+                        <Entry x:Name="EntryAuthor" Placeholder="Författare" BackgroundColor="White"/>
                     </Frame>
                     <Frame x:Name="publishername" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="3" Grid.Column="0">
-                        <Entry x:Name="EntryPublisher" Placeholder="Utgivare" BackgroundColor="White"
-                               Text="{Binding Publisher, Mode=TwoWay}"/>
+                        <Entry x:Name="EntryPublisher" Placeholder="Utgivare" BackgroundColor="White"/>
                     </Frame>
                     <Frame x:Name="isbnname" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="4" Grid.Column="0">
-                        <Entry x:Name="EntryISBN" Placeholder="ISBN" BackgroundColor="White"
-                               Text="{Binding ISBN, Mode=TwoWay}"/>
+                        <Entry x:Name="EntryISBN" Placeholder="ISBN" BackgroundColor="White"/>
                     </Frame>
                     <Frame x:Name="descriptionname" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="5" Grid.Column="0">
-                        <Entry x:Name="EntryDescription" Placeholder="Beskrivning" BackgroundColor="White" 
-                               Text="{Binding Description, Mode=TwoWay}"/>
+                        <Entry x:Name="EntryDescription" Placeholder="Beskrivning" BackgroundColor="white"/>
                     </Frame>
                     <Button Text="Uppdatera bok"
+                            Clicked="UpdateBook_Clicked"
                             CornerRadius="20" 
                             BackgroundColor="#2E4159"
                             TextColor="White"
                             Margin="200,0,0,0"
                             HorizontalOptions="End"
                             Grid.Row="6" Grid.Column="0"
-                            FontAttributes="Bold"
-                            Clicked="UpdateBook_Clicked"
-                            />
+                            FontAttributes="Bold"/>
                 </Grid>
             </Frame>
             <Frame CornerRadius="40" BorderColor="Black" Margin="40,10,40,-400" BackgroundColor="LightBlue">
@@ -94,39 +89,39 @@
                         </Grid.RowDefinitions>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="0">
                             <Label Text="Boktyp" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding TypeOfBook, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding BookTypeName}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="0">
                             <Label Text="Titel" VerticalOptions="Center" TextDecorations="Underline" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding Title, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding Titles}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="1">
                             <Label Text="Författare" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding Author, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding Author}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="1">
                             <Label Text="Utgivare" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding Publisher, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding Publisher}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="2">
                             <Label Text="ISBN" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding ISBN, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding ISBN}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="2">
                             <Label Text="Lager" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding InStock, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding InStock}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="3">
                             <Label Text="Placering" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding Placement, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding Placement}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="3">
                             <Label Text="Kategori" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding SubCategory, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding Category}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                     </Grid>
                     <Label Text="Beskrivning" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                    <Label Text="{Binding Description, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" Margin="0,0,0,20" FontSize="16"/>
+                    <Label Text="{Binding Description}" VerticalOptions="Center" TextColor="Black" Margin="0,0,0,20" FontSize="16"/>
                 </StackLayout>
             </Frame>
 

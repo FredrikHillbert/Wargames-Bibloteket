@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Text;
 using System.Threading.Tasks;
-using WargamesGUI.DAL;
 using WargamesGUI.Models;
+using System.Linq;
+using WargamesGUI.DAL;
 
 namespace WargamesGUI.Services
 {
@@ -128,11 +132,6 @@ namespace WargamesGUI.Services
             if (success) return (success, "Success, returned true.");
             else return (success, $"Error: {nameof(this.BookCopyReturnedCheck)} - returned false.");
         }
-        // Fixa
-        //public async Task<(bool, string)> Register()
-        //{
-        //    dbService.RegisterReturnedBook();
-        //}
         //Librarycard
         public async Task<List<LibraryCard2>> GetAllLibraryCards()
         {

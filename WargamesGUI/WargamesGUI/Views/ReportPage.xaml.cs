@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
@@ -167,16 +168,6 @@ namespace WargamesGUI.Views
             {
                 await DisplayAlert("MainSearchBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
             }
-        }
-
-        private void listOfVisitorsReport_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-
-        }
-
-        private void listOfVisitorsReport_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-
         }
     }
 }
