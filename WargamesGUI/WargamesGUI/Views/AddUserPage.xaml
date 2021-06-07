@@ -69,7 +69,7 @@
 
 
         <StackLayout Grid.Row="2" VerticalOptions="Start">
-            <Frame CornerRadius="40" BorderColor="Black" Margin="50,-200,50,20" BackgroundColor="LightBlue">
+            <Frame CornerRadius="40" BorderColor="Black" Margin="50,-50,50,20" BackgroundColor="LightBlue">
                 <StackLayout>
                     <Grid>
                         <Grid.ColumnDefinitions>
