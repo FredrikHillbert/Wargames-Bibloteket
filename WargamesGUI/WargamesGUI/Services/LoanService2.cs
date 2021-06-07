@@ -19,6 +19,7 @@ namespace WargamesGUI.Services
             var bookLoans = await dbService.GetBookLoansFromDb();
             var loanStatuses = await dbService.GetBookLoanStatusFromDb();
             var libraryCards = await GetAllLibraryCards();
+            var books = await bookService.GetAllBooks();
             var bookCopies = await bookService.GetAllBookCopies();
 
             var listOfBookLoans = bookLoans.Select(x => new BookLoan2
@@ -51,16 +52,16 @@ namespace WargamesGUI.Services
             var bookLoans = await GetAllBookLoans();
             return bookLoans.Where(x => x.fk_LibraryCard_Id == user.LibraryCard.LibraryCard_Id).ToList() ?? null;                   
         }
-        //public async Task<List<BookLoan2>> GetAllBookLoans(string user)
-        //{
-        //    bookService = new BookService2();
-        //    var bookLoans = await GetAllBookLoans();
-        //    return bookLoans.Where(x => x.fk_LibraryCard_Id == user.LibraryCard.LibraryCard_Id).ToList() ?? null;
-        //}
         public async Task<List<BookLoan2>> GetAllBookLoans(LibraryCard2 libraryCard)
         {
             var bookLoans = await GetAllBookLoans();
             return bookLoans.Where(x => x.fk_LibraryCard_Id == libraryCard.LibraryCard_Id).ToList() ?? null;
+        }
+        public async Task<(bool, int)> LoanBook(Book2 book, User2 user)
+        {
+            var result = await dbService.ProcedureLoanBook(book.Id, user.LibraryCard.LibraryCard_Id);
+            if (result == 0) return (true, 0);
+            else return (false, result);
         }
         public async Task<int> LoanBook(Book2 book, LibraryCard2 libraryCard)
         {
@@ -100,21 +101,17 @@ namespace WargamesGUI.Services
                 BookCopy = bookCopies.Select(y => y).Where(y => y.Copy_Id == x.handled_BookCopy_Id).ToList().ElementAtOrDefault(0),
             }).ToList();
         }
-        public async Task<(bool, string)> ChangeBookLoanStatus(BookLoan bookLoan)
+        public async Task<(bool, string)> ChangeBookLoanStatusUser(BookLoan2 bookLoan)
         {
             bool success = await dbService.UpdateBookLoanInDb(bookLoan.Loan_Id, bookLoan.fk_BookLoanStatus_Id);
             if (success) return (success, "Success, returned true.");
-            else return (success, $"Error: {nameof(this.ChangeBookLoanStatus)} - returned false.");
+            else return (success, $"Error: {nameof(this.ChangeBookLoanStatusUser)} - returned false.");
         }
-        public async Task<(bool, string)> ChangeBookLoanStatus(int bookLoan_Id, int status)
+        public async Task<(bool, string)> ChangeBookLoanStatusLibrarian(int bookLoan_Id, int status)
         {
             bool success = await dbService.UpdateBookLoanInDb(bookLoan_Id, status);
             if (success) return (success, "Success, returned true.");
-            else return (success, $"Error: {nameof(this.ChangeBookLoanStatus)} - returned false.");
-        }
-        public async Task<(bool, string)> LoanBook()
-        {
-            return (true, "message");
+            else return (success, $"Error: {nameof(this.ChangeBookLoanStatusLibrarian)} - returned false.");
         }
         public async Task<(bool, string)> BookLoanReturned(BookLoan bookLoan)
         {

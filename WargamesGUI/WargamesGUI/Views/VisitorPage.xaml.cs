@@ -15,11 +15,11 @@ namespace WargamesGUI.Views
     {
 
         private List<Book2> BookCollection { get; set; } = new List<Book2>();
-        private List<Book2> LoanCollection { get; set; } = new List<Book2>();
+        private List<BookLoan2> LoanCollection { get; set; } = new List<BookLoan2>();
 
         public Book2 selectedItem;
         public User2 loggedInUser;
-        public Book2 itemTapped;
+        public BookLoan2 bookLoanTapped;
         public static AddUserPage addUser = new AddUserPage();
         public BookService2 bookservice2 = new BookService2();
         public LoanService2 loanService2 = new LoanService2();
@@ -40,6 +40,9 @@ namespace WargamesGUI.Views
             loggedInUser = user;
             selectedItem = book;
             InitializeComponent();
+            //MainSearchBar_TextChanged(book, new TextChangedEventArgs("", book.Title));
+            //var t1 = AreYouSureChoice();
+            //if (t1.Result == true) 
             Loan_Button_Clicked(book, new EventArgs());
         }
         protected override void OnAppearing()
@@ -47,6 +50,7 @@ namespace WargamesGUI.Views
             try
             {
                 MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+                MainThread.InvokeOnMainThreadAsync(async () => { await LoadBookLoans(); });
             }
             catch (Exception ex)
             {
@@ -63,16 +67,38 @@ namespace WargamesGUI.Views
                 }
 
                 BookCollection.AddRange(await bookservice2.GetAllBooks());
-
-                listofbooks.ItemsSource = await bookservice2.GetAllBooks();
-                listofBorrowedbooks.ItemsSource = await loanService2.GetAllBookLoans(loggedInUser);
+                listofbooks.ItemsSource = BookCollection;
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Misslyckades", $"{ex.Message}", "OK");
             }
         }
-
+        private async Task LoadBookLoans()
+        {
+            try
+            {
+                LoanCollection.AddRange(await loanService2.GetAllBookLoans(loggedInUser));
+                listofBorrowedbooks.ItemsSource = LoanCollection;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Misslyckades", $"{ex.Message}", "OK");
+            }
+        }
+        public async Task<bool> AreYouSureChoice()
+        {
+            var choice = await DisplayActionSheet($"Vill du låna boken: {selectedItem.Title}?", null, "Ja - låna boken", "Nej - gå tillbaka");
+            switch (choice)
+            {
+                case "Ja":
+                    return true;
+                case "Nej":
+                    return false;
+                default:
+                    return false;
+            }
+        }
         private async void listofbooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             try
@@ -125,12 +151,11 @@ namespace WargamesGUI.Views
             {
                 await DisplayAlert("Misslyckades", $"{ex.Message}", "OK");
              
-            }
-            
+            }       
         }
         private async void Loan_Button_Clicked(object sender, EventArgs e)
         {
-            if (selectedItem.InStock == 0)
+            if (selectedItem.Available_copies == 0)
             {
                 await DisplayAlert("Misslyckades", "Boken är inte tillgänglig", "OK");
             }
@@ -138,10 +163,11 @@ namespace WargamesGUI.Views
             {
                 try
                 {
-                    switch (await loanService2.LoanBook(selectedItem, loggedInUser.LibraryCard))
+                    var result = await loanService2.LoanBook(selectedItem, loggedInUser);
+                    switch (result.Item2)
                     {
                         case 0:
-                            await DisplayAlert("Lyckades", "Boken är tilllagd", "OK");
+                            await DisplayAlert("Lyckades", "Boken är tillagd", "OK");
                             await LoadBooks();
                             break;
                         case 1:
@@ -153,7 +179,7 @@ namespace WargamesGUI.Views
                             await LoadBooks();
                             break;
                         case 3:
-                            await DisplayAlert("Misslyckdes", "Du har stulit böcker. Kontakta biblioteket för att lösa problemet", "OK");
+                            await DisplayAlert("Misslyckades", "Du har stulit böcker. Kontakta biblioteket för att lösa problemet", "OK");
                             await LoadBooks();
                             break;
                         default:
@@ -175,13 +201,13 @@ namespace WargamesGUI.Views
         }
         private void listofBorrowedbooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            itemTapped = (Book2)e.Item;
+            bookLoanTapped = (BookLoan2)e.Item;
         }
         private async void HandBookBack_Button_Clicked(object sender, EventArgs e)
         {
             try
             {
-                //await loanService2.ChangeBookLoanStatus(itemTapped);
+                await loanService2.ChangeBookLoanStatusUser(bookLoanTapped);
                 await DisplayAlert("Lyckades", "Din bok är tillbakalämnad", "OK");
                 await LoadBooks();
             }
@@ -189,9 +215,7 @@ namespace WargamesGUI.Views
             {
                 await DisplayAlert("HandBookBack_Button_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
-
         }
-
         private async void MainSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             try

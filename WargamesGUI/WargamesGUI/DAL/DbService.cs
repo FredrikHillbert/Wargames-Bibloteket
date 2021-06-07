@@ -154,19 +154,12 @@ namespace WargamesGUI.DAL
                     await sp.ExecuteNonQueryAsync();
 
                 }
-
-
-
                 return success = true;
             }
             catch (Exception e)
             {
                 return success;
-            }
-        
-        
-        
-        
+            }   
         }
         public async Task<List<Item>> GetItemTypeFromDb()
         {
@@ -375,6 +368,26 @@ namespace WargamesGUI.DAL
                 return await Task.FromResult(bookLoans);
             }
         }
+        public async Task<bool> UpdateBookLoanInDb(int id)
+        {
+            var bookList = new List<Book2>();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+                    using (var command = new SqlCommand($"UPDATE {TableName.tblBookLoan} SET {tblBookLoan.fk_BookLoanStatus_Id} = 5 WHERE {tblBookLoan.Loan_Id} = {id}", con))
+                    {
+                        await command.ExecuteNonQueryAsync();
+                        return await Task.FromResult(true);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(false);
+            }
+        }
         public async Task<bool> UpdateBookLoanInDb(int id, int status)
         {
             var bookList = new List<Book2>();
@@ -383,7 +396,7 @@ namespace WargamesGUI.DAL
                 using (SqlConnection con = new SqlConnection(theConString))
                 {
                     await con.OpenAsync();
-                    using (var command = new SqlCommand($"UPDATE {TableName.tblBookLoan} SET {tblBookLoan.fk_BookLoanStatus_Id} = {status} WHERE {tblBookLoan.Loan_Id} = {id}", con))
+                    using (var command = new SqlCommand($"UPDATE {TableName.tblBookLoan} SET {tblBookLoan.fk_BookLoanStatus_Id} = 5 WHERE {tblBookLoan.Loan_Id} = {id}", con))
                     {
                         await command.ExecuteNonQueryAsync();
                         return await Task.FromResult(true);

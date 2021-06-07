@@ -15,7 +15,7 @@ namespace WargamesGUI.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddObject : ContentPage
     {
-        public Book2 selectedItem;
+        public Book2 selectedBook;
         public Book2 newBook = new Book2();
         public DeweySub selectedDewey;
         public static BookService2 bookService = new BookService2();
@@ -119,23 +119,23 @@ namespace WargamesGUI.Views
 
         private async void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            selectedItem = (Book2)e.Item;
+            selectedBook = (Book2)e.Item;
             var bookDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Ändra Detaljer", "Ta bort exemplar av boken", "Ta bort alla exemplar av boken");
             try
             {
                 switch (bookDetails)
                 {
                     case "Detaljer":
-                        Details(selectedItem);
+                        Details(selectedBook);
                         break;
                     case "Ändra Detaljer":
-                        Change_Details(selectedItem);
+                        Change_Details(selectedBook);
                         break;
-                    //case "Ta bort exemplar av boken":
-                    //    Delete_Book(selectedItem);
-                    //    break;
+                    case "Ta bort exemplar av boken":
+                        Delete_Book(selectedBook);
+                        break;
                     case "Ta bort alla exemplar av boken":
-                        await TryRemoveBookObject(selectedItem);
+                        await TryRemoveBookObject(selectedBook);
                         break;
                 }
             }
@@ -145,7 +145,7 @@ namespace WargamesGUI.Views
             }
 
         }
-        private async void Delete_Book(Book selectedItem)
+        private async void Delete_Book(Book2 selectedItem)
         {
             //var selectedBookCopy = new BookCopy() { fk_Book_Id = selectedItem.Id };
 
@@ -190,13 +190,13 @@ namespace WargamesGUI.Views
                                     
                                     case "Annan anledning":
                                         string otherReason = await DisplayPromptAsync($"Ta bort exemplar", $"Anledning för att ta bort exemplar av: \n{selectedItem.Title} \n\n{bookCopy}", maxLength: 20);
-                                        await TryRemoveBookCopy(selectedItem, bookCopy, otherReason);
+                                        await TryRemoveBookCopy(selectedBook, bookCopy, otherReason);
                                         await LoadAllBooks();
                                         break;
                                     case "Avbryt":
                                         break;
                                     default:
-                                        await TryRemoveBookCopy(selectedItem, bookCopy, reason);
+                                        await TryRemoveBookCopy(selectedBook, bookCopy, reason);
                                         await LoadAllBooks();
                                         break;
                                 }
@@ -212,7 +212,7 @@ namespace WargamesGUI.Views
                 await DisplayAlert("Delete_Book", $"{ex.Message}", "OK");
             }
         }
-        public async Task TryRemoveBookCopy(Book selectedItem, string bookCopy, string reason)
+        public async Task TryRemoveBookCopy(Book2 selectedBook, string bookCopy, string reason)
         {
             try
             {
@@ -222,7 +222,7 @@ namespace WargamesGUI.Views
                 }
                 else if (await bookService.RemoveBookCopy(bookCopyID, reason))
                 {
-                    await DisplayAlert("Exemplar borttaget!", $"Du har tagit bort ett exemplar av {selectedItem.Title}\n\n{bookCopy} \nAnledning: {reason}.", "OK");
+                    await DisplayAlert("Exemplar borttaget!", $"Du har tagit bort ett exemplar av {selectedBook.Title}\n\n{bookCopy} \nAnledning: {reason}.", "OK");
                 }
             }
             catch (Exception ex)
@@ -234,7 +234,7 @@ namespace WargamesGUI.Views
         {
             try
             {
-                if (await bookService.RemoveBookObject(removeBook)) { await DisplayAlert("Bok borttagen!", $"Du har tagit bort alla exemplar av {selectedItem.Title}.", "OK"); }
+                if (await bookService.RemoveBookObject(removeBook)) { await DisplayAlert("Bok borttagen!", $"Du har tagit bort alla exemplar av {selectedBook.Title}.", "OK"); }
                 else { await DisplayAlert("Misslyckades!", $"Det gick inte att ta bort boken, försök igen.", "OK"); }
             }
             catch (Exception ex)

@@ -157,11 +157,23 @@
                         BackgroundColor="#2E4159"
                         IsVisible="False"
                         />
+                <Button x:Name="BackButton"
+                        Text="Tillbaka" 
+                        Clicked="BackButton_Clicked" 
+                        HorizontalOptions="Center"
+                        TextColor="White"
+                        WidthRequest="100"
+                        HeightRequest="30"
+                        CornerRadius="15"
+                        Margin="-400,10,0,-0"
+                        BackgroundColor="#2E4159"
+                        IsVisible="True"
+                        />
                 <Image x:Name="RunningImage" 
                        Source="running.png" 
                        Aspect="AspectFit" 
                        HeightRequest="100"
-                       Margin="300,-50,0,0" 
+                       Margin="300,-110,0,0" 
                        IsVisible="False"/>
             </StackLayout>
         </Frame>

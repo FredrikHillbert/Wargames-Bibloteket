@@ -77,8 +77,8 @@ namespace WargamesGUI.Services
                             book.fk_Condition_Id = Convert.ToInt32(reader["fk_Condition_Id"]);
                             book.fk_Availability = Convert.ToInt32(reader["fk_Availability"]);
 
-                            book.Condition = reader["ConditionType"].ToString();
-                            book.Availability = reader["Status"].ToString();
+                            //book.Condition = reader["ConditionType"].ToString();
+                            //book.Availability = reader["Status"].ToString();
 
                             bookCopies.Add(book);
                         }

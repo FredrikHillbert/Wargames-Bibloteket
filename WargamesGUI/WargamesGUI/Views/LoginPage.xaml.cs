@@ -25,10 +25,12 @@ namespace WargamesGUI
         public MainPage()
         {
             InitializeComponent();
-            MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
-            MainThread.InvokeOnMainThreadAsync(async () => { await LoadUsers(); });
         }
-
+        protected async override void OnAppearing()
+        {
+            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadUsers(); });
+        }
         public async Task<List<Book2>> LoadBooks()
         {
             bookList = await bookService2.GetAllBooks();
@@ -36,7 +38,7 @@ namespace WargamesGUI
         }
         public async Task<List<User2>> LoadUsers()
         {
-            userList = await userService2.GetUsersFromDb();
+            userList = await userService2.ReadAllUsersFromDbAsync();
             return userList ?? null;
         }
         private async void SignIn_Button_Clicked(object sender, EventArgs e)
@@ -45,11 +47,9 @@ namespace WargamesGUI
             {
                 try
                 {
-
                     switch (service.SignIn(Entryusername.Text, Entrypassword.Text))
                     {
                         case 1:
-                            //Entryusername.text
                             Entryusername.Text = string.Empty;
                             Entrypassword.Text = string.Empty;
                             await DisplayAlert("Lyckades", "Du loggar nu in som administratör", "OK");
@@ -79,7 +79,6 @@ namespace WargamesGUI
                 }
             }
         }
-
         private async void SearchBar_Clicked(object sender, EventArgs e)
         {
             try
@@ -116,7 +115,6 @@ namespace WargamesGUI
                 else
                 {
                     AutoCompleteList.ItemsSource = result;
-
                 }
 
             }

@@ -157,5 +157,10 @@ namespace WargamesGUI.Views
             LoginButton.IsVisible = false;
             RunningImage.IsVisible = false;
         }
+
+        private void BackButton_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new SearchValuePage();
+        }
     }
 }
