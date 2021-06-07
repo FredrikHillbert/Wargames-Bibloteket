@@ -134,19 +134,6 @@ namespace WargamesGUI
             }
         }
 
-        private async void Delete_User_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                bool canRemove = await userService.RemoveUserFromDbAsync(selectedItem.User_ID);
-                await DisplayAlert("Godkänt", $"Du har tagit bort användare {selectedItem.First_Name} {selectedItem.Last_Name}", "OK");
-                await LoadUserTbl();
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Delete_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
-            }
-        }
         private void listOfUsers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             selectedItem = (User2)listOfUsers.SelectedItem;
@@ -246,65 +233,6 @@ namespace WargamesGUI
             catch (Exception ex)
             {
                 await DisplayAlert("UserListSearchBar", $"Felmeddelande: {ex.Message}", "OK");
-            }
-        }
-
-        private async void AlterUser_Button_Clicked(object sender, EventArgs e)
-        {
-
-            selectedItem = (User2)listOfUsers.SelectedItem;
-
-            if (selectedItem.TypeOfUser.PrivilegeLevel == 3)
-            {
-                var choice = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort");
-                try
-                {
-                    var statusTuple = await userService.GetStatusForLibraryCardFromDbAsync(selectedItem.LibraryCard.LibraryCard_Id);
-                    statusString = statusTuple.Item2;
-
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
-
-                }
-                switch (choice)
-                {
-                    case "Status på bibliotekskort":
-
-                        await DisplayAlert("Status för bibliotekskort:", $"Användaren {selectedItem.First_Name} {selectedItem.Last_Name} har statusen: '{statusString}' för sitt bibliotekskort", "OK");
-                        break;
-
-                    case "Ändra status för bibliotekskort":
-                        var libraryCardDetails = await DisplayActionSheet($"Ny status för bibliotekskort med användarnamn {selectedItem.Username}: ", "Avbryt", null, "Aktivt", "Försenade böcker", "Borttappade böcker", "Stöld");
-
-                        switch (libraryCardDetails)
-                        {
-                            case "Aktivt":
-                                selectedItem.LibraryCard.fk_Status_Id = 1;
-                                ChangingCardStatus();
-                                break;
-
-                            case "Försenade böcker":
-                                selectedItem.LibraryCard.fk_Status_Id = 2;
-                                ChangingCardStatus();
-                                break;
-
-                            case "Borttappade böcker":
-                                selectedItem.LibraryCard.fk_Status_Id = 3;
-                                ChangingCardStatus();
-                                break;
-
-                            case "Stöld":
-                                selectedItem.LibraryCard.fk_Status_Id = 4;
-                                ChangingCardStatus();
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-                }
             }
         }
 
@@ -434,6 +362,100 @@ namespace WargamesGUI
                 phoneframe.BorderColor = Color.Green;
                 phonewrongcross.IsVisible = false;
                 phonecorrectcheck.IsVisible = true;
+            }
+        }
+
+        private async void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            selectedItem = (User2)e.Item;
+            var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Ändra användare", "Ta bort användare");
+            try
+            {
+                switch (userDetails)
+                {
+                    case "Ändra användare":
+                        ChangeUser(userDetails);
+                        break;
+                    case "Ta bort användare":
+                        RemoveUser(userDetails);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("listOfVisitors_ItemTapped", $"Anledning: {ex.Message}", "OK");
+            }
+        }
+
+        private async void RemoveUser(string userDetails)
+        {
+            //throw new NotImplementedException();
+            try
+            {
+                bool canRemove = await userService.RemoveUserFromDbAsync(selectedItem.User_ID);
+                await DisplayAlert("Godkänt", $"Du har tagit bort användare {selectedItem.First_Name} {selectedItem.Last_Name}", "OK");
+                await LoadUserTbl();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Delete_User_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+        }
+
+        private async void ChangeUser(string userDetails)
+        {
+            //throw new NotImplementedException();
+            if (selectedItem.TypeOfUser.PrivilegeLevel == 3)
+            {
+                var choice = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort");
+                try
+                {
+                    var statusTuple = await userService.GetStatusForLibraryCardFromDbAsync(selectedItem.LibraryCard.LibraryCard_Id);
+                    statusString = statusTuple.Item2;
+
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
+
+                }
+                switch (choice)
+                {
+                    case "Status på bibliotekskort":
+
+                        await DisplayAlert("Status för bibliotekskort:", $"Användaren {selectedItem.First_Name} {selectedItem.Last_Name} har statusen: '{statusString}' för sitt bibliotekskort", "OK");
+                        break;
+
+                    case "Ändra status för bibliotekskort":
+                        var libraryCardDetails = await DisplayActionSheet($"Ny status för bibliotekskort med användarnamn {selectedItem.Username}: ", "Avbryt", null, "Aktivt", "Försenade böcker", "Borttappade böcker", "Stöld");
+
+                        switch (libraryCardDetails)
+                        {
+                            case "Aktivt":
+                                selectedItem.LibraryCard.fk_Status_Id = 1;
+                                ChangingCardStatus();
+                                break;
+
+                            case "Försenade böcker":
+                                selectedItem.LibraryCard.fk_Status_Id = 2;
+                                ChangingCardStatus();
+                                break;
+
+                            case "Borttappade böcker":
+                                selectedItem.LibraryCard.fk_Status_Id = 3;
+                                ChangingCardStatus();
+                                break;
+
+                            case "Stöld":
+                                selectedItem.LibraryCard.fk_Status_Id = 4;
+                                ChangingCardStatus();
+                                break;
+
+                            default:
+                                break;
+                        }
+                        break;
+                }
             }
         }
     }
