@@ -12,7 +12,6 @@ using Xamarin.Forms;
 using WargamesGUI.Services;
 using static WargamesGUI.AddUserPage;
 using Xamarin.Essentials;
-using WargamesGUI.ViewModels;
 
 namespace WargamesGUI
 {
