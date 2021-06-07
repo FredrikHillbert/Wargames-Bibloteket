@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WargamesGUI.Models
+﻿namespace WargamesGUI.Models
 {
-   public  class User2
+    public class User2
     {
 
-        public Privilege TypeOfUser { get; set; }
+        public Privilege TypeOfUser { get; set; } 
+        public LibraryCard2 LibraryCard { get; set; }
+        public int fk_LibraryCard { get; set; }
         public string First_Name { get; set; }
         public string Last_Name { get; set; }
         public int SSN { get; set; }
@@ -18,6 +16,6 @@ namespace WargamesGUI.Models
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
-        public override string ToString() => $"{TypeOfUser} {Username}";
+        public override string ToString() => $"{TypeOfUser.TypeOfUser}";
     }
 }

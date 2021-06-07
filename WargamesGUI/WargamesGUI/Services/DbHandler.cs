@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Text;
-using System.Threading.Tasks;
-using WargamesGUI.Models;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace WargamesGUI.Services
 {

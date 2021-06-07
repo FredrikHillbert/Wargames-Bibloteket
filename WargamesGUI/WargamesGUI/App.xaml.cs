@@ -1,8 +1,4 @@
-﻿using System;
-using WargamesGUI.Services;
-using WargamesGUI.Views;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace WargamesGUI
 {
@@ -14,10 +10,10 @@ namespace WargamesGUI
             InitializeComponent();
             Device.SetFlags(new[] { "MediaElement_Experimental", "Brush_Experimental" });
             MainPage = new MainPage();
-            //MainPage = new FlyoutLibrarianPage();
+           // MainPage = new FlyoutLibrarianPage();
             //MainPage = new FlyoutAdminPage();
             //MainPage = new VisitorPage();
-            //MinPage = new AddUserPage();
+            //MainPage = new AddUserPage();
             //MainPage = new Test();
             //MainPage = new ManualReturn();
             //MainPage = new Login2Page();

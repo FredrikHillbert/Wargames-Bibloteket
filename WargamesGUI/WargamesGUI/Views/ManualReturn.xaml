@@ -142,7 +142,7 @@
                         </Grid.ColumnDefinitions>
                         <Button Text="Skanna in bok"
                             WidthRequest="120"
-                            Clicked="Button_Clicked"
+                            Clicked="Skanna_Clicked"
                             BackgroundColor="#2E4159" 
                             TextColor="White" 
                             CornerRadius="20" 
@@ -187,7 +187,7 @@
                         <Label Text="Författare" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
                         <Label Text="Placering" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="2" TextColor="Black" />
                         <Label Text="I lager" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="3" TextColor="Black" />
-                        <Label Text="Återlämningsdatum" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="4" TextColor="Black" Margin="-50,0,0,0"/>
+                        <Label Text="Exemplar ID" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="4" TextColor="Black" Margin="-50,0,0,0"/>
                         <Label Text="Skick" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="5" TextColor="Black"/>
                         <Label Text="Status" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="6" TextColor="Black"/>
 
@@ -229,7 +229,7 @@
                                             <Label Text="{Binding InStock}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding ReturnedDate}" FontSize="16" HorizontalOptions="Start" TextColor="Black" Margin="-50,0,0,0"/>
+                                            <Label Text="{Binding Book_Copy}" FontSize="16" HorizontalOptions="Start" TextColor="Black" Margin="-50,0,0,0"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="5" Grid.Row="0">
                                             <Label Text="{Binding BookConditionString}" FontSize="16" HorizontalOptions="Start" TextColor="Black"/>
@@ -254,13 +254,6 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Text="Godkänn"
-                            WidthRequest="120"
-                            Clicked="Handled_Clicked"
-                            BackgroundColor="#2E4159" 
-                            TextColor="White" 
-                            CornerRadius="20" 
-                            HorizontalOptions="End"></Button>
                         <Button Text="Uppdatera" 
                             WidthRequest="100"
                             Clicked="Refresh_Clicked"

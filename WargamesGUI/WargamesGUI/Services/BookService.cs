@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -37,7 +35,7 @@ namespace WargamesGUI.Services
                             book.Price = (reader["Price"]).ToString();
                             book.Placement = reader["Placement"].ToString();
                             book.Author = reader["Author"].ToString();
-                            book.InStock = Convert.ToInt32(reader["InStock"]);
+                            book.Available_copies = Convert.ToInt32(reader["Available_copies"]);
                             book.Category = reader["Category"].ToString();
 
                             if (book.fk_Item_Id == 1)
@@ -109,6 +107,7 @@ namespace WargamesGUI.Services
                     insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = placement;
                     insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = category;
+                    
                     await insertcmd.ExecuteNonQueryAsync();
 
                     return success;
@@ -249,11 +248,11 @@ namespace WargamesGUI.Services
                             values.fk_Item_Id = Convert.ToInt32(reader["fk_Item_Id"]);
                             values.Placement = reader["Placement"].ToString();
                             values.Author = reader["Author"].ToString();
-                            values.InStock = Convert.ToInt32(reader["InStock"]);
+                            values.Available_copies = Convert.ToInt32(reader["Available_copies"]);
                             values.Category = reader["Category"].ToString();
                             values.Description = reader["Description"].ToString();
 
-                            if (values.InStock == 0)
+                            if (values.Available_copies == 0)
                             {
                                 values.Status = "Inte tillgänglig";
                             }

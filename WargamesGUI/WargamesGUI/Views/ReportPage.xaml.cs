@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
@@ -43,10 +42,6 @@ namespace WargamesGUI.Views
         {
             try
             {
-                //if (dataList != null)
-                //{
-                //    dataList.Clear();                     
-                //}
                 switch (_itemID)
                 {
                     case 1:
@@ -128,17 +123,6 @@ namespace WargamesGUI.Views
             }
 
         }
-
-        private void listOfReports_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-
-        }
-
-        private void listOfReports_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-
-        }
-
         private async void picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedItem = (Item)picker.SelectedItem;
@@ -158,17 +142,6 @@ namespace WargamesGUI.Views
                 
             }
         }
-
-        private void listOfVisitorsReport_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-
-        }
-
-        private void listOfVisitorsReport_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-
-        }
-
         private async void FindUserSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -194,6 +167,16 @@ namespace WargamesGUI.Views
             {
                 await DisplayAlert("MainSearchBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
             }
+        }
+
+        private void listOfVisitorsReport_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+
+        }
+
+        private void listOfVisitorsReport_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+
         }
     }
 }

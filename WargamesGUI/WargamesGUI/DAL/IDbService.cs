@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 
@@ -17,7 +16,7 @@ namespace WargamesGUI.DAL
         Task<List<Event>> GetEventsFromDb();
         Task<List<LibraryCard2>> GetLibraryCardsFromDb();
         Task<List<RemovedItem>> GetRemovedItemsFromDb();
-        Task<List<User>> GetUsersFromDb();
+        Task<List<User2>> GetUsersFromDb();
         Task<List<BookCondition>> GetBookCopyConditionsFromDb();
         Task<List<BookAvailability>> GetBookCopyAvailabilityFromDb();
         Task<List<LibraryCardStatus>> GetLibraryCardStatusFromDb();

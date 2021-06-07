@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
@@ -62,8 +59,6 @@ namespace WargamesGUI.Views
         private async void listOfBook_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selecteditem = (Book)e.Item;
-
-            //await DisplayAlert("Beskrivning", $"{selecteditem.Description}", "OK");
 
             var answer = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Logga in för att låna boken");
 

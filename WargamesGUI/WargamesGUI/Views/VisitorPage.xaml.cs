@@ -1,8 +1,6 @@
-﻿using MvvmHelpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
@@ -79,7 +77,7 @@ namespace WargamesGUI.Views
                         await DisplayAlert("Beskrivning", $"{selectedItem.Description}", "OK");
                         break;
                     case "Låna Boken":
-                        if (selectedItem.InStock == 0)
+                        if (selectedItem.Available_copies <= 0)
                         {
                             await DisplayAlert("Misslyckades", "Boken är inte tillgänglig", "OK");
 
@@ -175,7 +173,6 @@ namespace WargamesGUI.Views
         }
         private async void HandBookBack_Button_Clicked(object sender, EventArgs e)
         {
-            //LoanService.LoanedBooks.Remove(itemTapped);
             try
             {
                 await bookLoanService.ChangeBookLoanStatus(itemTapped.Loan_Id);

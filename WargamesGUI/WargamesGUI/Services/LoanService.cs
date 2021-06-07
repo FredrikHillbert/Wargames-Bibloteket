@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 
@@ -94,7 +93,7 @@ namespace WargamesGUI.Services
                             LoanedBook.Author = reader["Author"].ToString();
                             LoanedBook.Publisher = reader["Publisher"].ToString();
                             LoanedBook.Placement = reader["Placement"].ToString();
-                            LoanedBook.InStock = Convert.ToInt32(reader["InStock"]);
+                            LoanedBook.Available_copies = Convert.ToInt32(reader["Available_copies"]);
                             LoanedBook.Loan_Id = Convert.ToInt32(reader["Loan_Id"]);
                             LoanedBook.Category = reader["Category"].ToString();
                             LoanedBook.Description = reader["Description"].ToString();
@@ -205,8 +204,23 @@ namespace WargamesGUI.Services
                 SqlCommand cmd = new SqlCommand("sp_ReturnBookToLibrary", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@copyId", SqlDbType.Int).Value = copy_Id;
-                cmd.Parameters.Add("@loanId", SqlDbType.Int).Value = loan_Id;
+                cmd.Parameters.Add("@loanId", SqlDbType.Int).Value = loan_Id;                
                // cmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
+                await cmd.ExecuteNonQueryAsync();
+            }
+        }
+        public async Task RegisterReturnedBookDestroyedBook(int copy_Id, int loan_Id, string reason)
+        {
+
+            using (SqlConnection con = new SqlConnection(theConString))
+            {
+                await con.OpenAsync();
+                SqlCommand cmd = new SqlCommand("sp_ReturnBookToLibraryDestroyed", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@copyId", SqlDbType.Int).Value = copy_Id;
+                cmd.Parameters.Add("@loanId", SqlDbType.Int).Value = loan_Id;
+                cmd.Parameters.Add("@reason", SqlDbType.VarChar).Value = reason;
+                // cmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
                 await cmd.ExecuteNonQueryAsync();
             }
         }

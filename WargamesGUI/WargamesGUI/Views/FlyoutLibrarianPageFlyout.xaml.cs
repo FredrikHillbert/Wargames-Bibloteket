@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -34,8 +30,8 @@ namespace WargamesGUI.Views
                 MenuItems = new ObservableCollection<FlyoutLibrarianPageFlyoutMenuItem>(new[]
                 {
                     new FlyoutLibrarianPageFlyoutMenuItem { Id = 0, Title = "Hem", TargetType=typeof(FlyoutLibrarianPageDetail) },
-                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 1, Title = "Lägg till Böcker", TargetType=typeof(AddObject) },
-                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 2, Title = "Lägg till Besökare", TargetType=typeof(AddVisitor) },
+                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 1, Title = "Hantera Böcker", TargetType=typeof(AddObject) },
+                    new FlyoutLibrarianPageFlyoutMenuItem { Id = 2, Title = "Hantera Besökare", TargetType=typeof(AddVisitor) },
                     new FlyoutLibrarianPageFlyoutMenuItem { Id = 3, Title = "Manuell retur", TargetType=typeof(ManualReturn) },
                     new FlyoutLibrarianPageFlyoutMenuItem { Id = 4, Title = "Rapport på objekt", TargetType=typeof(ReportPage) },
                     

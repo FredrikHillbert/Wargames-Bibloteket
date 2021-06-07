@@ -176,10 +176,9 @@
 
 
                 </Grid>
-                <ListView x:Name="listOfVisitorsReport" 
-                          ItemSelected="listOfVisitorsReport_ItemSelected"
+                <ListView x:Name="listOfVisitorsReport"                           
                           Margin="0,0,0,10" 
-                          ItemTapped="listOfVisitorsReport_ItemTapped">
+                          >
                     <ListView.ItemTemplate>
 
                         <DataTemplate>
@@ -247,10 +246,9 @@
                     </ListView.ItemTemplate>
 
                 </ListView>
-                <ListView x:Name="listofBooks" 
-                          ItemSelected="listOfVisitorsReport_ItemSelected"
+                <ListView x:Name="listofBooks"                           
                           Margin="0,0,0,10" 
-                          ItemTapped="listOfVisitorsReport_ItemTapped">
+                          >
                     <ListView.ItemTemplate>
 
                         <DataTemplate>
@@ -298,10 +296,9 @@
                     </ListView.ItemTemplate>
 
                 </ListView>
-                <ListView x:Name="listofremovedBooks" 
-                          ItemSelected="listOfVisitorsReport_ItemSelected"
+                <ListView x:Name="listofremovedBooks"                          
                           Margin="0,0,0,10" 
-                          ItemTapped="listOfVisitorsReport_ItemTapped">
+                          >
                     <ListView.ItemTemplate>
 
                         <DataTemplate>
