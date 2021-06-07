@@ -19,7 +19,7 @@ namespace WargamesGUI.Services
             var deweyMain = await dbService.GetDeweyMainFromDb();
             var books = await dbService.GetBooksFromDb();
             var items = await dbService.GetItemTypeFromDb();
-            var bookCopies = await GetAllBookCopies();
+            var bookCopies = await dbService.GetBookCopiesFromDb();
 
             var listOfBooks = books.Select(x => new Book2
             {
@@ -87,15 +87,16 @@ namespace WargamesGUI.Services
             var bookCopies = await dbService.GetBookCopiesFromDb();
             var bookConditions = await dbService.GetBookCopyConditionsFromDb();
             var bookAvailability = await dbService.GetBookCopyAvailabilityFromDb();
-            var books = await dbService.GetBooksFromDb();
+            var books = await GetAllBooks();
 
+            
             var result = bookCopies.Select(x => new BookCopy
             {
                 Copy_Id = x.Copy_Id,
                 fk_Book_Id = x.fk_Book_Id,
                 fk_Availability = x.fk_Availability,
                 fk_Condition_Id = x.fk_Condition_Id,
-                Book = books.Select(y => y).Where(y => y.Id == x.fk_Book_Id).ElementAtOrDefault(0),
+                Book = books.Select(y => y).Where(y => y.Id == bookCopies.Where(c => c.Copy_Id == x.Copy_Id).Select(c => c.fk_Book_Id).FirstOrDefault()).FirstOrDefault(),
                 BookCondition = bookConditions.Select(y => y)
                 .Where(y => y.Condition_Id == x.fk_Condition_Id)
                 .ElementAtOrDefault(0),
