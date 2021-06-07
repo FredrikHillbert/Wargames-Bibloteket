@@ -141,6 +141,36 @@ namespace WargamesGUI.DAL
                 return success;
             }
         }
+
+        public async Task<bool> ProcedureDeleteBookFromDb(Book2 removeBook) 
+        {
+            bool success = false;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString)) 
+                {
+                    await con.OpenAsync();
+
+                    SqlCommand sp = new SqlCommand("sp_RemoveBookObject", con);
+                    sp.CommandType = CommandType.StoredProcedure;
+                    sp.Parameters.Add("@BookId", SqlDbType.Int).Value = removeBook.Id;
+                    await sp.ExecuteNonQueryAsync();
+
+                }
+
+
+
+                return success = true;
+            }
+            catch (Exception e)
+            {
+                return success;
+            }
+        
+        
+        
+        
+        }
         public async Task<List<Item>> GetItemTypeFromDb()
         {
             var items = new List<Item>();

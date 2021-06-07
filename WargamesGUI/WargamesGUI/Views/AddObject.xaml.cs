@@ -123,7 +123,7 @@ namespace WargamesGUI.Views
         private async void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (Book2)e.Item;
-            var bookDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Ändra Detaljer", "Ta bort exemplar av boken");
+            var bookDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Ändra Detaljer", "Ta bort exemplar av boken", "Ta bort hela objektet");
             try
             {
                 switch (bookDetails)
@@ -137,6 +137,9 @@ namespace WargamesGUI.Views
                     //case "Ta bort exemplar av boken":
                     //    Delete_Book(selectedItem);
                     //    break;
+                    case "Ta bort hela objektet":
+                        await TryRemovingBookObject(selectedItem);
+                        break;
                 }
             }
             catch (Exception ex)
@@ -212,6 +215,23 @@ namespace WargamesGUI.Views
                 await DisplayAlert("Delete_Book", $"{ex.Message}", "OK");
             }
         }
+
+
+        public async Task TryRemovingBookObject(Book2 removeBook) 
+        {
+            try
+            {
+                if (await bookService.RemoveBookObject(removeBook)) { await DisplayAlert("Bok borttagen", $"Du har tagit bort alla exemplar av boken {selectedItem.Title}", "OK"); }
+                else { await DisplayAlert("Misslyckades!", $"Det gick inte att ta bort alla exemplar av boken {selectedItem.Title} ", "OK"); }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ERROR", $"Anledning: {ex.Message}", "OK");
+                throw;
+            }
+        }
+
+
         public async Task TryRemoveBookCopy(Book selectedItem, string bookCopy, string reason)
         {
             try
