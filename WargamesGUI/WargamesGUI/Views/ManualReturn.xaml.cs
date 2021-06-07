@@ -17,10 +17,12 @@ namespace WargamesGUI.Views
     {
         public static BookService bookService = new BookService();
         public static LoanService loanService = new LoanService();
+        public static BookService2 bookService2 = new BookService2();
         private List<Book> LoanCollection { get; set; } = new List<Book>();
         private List<Book> HandledCollection { get; set; } = new List<Book>();
         public static Book selectedBook;
         public static Book HandledbookSelected;
+        public List<Book2> bookList;
         public ManualReturn()
         {
             InitializeComponent();
@@ -60,7 +62,13 @@ namespace WargamesGUI.Views
                 await DisplayAlert("LoadBooks", $"Felmeddelande: {ex.Message}", "OK");
             }
 
-        }       
+        }
+        private async void Handled_Clicked(object sender, EventArgs e)
+        {
+            await loanService.RegisterReturnedBook(HandledbookSelected.Book_Copy, HandledbookSelected.Loan_Id);
+            await DisplayAlert("Bok skannad!", $"Du skannade {HandledbookSelected.Title}.", "OK");
+            await LoadBooks();
+        }
 
         private void listOfBooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
@@ -71,67 +79,42 @@ namespace WargamesGUI.Views
             HandledbookSelected = (Book)e.Item;
             try
             {
-                var selected = await DisplayActionSheet("Vilket skick är boken?", "Godkänn", "Avbryt", null, "Ny", "Som ny", "Väldigt bra", "Bra", "Acceptabel", "Sliten", "Förstörd");
+                var selected = await DisplayActionSheet("Vilket skick är boken?", "Avbryt", null, "Ny", "Som ny", "Väldigt bra", "Bra", "Acceptabel", "Sliten", "Förstörd");
 
                 switch (selected)
                 {
-                    case "Godkänn":
-                        try
-                        {
-                            if (HandledbookSelected.BookCondition == 7)
-                            {
-                                string reason = await DisplayPromptAsync("Förstörd", "Anledning", "Ok", "Cancel");
-                                await loanService.RegisterReturnedBookDestroyedBook(HandledbookSelected.Book_Copy, HandledbookSelected.Loan_Id, reason);
-                                await DisplayAlert("Förstörd bok!", $"Du lade till {HandledbookSelected.Title} som förstörd i historiken.", "OK");
-                                await LoadBooks();
-                            }
-                            else
-                            {
-                                await loanService.RegisterReturnedBook(HandledbookSelected.Book_Copy, HandledbookSelected.Loan_Id);
-                                await DisplayAlert("Bok återlämad!", $"Du lade till {HandledbookSelected.Title} som tillgänglig i biblioteket.", "OK");
-                                await LoadBooks();
-                            }
-
-
-                        }
-                        catch (Exception ex)
-                        {
-                            await DisplayAlert("Godkänn Error", $"Felmeddelande: {ex.Message}", "OK");
-                        }
-                        break;
                     case "Ny":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 1);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Ny'", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Ny", "Ok");
                         await LoadBooks();
                         break;
                     case "Som ny":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 2);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Som ny'", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Som ny", "Ok");
                         await LoadBooks();
                         break;
                     case "Väldigt bra":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 3);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Väldigt bra'", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Väldigt bra", "Ok");
                         await LoadBooks();
                         break;
                     case "Bra":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 4);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Bra'", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Bra", "Ok");
                         await LoadBooks();
                         break;
                     case "Acceptabel":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 5);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Acceptabel'", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Acceptabel", "Ok");
                         await LoadBooks();
                         break;
                     case "Sliten":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 6);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Sliten'", "Ok");
+                        await DisplayAlert("Lyckades", "Skicket ändrades till Sliten", "Ok");
                         await LoadBooks();
                         break;
                     case "Förstörd":
                         await bookService.UpdateBookCopy(HandledbookSelected.Book_Copy, 7);
-                        await DisplayAlert("Lyckades", "Skicket ändrades till 'Förstörd'", "Ok");
                         await LoadBooks();
                         break;
                     default:
@@ -140,7 +123,7 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("listOfHandledBooks_ItemTapped Error", $"{ex.Message}", "Ok");
+                await DisplayAlert("Error", $"{ex.Message}", "Ok");
             }
 
         }
@@ -157,43 +140,142 @@ namespace WargamesGUI.Views
             }
         }
 
-        private async void BookReturnSeachBar_TextChanged(object sender, TextChangedEventArgs e)
+        private void BookReturnSeachBar_TextChanged(object sender, TextChangedEventArgs e)
         {
+            //try
+            //{
+            //    var searchresult = LoanCollection.Where(x => x.Username.Contains(BookReturnSeachBar.Text)
+            //      || x.Author.Contains(BookReturnSeachBar.Text)
+            //      || x.ISBN.Contains(BookReturnSeachBar.Text)
+            //      || x.Title.Contains(BookReturnSeachBar.Text));
+
+            //    listOfBooks.ItemsSource = searchresult;
+            //}
+            //catch (Exception ex)
+            //{
+            //    await DisplayAlert("MainSearchBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
+            //}
+
+            AutoCompleteListView.IsVisible = true;
+            AutoCompleteListView.BeginRefresh();
             try
             {
-                var searchresult = LoanCollection.Where(x => x.Username.Contains(BookReturnSeachBar.Text)
-                  || x.Author.Contains(BookReturnSeachBar.Text)
-                  || x.ISBN.Contains(BookReturnSeachBar.Text)
-                  || x.Title.Contains(BookReturnSeachBar.Text));
+                var titleResult = LoanCollection.Select(x => x.Title).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+                var publisherResult = LoanCollection.Select(x => x.Publisher).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+                var authorResult = LoanCollection.Select(x => x.Author).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+                var isbnResult = LoanCollection.Select(x => x.ISBN).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+                //var subCategoryResult = LoanCollection.Select(x => x.DeweySub.SubCategoryName).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+                //var mainCategoryResult = LoanCollection.Select(x => x.DeweyMain.MainCategoryName).Where(x => x != null && x.ToString().ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
 
-                listOfBooks.ItemsSource = searchresult;
+                //var allResults = titleResult.Concat(publisherResult).Concat(authorResult).Concat(isbnResult).Concat(subCategoryResult).Concat(mainCategoryResult).Distinct().ToList();
+                var allResults = titleResult.Concat(publisherResult).Concat(authorResult).Concat(isbnResult).Distinct().ToList();
+
+                if (string.IsNullOrWhiteSpace(BookReturnSeachBar.Text))
+                {
+                    AutoCompleteListView.IsVisible = false;
+                }
+                else
+                {
+                    AutoCompleteListView.ItemsSource = allResults;
+
+                }
+
+
             }
             catch (Exception ex)
             {
-                await DisplayAlert("BookReturnSeachBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
+                //AutoCompleteList.IsVisible = false;
             }
+
+            //while (AutoCompleteListView.IsVisible)
+            //{
+            //    AutoCompleteListView.IsVisible = true;
+            //    AutoCompleteListView.BeginRefresh();
+            //    Username.IsVisible = false;
+            //    Placement.IsVisible = false;
+            //    try
+            //    {
+            //        var titleResult = LoanCollection.Select(x => x.Title).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+            //        var publisherResult = LoanCollection.Select(x => x.Publisher).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+            //        var authorResult = LoanCollection.Select(x => x.Author).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+            //        var isbnResult = LoanCollection.Select(x => x.ISBN).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+            //        //var subCategoryResult = LoanCollection.Select(x => x.DeweySub.SubCategoryName).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+            //        //var mainCategoryResult = LoanCollection.Select(x => x.DeweyMain.MainCategoryName).Where(x => x != null && x.ToString().ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+
+            //        //var allResults = titleResult.Concat(publisherResult).Concat(authorResult).Concat(isbnResult).Concat(subCategoryResult).Concat(mainCategoryResult).Distinct().ToList();
+            //        var allResults = titleResult.Concat(publisherResult).Concat(authorResult).Concat(isbnResult).Distinct().ToList();
+
+            //        if (string.IsNullOrWhiteSpace(BookReturnSeachBar.Text))
+            //        {
+            //            AutoCompleteListView.IsVisible = false;
+            //        }
+            //        else
+            //        {
+            //            AutoCompleteListView.ItemsSource = allResults;
+
+            //        }
+
+
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        //AutoCompleteList.IsVisible = false;
+            //    }
+
+            //}
+
+
         }
 
         private async void BookHandledSeachBar_TextChanged(object sender, TextChangedEventArgs e)
         {
+            //try
+            //{
+            //    var searchresult = HandledCollection.Where(x => x.Placement.Contains(BookHandledSeachBar.Text)
+            //      || x.Author.Contains(BookHandledSeachBar.Text)
+            //      || x.ISBN.Contains(BookHandledSeachBar.Text)
+            //      || x.Title.Contains(BookHandledSeachBar.Text)
+            //      || x.BookConditionString.Contains(BookHandledSeachBar.Text)
+            //      || x.Status.Contains(BookHandledSeachBar.Text));
+
+            //    listOfHandledBooks.ItemsSource = searchresult;
+            //}
+            //catch (Exception ex)
+            //{
+            //    await DisplayAlert("BookHandledSeachBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
+            //}
+            AutoCompleteListView.IsVisible = true;
+            AutoCompleteListView.BeginRefresh();
+
             try
             {
-                var searchresult = HandledCollection.Where(x => x.Placement.Contains(BookHandledSeachBar.Text)
-                  || x.Author.Contains(BookHandledSeachBar.Text)
-                  || x.ISBN.Contains(BookHandledSeachBar.Text)
-                  || x.Title.Contains(BookHandledSeachBar.Text)
-                  || x.BookConditionString.Contains(BookHandledSeachBar.Text)
-                  || x.Status.Contains(BookHandledSeachBar.Text));
+                var titleResult = bookList.Select(x => x.Title).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+                var publisherResult = bookList.Select(x => x.Publisher).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+                var authorResult = bookList.Select(x => x.Author).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+                var isbnResult = bookList.Select(x => x.ISBN).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+                var subCategoryResult = bookList.Select(x => x.DeweySub.SubCategoryName).Where(x => x != null && x.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
+                var mainCategoryResult = bookList.Select(x => x.DeweyMain.MainCategoryName).Where(x => x != null && x.ToString().ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())).ToList();
 
-                listOfHandledBooks.ItemsSource = searchresult;
+                var allResults = titleResult.Concat(publisherResult).Concat(authorResult).Concat(isbnResult).Concat(subCategoryResult).Concat(mainCategoryResult).Distinct().ToList();
+
+                if (string.IsNullOrWhiteSpace(BookReturnSeachBar.Text))
+                {
+                    AutoCompleteListView.IsVisible = false;
+                }
+                else
+                {
+                    AutoCompleteListView.ItemsSource = allResults;
+
+                }
+
             }
             catch (Exception ex)
             {
-                await DisplayAlert("BookHandledSeachBar_TextChanged Error", $"Felmeddelande: {ex.Message}", "OK");
+                //AutoCompleteList.IsVisible = false;
             }
         }
 
-        private async void Skanna_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
 
             try
@@ -205,9 +287,38 @@ namespace WargamesGUI.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Skanna_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
+                await DisplayAlert("Handled_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
 
+        private void AutoCompleteListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            string listsd = e.Item as string;
+            BookReturnSeachBar.Text = listsd;
+            AutoCompleteListView.IsVisible = false;
+            ((ListView)sender).SelectedItem = null;
+            SearchBar_Clicked(sender, e);
+        }
+
+        private async void SearchBar_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(BookReturnSeachBar.Text))
+                {
+                    await DisplayAlert("Misslyckades", "Du måste skriva något", "OK");
+                }
+                else
+                {
+                    SearchValuePage.GetValues(BookReturnSeachBar.Text);
+                    App.Current.MainPage = new SearchValuePage();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@
     <Grid RowSpacing="10" HorizontalOptions="CenterAndExpand">
         
         <Grid.RowDefinitions>
-           <!--0--> <RowDefinition Height="150"/>
+           <!--0--> <RowDefinition Height="80"/>
            <!--1--><RowDefinition Height="20"/>
            <!--2--><RowDefinition Height="150"/>
            <!--3--><RowDefinition Height="20"/>
@@ -16,13 +16,13 @@
            <!--6--><RowDefinition Height="40"/>
            <!--7--><RowDefinition Height="40"/>
            <!--8--><RowDefinition Height="40"/>
-           <!--9--><RowDefinition Height="40"/>
-           <!--10--><RowDefinition Height="40"/>
+           <!--9--><RowDefinition Height="150"/>
+           <!--10<RowDefinition Height="40"/>-->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Frame CornerRadius="15" Margin="-40,-170,-40,-200" BackgroundColor="LightBlue" Grid.RowSpan="4" Grid.Row="3">
+        <Frame CornerRadius="15" Margin="-40,-170,-40,-280" BackgroundColor="LightBlue" Grid.RowSpan="4" Grid.Row="3">
             
         </Frame>
         <!--Image-->

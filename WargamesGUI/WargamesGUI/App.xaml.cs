@@ -1,8 +1,4 @@
-﻿using System;
-using WargamesGUI.Services;
-using WargamesGUI.Views;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace WargamesGUI
 {

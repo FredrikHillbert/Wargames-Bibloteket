@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WargamesGUI.Models
+﻿namespace WargamesGUI.Models
 {
     public class BookLoanStatus
     {
