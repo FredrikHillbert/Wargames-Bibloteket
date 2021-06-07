@@ -125,8 +125,59 @@ namespace WargamesGUI.Views
 
         }
 
-        private async void DeleteVisitor_Clicked(object sender, EventArgs e)
+
+
+        private void listOfVisitors_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
+            selectedItem = (User2)listOfVisitors.SelectedItem;
+        }
+
+
+        private async void ChangingCardStatus()
+        {
+            try
+            {
+                var result = await loanService.ChangeLibraryCardStatus(selectedItem.LibraryCard);
+                if (!result.Item1)
+                {
+                    await DisplayAlert("Misslyckades!", "Status ändrades inte för bibliotekskortet.", "OK");
+                }
+                else if (result.Item1)
+                {
+                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: {result.Item2}.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
+            }
+        }
+
+        private async void listOfVisitors_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            selectedItem = (User2)e.Item;
+            var visitorDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Ändra besökare", "Ta bort besökare");
+            try
+            {
+                switch (visitorDetails)
+                {
+                    case "Ändra besökare":
+                        ChangeVisitor(visitorDetails);
+                        break;
+                    case "Ta bort besökare":
+                        RemoveVisitor(visitorDetails);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("listOfVisitors_ItemTapped", $"Anledning: {ex.Message}", "OK");
+            }
+        }
+
+        private async void RemoveVisitor(string visitorDetails)
+        {
+            //throw new NotImplementedException();
             try
             {
                 await userService.RemoveUserFromDbAsync(selectedItem.User_ID);
@@ -139,15 +190,9 @@ namespace WargamesGUI.Views
             }
         }
 
-        private void listOfVisitors_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void ChangeVisitor(string visitorDetails)
         {
-            selectedItem = (User2)listOfVisitors.SelectedItem;
-        }
-
-        public async void AlterVisitor_Button_Clicked(object sender, EventArgs e)
-        {
-            selectedItem = (User2)listOfVisitors.SelectedItem;
-
+            //throw new NotImplementedException();
             if (selectedItem.TypeOfUser.PrivilegeLevel == 3)
             {
                 var choice = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort");
@@ -201,25 +246,5 @@ namespace WargamesGUI.Views
                 }
             }
         }
-        private async void ChangingCardStatus()
-        {
-            try
-            {
-                var result = await loanService.ChangeLibraryCardStatus(selectedItem.LibraryCard);
-                if (!result.Item1)
-                {
-                    await DisplayAlert("Misslyckades!", "Status ändrades inte för bibliotekskortet.", "OK");
-                }
-                else if (result.Item1)
-                {
-                    await DisplayAlert("Lyckades!", $"Status för bibliotekskortet ändrat till: {result.Item2}.", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
-            }
-        }
-
     }
 }
