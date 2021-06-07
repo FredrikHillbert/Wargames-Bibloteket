@@ -70,6 +70,10 @@ namespace WargamesGUI
             {
                 await DisplayAlert("Misslyckades", "Adressfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
+            else if (string.IsNullOrEmpty(ssnbox.Text) || CheckFormat.CheckIfAllNumbers(ssnbox.Text) == false)
+            {
+                await DisplayAlert("Misslyckades", "Personnummerfältet är tomt eller så är formatet inte tållåtet.", "OK");
+            }
             else if (string.IsNullOrEmpty(emailbox.Text) || CheckFormat.IsValidEmail(emailbox.Text) == false)
             {
                 await DisplayAlert("Misslyckades", "Emailfältet är tomt eller så är formatet inte tållåtet.", "OK");
@@ -348,7 +352,7 @@ namespace WargamesGUI
             if (string.IsNullOrEmpty(lastnamebox.Text) || CheckFormat.CheckIfAllLetter(lastnamebox.Text) == false)
             {
                 lastnameframe.BorderColor = Color.Red;
-                lastnamebox.Placeholder = "Fel format. Skriv in förnamn.";
+                lastnamebox.Placeholder = "Fel format. Skriv in efternamn.";
                 lastnamebox.PlaceholderColor = Color.Red;
                 lastnamewrongcross.IsVisible = true;
                 lastnamecorrectcheck.IsVisible = false;
@@ -366,7 +370,7 @@ namespace WargamesGUI
             if (string.IsNullOrEmpty(addressbox.Text) || CheckFormat.CheckAdress(addressbox.Text) == false)
             {
                 addressframe.BorderColor = Color.Red;
-                addressbox.Placeholder = "Fel format. Skriv in förnamn.";
+                addressbox.Placeholder = "Fel format. Skriv in adress.";
                 addressbox.PlaceholderColor = Color.Red;
                 addresswrongcross.IsVisible = true;
                 addresscorrectcheck.IsVisible = false;
@@ -381,17 +385,56 @@ namespace WargamesGUI
 
         private void ssnbox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            if (string.IsNullOrEmpty(ssnbox.Text) || CheckFormat.CheckIfAllNumbers(ssnbox.Text) == false)
+            {
+                ssnframe.BorderColor = Color.Red;
+                ssnbox.Placeholder = "Fel format. Skriv in personnummer.";
+                ssnbox.PlaceholderColor = Color.Red;
+                ssnwrongcross.IsVisible = true;
+                ssncorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                ssnframe.BorderColor = Color.Green;
+                ssnwrongcross.IsVisible = false;
+                ssncorrectcheck.IsVisible = true;
+            }
         }
 
         private void emailbox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            if (string.IsNullOrEmpty(emailbox.Text) || CheckFormat.IsValidEmail(emailbox.Text) == false)
+            {
+                emailframe.BorderColor = Color.Red;
+                emailbox.Placeholder = "Fel format. Skriv in email.";
+                emailbox.PlaceholderColor = Color.Red;
+                emailwrongcross.IsVisible = true;
+                emailcorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                emailframe.BorderColor = Color.Green;
+                emailwrongcross.IsVisible = false;
+                emailcorrectcheck.IsVisible = true;
+            }
         }
 
         private void phonebox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            if (string.IsNullOrEmpty(phonebox.Text) || CheckFormat.CheckIfAllNumbers(phonebox.Text) == false)
+            {
+                phoneframe.BorderColor = Color.Red;
+                phonebox.Placeholder = "Fel format. Skriv in telefonnummer.";
+                phonebox.PlaceholderColor = Color.Red;
+                phonewrongcross.IsVisible = true;
+                phonecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                phoneframe.BorderColor = Color.Green;
+                phonewrongcross.IsVisible = false;
+                phonecorrectcheck.IsVisible = true;
+            }
         }
     }
 }
