@@ -45,10 +45,18 @@
                         </StackLayout>
                     </Frame>
                     <Frame x:Name="adressframe" CornerRadius="20" BackgroundColor="White" Padding="-1" IsVisible="false">
-                        <Entry x:Name="addressbox" Placeholder="Skriv in adress" BackgroundColor="White" IsVisible="false"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Entry x:Name="addressbox" Placeholder="Skriv in adress" BackgroundColor="White" IsVisible="false"/>
+                            <Image x:Name="addresscorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="30" Margin="-100,0,0,0" IsVisible="false"></Image>
+                            <Image x:Name="addresswrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="30" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        </StackLayout>
                     </Frame>
                     <Frame x:Name="ssnframe" CornerRadius="20" BackgroundColor="White" Padding="-1" IsVisible="false">
-                        <Entry x:Name="ssnbox" Placeholder="Skriv in personnummer" BackgroundColor="White" IsVisible="false"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Entry x:Name="ssnbox" Placeholder="Skriv in personnummer" BackgroundColor="White" IsVisible="false"/>
+                            <Image x:Name="ssncorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="30" Margin="-100,0,0,0" IsVisible="false"></Image>
+                            <Image x:Name="ssnwrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="30" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        </StackLayout>
                     </Frame>
                     <Frame x:Name="emailframe" CornerRadius="20" BackgroundColor="White" Padding="-1" IsVisible="false">
                         <Entry x:Name="emailbox" Placeholder="Skriv in email" BackgroundColor="White" IsVisible="false"/>
