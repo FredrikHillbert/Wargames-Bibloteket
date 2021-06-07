@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:models="clr-namespace:WargamesGUI.Models" 
              x:Class="WargamesGUI.Views.AddObject"
              BackgroundImageSource="pexels-cottonbro-with-layer.jpg">
 
@@ -31,22 +32,26 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Picker x:Name="typePicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
-                        Grid.Row="0" Grid.Column="2" WidthRequest="400" SelectedIndexChanged="picker_SelectedIndexChanged" Title="Typ av bok"
-                            ItemsSource="{Binding PickerList, Mode=TwoWay}" ItemDisplayBinding="{Binding ., Mode=TwoWay}"
-                            SelectedItem="{Binding ., Mode=TwoWay}">
+                    <Picker x:Name="picker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
+                        Grid.Row="0" Grid.Column="2" WidthRequest="400" SelectedIndexChanged="picker_SelectedIndexChanged" Title="Typ av bok">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type models:Book}">
+                                <models:Book TypeOfBook="Bok"  fk_Item_Id="1"/>
+                                <models:Book TypeOfBook="E-bok" fk_Item_Id="2"/>
+                            </x:Array>
+                        </Picker.ItemsSource>
                     </Picker>
-                    <Picker x:Name="categoryPicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
+                    <Picker x:Name="categorypicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
                         Grid.Row="0" Grid.Column="0" WidthRequest="400" Title="Kategori" SelectedIndexChanged="categorypicker_SelectedIndexChanged">
                     </Picker>
                     <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="1" Margin="0,25,0,0" 
                            WidthRequest="400" TextColor="Black" HorizontalOptions="Start" IsReadOnly="True"/>
-                    <Entry x:Name="EntryTitle" Placeholder="Titel" Grid.Row="1" Grid.Column="0" Text="{Binding Title, Mode=TwoWay}"/>
-                    <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="1" Grid.Column="1" Text="{Binding ISBN, Mode=TwoWay}"/>
-                    <Entry x:Name="EntryPublisher" Placeholder="Utgivare" Grid.Row="1" Grid.Column="2" Text="{Binding Publisher, Mode=TwoWay}"/>
-                    <Entry x:Name="EntryDescription" Placeholder="Beskrivning" Grid.Row="2" Grid.Column="0" Text="{Binding Description, Mode=TwoWay}"/>
-                    <Entry x:Name="EntryPrice" Placeholder="Pris" Grid.Row="2" Grid.Column="1" Text="{Binding Price, Mode=TwoWay}"/>
-                    <Entry x:Name="EntryAuthor" Placeholder="Författare" Grid.Row="2" Grid.Column="2" Text="{Binding Author, Mode=TwoWay}"/>
+                    <Entry x:Name="EntryTitle" Placeholder="Titel" Grid.Row="1" Grid.Column="0"/>
+                    <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="1" Grid.Column="1"/>
+                    <Entry x:Name="EntryPublisher" Placeholder="Utgivare" Grid.Row="1" Grid.Column="2"/>
+                    <Entry x:Name="EntryDescription" Placeholder="Beskrivning" Grid.Row="2" Grid.Column="0"/>
+                    <Entry x:Name="EntryPrice" Placeholder="Pris" Grid.Row="2" Grid.Column="1"/>
+                    <Entry x:Name="EntryAuthor" Placeholder="Författare" Grid.Row="2" Grid.Column="2"/>
                     <Button Text="Lägg till bok"  
                         Grid.Row="2"  
                         Grid.Column="3" 
@@ -100,25 +105,25 @@
                                             <RowDefinition Height="30"/>
                                         </Grid.RowDefinitions>
                                         <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
-                                            <Label Text="{Binding BookType, Mode=TwoWay}" HorizontalOptions="Start" FontSize="16"/>
+                                            <Label Text="{Binding TypeOfBook}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0" >
-                                            <Label Text="{Binding Title, Mode=TwoWay}" HorizontalOptions="Start" FontSize="16"/>
+                                            <Label Text="{Binding Title}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" Grid.Column="2" Grid.Row="0">
-                                            <Label Text="{Binding ISBN, Mode=TwoWay}" HorizontalOptions="Start" FontSize="16"/>
+                                            <Label Text="{Binding ISBN}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
-                                            <Label Text="{Binding Publisher, Mode=TwoWay}" HorizontalOptions="Start" FontSize="16"/>
+                                            <Label Text="{Binding Publisher}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
-                                            <Label Text="{Binding Placement, Mode=TwoWay}" HorizontalOptions="Start" FontSize="16"/>
+                                            <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" Grid.Column="5" Grid.Row="0">
-                                            <Label Text="{Binding Author, Mode=TwoWay}" HorizontalOptions="Start" FontSize="16"/>
+                                            <Label Text="{Binding Author}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" Grid.Column="6" Grid.Row="0">
-                                            <Label Text="{Binding DeweySub.SubCategoryName, Mode=TwoWay}" HorizontalOptions="Start" FontSize="16"/>
+                                            <Label Text="{Binding Category}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell>
