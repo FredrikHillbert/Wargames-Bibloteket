@@ -20,13 +20,10 @@ namespace WargamesGUI.Views
         public DeweySub selectedDewey;
         public static BookService2 bookService = new BookService2();
 
-        private int itemID;
-
         public int bookCopyID;
         public int dewymainID;
         public string deweysubID;
 
-        private string subCategoryName;
         AddUpdateDetailBookViewModel bookViewModel;
         List<DeweyMain> deweyMain = new List<DeweyMain>();
         List<DeweySub> deweySub = new List<DeweySub>();
@@ -97,12 +94,12 @@ namespace WargamesGUI.Views
             var result = await bookViewModel.AddNewBook();
             try
             {
-                if (result.Item1) await DisplayAlert($"Lyckades!", $"Du har lagt till en ny bok!", "OK");
+                if (result) await DisplayAlert($"Lyckades!", $"Du har lagt till en ny bok!", "OK");
                 else await DisplayAlert("Misslyckades!", $"Kunde inte uppdatera boken!", "OK");
             }
             catch (Exception ex)
             {
-                await DisplayAlert("AddBook_Button_Clicked", $"Anledning: {ex.Message} - {result.Item2}", "OK");
+                await DisplayAlert("AddBook_Button_Clicked", $"Anledning: {ex.Message}", "OK");
             }
         }
 

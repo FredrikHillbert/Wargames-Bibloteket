@@ -35,10 +35,9 @@ namespace WargamesGUI.ViewModels
             Book = book;
             bookService = new BookService2();
         }
-        public async Task<(bool, string)> AddNewBook()
+        public async Task<bool> AddNewBook()
         {
-            var result = await bookService.AddNewBook(Book);
-            return (true, "123");
+            return await bookService.AddNewBook(Book);
         }
         public async Task<(bool, string)> UpdateBook()
         {
