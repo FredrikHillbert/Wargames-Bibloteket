@@ -65,10 +65,10 @@
                                     <Label Text="{Binding Placement}" HorizontalOptions="Start" FontSize="16"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="3" Grid.Row="0">
-                                    <Label Text="{Binding Status}" HorizontalOptions="Start" FontSize="16"/>
+                                    <Label Text="{Binding Available_copies}" HorizontalOptions="Start" FontSize="16"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" Grid.Column="4" Grid.Row="0">
-                                    <Label Text="{Binding Category}" HorizontalOptions="Start" FontSize="16"/>
+                                    <Label Text="{Binding DeweySub.SubCategoryName}" HorizontalOptions="Start" FontSize="16"/>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

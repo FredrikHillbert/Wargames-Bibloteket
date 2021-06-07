@@ -6,6 +6,7 @@ using WargamesGUI.Services;
 using WargamesGUI.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using System.Linq;
 
 
 namespace WargamesGUI
@@ -14,21 +15,29 @@ namespace WargamesGUI
     public partial class MainPage : ContentPage
     {
         public static UserService service = new UserService();
-        public static User user;
+        public static User2 user;
         public static BookService2 bookService2 = new BookService2();
         public static LoanService2 loanService2 = new LoanService2();
+        public static UserService2 userService2 = new UserService2();  
 
         public List<Book2> bookList;
+        public List<User2> userList;
         public MainPage()
         {
             InitializeComponent();
             MainThread.InvokeOnMainThreadAsync(async () => { await LoadBooks(); });
+            MainThread.InvokeOnMainThreadAsync(async () => { await LoadUsers(); });
         }
 
         public async Task<List<Book2>> LoadBooks()
         {
             bookList = await bookService2.GetAllBooks();
             return bookList ?? null;
+        }
+        public async Task<List<User2>> LoadUsers()
+        {
+            userList = await userService2.GetUsersFromDb();
+            return userList ?? null;
         }
         private async void SignIn_Button_Clicked(object sender, EventArgs e)
         {
@@ -40,6 +49,7 @@ namespace WargamesGUI
                     switch (service.SignIn(Entryusername.Text, Entrypassword.Text))
                     {
                         case 1:
+                            //Entryusername.text
                             Entryusername.Text = string.Empty;
                             Entrypassword.Text = string.Empty;
                             await DisplayAlert("Lyckades", "Du loggar nu in som administratör", "OK");
@@ -52,10 +62,11 @@ namespace WargamesGUI
                             App.Current.MainPage = new FlyoutLibrarianPage();
                             break;
                         case 3:
+                            var loggedInAs = userList.Select(x => x).Where(x => x.Username == Entryusername.Text).FirstOrDefault();
                             Entryusername.Text = string.Empty;
                             Entrypassword.Text = string.Empty;
-                            await DisplayAlert("Lyckades", "Du loggar nu in som Besökare", "OK");
-                            App.Current.MainPage = new VisitorPage();
+                            await DisplayAlert("Lyckades", "Du loggar nu in som Besökare", "OK");                      
+                            App.Current.MainPage = new VisitorPage(loggedInAs);
                             break;
                         default:
                             await DisplayAlert("Misslyckades", "Kotrollera användarnamn och lösenord", "Ok");

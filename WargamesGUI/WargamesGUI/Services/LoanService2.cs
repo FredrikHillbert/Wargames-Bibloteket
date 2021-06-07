@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Text;
-using System.Threading.Tasks;
-using WargamesGUI.Models;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WargamesGUI.DAL;
+using WargamesGUI.Models;
 
 namespace WargamesGUI.Services
 {
@@ -55,6 +51,12 @@ namespace WargamesGUI.Services
             var bookLoans = await GetAllBookLoans();
             return bookLoans.Where(x => x.fk_LibraryCard_Id == user.LibraryCard.LibraryCard_Id).ToList() ?? null;                   
         }
+        //public async Task<List<BookLoan2>> GetAllBookLoans(string user)
+        //{
+        //    bookService = new BookService2();
+        //    var bookLoans = await GetAllBookLoans();
+        //    return bookLoans.Where(x => x.fk_LibraryCard_Id == user.LibraryCard.LibraryCard_Id).ToList() ?? null;
+        //}
         public async Task<List<BookLoan2>> GetAllBookLoans(LibraryCard2 libraryCard)
         {
             var bookLoans = await GetAllBookLoans();
@@ -63,6 +65,11 @@ namespace WargamesGUI.Services
         public async Task<int> LoanBook(Book2 book, LibraryCard2 libraryCard)
         {
             var result = await dbService.ProcedureLoanBook(book.Id, libraryCard.LibraryCard_Id);
+            return result;
+        }
+        public async Task<int> LoanBook(Book2 book, int libraryCard_Id)
+        {
+            var result = await dbService.ProcedureLoanBook(book.Id, libraryCard_Id);
             return result;
         }
         public async Task<int> LoanBook(BookLoan bookLoan, LibraryCard2 libraryCard)
@@ -121,6 +128,11 @@ namespace WargamesGUI.Services
             if (success) return (success, "Success, returned true.");
             else return (success, $"Error: {nameof(this.BookCopyReturnedCheck)} - returned false.");
         }
+        // Fixa
+        //public async Task<(bool, string)> Register()
+        //{
+        //    dbService.RegisterReturnedBook();
+        //}
         //Librarycard
         public async Task<List<LibraryCard2>> GetAllLibraryCards()
         {

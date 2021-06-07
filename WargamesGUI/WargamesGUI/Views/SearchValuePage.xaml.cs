@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WargamesGUI.Models;
 using WargamesGUI.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WargamesGUI.Views
 {
@@ -15,20 +14,24 @@ namespace WargamesGUI.Views
     public partial class SearchValuePage : ContentPage
     {
         public static BookService bookService = new BookService();
+        public static BookService2 bookService2 = new BookService2();
         public static UserService userService = new UserService();
+        public static UserService2 userService2 = new UserService2();
         public static string text;
-        public Book selecteditem;
+        public Book2 selecteditem;
         public static string cardnumber;
+
+        public List<User2> userList;
         public SearchValuePage()
         {
             InitializeComponent();
-
         }
         protected override void OnAppearing()
         {
             try
             {
                 MainThread.InvokeOnMainThreadAsync(async () => { await SearchValues(); });
+                MainThread.InvokeOnMainThreadAsync(async () => { await LoadUsers(); });
             }
             catch (Exception ex)
             {
@@ -36,17 +39,24 @@ namespace WargamesGUI.Views
             }
 
         }
+        public async Task<List<User2>> LoadUsers()
+        {
+            userList = await userService2.ReadAllUsersFromDbAsync();
+            return userList ?? null;
+        }
         private async Task SearchValues()
         {
 
-            try
-            {
-                listOfBook.ItemsSource = await bookService.Searching(GetValues(text));
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("SearchValues Error", $"Felmeddelande: {ex.Message}", "OK");
-            }
+            listOfBook.ItemsSource = await bookService2.SearchBook(text);
+
+            //try
+            //{
+            //    listOfBook.ItemsSource = await bookService.Searching(GetValues(text));
+            //}
+            //catch (Exception ex)
+            //{
+            //    await DisplayAlert("SearchValues Error", $"Felmeddelande: {ex.Message}", "OK");
+            //}
         }
 
         private void Back_Button_Clicked(object sender, EventArgs e)
@@ -61,7 +71,7 @@ namespace WargamesGUI.Views
 
         private async void listOfBook_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            selecteditem = (Book)e.Item;
+            selecteditem = (Book2)e.Item;
 
             var answer = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Detaljer", "Logga in för att låna boken");
 
@@ -100,11 +110,12 @@ namespace WargamesGUI.Views
                             App.Current.MainPage = new FlyoutLibrarianPage();
                             break;
                         case 3:
+                            var loggedInAs = userList.Select(x => x).Where(x => x.Username == EntryUsername.Text).FirstOrDefault();
                             EntryUsername.Text = string.Empty;
                             EntryPassword.Text = string.Empty;
                             MainStackLayout.IsVisible = false;
                             await DisplayAlert("Lyckades", "Du loggar nu in som Besökare", "OK");
-                            App.Current.MainPage = new VisitorPage();
+                            App.Current.MainPage = new VisitorPage(selecteditem, loggedInAs);
                             break;
                         default:
                             EntryUsername.Text = string.Empty;
