@@ -160,7 +160,7 @@ namespace WargamesGUI
                     firstnamebox.IsVisible = true;
                     lastnameframe.IsVisible = true;
                     lastnamebox.IsVisible = true;
-                    adressframe.IsVisible = true;
+                    addressframe.IsVisible = true;
                     addressbox.IsVisible = true;
                     ssnframe.IsVisible = true;
                     ssnbox.IsVisible = true;
@@ -178,7 +178,7 @@ namespace WargamesGUI
                     firstnamebox.IsVisible = true;
                     lastnameframe.IsVisible = true;
                     lastnamebox.IsVisible = true;
-                    adressframe.IsVisible = true;
+                    addressframe.IsVisible = true;
                     addressbox.IsVisible = true;
                     ssnframe.IsVisible = true;
                     ssnbox.IsVisible = true;
@@ -196,7 +196,7 @@ namespace WargamesGUI
                     firstnamebox.IsVisible = true;
                     lastnameframe.IsVisible = true;
                     lastnamebox.IsVisible = true;
-                    adressframe.IsVisible = true;
+                    addressframe.IsVisible = true;
                     addressbox.IsVisible = true;
                     ssnframe.IsVisible = true;
                     ssnbox.IsVisible = true;
@@ -359,6 +359,39 @@ namespace WargamesGUI
                 lastnamewrongcross.IsVisible = false;
                 lastnamecorrectcheck.IsVisible = true;
             }
+        }
+
+        private void addressbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(addressbox.Text) || CheckFormat.CheckAdress(addressbox.Text) == false)
+            {
+                addressframe.BorderColor = Color.Red;
+                addressbox.Placeholder = "Fel format. Skriv in förnamn.";
+                addressbox.PlaceholderColor = Color.Red;
+                addresswrongcross.IsVisible = true;
+                addresscorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                addressframe.BorderColor = Color.Green;
+                addresswrongcross.IsVisible = false;
+                addresscorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void ssnbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void emailbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void phonebox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
