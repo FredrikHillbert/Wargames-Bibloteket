@@ -26,7 +26,7 @@ namespace WargamesGUI
         public User2 selectedItem;
         public static UserService2 userService = new UserService2();
         public static LoanService2 loanService = new LoanService2();
-        
+
         public string statusString;
         private int privilegeLevel;
         private List<User2> UserCollection;
@@ -87,10 +87,11 @@ namespace WargamesGUI
                 await DisplayAlert("Misslyckades", "Lösenordfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
 
-           
+
 
             else
             {
+                firstnameframe.BorderColor = Color.ForestGreen;
                 try
                 {
                     User2 user = new User2()
@@ -266,7 +267,7 @@ namespace WargamesGUI
                 switch (choice)
                 {
                     case "Status på bibliotekskort":
-                       
+
                         await DisplayAlert("Status för bibliotekskort:", $"Användaren {selectedItem.First_Name} {selectedItem.Last_Name} har statusen: '{statusString}' för sitt bibliotekskort", "OK");
                         break;
 
@@ -323,5 +324,41 @@ namespace WargamesGUI
             }
         }
 
+        private void firstnamebox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            if (string.IsNullOrEmpty(firstnamebox.Text) || CheckFormat.CheckIfAllLetter(firstnamebox.Text) == false)
+            {
+                firstnameframe.BorderColor = Color.Red;
+                firstnamebox.Placeholder = "Fel format. Skriv in förnamn.";
+                firstnamebox.PlaceholderColor = Color.Red;
+                firstnamewrongcross.IsVisible = true;
+                firstnamecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                firstnameframe.BorderColor = Color.Green;
+                firstnamewrongcross.IsVisible = false;
+                firstnamecorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void lastnamebox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(lastnamebox.Text) || CheckFormat.CheckIfAllLetter(lastnamebox.Text) == false)
+            {
+                lastnameframe.BorderColor = Color.Red;
+                lastnamebox.Placeholder = "Fel format. Skriv in förnamn.";
+                lastnamebox.PlaceholderColor = Color.Red;
+                lastnamewrongcross.IsVisible = true;
+                lastnamecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                lastnameframe.BorderColor = Color.Green;
+                lastnamewrongcross.IsVisible = false;
+                lastnamecorrectcheck.IsVisible = true;
+            }
         }
     }
+}

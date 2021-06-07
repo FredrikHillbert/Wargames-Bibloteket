@@ -134,6 +134,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Check.png" />
+    <Content Include="Cross.png" />
     <Content Include="Library.png" />
     <Content Include="libraryvid.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
