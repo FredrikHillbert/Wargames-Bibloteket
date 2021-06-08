@@ -368,12 +368,15 @@ namespace WargamesGUI
         private async void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (User2)e.Item;
-            var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Ändra användare", "Ta bort användare");
+            var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort", "Ta bort användare");
             try
             {
                 switch (userDetails)
                 {
-                    case "Ändra användare":
+                    case "Status på bibliotekskort":
+                        UserStatus(userDetails);
+                        break;
+                    case "Ändra status för bibliotekskort":
                         ChangeUser(userDetails);
                         break;
                     case "Ta bort användare":
@@ -387,9 +390,29 @@ namespace WargamesGUI
             }
         }
 
+        private async void UserStatus(string userDetails)
+        {
+            if (selectedItem.TypeOfUser.PrivilegeLevel == 3)
+            {
+                try
+                {
+                    var statusTuple = await userService.GetStatusForLibraryCardFromDbAsync(selectedItem.LibraryCard.LibraryCard_Id);
+                    statusString = statusTuple.Item2;
+
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
+
+                }
+
+                await DisplayAlert("Status för bibliotekskort:", $"Användaren {selectedItem.First_Name} {selectedItem.Last_Name} har statusen: '{statusString}' för sitt bibliotekskort", "OK");
+
+            }
+        }
+
         private async void RemoveUser(string userDetails)
         {
-            //throw new NotImplementedException();
             try
             {
                 bool canRemove = await userService.RemoveUserFromDbAsync(selectedItem.User_ID);
@@ -404,10 +427,9 @@ namespace WargamesGUI
 
         private async void ChangeUser(string userDetails)
         {
-            //throw new NotImplementedException();
             if (selectedItem.TypeOfUser.PrivilegeLevel == 3)
             {
-                var choice = await DisplayActionSheet($"Gör ett val för användarnamn {selectedItem.Username}: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort");
+                var libraryCardDetails = await DisplayActionSheet($"Ny status för bibliotekskort med användarnamn {selectedItem.Username}: ", "Avbryt", null, "Aktivt", "Försenade böcker", "Borttappade böcker", "Stöld");
                 try
                 {
                     var statusTuple = await userService.GetStatusForLibraryCardFromDbAsync(selectedItem.LibraryCard.LibraryCard_Id);
@@ -419,41 +441,30 @@ namespace WargamesGUI
                     await DisplayAlert("listOfUsers_ItemTapped Error", $"Felmeddelande: {ex.Message}", "OK");
 
                 }
-                switch (choice)
-                {
-                    case "Status på bibliotekskort":
 
-                        await DisplayAlert("Status för bibliotekskort:", $"Användaren {selectedItem.First_Name} {selectedItem.Last_Name} har statusen: '{statusString}' för sitt bibliotekskort", "OK");
+                switch (libraryCardDetails)
+                {
+                    case "Aktivt":
+                        selectedItem.LibraryCard.fk_Status_Id = 1;
+                        ChangingCardStatus();
                         break;
 
-                    case "Ändra status för bibliotekskort":
-                        var libraryCardDetails = await DisplayActionSheet($"Ny status för bibliotekskort med användarnamn {selectedItem.Username}: ", "Avbryt", null, "Aktivt", "Försenade böcker", "Borttappade böcker", "Stöld");
+                    case "Försenade böcker":
+                        selectedItem.LibraryCard.fk_Status_Id = 2;
+                        ChangingCardStatus();
+                        break;
 
-                        switch (libraryCardDetails)
-                        {
-                            case "Aktivt":
-                                selectedItem.LibraryCard.fk_Status_Id = 1;
-                                ChangingCardStatus();
-                                break;
+                    case "Borttappade böcker":
+                        selectedItem.LibraryCard.fk_Status_Id = 3;
+                        ChangingCardStatus();
+                        break;
 
-                            case "Försenade böcker":
-                                selectedItem.LibraryCard.fk_Status_Id = 2;
-                                ChangingCardStatus();
-                                break;
+                    case "Stöld":
+                        selectedItem.LibraryCard.fk_Status_Id = 4;
+                        ChangingCardStatus();
+                        break;
 
-                            case "Borttappade böcker":
-                                selectedItem.LibraryCard.fk_Status_Id = 3;
-                                ChangingCardStatus();
-                                break;
-
-                            case "Stöld":
-                                selectedItem.LibraryCard.fk_Status_Id = 4;
-                                ChangingCardStatus();
-                                break;
-
-                            default:
-                                break;
-                        }
+                    default:
                         break;
                 }
             }
