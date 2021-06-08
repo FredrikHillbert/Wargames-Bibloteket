@@ -7,7 +7,8 @@ using WargamesGUI.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using System.Linq;
-
+using System.Security.Cryptography;
+using System.Text;
 
 namespace WargamesGUI
 {
@@ -18,7 +19,7 @@ namespace WargamesGUI
         public static User2 user;
         public static BookService2 bookService2 = new BookService2();
         public static LoanService2 loanService2 = new LoanService2();
-        public static UserService2 userService2 = new UserService2();  
+        public static UserService2 userService2 = new UserService2();
 
         public List<Book2> bookList;
         public List<User2> userList;
@@ -41,37 +42,39 @@ namespace WargamesGUI
             userList = await userService2.ReadAllUsersFromDbAsync();
             return userList ?? null;
         }
+
+       
         private async void SignIn_Button_Clicked(object sender, EventArgs e)
         {
-            if (Entryusername.Text != "" & Entrypassword.Text != "")
+            if (Entryusername.Text != null & Entrypassword.Text != null)
             {
                 try
                 {
-                    switch (service.SignIn(Entryusername.Text, Entrypassword.Text))
+                    var activeUser = userList.Select(x => x).Where(x => x.Username == Entryusername.Text).FirstOrDefault();
+                    if (activeUser != null)
                     {
-                        case 1:
-                            Entryusername.Text = string.Empty;
-                            Entrypassword.Text = string.Empty;
-                            await DisplayAlert("Lyckades", "Du loggar nu in som administratör", "OK");
-                            App.Current.MainPage = new FlyoutAdminPage();
-                            break;
-                        case 2:
-                            Entryusername.Text = string.Empty;
-                            Entrypassword.Text = string.Empty;
-                            await DisplayAlert("Lyckades", "Du loggar nu in som Bibliotekarie", "OK");
-                            App.Current.MainPage = new FlyoutLibrarianPage();
-                            break;
-                        case 3:
-                            var loggedInAs = userList.Select(x => x).Where(x => x.Username == Entryusername.Text).FirstOrDefault();
-                            Entryusername.Text = string.Empty;
-                            Entrypassword.Text = string.Empty;
-                            await DisplayAlert("Lyckades", "Du loggar nu in som Besökare", "OK");                      
-                            App.Current.MainPage = new VisitorPage(loggedInAs);
-                            break;
-                        default:
-                            await DisplayAlert("Misslyckades", "Kotrollera användarnamn och lösenord", "Ok");
-                            break;
+                        switch (await userService2.SignInUser(activeUser, Entrypassword.Text))
+                        {
+                            case 0: await DisplayAlert("Error", "Kontrollera användarnamn och lösenord", "OK");
+                                break;
+
+                            case 1:
+                                await DisplayAlert("Lyckades", "Du loggar nu in som administratör", "OK");
+                                App.Current.MainPage = new FlyoutAdminPage();
+                                break;
+                            case 2:
+                                await DisplayAlert("Lyckades", "Du loggar nu in som Bibliotekarie", "OK");
+                                App.Current.MainPage = new FlyoutLibrarianPage();
+                                break;
+                            case 3:
+                                await DisplayAlert("Lyckades", "Du loggar nu in som Besökare", "OK");
+                                App.Current.MainPage = new VisitorPage(activeUser);
+                                break;
+                        }
+
                     }
+                    else { await DisplayAlert("Error", "Kontrollera användarnamn och lösenord", "OK"); }
+                
                 }
                 catch (Exception ex)
                 {
@@ -121,7 +124,7 @@ namespace WargamesGUI
             catch (Exception ex)
             {
                 DisplayAlert("Misslyckades", $"{ex.Message}", "Ok");
-            }      
+            }
         }
 
         private void AutoCompleteList_ItemTapped(object sender, ItemTappedEventArgs e)
