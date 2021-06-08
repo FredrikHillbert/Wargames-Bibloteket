@@ -39,20 +39,50 @@
                     <Picker x:Name="categoryPicker" BackgroundColor="White" TextColor="Black" HorizontalOptions="Start"
                         Grid.Row="0" Grid.Column="0" WidthRequest="400" Title="Kategori" SelectedIndexChanged="categorypicker_SelectedIndexChanged">
                     </Picker>
-                    <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="1" Margin="0,25,0,0" 
+                    <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="1" Margin="0,23,0,0" 
                            WidthRequest="400" TextColor="Black" HorizontalOptions="Start" IsReadOnly="True"/>
-                    <Entry x:Name="EntryTitle" Placeholder="Titel" Grid.Row="1" Grid.Column="0" Text="{Binding Title, Mode=TwoWay}" TextChanged="EntryTitle_TextChanged"/>
+                    <Frame x:Name="entryTitleframe" Grid.Row="1" Grid.Column="0" BackgroundColor="White" Padding="-1" CornerRadius="20">
+                        <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                            <Entry x:Name="EntryTitle" Placeholder="Titel" Grid.Row="1" Grid.Column="0" Text="{Binding Title, Mode=TwoWay}" TextChanged="EntryTitle_TextChanged" WidthRequest="370"/>
+                            <Image x:Name="entryTitlecorrectcheck" Source="Check.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false" />
+                            <Image x:Name="entryTitlewrongcross" Source="Cross.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false"/>
+                        </StackLayout>
+                    </Frame>
                     <Frame x:Name="entryISBNframe" Grid.Row="1" Grid.Column="1" BackgroundColor="White" Padding="-1" CornerRadius="20">
                         <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
                             <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="1" Grid.Column="1" Text="{Binding ISBN, Mode=TwoWay}" TextChanged="EntryISBN_TextChanged" WidthRequest="370"/>
                             <Image x:Name="entryISBNcorrectcheck" Source="Check.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false" />
                             <Image x:Name="entryISBNwrongcross" Source="Cross.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false"/>
                         </StackLayout>
-                   </Frame>
-                    <Entry x:Name="EntryPublisher" Placeholder="Utgivare" Grid.Row="1" Grid.Column="2" Text="{Binding Publisher, Mode=TwoWay}"/>
-                    <Entry x:Name="EntryDescription" Placeholder="Beskrivning" Grid.Row="2" Grid.Column="0" Text="{Binding Description, Mode=TwoWay}"/>
-                    <Entry x:Name="EntryPrice" Placeholder="Pris" Grid.Row="2" Grid.Column="1" Text="{Binding Price, Mode=TwoWay}"/>
-                    <Entry x:Name="EntryAuthor" Placeholder="Författare" Grid.Row="2" Grid.Column="2" Text="{Binding Author, Mode=TwoWay}"/>
+                    </Frame>
+                    <Frame x:Name="entryPublisherframe" Grid.Row="1" Grid.Column="2" BackgroundColor="White" Padding="-1" CornerRadius="20">
+                        <StackLayout Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+                            <Entry x:Name="EntryPublisher" Placeholder="Utgivare" Grid.Row="1" Grid.Column="2" Text="{Binding Publisher, Mode=TwoWay}" TextChanged="EntryPublisher_TextChanged" WidthRequest="370"/>
+                            <Image x:Name="entryPublishercorrectcheck" Source="Check.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false" />
+                            <Image x:Name="entryPublisherwrongcross" Source="Cross.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame x:Name="entryDescriptionframe" Grid.Row="2" Grid.Column="0" BackgroundColor="White" Padding="-1" CornerRadius="20">
+                        <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                            <Entry x:Name="EntryDescription" Placeholder="Beskrivning" Grid.Row="2" Grid.Column="0" Text="{Binding Description, Mode=TwoWay}" TextChanged="EntryDescription_TextChanged" WidthRequest="370"/>
+                            <Image x:Name="entryDescriptioncorrectcheck" Source="Check.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false" />
+                            <Image x:Name="entryDescriptionwrongcross" Source="Cross.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame x:Name="entryPriceframe" Grid.Row="2" Grid.Column="1" BackgroundColor="White" Padding="-1" CornerRadius="20">
+                        <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                            <Entry x:Name="EntryPrice" Placeholder="Pris" Grid.Row="2" Grid.Column="1" Text="{Binding Price, Mode=TwoWay}" TextChanged="EntryPrice_TextChanged" WidthRequest="370"/>
+                            <Image x:Name="entryPricecorrectcheck" Source="Check.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false" />
+                            <Image x:Name="entryPricewrongcross" Source="Cross.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame x:Name="entryAuthorframe" Grid.Row="2" Grid.Column="2" BackgroundColor="White" Padding="-1" CornerRadius="20">
+                        <StackLayout Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
+                            <Entry x:Name="EntryAuthor" Placeholder="Författare" Grid.Row="2" Grid.Column="2" Text="{Binding Author, Mode=TwoWay}" TextChanged="EntryAuthor_TextChanged" WidthRequest="370"/>
+                            <Image x:Name="entryAuthorcorrectcheck" Source="Check.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false" />
+                            <Image x:Name="entryAuthorwrongcross" Source="Cross.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false"/>
+                        </StackLayout>
+                    </Frame>
                     <Button Text="Lägg till bok"  
                         Grid.Row="2"  
                         Grid.Column="3" 
