@@ -82,9 +82,9 @@ namespace WargamesGUI
             {
                 await DisplayAlert("Misslyckades", "Telefonnummerfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
-            else if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfAllLetter(userbox.Text) == false)
+            else if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfUserExists(userbox.Text) == false)
             {
-                await DisplayAlert("Misslyckades", "Användarnmanfältet är tomt eller så är formatet inte tållåtet.", "OK");
+                await DisplayAlert("Misslyckades", "Användarnmanfältet är tomt eller så finns användaren redan.", "OK");
             }
             else if (string.IsNullOrEmpty(passbox.Text))
             {
@@ -515,6 +515,24 @@ namespace WargamesGUI
                     default:
                         break;
                 }
+            }
+        }
+
+        private void userbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfUserExists(userbox.Text) == false)
+            {
+                userframe.BorderColor = Color.Red;
+                userbox.Placeholder = "Du har inte angett något eller så existerar användarnamnet redan.";
+                userbox.PlaceholderColor = Color.Red;
+                usernamewrongcross.IsVisible = true;
+                usernamecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                userframe.BorderColor = Color.Green;
+                usernamewrongcross.IsVisible = false;
+                usernamecorrectcheck.IsVisible = true;
             }
         }
     }
