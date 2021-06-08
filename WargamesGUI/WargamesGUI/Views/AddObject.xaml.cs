@@ -96,7 +96,7 @@ namespace WargamesGUI.Views
             try
             {
                 if (result) await DisplayAlert($"Lyckades!", $"Du har lagt till en ny bok!", "OK");
-                else await DisplayAlert("Misslyckades!", $"Kunde inte uppdatera boken!", "OK");
+                else await DisplayAlert("Misslyckades!", $"Kunde inte lägga till en ny bok, kontrollera att allt är ifyllt korrekt!", "OK");
             }
             catch (Exception ex)
             {
