@@ -305,5 +305,27 @@ namespace WargamesGUI.Views
             }
         }
 
+        private void EntryTitle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void EntryISBN_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryISBN.Text) || CheckFormat.CheckIfAllNumbers(EntryISBN.Text) == false)
+            {
+                entryISBNframe.BorderColor = Color.Red;
+                EntryISBN.Placeholder = "Fel format. Skriv in ISBN.";
+                EntryISBN.PlaceholderColor = Color.Red;
+                entryISBNwrongcross.IsVisible = true;
+                entryISBNcorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryISBNframe.BorderColor = Color.Green;
+                entryISBNwrongcross.IsVisible = false;
+                entryISBNcorrectcheck.IsVisible = true;
+            }
+        }
     }
 }

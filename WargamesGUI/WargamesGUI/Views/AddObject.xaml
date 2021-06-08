@@ -23,7 +23,7 @@
                         <RowDefinition Height="55"/>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="35"/>
-                       
+
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -41,8 +41,14 @@
                     </Picker>
                     <Entry x:Name="EntrySubCategoryName" Grid.Row="0" Grid.Column="1" Margin="0,25,0,0" 
                            WidthRequest="400" TextColor="Black" HorizontalOptions="Start" IsReadOnly="True"/>
-                    <Entry x:Name="EntryTitle" Placeholder="Titel" Grid.Row="1" Grid.Column="0" Text="{Binding Title, Mode=TwoWay}"/>
-                    <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="1" Grid.Column="1" Text="{Binding ISBN, Mode=TwoWay}"/>
+                    <Entry x:Name="EntryTitle" Placeholder="Titel" Grid.Row="1" Grid.Column="0" Text="{Binding Title, Mode=TwoWay}" TextChanged="EntryTitle_TextChanged"/>
+                    <Frame x:Name="entryISBNframe" Grid.Row="1" Grid.Column="1" BackgroundColor="White" Padding="-1" CornerRadius="20">
+                        <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                            <Entry x:Name="EntryISBN" Placeholder="ISBN" Grid.Row="1" Grid.Column="1" Text="{Binding ISBN, Mode=TwoWay}" TextChanged="EntryISBN_TextChanged" WidthRequest="370"/>
+                            <Image x:Name="entryISBNcorrectcheck" Source="Check.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false" />
+                            <Image x:Name="entryISBNwrongcross" Source="Cross.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false"/>
+                        </StackLayout>
+                   </Frame>
                     <Entry x:Name="EntryPublisher" Placeholder="Utgivare" Grid.Row="1" Grid.Column="2" Text="{Binding Publisher, Mode=TwoWay}"/>
                     <Entry x:Name="EntryDescription" Placeholder="Beskrivning" Grid.Row="2" Grid.Column="0" Text="{Binding Description, Mode=TwoWay}"/>
                     <Entry x:Name="EntryPrice" Placeholder="Pris" Grid.Row="2" Grid.Column="1" Text="{Binding Price, Mode=TwoWay}"/>
@@ -80,7 +86,7 @@
                         <Label Text="Placering" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="4" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
                         <Label Text="Författare" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="5" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
                         <Label Text="Kategori" TextDecorations="Underline" HorizontalOptions="Start" TextColor="Black" Grid.Column="6" Grid.Row="0" FontSize="Small" FontAttributes="Bold"/>
-                        
+
                     </Grid>
                     <ListView x:Name="listOfBooks" ItemTapped="listOfBooks_ItemTapped" ItemSelected="listOfBooks_ItemSelected">
                         <ListView.ItemTemplate>
@@ -127,11 +133,11 @@
                     </ListView>
                 </StackLayout>
             </Frame>
-            
+
         </StackLayout>
 
         <!-- Fixar snart! - Alex -->
-        
+
         <!--<Grid x:Name="DisplayProgressGrid" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" IsVisible="False">
             <Image Source="pexels-cottonbro-with-layer.jpg" Aspect="AspectFill" IsVisible="true"/>
             <Frame x:Name="DisplayProgress" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" CornerRadius="20"
@@ -152,6 +158,6 @@
             <StackLayout x:Name="myMainPage" Grid.Row="0" Grid.Column="0">
             </StackLayout>
         </Grid>-->
-        
+
     </Grid>
 </ContentPage>
