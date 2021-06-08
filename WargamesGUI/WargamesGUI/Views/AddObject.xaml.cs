@@ -40,10 +40,10 @@ namespace WargamesGUI.Views
         {
             try
             {
-                EntryPrice.Text = string.Empty;
+                
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadDeweyData(); });
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAllBooks(); });
-            } 
+            }
             catch (Exception ex)
             {
                 await DisplayAlert("AddObject_OnAppearing", $"{ex.Message}", "OK");
@@ -96,7 +96,7 @@ namespace WargamesGUI.Views
             try
             {
                 if (result) await DisplayAlert($"Lyckades!", $"Du har lagt till en ny bok!", "OK");
-                else await DisplayAlert("Misslyckades!", $"Kunde inte uppdatera boken!", "OK");
+                else await DisplayAlert("Misslyckades!", $"Kunde inte lägga till en ny bok, kontrollera att allt är ifyllt korrekt!", "OK");
             }
             catch (Exception ex)
             {
@@ -156,7 +156,7 @@ namespace WargamesGUI.Views
                 if (check.Count == 0)
                 {
                     await DisplayAlert("Misslyckades!", $"Denna bok har inga exemplar tillgängliga!", "OK");
-                    
+
                 }
                 else
                 {
@@ -188,7 +188,7 @@ namespace WargamesGUI.Views
                                 var reason = await DisplayActionSheet($"Anledning för att ta bort exemplar av: \n{selectedItem.Title}", "Avbryt", null, "Dåligt skick", "Borttappad", "Stulen", "Annan anledning");
                                 switch (reason)
                                 {
-                                    
+
                                     case "Annan anledning":
                                         string otherReason = await DisplayPromptAsync($"Ta bort exemplar", $"Anledning för att ta bort exemplar av: \n{selectedItem.Title} \n\n{bookCopy}", maxLength: 20);
                                         await TryRemoveBookCopy(selectedBook, bookCopy, otherReason);
@@ -229,9 +229,9 @@ namespace WargamesGUI.Views
             catch (Exception ex)
             {
                 await DisplayAlert("TryRemoveBookCopy", $"Anledning: {ex.Message}", "OK");
-            }         
+            }
         }
-        public async Task TryRemoveBookObject(Book2 removeBook) 
+        public async Task TryRemoveBookObject(Book2 removeBook)
         {
             try
             {
@@ -305,5 +305,115 @@ namespace WargamesGUI.Views
             }
         }
 
+        private void EntryTitle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            if (string.IsNullOrEmpty(EntryTitle.Text))
+            {
+                entryTitleframe.BorderColor = Color.Red;
+                EntryTitle.Placeholder = "Fel format. Skriv in titel.";
+                EntryTitle.PlaceholderColor = Color.Red;
+                entryTitlewrongcross.IsVisible = true;
+                entryTitlecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryTitleframe.BorderColor = Color.Green;
+                entryTitlewrongcross.IsVisible = false;
+                entryTitlecorrectcheck.IsVisible = true;
+            }
+
+
+        }
+
+        private void EntryISBN_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryISBN.Text) || CheckFormat.CheckIfAllNumbers(EntryISBN.Text) == false)
+            {
+                entryISBNframe.BorderColor = Color.Red;
+                EntryISBN.Placeholder = "Fel format. Skriv in ISBN.";
+                EntryISBN.PlaceholderColor = Color.Red;
+                entryISBNwrongcross.IsVisible = true;
+                entryISBNcorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryISBNframe.BorderColor = Color.Green;
+                entryISBNwrongcross.IsVisible = false;
+                entryISBNcorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntryPublisher_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryPublisher.Text) || CheckFormat.CheckIfAllLetter(EntryPublisher.Text) == false)
+            {
+                entryPublisherframe.BorderColor = Color.Red;
+                EntryPublisher.Placeholder = "Fel format. Skriv in utgivare.";
+                EntryPublisher.PlaceholderColor = Color.Red;
+                entryPublisherwrongcross.IsVisible = true;
+                entryPublishercorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryPublisherframe.BorderColor = Color.Green;
+                entryPublisherwrongcross.IsVisible = false;
+                entryPublishercorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntryDescription_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryDescription.Text))
+            {
+                entryDescriptionframe.BorderColor = Color.Red;
+                EntryDescription.Placeholder = "Fel format. Skriv in beskrivning.";
+                EntryDescription.PlaceholderColor = Color.Red;
+                entryDescriptionwrongcross.IsVisible = true;
+                entryDescriptioncorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryDescriptionframe.BorderColor = Color.Green;
+                entryDescriptionwrongcross.IsVisible = false;
+                entryDescriptioncorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntryPrice_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryPrice.Text) || CheckFormat.CheckIfAllNumbers(EntryPrice.Text) == false)
+            {
+                entryPriceframe.BorderColor = Color.Red;
+                EntryPrice.Placeholder = "Fel format. Skriv in pris.";
+                EntryPrice.PlaceholderColor = Color.Red;
+                entryPricewrongcross.IsVisible = true;
+                entryPricecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryPriceframe.BorderColor = Color.Green;
+                entryPricewrongcross.IsVisible = false;
+                entryPricecorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntryAuthor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryAuthor.Text) || CheckFormat.CheckIfAllLetter(EntryAuthor.Text) == false)
+            {
+                entryAuthorframe.BorderColor = Color.Red;
+                EntryAuthor.Placeholder = "Fel format. Skriv in författare.";
+                EntryAuthor.PlaceholderColor = Color.Red;
+                entryAuthorwrongcross.IsVisible = true;
+                entryDescriptioncorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryAuthorframe.BorderColor = Color.Green;
+                entryAuthorwrongcross.IsVisible = false;
+                entryAuthorcorrectcheck.IsVisible = true;
+            }
+        }
     }
 }
