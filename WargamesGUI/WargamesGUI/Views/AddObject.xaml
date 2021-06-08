@@ -80,7 +80,7 @@
                         <StackLayout Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
                             <Entry x:Name="EntryAuthor" Placeholder="Författare" Grid.Row="2" Grid.Column="2" Text="{Binding Author, Mode=TwoWay}" TextChanged="EntryAuthor_TextChanged" WidthRequest="370"/>
                             <Image x:Name="entryAuthorcorrectcheck" Source="Check.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false" />
-                            <Image x:Name="entryAuthorwrongcross" Source="Cross.png"  WidthRequest="30" HeightRequest="30" Margin="-50,0,0,0" IsVisible="false"/>
+                            <Image x:Name="entryAuthorwrongcross" Source="Cross.png"  WidthRequest="30" HeightRequest="30" Margin="-40,0,0,0" IsVisible="false"/>
                         </StackLayout>
                     </Frame>
                     <Button Text="Lägg till bok"  

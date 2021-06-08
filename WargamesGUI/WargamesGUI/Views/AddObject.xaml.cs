@@ -40,7 +40,7 @@ namespace WargamesGUI.Views
         {
             try
             {
-                EntryPrice.Text = string.Empty;
+                
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadDeweyData(); });
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAllBooks(); });
             }
@@ -403,7 +403,7 @@ namespace WargamesGUI.Views
             if (string.IsNullOrEmpty(EntryAuthor.Text) || CheckFormat.CheckIfAllLetter(EntryAuthor.Text) == false)
             {
                 entryAuthorframe.BorderColor = Color.Red;
-                EntryAuthor.Placeholder = "Fel format. Skriv in utgivare.";
+                EntryAuthor.Placeholder = "Fel format. Skriv in författare.";
                 EntryAuthor.PlaceholderColor = Color.Red;
                 entryAuthorwrongcross.IsVisible = true;
                 entryDescriptioncorrectcheck.IsVisible = false;

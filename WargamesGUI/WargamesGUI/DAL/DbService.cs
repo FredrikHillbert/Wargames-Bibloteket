@@ -31,7 +31,6 @@ namespace WargamesGUI.DAL
         //========================================================================================||
         public async Task<List<Book2>> GetBooksFromDb()
         {
-
             var bookList = new List<Book2>();
 
             using (SqlConnection con = new SqlConnection(theConString))
@@ -53,7 +52,9 @@ namespace WargamesGUI.DAL
                             book.Description = reader["Description"].ToString();
                             book.Placement = Convert.ToInt32(reader["Placement"]);
                             book.Author = reader["Author"].ToString();
-                            //book.Price = Convert.ToInt32(reader["Price"]);
+                            book.Available_copies = Convert.ToInt32(reader["Available_copies"]);
+                            book.InStock = Convert.ToInt32(reader["InStock"]);
+                            book.Price = Convert.ToInt32(reader["Price"]);
 
                             bookList.Add(book);
                         }

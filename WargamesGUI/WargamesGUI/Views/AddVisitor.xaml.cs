@@ -257,5 +257,149 @@ namespace WargamesGUI.Views
                 }
             }
         }
+
+        private void EntryFirstName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryFirstName.Text) || CheckFormat.CheckIfAllLetter(EntryFirstName.Text) == false)
+            {
+                entryFirstnameframe.BorderColor = Color.Red;
+                EntryFirstName.Placeholder = "Fel format. Skriv in förnamn.";
+                EntryFirstName.PlaceholderColor = Color.Red;
+                entryFirstnamewrongcross.IsVisible = true;
+                entryFirstnamecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryFirstnameframe.BorderColor = Color.Green;
+                entryFirstnamewrongcross.IsVisible = false;
+                entryFirstnamecorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntryLastName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryLastName.Text) || CheckFormat.CheckIfAllLetter(EntryLastName.Text) == false)
+            {
+                entryLastNameFrame.BorderColor = Color.Red;
+                EntryLastName.Placeholder = "Fel format. Skriv in efternamn.";
+                EntryLastName.PlaceholderColor = Color.Red;
+                entryLastNamewrongcross.IsVisible = true;
+                entryLastNamecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryLastNameFrame.BorderColor = Color.Green;
+                entryLastNamewrongcross.IsVisible = false;
+                entryLastNamecorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntrySsnNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntrySsnNumber.Text) || CheckFormat.CheckIfAllNumbers(EntrySsnNumber.Text) == false)
+            {
+                entrySSNframe.BorderColor = Color.Red;
+                EntrySsnNumber.Placeholder = "Fel format. Skriv in personnummer.";
+                EntrySsnNumber.PlaceholderColor = Color.Red;
+                entrySSNwrongcross.IsVisible = true;
+                entrySSNcorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entrySSNframe.BorderColor = Color.Green;
+                entrySSNwrongcross.IsVisible = false;
+                entrySSNcorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntryAdress_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryAdress.Text) || CheckFormat.CheckAdress(EntryAdress.Text) == false)
+            {
+                entryAddressFrame.BorderColor = Color.Red;
+                EntryAdress.Placeholder = "Fel format. Skriv in adress.";
+                EntryAdress.PlaceholderColor = Color.Red;
+                entryAddresswrongcross.IsVisible = true;
+                entryAddresscorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryAddressFrame.BorderColor = Color.Green;
+                entryAddresswrongcross.IsVisible = false;
+                entryAddresscorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntryEmail_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryEmail.Text) || CheckFormat.IsValidEmail(EntryEmail.Text) == false)
+            {
+                entryEmailFrame.BorderColor = Color.Red;
+                EntryEmail.Placeholder = "Fel format. Skriv in email.";
+                EntryEmail.PlaceholderColor = Color.Red;
+                entryEmailwrongcross.IsVisible = true;
+                entryEmailcorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryEmailFrame.BorderColor = Color.Green;
+                entryEmailwrongcross.IsVisible = false;
+                entryEmailcorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntryPhoneNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryPhoneNumber.Text) || CheckFormat.CheckIfAllNumbers(EntryPhoneNumber.Text) == false)
+            {
+                entryPhoneFrame.BorderColor = Color.Red;
+                EntryPhoneNumber.Placeholder = "Fel format. Skriv in telefonnummer.";
+                EntryPhoneNumber.PlaceholderColor = Color.Red;
+                entryPhonewrongcross.IsVisible = true;
+                entryPhonecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryPhoneFrame.BorderColor = Color.Green;
+                entryPhonewrongcross.IsVisible = false;
+                entryPhonecorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntryUserName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryUserName.Text))
+            {
+                entryUserNameFrame.BorderColor = Color.Red;
+                EntryUserName.Placeholder = "Fel format. Skriv in användarnamn.";
+                EntryUserName.PlaceholderColor = Color.Red;
+                entryUserNamewrongcross.IsVisible = true;
+                entryUserNamecorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryUserNameFrame.BorderColor = Color.Green;
+                entryUserNamewrongcross.IsVisible = false;
+                entryUserNamecorrectcheck.IsVisible = true;
+            }
+        }
+
+        private void EntryPassword_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EntryPassword.Text))
+            {
+                entryPasswordFrame.BorderColor = Color.Red;
+                EntryPassword.Placeholder = "Fel format. Skriv in lösenord.";
+                EntryPassword.PlaceholderColor = Color.Red;
+                entryPasswordwrongcross.IsVisible = true;
+                entryPasswordcorrectcheck.IsVisible = false;
+            }
+            else
+            {
+                entryPasswordFrame.BorderColor = Color.Green;
+                entryPasswordwrongcross.IsVisible = false;
+                entryPasswordcorrectcheck.IsVisible = true;
+            }
+        }
     }
 }
