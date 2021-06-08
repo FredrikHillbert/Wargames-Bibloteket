@@ -40,6 +40,7 @@ namespace WargamesGUI.Views
         {
             try
             {
+                EntryPrice.Text = string.Empty;
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadDeweyData(); });
                 await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAllBooks(); });
             } 
