@@ -22,9 +22,9 @@
                     <!--LOG OUT BUTTON-->
                     <StackLayout Orientation="Horizontal">
                         <Button Text="Logga ut" TextColor="White" FontAttributes="Bold" CornerRadius="15" BackgroundColor="#2E4159" HorizontalOptions="Start" WidthRequest="150" Clicked="Back_Button_Clicked"/>
-                        <SearchBar x:Name="MainSearchBar" WidthRequest="150" Placeholder="Sök"  TextChanged="MainSearchBar_TextChanged" />
+                        <SearchBar x:Name="MainSearchBar" WidthRequest="150" Placeholder="Sök" TextChanged="MainSearchBar_TextChanged" />
                     </StackLayout>
-                    <ListView x:Name="listofbooks" ItemTapped="listofbooks_ItemTapped" >
+                    <ListView x:Name="listofbooks" ItemSelected="listofbooks_ItemSelected">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>

@@ -17,9 +17,13 @@ namespace WargamesGUI.Views
     {
         public static BookService bookService = new BookService();
         public static LoanService loanService = new LoanService();
+        public static BookService2 bookService2 = new BookService2();
+        public static LoanService2 loanService2 = new LoanService2();
+
         private List<Book> LoanCollection { get; set; } = new List<Book>();
         private List<Book> HandledCollection { get; set; } = new List<Book>();
         public static Book selectedBook;
+        public static Book2 selectedBook2;
         public static Book HandledbookSelected;
         public ManualReturn()
         {
@@ -36,7 +40,6 @@ namespace WargamesGUI.Views
             {
                 DisplayAlert("ManualReturnOnAppearing Error", $"Felmeddelande: {ex.Message}", "OK");
             }
-
         }
         private async Task LoadBooks()
         {
