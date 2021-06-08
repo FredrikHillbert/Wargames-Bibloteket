@@ -23,7 +23,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="0" Grid.Column="0">
-                    <Entry x:Name="EntryFirstName" Placeholder="Skriv in förnamn" BackgroundColor="White" Grid.Row="0" Grid.Column="0"/>
+                    <StackLayout>
+                        <Entry x:Name="EntryFirstName" Placeholder="Skriv in förnamn" BackgroundColor="White" Grid.Row="0" Grid.Column="0"/>
+                    </StackLayout>
                 </Frame>
                 <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="1" Grid.Column="0">
                     <Entry x:Name="EntryLastName" Placeholder="Skriv in efternamn" BackgroundColor="White" Grid.Row="1" Grid.Column="0"/>
