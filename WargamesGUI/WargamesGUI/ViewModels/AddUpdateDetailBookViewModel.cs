@@ -17,7 +17,7 @@ namespace WargamesGUI.ViewModels
         public string Description { get { return Book.Description; } set { Book.Description = value; OnPropertyChanged(); } }
         public int? Available_copies{ get { return Book.Available_copies ?? 0; } set { Book.Available_copies = value; OnPropertyChanged(); } }
         public int? InStock { get { return Book.InStock ?? 0; } set { Book.InStock = value; OnPropertyChanged(); } }
-        public int? Price { get { return Book.Price ?? 0; } set { Book.Price = value; OnPropertyChanged(); } }
+        public int? Price { get { return Book.Price; } set { Book.Price = value; OnPropertyChanged(); } }
         public string ISBN { get { return Book.ISBN; } set { Book.ISBN = value; OnPropertyChanged(); } }
         public int Placement { get { if (DeweySub == null) return 0; else return Book.DeweySub.DeweySub_Id; } set { DeweySub.DeweySub_Id = value; OnPropertyChanged(DeweySub.DeweySub_Id.ToString()); } }
         public Item BookType { get  { if (Book.BookType == null) return null; else return Book.BookType; } set { Book.BookType = value; OnPropertyChanged(); } }
