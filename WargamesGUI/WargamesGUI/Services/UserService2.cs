@@ -40,7 +40,13 @@ namespace WargamesGUI.Services
             return listOfVisitors.Where(x => x.TypeOfUser.PrivilegeLevel == 3).ToList();
         }
 
-
+        public async Task<int> SignInUser(User2 loginUser, string password) 
+        {
+            var canLoginUser = await dbService.SignIn(loginUser, password);
+            return canLoginUser;
+        
+        
+        }
         public async Task<bool> AddNewUserAsync(User2 NewUser)
         {
             var canAddNewUser = await dbService.AddNewUser(NewUser);

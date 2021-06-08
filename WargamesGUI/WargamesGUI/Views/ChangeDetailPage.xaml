@@ -94,7 +94,7 @@
                         </Grid.RowDefinitions>
                         <StackLayout Orientation="Vertical" Grid.Column="0" Grid.Row="0">
                             <Label Text="Boktyp" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding TypeOfBook, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding BookType.TypeOfItem, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="0">
                             <Label Text="Titel" VerticalOptions="Center" TextDecorations="Underline" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
@@ -122,7 +122,7 @@
                         </StackLayout>
                         <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="3">
                             <Label Text="Kategori" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>
-                            <Label Text="{Binding SubCategory, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Label Text="{Binding DeweySub.SubCategoryName, Mode=TwoWay}" VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         </StackLayout>
                     </Grid>
                     <Label Text="Beskrivning" TextDecorations="Underline" VerticalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold"/>

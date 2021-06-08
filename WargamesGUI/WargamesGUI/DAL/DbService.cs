@@ -622,6 +622,7 @@ namespace WargamesGUI.DAL
                             user.Address = reader["Address"].ToString();
                             user.Email = reader["E-mail"].ToString();
                             user.PhoneNumber = reader["PhoneNumber"].ToString();
+                            user.Password = reader["Password"].ToString();
                             if (user.fk_PrivilegeLevel == 3) { user.fk_LibraryCard = Convert.ToInt32(reader["fk_LibraryCard"]); }
                             
                             
@@ -629,7 +630,7 @@ namespace WargamesGUI.DAL
                         }
                     }
                 }
-                return await Task.FromResult(users);
+                    return await Task.FromResult(users);
             }
         }
         /// <summary>
@@ -729,13 +730,12 @@ namespace WargamesGUI.DAL
         /// </summary>
         /// <param name="loginUser"></param>
         /// <returns>retunerar en INT som motsvarar vilken privilege level personen tillhör</returns>
-        public async Task<int> SignIn(User2 loginUser)
+        public async Task<int> SignIn(User2 loginUser, string password)
         {
-            var user = new User2();
-
+           
             SqlConnection Connection = new SqlConnection(theConString);
             Connection.Open();
-            var login = $"SELECT fk_PrivilegeLevel FROM {TableName.tblUser} WHERE Username = '{loginUser.Username} AND Password = HASHBYTES('SHA1','{loginUser.Password}')'";
+            var login = $"SELECT fk_PrivilegeLevel FROM {TableName.tblUser} WHERE Username = '{loginUser.Username}' AND Password = HASHBYTES('SHA1','{password}')";
 
             // string query2 = $"SELECT fk_PrivilegeLevel, Username, fk_LibraryCard, Password, CardNumber FROM tblUser LEFT JOIN tblLibraryCard ON fk_LibraryCard = LibraryCard_Id WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
 
@@ -745,11 +745,11 @@ namespace WargamesGUI.DAL
                 {
                     while (reader.Read())
                     {
-                        user.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                        loginUser.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
                     }
                 }
             }
-            return await Task.FromResult(user.fk_PrivilegeLevel);
+            return await Task.FromResult(loginUser.fk_PrivilegeLevel);
         }
 
         //========================================================================================||
