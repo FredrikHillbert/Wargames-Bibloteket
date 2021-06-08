@@ -9,44 +9,74 @@
         <Frame CornerRadius="40" BorderColor="Black" Margin="50,10,50,0" BackgroundColor="LightBlue">
             <Grid Margin="0,0,0,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="27"/>
-                    <RowDefinition Height="27"/>
-                    <RowDefinition Height="27"/>
-                    <RowDefinition Height="27"/>
-                    <RowDefinition Height="27"/>
-                    <RowDefinition Height="27"/>
-                    <RowDefinition Height="27"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="0" Grid.Column="0">
-                    <StackLayout>
-                        <Entry x:Name="EntryFirstName" Placeholder="Skriv in förnamn" BackgroundColor="White" Grid.Row="0" Grid.Column="0"/>
+                <Frame x:Name="entryFirstnameframe" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="0" Grid.Column="0">
+                    <StackLayout Orientation="Horizontal">
+                        <Entry x:Name="EntryFirstName" Placeholder="Skriv in förnamn" BackgroundColor="White" Grid.Row="0" Grid.Column="0" TextChanged="EntryFirstName_TextChanged" WidthRequest="1500"/>
+                        <Image x:Name="entryFirstnamecorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="30" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        <Image x:Name="entryFirstnamewrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="30" Margin="-100,0,0,0" IsVisible="false"></Image>
                     </StackLayout>
                 </Frame>
-                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="1" Grid.Column="0">
-                    <Entry x:Name="EntryLastName" Placeholder="Skriv in efternamn" BackgroundColor="White" Grid.Row="1" Grid.Column="0"/>
+                <Frame x:Name="entryLastNameFrame" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="1" Grid.Column="0">
+                    <StackLayout Orientation="Horizontal">
+                        <Entry x:Name="EntryLastName" Placeholder="Skriv in efternamn" BackgroundColor="White" Grid.Row="1" Grid.Column="0" TextChanged="EntryLastName_TextChanged" WidthRequest="1500"/>
+                        <Image x:Name="entryLastNamecorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        <Image x:Name="entryLastNamewrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                    </StackLayout>
                 </Frame>
-                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="2" Grid.Column="0">
-                    <Entry x:Name="EntrySsnNumber" Placeholder="Skriv in personnummer" BackgroundColor="White" Grid.Row="2" Grid.Column="0"/>
+                <Frame x:Name="entrySSNframe" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="2" Grid.Column="0">
+                    <StackLayout Orientation="Horizontal">
+                        <Entry x:Name="EntrySsnNumber" Placeholder="Skriv in personnummer" BackgroundColor="White" Grid.Row="2" Grid.Column="0" TextChanged="EntrySsnNumber_TextChanged" WidthRequest="1500"/>
+                        <Image x:Name="entrySSNcorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        <Image x:Name="entrySSNwrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                    </StackLayout>
                 </Frame>
-                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="3" Grid.Column="0">
-                    <Entry x:Name="EntryAdress" Placeholder="Skriv in adress" BackgroundColor="White" Grid.Row="3" Grid.Column="0"/>
+                <Frame x:Name="entryAddressFrame" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="3" Grid.Column="0">
+                    <StackLayout Orientation="Horizontal">
+                        <Entry x:Name="EntryAdress" Placeholder="Skriv in adress" BackgroundColor="White" Grid.Row="3" Grid.Column="0" TextChanged="EntryAdress_TextChanged" WidthRequest="1500"/>
+                        <Image x:Name="entryAddresscorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        <Image x:Name="entryAddresswrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                    </StackLayout>
                 </Frame>
-                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="4" Grid.Column="0">
-                    <Entry x:Name="EntryEmail" Placeholder="Skriv in email" BackgroundColor="White" Grid.Row="4" Grid.Column="0"/>
+                <Frame x:Name="entryEmailFrame" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="4" Grid.Column="0">
+                    <StackLayout Orientation="Horizontal">
+                        <Entry x:Name="EntryEmail" Placeholder="Skriv in email" BackgroundColor="White" Grid.Row="4" Grid.Column="0" TextChanged="EntryEmail_TextChanged" WidthRequest="1500"/>
+                        <Image x:Name="entryEmailcorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        <Image x:Name="entryEmailwrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                    </StackLayout>
                 </Frame>
-                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1"  Grid.Row="5" Grid.Column="0">
-                    <Entry x:Name="EntryPhoneNumber" Placeholder="Skriv in telefonnummer" BackgroundColor="white" Grid.Row="5" Grid.Column="0"/>
+                <Frame x:Name="entryPhoneFrame" CornerRadius="20" BackgroundColor="White" Padding="-1"  Grid.Row="5" Grid.Column="0">
+                    <StackLayout Orientation="Horizontal">
+                        <Entry x:Name="EntryPhoneNumber" Placeholder="Skriv in telefonnummer" BackgroundColor="white" Grid.Row="5" Grid.Column="0" TextChanged="EntryPhoneNumber_TextChanged" WidthRequest="1500"/>
+                        <Image x:Name="entryPhonecorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        <Image x:Name="entryPhonewrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                    </StackLayout>
                 </Frame>
-                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="6" Grid.Column="0">
-                    <Entry x:Name="EntryUserName" Placeholder="Skriv in användarnamn" BackgroundColor="white" Grid.Row="6" Grid.Column="0"/>
+                <Frame x:Name="entryUserNameFrame" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="6" Grid.Column="0">
+                    <StackLayout Orientation="Horizontal">
+                        <Entry x:Name="EntryUserName" Placeholder="Skriv in användarnamn" BackgroundColor="white" Grid.Row="6" Grid.Column="0" TextChanged="EntryUserName_TextChanged" WidthRequest="1500"/>
+                        <Image x:Name="entryUserNamecorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        <Image x:Name="entryUserNamewrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                    </StackLayout>
                 </Frame>
-                <Frame CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="7" Grid.Column="0">
-                    <Entry x:Name="EntryPassword" Placeholder="Skriv in lösenord" BackgroundColor="white" Grid.Row="7" Grid.Column="0"/>
+                <Frame x:Name="entryPasswordFrame" CornerRadius="20" BackgroundColor="White" Padding="-1" Grid.Row="7" Grid.Column="0">
+                    <StackLayout Orientation="Horizontal">
+                        <Entry x:Name="EntryPassword" Placeholder="Skriv in lösenord" BackgroundColor="white" Grid.Row="7" Grid.Column="0" TextChanged="EntryPassword_TextChanged" WidthRequest="1500"/>
+                        <Image x:Name="entryPasswordcorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        <Image x:Name="entryPasswordwrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="20" Margin="-100,0,0,0" IsVisible="false"></Image>
+                    </StackLayout>
                 </Frame>
                 <Button Text="Registrera besökare" 
                             Clicked="AddVisitor_Button_Clicked" 
