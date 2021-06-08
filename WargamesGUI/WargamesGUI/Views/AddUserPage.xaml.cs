@@ -368,25 +368,73 @@ namespace WargamesGUI
         private async void listOfUsers_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             selectedItem = (User2)e.Item;
-            var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort", "Ta bort användare");
-            try
+            switch (selectedItem.TypeOfUser.PrivilegeLevel)
             {
-                switch (userDetails)
-                {
-                    case "Status på bibliotekskort":
-                        UserStatus(userDetails);
+                case 1:
+                    {
+                        var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Ta bort användare");
+                        try
+                        {
+                            switch (userDetails)
+                            {
+                                case "Ta bort användare":
+                                    RemoveUser(userDetails);
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("listOfVisitors_ItemTapped", $"Anledning: {ex.Message}", "OK");
+                        }
+
                         break;
-                    case "Ändra status för bibliotekskort":
-                        ChangeUser(userDetails);
+                    }
+
+                case 2:
+                    {
+                        var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Ta bort användare");
+                        try
+                        {
+                            switch (userDetails)
+                            {
+                                case "Ta bort användare":
+                                    RemoveUser(userDetails);
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("listOfVisitors_ItemTapped", $"Anledning: {ex.Message}", "OK");
+                        }
+
                         break;
-                    case "Ta bort användare":
-                        RemoveUser(userDetails);
+                    }
+
+                case 3:
+                    {
+                        var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort", "Ta bort användare");
+                        try
+                        {
+                            switch (userDetails)
+                            {
+                                case "Status på bibliotekskort":
+                                    UserStatus(userDetails);
+                                    break;
+                                case "Ändra status för bibliotekskort":
+                                    ChangeUser(userDetails);
+                                    break;
+                                case "Ta bort användare":
+                                    RemoveUser(userDetails);
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("listOfVisitors_ItemTapped", $"Anledning: {ex.Message}", "OK");
+                        }
+
                         break;
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("listOfVisitors_ItemTapped", $"Anledning: {ex.Message}", "OK");
+                    }
             }
         }
 
