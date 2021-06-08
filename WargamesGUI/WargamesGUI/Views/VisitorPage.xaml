@@ -16,7 +16,7 @@
         <Image Source="overlayreal.png" Aspect="AspectFill" Grid.RowSpan="3"></Image>
 
         <!--LIST OF BOOKS, VISITOR-->
-        <StackLayout>
+        <StackLayout x:Name="BookStackLayout">
             <Frame CornerRadius="15" BorderColor="Black" Margin="20,20,20,10" BackgroundColor="LightBlue">
                 <StackLayout>
                     <!--LOG OUT BUTTON-->
@@ -103,7 +103,7 @@
 
 
         <!--LIST OF BORROWRD BOCKS VISITOR-->
-        <StackLayout Grid.Row="2" VerticalOptions="Start">
+        <StackLayout Grid.Row="2" VerticalOptions="Start" x:Name="BookLoanStackLayout">
             <Frame CornerRadius="15" BorderColor="Black" Margin="20,10,20,20" BackgroundColor="LightBlue">
                 <StackLayout>
                     <ListView x:Name="listofBorrowedbooks" Margin="5" ItemTapped="listofBorrowedbooks_ItemTapped" >

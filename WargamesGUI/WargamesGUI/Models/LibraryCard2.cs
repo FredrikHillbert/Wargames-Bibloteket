@@ -6,5 +6,6 @@
         public string CardNumber { get; set; }
         public int fk_Status_Id { get; set; }
         public LibraryCardStatus CardStatus { get; set; }
+        public User2 User { get; set; }
     }
 }
