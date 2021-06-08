@@ -96,7 +96,8 @@ namespace WargamesGUI.Views
             try
             {
                 if (result) await DisplayAlert($"Lyckades!", $"Du har lagt till en ny bok!", "OK");
-                else await DisplayAlert("Misslyckades!", $"Kunde inte uppdatera boken!", "OK");
+                else await DisplayAlert("Misslyckades!", $"Kunde inte lägga till boken!", "OK");
+                await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAllBooks(); });
             }
             catch (Exception ex)
             {
@@ -294,6 +295,7 @@ namespace WargamesGUI.Views
                             var selectedDeweySub = deweySub.Select(x => x).Where(x => x.SubCategoryName == subCategoryName).ToList().FirstOrDefault();
                             await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.DeweyMain = selectedDeweyMain; });
                             await MainThread.InvokeOnMainThreadAsync(() => { bookViewModel.DeweySub = selectedDeweySub; });
+                            EntrySubCategoryName.Text = bookViewModel.DeweySub.SubCategoryName;
                             break;
                         }
                         else
@@ -322,10 +324,7 @@ namespace WargamesGUI.Views
                 entryTitlewrongcross.IsVisible = false;
                 entryTitlecorrectcheck.IsVisible = true;
             }
-
-
         }
-
         private void EntryISBN_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(EntryISBN.Text) || CheckFormat.CheckIfAllNumbers(EntryISBN.Text) == false)
