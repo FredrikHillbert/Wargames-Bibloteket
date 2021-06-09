@@ -51,7 +51,20 @@ namespace WargamesGUI.Services
 
         public async Task<bool> RemoveBookObject(Book2 removeBook) 
         {
-            if (removeBook != null) { return await dbService.ProcedureDeleteBookFromDb(removeBook); }
+           var unAvailableCopies = removeBook.BookCopies.Select(x => x).Where(x => x.fk_Availability == 2).ToList(); 
+
+            if (removeBook != null && unAvailableCopies.Count == 0) 
+            {
+                var deletedCopies = removeBook.BookCopies.Select(x => x).ToList();
+                var reason = "Bok borttagen";
+                foreach (var item in deletedCopies)
+                {
+                    await dbService.ProcedureRemoveBookCopyFromDb(item.Copy_Id, reason);
+                }
+                await dbService.ProcedureDeleteBookFromDb(removeBook);
+
+                return await Task.FromResult(true);
+            }
             else { return false; }    
         }
         public async Task<bool> RemoveBookCopy(BookCopy bookCopy, string reason)
