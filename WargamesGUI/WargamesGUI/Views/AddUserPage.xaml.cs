@@ -377,7 +377,7 @@ namespace WargamesGUI
                         {
                             if (userDetails == "Ta bort användare")
                             {
-                                var removeYesorNo = await DisplayActionSheet($"Vill du verkligen ta bort admin {selectedItem.Username} ", "Nej", "Ja");
+                                var removeYesorNo = await DisplayActionSheet($"Vill du verkligen ta bort adminanvändaren: {selectedItem.Username} ", "Nej", "Ja");
                                 switch (removeYesorNo)
                                 {
                                     case "Ja":
@@ -400,11 +400,15 @@ namespace WargamesGUI
                         var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Ta bort användare");
                         try
                         {
-                            switch (userDetails)
+                            if (userDetails == "Ta bort användare")
                             {
-                                case "Ta bort användare":
-                                    RemoveUser(userDetails);
-                                    break;
+                                var removeYesorNo = await DisplayActionSheet($"Vill du verkligen ta bort biblioteksanvändaren: {selectedItem.Username} ", "Nej", "Ja");
+                                switch (removeYesorNo)
+                                {
+                                    case "Ja":
+                                        RemoveUser(userDetails);
+                                        break;
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -417,21 +421,39 @@ namespace WargamesGUI
 
                 case 3:
                     {
-                        var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort", "Ta bort användare");
+                        var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Status på besökare", "Ändra status för bibliotekskort", "Ta bort användare");
                         try
                         {
-                            switch (userDetails)
+                            if (userDetails == "Status på bibliotekskort")
                             {
-                                case "Status på bibliotekskort":
-                                    UserStatus(userDetails);
-                                    break;
-                                case "Ändra status för bibliotekskort":
-                                    ChangeUser(userDetails);
-                                    break;
-                                case "Ta bort användare":
-                                    RemoveUser(userDetails);
-                                    break;
+                                        UserStatus(userDetails);
                             }
+                            else if (userDetails == "Ändra status för bibliotekskort")
+                            {
+                                        ChangeUser(userDetails);
+                            }
+                            else if (userDetails == "Ta bort användare")
+                            {
+                                var removeYesorNo = await DisplayActionSheet($"Vill du verkligen ta bort besökare: {selectedItem.Username} ", "Nej", "Ja");
+                                switch (removeYesorNo)
+                                {
+                                    case "Ja":
+                                        RemoveUser(userDetails);
+                                        break;
+                                }
+                            }
+                            //switch (userDetails)
+                            //{
+                            //    case "Status på bibliotekskort":
+                            //        UserStatus(userDetails);
+                            //        break;
+                            //    case "Ändra status för bibliotekskort":
+                            //        ChangeUser(userDetails);
+                            //        break;
+                            //    case "Ta bort användare":
+                            //        RemoveUser(userDetails);
+                            //        break;
+                            //}
                         }
                         catch (Exception ex)
                         {
