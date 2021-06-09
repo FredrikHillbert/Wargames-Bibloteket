@@ -21,10 +21,10 @@
                 <ListView.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="7*"/>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -37,7 +37,7 @@
                         <Label Text="Titel" TextColor="Black" Grid.Column="0" Grid.Row="1" FontAttributes="Bold" TextDecorations="Underline" FontSize="Small"/>
                         <Label Text="Författare" TextColor="Black" Grid.Column="1" Grid.Row="1" FontAttributes="Bold"  TextDecorations="Underline" FontSize="Small"/>
                         <Label Text="Placering" TextColor="Black" Grid.Column="2" Grid.Row="1" FontAttributes="Bold"  TextDecorations="Underline" FontSize="Small"/>
-                        <Label Text="Status" TextColor="Black" Grid.Column="3" Grid.Row="1" FontAttributes="Bold"  TextDecorations="Underline" FontSize="Small"/>
+                        <Label Text="Tillgängliga exemplar" TextColor="Black" Grid.Column="3" Grid.Row="1" FontAttributes="Bold"  TextDecorations="Underline" FontSize="Small"/>
                         <Label Text="Kategori" TextColor="Black" Grid.Column="4" Grid.Row="1" FontAttributes="Bold"  TextDecorations="Underline" FontSize="Small"/>
                     </Grid>
                 </ListView.Header>
@@ -46,10 +46,10 @@
                         <ViewCell>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="7*"/>
                                     <ColumnDefinition Width="3*"/>
                                     <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="7*"/>
                                     <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>

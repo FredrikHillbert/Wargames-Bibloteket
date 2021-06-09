@@ -50,7 +50,7 @@ namespace WargamesGUI
             {
                 try
                 {
-                    var activeUser = userList.Select(x => x).Where(x => x.Username == Entryusername.Text).FirstOrDefault();
+                    var activeUser = userList.Select(x => x).Where(x => x.Username == Entryusername.Text.ToUpper()).FirstOrDefault();
                     if (activeUser != null)
                     {
                         switch (await userService2.SignInUser(activeUser, Entrypassword.Text))
@@ -116,10 +116,11 @@ namespace WargamesGUI
             try
             {
                 var result = bookList.FilterSearchBookList(SearchBar.Text);
-
+                loginFrame.Margin = new Thickness(-40, -170, -40, -270);
                 if (string.IsNullOrWhiteSpace(SearchBar.Text))
                 {
                     AutoCompleteList.IsVisible = false;
+                    loginFrame.Margin = new Thickness(-40, -170, -40, -200);
                 }
                 else
                 {
@@ -137,7 +138,7 @@ namespace WargamesGUI
         {
             string listsd = e.Item as string;
             SearchBar.Text = listsd;
-            AutoCompleteList.IsVisible = false;
+            AutoCompleteList.IsVisible = false;           
             ((ListView)sender).SelectedItem = null;
             SearchBar_Clicked(sender, e);
         }

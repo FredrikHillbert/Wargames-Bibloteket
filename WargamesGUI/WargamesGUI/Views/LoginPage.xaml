@@ -16,13 +16,13 @@
            <!--6--><RowDefinition Height="40"/>
            <!--7--><RowDefinition Height="40"/>
            <!--8--><RowDefinition Height="40"/>
-           <!--9--><RowDefinition Height="40"/>
+           <!--9--><RowDefinition Height="140"/>
            <!--10--><RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Frame CornerRadius="15" Margin="-40,-170,-40,-200" BackgroundColor="LightBlue" Grid.RowSpan="4" Grid.Row="3">
+        <Frame x:Name="loginFrame" CornerRadius="15" Margin="-40,-170,-40,-200" BackgroundColor="LightBlue" Grid.RowSpan="4" Grid.Row="3">
             
         </Frame>
         <!--Image-->

@@ -82,7 +82,7 @@ namespace WargamesGUI
             {
                 await DisplayAlert("Misslyckades", "Telefonnummerfältet är tomt eller så är formatet inte tållåtet.", "OK");
             }
-            else if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfUserExists(userbox.Text) == false)
+            else if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfUserExists(userbox.Text.ToUpper()) == false)
             {
                 await DisplayAlert("Misslyckades", "Användarnmanfältet är tomt eller så finns användaren redan.", "OK");
             }
@@ -106,7 +106,7 @@ namespace WargamesGUI
                         Address = addressbox.Text,
                         Email = emailbox.Text,
                         PhoneNumber = phonebox.Text,
-                        Username = userbox.Text,
+                        Username = userbox.Text.ToUpper(),
                         Password = passbox.Text
                     };
                     await userService.AddNewUser(user);
@@ -547,7 +547,7 @@ namespace WargamesGUI
 
         private void userbox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfUserExists(userbox.Text) == false)
+            if (string.IsNullOrEmpty(userbox.Text) || CheckFormat.CheckIfUserExists(userbox.Text.ToUpper()) == false)
             {
                 userframe.BorderColor = Color.Red;
                 userbox.Placeholder = "Du har inte angett något eller så existerar användarnamnet redan.";

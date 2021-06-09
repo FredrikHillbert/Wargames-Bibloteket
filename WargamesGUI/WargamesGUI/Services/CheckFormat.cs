@@ -65,7 +65,7 @@ namespace WargamesGUI.Services
 
         public static bool CheckIfUserExists(string incomingUser)
         {
-
+            
             string query = "SELECT Username FROM tblUser";
 
             List<User> users = new List<User>();
