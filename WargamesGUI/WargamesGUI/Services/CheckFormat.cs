@@ -44,8 +44,8 @@ namespace WargamesGUI.Services
         public static bool CheckIfAllNumbers(string input)
         {
             if (string.IsNullOrWhiteSpace(input)
-                || !input.All(Char.IsDigit)
-                || input.Length < 2 || input.Length > 25)
+                ||!input.All(char.IsDigit)
+                || input.Length < 2 || input.Length > 13)
             {
                 return false;
             }
