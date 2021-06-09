@@ -209,6 +209,7 @@ namespace WargamesGUI.DAL
                         {
                             var bookCopy = new BookCopy();
 
+                            bookCopy.CopyCreated = Convert.ToDateTime(reader["CopyCreated"]);
                             bookCopy.Copy_Id = Convert.ToInt32(reader["Copy_Id"]);
                             bookCopy.fk_Book_Id = Convert.ToInt32(reader["fk_Book_Id"]);
                             bookCopy.fk_Condition_Id = Convert.ToInt32(reader["fk_Condition_Id"]);

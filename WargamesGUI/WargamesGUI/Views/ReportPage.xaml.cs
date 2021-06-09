@@ -16,9 +16,11 @@ namespace WargamesGUI.Views
         private int _itemID;
         private List<Book> UserCollection { get; set; } = new List<Book>();
         private List<Book> BookCollection { get; set; } = new List<Book>();
+        private List<BookCopy> BookCollection2 { get; set; } = new List<BookCopy>();
         private List<RemovedItem> RemovedBooks { get; set; } = new List<RemovedItem>();
         public LoanService loanService = new LoanService();
         public BookService bookService = new BookService();
+        public BookService2 bookService2 = new BookService2();
         public ReportPage()
         {
             InitializeComponent();
@@ -37,6 +39,7 @@ namespace WargamesGUI.Views
             Condition.IsVisible = false;
             Price.IsVisible = false;
             Created.IsVisible = false;
+            Id.IsVisible = false;
 
         }
         private async Task LoadData<T>(List<T> dataList)
@@ -64,6 +67,7 @@ namespace WargamesGUI.Views
                         Condition.IsVisible = false;
                         Price.IsVisible = false;
                         Created.IsVisible = false;
+                        Id.IsVisible = false;
                         UserCollection.AddRange((IEnumerable<Book>)dataList);
                         listOfVisitorsReport.ItemsSource = dataList;
                         break;
@@ -72,7 +76,7 @@ namespace WargamesGUI.Views
                         BorrowedBooks.IsVisible = false;
                         AddedBooks.IsVisible = true;
                         removedBooks.IsVisible = false;
-                        Title.IsVisible = false;
+                        Title.IsVisible = true;
                         Author.IsVisible = false;
                         Username.IsVisible = false;
                         Placement.IsVisible = false;
@@ -86,7 +90,8 @@ namespace WargamesGUI.Views
                         listofBooks.IsVisible = true;
                         listOfVisitorsReport.IsVisible = false;
                         listofremovedBooks.IsVisible = false;
-                        BookCollection.AddRange((IEnumerable<Book>)dataList);
+                        Id.IsVisible = true;
+                        BookCollection2.AddRange((IEnumerable<BookCopy>)dataList);
                         listofBooks.ItemsSource = dataList;
                         break;
                     case 3:
@@ -105,9 +110,11 @@ namespace WargamesGUI.Views
                         Condition.IsVisible = true;
                         Price.IsVisible = false;
                         Created.IsVisible = false;
+                        Id.IsVisible = false;
                         listofremovedBooks.IsVisible = true;
                         listOfVisitorsReport.IsVisible = false;
                         listofBooks.IsVisible = false;
+                        
                         RemovedBooks.AddRange((IEnumerable<RemovedItem>)dataList);
                         listofremovedBooks.ItemsSource = dataList;
                         break;
@@ -134,7 +141,7 @@ namespace WargamesGUI.Views
                     await LoadData(await loanService.GetBorrowedBooksFromDbLibrarian());                    
                     break;
                 case 2:
-                    await LoadData(await bookService.GetBooksFromDb());
+                    await LoadData(await bookService2.GetAllBookCopies());
                     break;
                 case 3:
                     await LoadData(await bookService.GetRemovedBooksFromDB());
@@ -154,9 +161,9 @@ namespace WargamesGUI.Views
                         listOfVisitorsReport.ItemsSource = searchresult;
                         break;
                     case 2:                        
-                        var result = BookCollection.Where(x => x.Category.Contains(FindUserSearchBar.Text)
-                        || x.Price.Contains(FindUserSearchBar.Text)
-                        || x.CreatedDate.ToString().Contains(FindUserSearchBar.Text));
+                        var result = BookCollection2.Where(x => x.Book.DeweySub.SubCategoryName.ToUpper().Contains(FindUserSearchBar.Text.ToUpper())
+                        || x.Book.Price.ToString().Contains(FindUserSearchBar.Text)
+                        || x.CopyCreated.ToString().Contains(FindUserSearchBar.Text));
                         listofBooks.ItemsSource = result;
                         break;
                     default:

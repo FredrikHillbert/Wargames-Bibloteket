@@ -82,9 +82,10 @@ namespace WargamesGUI.Services
             var bookConditions = await dbService.GetBookCopyConditionsFromDb();
             var bookAvailability = await dbService.GetBookCopyAvailabilityFromDb();
             var books = await GetAllBooks();
-            
+
             var result = bookCopies.Select(x => new BookCopy
             {
+                CopyCreated = x.CopyCreated,
                 Copy_Id = x.Copy_Id,
                 fk_Book_Id = x.fk_Book_Id,
                 fk_Availability = x.fk_Availability,
