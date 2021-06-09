@@ -135,7 +135,7 @@
                            FontAttributes="Bold" 
                            FontSize="Small" 
                            Grid.Row="1" 
-                           Grid.Column="0" 
+                           Grid.Column="1" 
                            TextColor="Black"/>
                     <Label x:Name="Reason"
                            Text="Anledning" 
@@ -162,7 +162,7 @@
                            FontAttributes="Bold" 
                            FontSize="Small" 
                            Grid.Row="1" 
-                           Grid.Column="1" 
+                           Grid.Column="2" 
                            TextColor="Black"/>
                     <Label x:Name="Created"
                            Text="Skapades"
@@ -171,7 +171,16 @@
                            FontAttributes="Bold" 
                            FontSize="Small" 
                            Grid.Row="1" 
-                           Grid.Column="2" 
+                           Grid.Column="3" 
+                           TextColor="Black"/>
+                    <Label x:Name="Id"
+                           Text="Exemplar Id"
+                           HorizontalOptions="Start" 
+                           TextDecorations="Underline" 
+                           FontAttributes="Bold" 
+                           FontSize="Small" 
+                           Grid.Row="1" 
+                           Grid.Column="4" 
                            TextColor="Black"/>
 
 
@@ -271,21 +280,35 @@
                                     </Grid.ColumnDefinitions>
                                     <StackLayout Grid.Column="0" 
                                                  Grid.Row="0">
-                                        <Label Text="{Binding Category}" 
+                                        <Label Text="{Binding Book.Title}" 
                                                FontSize="16" 
                                                HorizontalOptions="Start" 
                                                TextColor="Black"/>
                                     </StackLayout>
                                     <StackLayout Grid.Column="1" 
                                                  Grid.Row="0">
-                                        <Label Text="{Binding Price}" 
+                                        <Label Text="{Binding Book.DeweySub.SubCategoryName}" 
                                                FontSize="16" 
                                                HorizontalOptions="Start" 
                                                TextColor="Black"/>
                                     </StackLayout>
                                     <StackLayout Grid.Column="2" 
                                                  Grid.Row="0">
-                                        <Label Text="{Binding CreatedDate}"
+                                        <Label Text="{Binding Book.Price}" 
+                                               FontSize="16" 
+                                               HorizontalOptions="Start" 
+                                               TextColor="Black"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="3" 
+                                                 Grid.Row="0">
+                                        <Label Text="{Binding CopyCreated}"
+                                               FontSize="16" 
+                                               HorizontalOptions="Start" 
+                                               TextColor="Black"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="4" 
+                                                 Grid.Row="0">
+                                        <Label Text="{Binding Copy_Id}"
                                                FontSize="16" 
                                                HorizontalOptions="Start" 
                                                TextColor="Black"/>

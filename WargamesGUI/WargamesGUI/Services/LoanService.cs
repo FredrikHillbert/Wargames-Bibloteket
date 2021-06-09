@@ -109,7 +109,7 @@ namespace WargamesGUI.Services
         public async Task<List<Book>> GetBorrowedBooksFromDbLibrarian()
         {
             var BorrowedBooks = new List<Book>();
-            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate,  bl.ReturnedDate, bl.fk_BookLoanStatus_Id, b.Available_copies, b.ISBN, Loan_Id, tbc.Copy_Id" +
+            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate, bl.fk_BookLoanStatus_Id, b.Available_copies, b.ISBN, Loan_Id, tbc.Copy_Id" +
                            $" FROM tblBookLoan bl" +
                            $" LEFT JOIN tblBookCopy tbc" +
                            $" ON tbc.Copy_Id = bl.fk_BookCopy_Id" +
@@ -163,11 +163,11 @@ namespace WargamesGUI.Services
 
                                 BorrowedBo.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
 
-                                bool a = DateTime.TryParse(reader["ReturnedDate"].ToString(), out DateTime dateTime);
-                                if (a == true)
-                                {
-                                    BorrowedBo.ReturnedDate = Convert.ToDateTime(reader["ReturnedDate"]);
-                                }
+                                //bool a = DateTime.TryParse(reader["ReturnedDate"].ToString(), out DateTime dateTime);
+                                //if (a == true)
+                                //{
+                                //    BorrowedBo.ReturnedDate = Convert.ToDateTime(reader["ReturnedDate"]);
+                                //}
 
                                 BorrowedBooks.Add(BorrowedBo);
                             }
@@ -341,7 +341,7 @@ namespace WargamesGUI.Services
         public async Task<List<Book>> GetHandledBooksFromLibrarianDb()
         {
             var HandledBooks = new List<Book>();
-            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate,  bl.ReturnedDate, bl.fk_BookLoanStatus_Id, b.Available_copies, b.ISBN, tbc.fk_Condition_Id, tbc.Copy_Id, tbc.fk_Availability, Loan_Id" +
+            string query = $"SELECT b.Title, b.Author, tu.Username, b.Placement, b.InStock, bl.ReturnDate, bl.fk_BookLoanStatus_Id, b.Available_copies, b.ISBN, tbc.fk_Condition_Id, tbc.Copy_Id, tbc.fk_Availability, Loan_Id" +
                            $" FROM tblBookLoan bl" +
                            $" LEFT JOIN tblBookCopy tbc" +
                            $" ON tbc.Copy_Id = bl.fk_BookCopy_Id" +
@@ -412,11 +412,11 @@ namespace WargamesGUI.Services
 
                             }
 
-                            bool a = DateTime.TryParse(reader["ReturnedDate"].ToString(), out DateTime dateTime);
-                            if (a == true)
-                            {
-                                HandledBo.ReturnedDate = Convert.ToDateTime(reader["ReturnedDate"]);
-                            }
+                            //bool a = DateTime.TryParse(reader["ReturnedDate"].ToString(), out DateTime dateTime);
+                            //if (a == true)
+                            //{
+                            //    HandledBo.ReturnedDate = Convert.ToDateTime(reader["ReturnedDate"]);
+                            //}
 
                             HandledBooks.Add(HandledBo);
                         }

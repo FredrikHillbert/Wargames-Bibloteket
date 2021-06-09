@@ -12,10 +12,12 @@ namespace WargamesGUI.Models
         public int fk_Book_Id { get; set; }
         public int fk_Availability { get; set; }
         public int fk_Condition_Id { get; set; }
+        public DateTime CopyCreated { get; set; }
 
         public BookCondition BookCondition { get; set; }
         public BookAvailability BookAvailability { get; set; }
         public Book2 Book { get; set; }
+
 
         public override string ToString()
         {
