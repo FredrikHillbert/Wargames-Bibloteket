@@ -158,7 +158,6 @@ namespace WargamesGUI.Views
                 if (check.Count == 0)
                 {
                     await DisplayAlert("Misslyckades!", $"Denna bok har inga exemplar tillgängliga!", "OK");
-
                 }
                 else
                 {
@@ -204,7 +203,6 @@ namespace WargamesGUI.Views
                                         break;
                                 }
                             }
-
                             break;
                     }
                 }

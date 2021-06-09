@@ -86,10 +86,8 @@ namespace WargamesGUI.DAL
                     insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = book.Author ?? null;
                     insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = book.Publisher ?? null;
                     insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = book.Description ?? null;
-                    insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = book.Price ?? null;
                     insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = book.ISBN ?? null;
                     insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.DeweySub.DeweySub_Id;
-                    insertcmd.Parameters.Add("@InStock", SqlDbType.Int).Value = book.InStock ?? null;
 
                     await insertcmd.ExecuteNonQueryAsync();
                 }
