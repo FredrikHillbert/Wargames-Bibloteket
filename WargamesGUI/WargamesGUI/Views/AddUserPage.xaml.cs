@@ -375,16 +375,21 @@ namespace WargamesGUI
                         var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Ta bort användare");
                         try
                         {
-                            switch (userDetails)
+                            if (userDetails == "Ta bort användare")
                             {
-                                case "Ta bort användare":
-                                    RemoveUser(userDetails);
-                                    break;
+                                var removeYesorNo = await DisplayActionSheet($"Vill du verkligen ta bort admin {selectedItem.Username} ", "Nej", "Ja");
+                                switch (removeYesorNo)
+                                {
+                                    case "Ja":
+                                        RemoveUser(userDetails);
+                                        break;
+                                }
                             }
                         }
                         catch (Exception ex)
                         {
                             await DisplayAlert("listOfVisitors_ItemTapped", $"Anledning: {ex.Message}", "OK");
+
                         }
 
                         break;
