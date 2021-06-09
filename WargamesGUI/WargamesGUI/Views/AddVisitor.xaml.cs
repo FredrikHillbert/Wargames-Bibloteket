@@ -104,7 +104,7 @@ namespace WargamesGUI.Views
                   
                     if (await userService.AddNewUser(newUser))
                     {
-                        EntryFirstName.Text = string.Empty;
+                        EntryFirstName.Text = "";
                         EntryLastName.Text = string.Empty;
                         EntrySsnNumber.Text = string.Empty;
                         EntryAdress.Text = string.Empty;

@@ -73,7 +73,11 @@
                         </StackLayout>
                     </Frame>
                     <Frame x:Name="userframe" CornerRadius="20" BackgroundColor="White" Padding="-1" IsVisible="false">
-                        <Entry x:Name="userbox" Placeholder="Skriv in användarnamn" BackgroundColor="white" IsVisible="false"></Entry>
+                        <StackLayout Orientation="Horizontal">
+                            <Entry x:Name="userbox" Placeholder="Skriv in användarnamn" BackgroundColor="white" IsVisible="false" TextChanged="userbox_TextChanged" WidthRequest="1500"></Entry>
+                            <Image x:Name="usernamecorrectcheck" Source="Check.png" WidthRequest="50" HeightRequest="30" Margin="-100,0,0,0" IsVisible="false"></Image>
+                            <Image x:Name="usernamewrongcross" Source="Cross.png" WidthRequest="50" HeightRequest="30" Margin="-100,0,0,0" IsVisible="false"></Image>
+                        </StackLayout>
                     </Frame>
                     <Frame x:Name="passframe" CornerRadius="20" BackgroundColor="White" Padding="-1" IsVisible="false">
                         <Entry x:Name="passbox" Placeholder="Skriv in lönsenord" IsPassword="True" BackgroundColor="white" IsVisible="false"></Entry>

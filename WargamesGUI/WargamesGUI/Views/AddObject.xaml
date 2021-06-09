@@ -136,7 +136,7 @@
                                             <RowDefinition Height="30"/>
                                         </Grid.RowDefinitions>
                                         <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
-                                            <Label Text="{Binding BookType, Mode=TwoWay}" HorizontalOptions="Start" FontSize="16"/>
+                                            <Label Text="{Binding BookType.TypeOfItem, Mode=TwoWay}" HorizontalOptions="Start" FontSize="16"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0" >
                                             <Label Text="{Binding Title, Mode=TwoWay}" HorizontalOptions="Start" FontSize="16"/>

@@ -81,15 +81,13 @@ namespace WargamesGUI.DAL
                     insertcmd.CommandType = CommandType.StoredProcedure;
 
                     insertcmd.Parameters.Add("@Id", SqlDbType.Int).Value = book.Id;
-                    insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = book.fk_Item_Id;
+                    insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = book.BookType.Item_Id;
                     insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = book.Title ?? null;
                     insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = book.Author ?? null;
                     insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = book.Publisher ?? null;
                     insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = book.Description ?? null;
-                    //insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = book.Price ?? null;
                     insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = book.ISBN ?? null;
-                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.Placement;
-                    //insertcmd.Parameters.Add("@InStock", SqlDbType.Int).Value = book.InStock ?? null
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.DeweySub.DeweySub_Id;
 
                     await insertcmd.ExecuteNonQueryAsync();
                 }
@@ -119,15 +117,14 @@ namespace WargamesGUI.DAL
 
                     SqlCommand insertcmd = new SqlCommand("sp_AddBook", con);
                     insertcmd.CommandType = CommandType.StoredProcedure;
-                    insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = book.fk_Item_Id;
+                    insertcmd.Parameters.Add("@fk_Item_Id", SqlDbType.Int).Value = book.BookType.Item_Id;
                     insertcmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = book.Title;
                     insertcmd.Parameters.Add("@ISBN", SqlDbType.VarChar).Value = book.ISBN;
                     insertcmd.Parameters.Add("@Publisher", SqlDbType.VarChar).Value = book.Publisher;
                     insertcmd.Parameters.Add("@Author", SqlDbType.VarChar).Value = book.Author;
                     insertcmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = book.Description;
                     insertcmd.Parameters.Add("@Price", SqlDbType.Int).Value = book.Price;
-                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.Placement;
-                    //insertcmd.Parameters.Add("@category", SqlDbType.VarChar).Value = book.Category;
+                    insertcmd.Parameters.Add("@Placement", SqlDbType.VarChar).Value = book.DeweySub.DeweySub_Id;
                     await insertcmd.ExecuteNonQueryAsync();
 
                     return success;
@@ -485,7 +482,7 @@ namespace WargamesGUI.DAL
                 return false;
             }
         }
-        public async Task<bool> ProcedureRegisterReturnedBookCopy(int copy_Id)
+        public async Task<bool> ProcedureRegisterReturnedBookCopy(BookLoan2 bookLoan)
         {
             try
             {
@@ -493,10 +490,36 @@ namespace WargamesGUI.DAL
                 {
                     await con.OpenAsync();
 
-                    SqlCommand cmd = new SqlCommand("sp_ReturnBookToLibrary", con);
+                    SqlCommand cmd = new SqlCommand("sp_ReturnBookToLibrary_2", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@copyId", SqlDbType.Int).Value = bookLoan.fk_BookCopy_Id;
+                    cmd.Parameters.Add("@loanId", SqlDbType.Int).Value = bookLoan.Loan_Id;
+                    cmd.Parameters.Add("@bookId", SqlDbType.Int).Value = bookLoan.BookCopy.fk_Book_Id;
+                    cmd.Parameters.Add("@bookTitle", SqlDbType.VarChar).Value = bookLoan.BookCopy.Book.Title;
+
+                    cmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public async Task<bool> ProcedureRegisterDestroyedBookCopy(int copy_Id, int loan_Id, string reason)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(theConString))
+                {
+                    await con.OpenAsync();
+                    SqlCommand cmd = new SqlCommand("sp_ReturnBookToLibraryDestroyed", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@copyId", SqlDbType.Int).Value = copy_Id;
-                    cmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
+                    cmd.Parameters.Add("@loanId", SqlDbType.Int).Value = loan_Id;
+                    cmd.Parameters.Add("@reason", SqlDbType.VarChar).Value = reason;
+                    // cmd.Parameters.Add("@returnValue", SqlDbType.VarChar).Direction = ParameterDirection.ReturnValue;
                     await cmd.ExecuteNonQueryAsync();
                 }
 
@@ -504,7 +527,6 @@ namespace WargamesGUI.DAL
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
@@ -598,6 +620,7 @@ namespace WargamesGUI.DAL
                             user.Address = reader["Address"].ToString();
                             user.Email = reader["E-mail"].ToString();
                             user.PhoneNumber = reader["PhoneNumber"].ToString();
+                            user.Password = reader["Password"].ToString();
                             if (user.fk_PrivilegeLevel == 3) { user.fk_LibraryCard = Convert.ToInt32(reader["fk_LibraryCard"]); }
                             
                             
@@ -605,7 +628,7 @@ namespace WargamesGUI.DAL
                         }
                     }
                 }
-                return await Task.FromResult(users);
+                    return await Task.FromResult(users);
             }
         }
         /// <summary>
@@ -705,13 +728,12 @@ namespace WargamesGUI.DAL
         /// </summary>
         /// <param name="loginUser"></param>
         /// <returns>retunerar en INT som motsvarar vilken privilege level personen tillhör</returns>
-        public async Task<int> SignIn(User2 loginUser)
+        public async Task<int> SignIn(User2 loginUser, string password)
         {
-            var user = new User2();
-
+           
             SqlConnection Connection = new SqlConnection(theConString);
             Connection.Open();
-            var login = $"SELECT fk_PrivilegeLevel FROM {TableName.tblUser} WHERE Username = '{loginUser.Username} AND Password = HASHBYTES('SHA1','{loginUser.Password}')'";
+            var login = $"SELECT fk_PrivilegeLevel FROM {TableName.tblUser} WHERE Username = '{loginUser.Username}' AND Password = HASHBYTES('SHA1','{password}')";
 
             // string query2 = $"SELECT fk_PrivilegeLevel, Username, fk_LibraryCard, Password, CardNumber FROM tblUser LEFT JOIN tblLibraryCard ON fk_LibraryCard = LibraryCard_Id WHERE Username = '{username}' AND Password = HASHBYTES('SHA1','{password}')";
 
@@ -721,11 +743,11 @@ namespace WargamesGUI.DAL
                 {
                     while (reader.Read())
                     {
-                        user.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
+                        loginUser.fk_PrivilegeLevel = Convert.ToInt32(reader["fk_PrivilegeLevel"]);
                     }
                 }
             }
-            return await Task.FromResult(user.fk_PrivilegeLevel);
+            return await Task.FromResult(loginUser.fk_PrivilegeLevel);
         }
 
         //========================================================================================||

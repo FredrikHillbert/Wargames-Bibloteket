@@ -44,9 +44,7 @@ namespace WargamesGUI.Views
             InitializeComponent();
             BookCollection = new List<Book2>();
             LoanCollection = new List<BookLoan2>();
-            //var t1 = AreYouSureChoice();
-            //if (t1.Result == true) 
-            QuickLogin_LoanBook(book);
+            TryLoanBook(book);
         }
         protected override void OnAppearing()
         {
@@ -93,51 +91,17 @@ namespace WargamesGUI.Views
                 await DisplayAlert("Misslyckades", $"{ex.Message}", "OK");
             }
         }
-        public async Task<bool> AreYouSureChoice()
+        public async Task<bool> AreYouSureChoice(Book2 book)
         {
-            var choice = await DisplayActionSheet($"Vill du låna boken: {selectedBook.Title}?", null, "Ja - låna boken", "Nej - gå tillbaka");
+            var choice = await DisplayActionSheet($"Vill du låna boken: {book.Title}?", null, null, "Ja - låna boken", "Nej - gå tillbaka");
             switch (choice)
             {
-                case "Ja":
+                case "Ja - låna boken":
                     return true;
-                case "Nej":
+                case "Nej - gå tillbaka":
                     return false;
                 default:
                     return false;
-            }
-        }
-        private async void QuickLogin_LoanBook(Book2 book)
-        {
-            try
-            {
-                var result = await loanService2.LoanBook(book, loggedInUser);
-                switch (result.Item2)
-                {
-                    case 0:
-                        await DisplayAlert("Lyckades", "Boken är tillagd", "OK");
-                        await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                        break;
-                    case 1:
-                        await DisplayAlert("Misslyckades", "Du har en oinlämnad bok, lämna tillbaka den och försök igen", "OK");
-                        await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                        break;
-                    case 2:
-                        await DisplayAlert("Misslyckades", "Du har tappat bort böcker. Kontakta biblioteket för att lösa problemet", "OK");
-                        await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                        break;
-                    case 3:
-                        await DisplayAlert("Misslyckades", "Du har stulit böcker. Kontakta biblioteket för att lösa problemet", "OK");
-                        await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                        break;
-                    default:
-                        await DisplayAlert("Misslyckades", "Okänt fel. Kontakta biblioteket för att lösa problemet", "OK");
-                        await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Loan_Button_Clicked Error", $"Felmeddelande: {ex.Message}", "OK");
             }
         }
         private void Back_Button_Clicked(object sender, EventArgs e)
@@ -194,45 +158,55 @@ namespace WargamesGUI.Views
                         await DisplayAlert("Beskrivning", $"{selectedBook.Title} \n\n{selectedBook.Description}", "OK");
                         break;
                     case "Låna Boken":
-                        if (selectedBook.Available_copies <= 0)
-                        {
-                            await DisplayAlert("Misslyckades", "Boken är inte tillgänglig", "OK");
-                            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                        }
-                        else
-                        {
-                            var result = await loanService2.LoanBook(selectedBook, loggedInUser);
-                            switch (result.Item2)
-                            {
-                                case 0:
-                                    await DisplayAlert("Lyckades", "Boken är tilllagd", "OK");
-                                    await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                                    break;
-                                case 1:
-                                    await DisplayAlert("Misslyckades", "Du har en oinlämnad bok, lämna tillbaka den och försök igen", "OK");
-                                    await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                                    break;
-                                case 2:
-                                    await DisplayAlert("Misslyckades", "Du har tappat bort böcker. Kontakta biblioteket för att lösa problemet", "OK");
-                                    await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                                    break;
-                                case 3:
-                                    await DisplayAlert("Misslyckdes", "Du har stulit böcker. Kontakta biblioteket för att lösa problemet", "OK");
-                                    await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                                    break;
-                                default:
-                                    await DisplayAlert("Misslyckades", "Okänt fel. Kontakta biblioteket för att lösa problemet", "OK");
-                                    await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
-                                    break;
-                            }
-                        }
+                        TryLoanBook(selectedBook);
                         break;
                 }
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Misslyckades", $"{ex.Message}", "OK");
-
+            }
+        }
+        private async void TryLoanBook(Book2 book)
+        {
+            try
+            {
+                if (book.Available_copies <= 0)
+                {
+                    await DisplayAlert("Misslyckades", "Boken är inte tillgänglig", "OK");
+                    await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
+                }
+                else if (await AreYouSureChoice(book))
+                {
+                    var result = await loanService2.LoanBook(book, loggedInUser);
+                    switch (result.Item2)
+                    {
+                        case 0:
+                            await DisplayAlert("Lyckades", $"Boken {book.Title} är tilllagd", "OK");
+                            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
+                            break;
+                        case 1:
+                            await DisplayAlert("Misslyckades", "Du har en oinlämnad bok, lämna tillbaka den och försök igen", "OK");
+                            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
+                            break;
+                        case 2:
+                            await DisplayAlert("Misslyckades", "Du har tappat bort böcker. Kontakta biblioteket för att lösa problemet", "OK");
+                            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
+                            break;
+                        case 3:
+                            await DisplayAlert("Misslyckdes", "Du har stulit böcker. Kontakta biblioteket för att lösa problemet", "OK");
+                            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
+                            break;
+                        default:
+                            await DisplayAlert("Misslyckades", "Okänt fel. Kontakta biblioteket för att lösa problemet", "OK");
+                            await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAll(); });
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Misslyckades", $"{ex.Message}", "OK");
             }
         }
     }

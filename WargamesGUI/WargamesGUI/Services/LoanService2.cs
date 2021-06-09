@@ -10,6 +10,7 @@ namespace WargamesGUI.Services
     {
         private DbService dbService = new DbService();
         private BookService2 bookService;
+        private UserService2 userService;
 
         //Bookloan
         public async Task<List<BookLoan2>> GetAllBookLoans()
@@ -98,7 +99,7 @@ namespace WargamesGUI.Services
                 handled_Loan_Id = x.handled_Loan_Id,
                 handled_BookCopy_Id = x.handled_BookCopy_Id,
                 ReturnedDate = x.ReturnedDate,
-                BookCopy = bookCopies.Select(y => y).Where(y => y.Copy_Id == x.handled_BookCopy_Id).ToList().ElementAtOrDefault(0),
+                BookCopy = bookCopies.Select(y => y).Where(y => y.Copy_Id == x.handled_BookCopy_Id).ToList().FirstOrDefault(),
             }).ToList();
         }
         public async Task<(bool, string)> ChangeBookLoanStatusUser(BookLoan2 bookLoan)
@@ -113,17 +114,23 @@ namespace WargamesGUI.Services
             if (success) return (success, "Success, returned true.");
             else return (success, $"Error: {nameof(this.ChangeBookLoanStatusLibrarian)} - returned false.");
         }
-        public async Task<(bool, string)> BookLoanReturned(BookLoan bookLoan)
+        public async Task<(bool, string)> BookLoanReturned(BookLoan2 bookLoan)
         {
             bool success = await dbService.ProcedureBookLoanReturn(bookLoan.Loan_Id);
             if (success) return (success, "Success, returned true.");
             else return (success, $"Error: {nameof(this.BookLoanReturned)} - returned false.");
         }
-        public async Task<(bool, string)> BookCopyReturnedCheck(BookCopy bookCopy)
+        public async Task<(bool, string)> BookCopyReturnedCheck(BookLoan2 bookLoan)
         {
-            bool success = await dbService.ProcedureRegisterReturnedBookCopy(bookCopy.Copy_Id);
+            bool success = await dbService.ProcedureRegisterReturnedBookCopy(bookLoan);
             if (success) return (success, "Success, returned true.");
             else return (success, $"Error: {nameof(this.BookCopyReturnedCheck)} - returned false.");
+        }
+        public async Task<(bool, string)> BookCopyReturnedDestroyed(BookLoan2 bookLoan, string reason)
+        {
+            bool success = await dbService.ProcedureRegisterDestroyedBookCopy(bookLoan.BookCopy.Copy_Id, bookLoan.Loan_Id, reason);
+            if (success) return (success, "Success, returned true.");
+            else return (success, $"Error: {nameof(this.BookCopyReturnedDestroyed)} - returned false.");
         }
         // Fixa
         //public async Task<(bool, string)> Register()
@@ -135,13 +142,15 @@ namespace WargamesGUI.Services
         {
             var libraryCards = await dbService.GetLibraryCardsFromDb();
             var libraryCardStatuses = await dbService.GetLibraryCardStatusFromDb();
+            var users = await dbService.GetUsersFromDb();
 
             var listOfLibraryCards = libraryCards.Select(x => new LibraryCard2
             {
                 LibraryCard_Id = x.LibraryCard_Id,
                 CardNumber = x.CardNumber,
                 fk_Status_Id = x.fk_Status_Id,
-                CardStatus = libraryCardStatuses.Select(y => y).Where(y => y.Status_Id == x.fk_Status_Id).ElementAtOrDefault(0),
+                CardStatus = libraryCardStatuses.Select(y => y).Where(y => y.Status_Id == x.fk_Status_Id).FirstOrDefault(),
+                User = users.Select(y => y).Where(y => y.fk_LibraryCard == x.LibraryCard_Id).FirstOrDefault(),
 
             }).ToList();
 

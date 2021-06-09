@@ -97,6 +97,8 @@ namespace WargamesGUI.Views
             {
                 if (result) await DisplayAlert($"Lyckades!", $"Du har lagt till en ny bok!", "OK");
                 else await DisplayAlert("Misslyckades!", $"Kunde inte lägga till en ny bok, kontrollera att allt är ifyllt korrekt!", "OK");
+                await MainThread.InvokeOnMainThreadAsync(async () => { await LoadAllBooks(); });
+
             }
             catch (Exception ex)
             {
@@ -288,7 +290,7 @@ namespace WargamesGUI.Views
                         var subCategoryName = await DisplayActionSheet($"Välj underkategori för {selectedDeweyMain.MainCategoryName}", "Avbryt", null,
                             deweySub.Where(x => x.fk_DeweyMain_Id == selectedDeweyMain.DeweyMain_Id)
                                     .Select(x => x.SubCategoryName).ToArray());
-
+                        EntrySubCategoryName.Text = subCategoryName;
                         if (subCategoryName != "Avbryt" || subCategoryName != null)
                         {
                             var selectedDeweySub = deweySub.Select(x => x).Where(x => x.SubCategoryName == subCategoryName).ToList().FirstOrDefault();
@@ -400,7 +402,7 @@ namespace WargamesGUI.Views
 
         private void EntryAuthor_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (string.IsNullOrEmpty(EntryAuthor.Text) || CheckFormat.CheckIfAllLetter(EntryAuthor.Text) == false)
+            if (CheckFormat.CheckIfAllLetter(EntryAuthor.Text) == false)
             {
                 entryAuthorframe.BorderColor = Color.Red;
                 EntryAuthor.Placeholder = "Fel format. Skriv in författare.";

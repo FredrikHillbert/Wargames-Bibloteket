@@ -308,7 +308,6 @@ namespace WargamesGUI.Services
                 return await Task.FromResult(deweyList);
             }
         }
-
         public async Task<List<DeweyMain>> GetDeweyMainData()
         {
             var deweyList = new List<DeweyMain>();
@@ -326,7 +325,6 @@ namespace WargamesGUI.Services
 
                             dewey.MainCategoryName = reader["MainCategoryName"].ToString();
                             dewey.DeweyMain_Id = Convert.ToInt32(reader["DeweyMain_Id"]);
-
 
                             deweyList.Add(dewey);
                         }
