@@ -59,14 +59,20 @@ namespace WargamesGUI
                                 break;
 
                             case 1:
+                                Entryusername.Text = string.Empty;
+                                Entrypassword.Text = string.Empty;
                                 await DisplayAlert("Lyckades", "Du loggar nu in som administratör", "OK");
                                 App.Current.MainPage = new FlyoutAdminPage();
                                 break;
                             case 2:
+                                Entryusername.Text = string.Empty;
+                                Entrypassword.Text = string.Empty;
                                 await DisplayAlert("Lyckades", "Du loggar nu in som Bibliotekarie", "OK");
                                 App.Current.MainPage = new FlyoutLibrarianPage();
                                 break;
                             case 3:
+                                Entryusername.Text = string.Empty;
+                                Entrypassword.Text = string.Empty;
                                 await DisplayAlert("Lyckades", "Du loggar nu in som Besökare", "OK");
                                 App.Current.MainPage = new VisitorPage(activeUser);
                                 break;
