@@ -13,13 +13,21 @@ namespace WargamesGUI.Services
         public static DbHandler handler = new DbHandler();
         public static bool CheckIfAllLetter(string input)
         {
-            if (string.IsNullOrWhiteSpace(input)
-                || !input.All(Char.IsLetter)
-                || input.Length < 2 || input.Length > 25)
+            Regex regex = new Regex(@"([a-z] ?)+[a-z]");
+            if (regex.IsMatch(input))
+            {
+                return true;
+            }
+            else
             {
                 return false;
             }
-            return true;
+            //if (!input.All(Char.IsLetter)
+            //    || input.Length < 2 || input.Length > 25)
+            //{
+            //    return false;
+            //}
+            //return true;
         }
 
         public static bool IsValidEmail(string email)
