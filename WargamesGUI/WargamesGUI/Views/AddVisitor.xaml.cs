@@ -98,7 +98,7 @@ namespace WargamesGUI.Views
                         Address = EntryAdress.Text,
                         Email = EntryEmail.Text,
                         PhoneNumber = EntryPhoneNumber.Text,
-                        Username = EntryUserName.Text,
+                        Username = EntryUserName.Text.ToUpper(),
                         Password = EntryPassword.Text
                     };
                   
@@ -368,10 +368,10 @@ namespace WargamesGUI.Views
 
         private void EntryUserName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (string.IsNullOrEmpty(EntryUserName.Text))
+            if (string.IsNullOrEmpty(EntryUserName.Text) || CheckFormat.CheckIfUserExists(EntryUserName.Text.ToUpper()) == false)
             {
                 entryUserNameFrame.BorderColor = Color.Red;
-                EntryUserName.Placeholder = "Fel format. Skriv in användarnamn.";
+                EntryUserName.Placeholder = "Du har inte angett något eller så existerar användarnamnet redan.";
                 EntryUserName.PlaceholderColor = Color.Red;
                 entryUserNamewrongcross.IsVisible = true;
                 entryUserNamecorrectcheck.IsVisible = false;

@@ -148,7 +148,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Label Text="Hantering av böcker" FontSize="Medium" TextColor="Black" FontAttributes="Italic" WidthRequest="250" Margin="0,0,-50,0" />
-                        <SearchBar x:Name="BookHandledSeachBar" WidthRequest="300" Placeholder="Sök på ISBN, titel, författare eller användarnamn" Grid.Column="2" TextChanged="BookHandledSeachBar_TextChanged" Margin="0,0,-10,0" Grid.ColumnSpan="2"/>
+                        <SearchBar x:Name="BookHandledSeachBar" WidthRequest="300" Placeholder="Sök på ISBN, titel, författare eller användarnamn, skick och status" Grid.Column="2" TextChanged="BookHandledSeachBar_TextChanged" Margin="0,0,-90,0" Grid.ColumnSpan="2"/>
                         <Label Text="Titel" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="0" TextColor="Black"/>
                         <Label Text="Författare" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
                         <Label Text="Placering" HorizontalOptions="Start" TextDecorations="Underline" FontAttributes="Bold" FontSize="Small" Grid.Row="1" Grid.Column="2" TextColor="Black" />

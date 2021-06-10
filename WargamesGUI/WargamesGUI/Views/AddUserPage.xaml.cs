@@ -421,7 +421,7 @@ namespace WargamesGUI
 
                 case 3:
                     {
-                        var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Status på besökare", "Ändra status för bibliotekskort", "Ta bort användare");
+                        var userDetails = await DisplayActionSheet("Välj ett alternativ: ", "Avbryt", null, "Status på bibliotekskort", "Ändra status för bibliotekskort", "Ta bort användare");
                         try
                         {
                             if (userDetails == "Status på bibliotekskort")

@@ -110,7 +110,7 @@ namespace WargamesGUI.Views
                             App.Current.MainPage = new FlyoutLibrarianPage();
                             break;
                         case 3:
-                            var loggedInAs = userList.Select(x => x).Where(x => x.Username == EntryUsername.Text).FirstOrDefault();
+                            var loggedInAs = userList.Select(x => x).Where(x => x.Username == EntryUsername.Text.ToUpper()).FirstOrDefault();
                             EntryUsername.Text = string.Empty;
                             EntryPassword.Text = string.Empty;
                             MainStackLayout.IsVisible = false;

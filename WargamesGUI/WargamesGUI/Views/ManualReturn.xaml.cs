@@ -164,10 +164,10 @@ namespace WargamesGUI.Views
         {
             try
             {
-                var searchresult = LoanCollection.Where(x => x.Username.Contains(BookReturnSeachBar.Text)
-                  || x.Author.Contains(BookReturnSeachBar.Text)
+                var searchresult = LoanCollection.Where(x => x.Username.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())
+                  || x.Author.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper())
                   || x.ISBN.Contains(BookReturnSeachBar.Text)
-                  || x.Title.Contains(BookReturnSeachBar.Text));
+                  || x.Title.ToUpper().Contains(BookReturnSeachBar.Text.ToUpper()));
 
                 listOfBooks.ItemsSource = searchresult;
             }
@@ -182,11 +182,11 @@ namespace WargamesGUI.Views
             try
             {
                 var searchresult = HandledCollection.Where(x => x.Placement.Contains(BookHandledSeachBar.Text)
-                  || x.Author.Contains(BookHandledSeachBar.Text)
+                  || x.Author.ToUpper().Contains(BookHandledSeachBar.Text.ToUpper())
                   || x.ISBN.Contains(BookHandledSeachBar.Text)
-                  || x.Title.Contains(BookHandledSeachBar.Text)
-                  || x.BookConditionString.Contains(BookHandledSeachBar.Text)
-                  || x.Status.Contains(BookHandledSeachBar.Text));
+                  || x.Title.ToUpper().Contains(BookHandledSeachBar.Text.ToUpper())
+                  || x.BookConditionString.ToUpper().Contains(BookHandledSeachBar.Text.ToUpper())
+                  || x.Status.ToUpper().Contains(BookHandledSeachBar.Text.ToUpper()));
 
                 listOfHandledBooks.ItemsSource = searchresult;
             }
