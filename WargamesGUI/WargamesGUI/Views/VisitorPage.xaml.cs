@@ -93,12 +93,12 @@ namespace WargamesGUI.Views
         }
         public async Task<bool> AreYouSureChoice(Book2 book)
         {
-            var choice = await DisplayActionSheet($"Vill du låna boken: {book.Title}?", null, null, "Ja - låna boken", "Nej - gå tillbaka");
+            var choice = await DisplayActionSheet($"Vill du låna boken: {book.Title}?", null, null, "Ja", "Nej");
             switch (choice)
             {
-                case "Ja - låna boken":
+                case "Ja":
                     return true;
-                case "Nej - gå tillbaka":
+                case "Nej":
                     return false;
                 default:
                     return false;

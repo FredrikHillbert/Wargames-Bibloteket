@@ -160,10 +160,11 @@ namespace WargamesGUI.Views
                         var searchresult = UserCollection.Where(x => x.Username.Contains(FindUserSearchBar.Text));
                         listOfVisitorsReport.ItemsSource = searchresult;
                         break;
-                    case 2:                        
-                        var result = BookCollection2.Where(x => x.Book.DeweySub.SubCategoryName.ToUpper().Contains(FindUserSearchBar.Text.ToUpper())
-                        || x.Book.Price.ToString().Contains(FindUserSearchBar.Text)
-                        || x.CopyCreated.ToString().Contains(FindUserSearchBar.Text));
+                    case 2:
+                       
+                        var result = BookCollection2.Where(x => x.Book != null).Where(x => x.Book.DeweySub.SubCategoryName != null && x.Book.DeweySub.SubCategoryName.Contains(FindUserSearchBar.Text)
+                        || x.Book.Price != null && x.Book.Price.ToString().Contains(FindUserSearchBar.Text)
+                        || x.CopyCreated != null && x.CopyCreated.ToString().Contains(FindUserSearchBar.Text));
                         listofBooks.ItemsSource = result;
                         break;
                     default:
